@@ -1,0 +1,86 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import "../styles/blog.css";
+---
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ブログ | OKIPOKA</title>
+</head>
+
+<body>
+<Header />
+
+    <main class="blog-container">
+        <section class="blog-thumbnail-grid">
+
+            <a href="blog1.html" class="blog-thumb">
+                <img src="images/sample.png" alt="ブログ記事1">
+                <p>タイトル</p>
+            </a>
+
+            <a href="blog2.html" class="blog-thumb">
+                <img src="images/sample.png" alt="ブログ記事2">
+                <p>タイトル</p>
+            </a>
+
+            <a href="blog2.html" class="blog-thumb">
+                <img src="images/sample.png" alt="ブログ記事3">
+                <p>タイトル</p>
+            </a>
+
+            <a href="blog2.html" class="blog-thumb">
+                <img src="images/sample.png" alt="ブログ記事4">
+                <p>タイトル</p>
+            </a>
+
+            <a href="blog2.html" class="blog-thumb">
+                <img src="images/sample.png" alt="ブログ記事5">
+                <p>タイトル</p>
+            </a>
+
+            <a href="blog2.html" class="blog-thumb">
+                <img src="images/sample.png" alt="ブログ記事6">
+                <p>タイトル</p>
+            </a>
+
+            <a href="blog2.html" class="blog-thumb">
+                <img src="images/sample.png" alt="ブログ記事7">
+                <p>タイトル</p>
+            </a>
+
+            <a href="blog2.html" class="blog-thumb">
+                <img src="images/sample.png" alt="ブログ記事8">
+                <p>タイトル</p>
+            </a>
+
+            <a href="blog2.html" class="blog-thumb">
+                <img src="images/sample.png" alt="ブログ記事9">
+                <p>タイトル</p>
+            </a>
+
+            <a href="blog2.html" class="blog-thumb">
+                <img src="images/sample.png" alt="ブログ記事10">
+                <p>タイトル</p>
+            </a>
+
+
+        </section>
+        <!-- 追加ブログ記事をここに追記していけます -->
+        <div class="pagination">
+            <a href="#" class="page-number">1</a>
+            <a href="#" class="page-number">2</a>
+            <a href="#" class="page-number">3</a>
+            <a href="#" class="page-number">4</a>
+            <a href="#" class="page-number">次へ »</a>
+        </div>
+    </main>
+
+<Footer />
+<script src="/js/header.js" type="module"></script>
+
+</body>
+</html>

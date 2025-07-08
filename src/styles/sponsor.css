@@ -1,0 +1,44 @@
+    .sponsor-page {
+      max-width: 1000px;
+      margin: 3rem auto;
+      padding: 1rem;
+      text-align: center;
+    }
+    .sponsor-store-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+    }
+    .sponsor-card {
+      width: 30%;
+      margin: 0.5%;
+    }
+
+    .sponsor-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+      margin: 0;
+      padding: 0;
+      box-shadow: none;
+      background: none;
+    }
+
+    @media screen and (max-width: 768px) {
+      .sponsor-store-grid {
+        justify-content: center;
+      }
+      .sponsor-card {
+        width: 31%;
+        margin: 0.2rem;
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      .sponsor-card {
+        width: 30%;
+        margin: 0.15rem;
+      }
+    }

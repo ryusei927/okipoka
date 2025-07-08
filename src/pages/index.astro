@@ -1,0 +1,26 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import "../styles/mainstyle.css";
+---
+
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OKIPOKA</title>
+  </head>
+  <body>
+    <Header />
+
+    <main>
+      <section class="hero-image">
+        <h1>ようこそ OKIPOKA へ！</h1>
+        <p>沖縄のポーカー情報を一元化。</p>
+      </section>
+    </main>
+
+<Footer />
+<script src="/js/header.js" type="module"></script>
+  </body>
+</html>

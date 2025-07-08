@@ -1,0 +1,99 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import "../styles/mainstyle.css";
+---
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>このサイトについて | OKIPOKA</title>
+    <style>
+        .about-section {
+            max-width: 800px;
+            margin: 3rem auto;
+            padding: 1rem;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            line-height: 1.8;
+        }
+
+        .about-section h1 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: #333;
+            white-space: nowrap;
+        }
+
+        .about-section h2 {
+            font-size: 1.4rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #222;
+            border-bottom: 2px solid #f05a28;
+            padding-bottom: 0.3rem;
+        }
+
+        .about-section p {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: #444;
+        }
+
+        .about-section ul {
+            list-style: disc;
+            padding-left: 1.5rem;
+            color: #444;
+        }
+
+        .about-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        @media screen and (max-width: 600px) {
+            .about-section {
+                margin: 1.5rem 1rem;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<Header />
+
+    <main>
+        <section class="about-section">
+            <h1>このサイトについて</h1>
+            <p>OKIPOKAは、沖縄県内のポーカートーナメント情報を一元化し、プレイヤーと店舗をつなぐポータルサイトです。</p>
+
+            <h2>サイトの目的</h2>
+            <p>ポーカー好きが「今日はどこで打てるか？」を一目で把握できるよう、沖縄の各ポーカースポットの最新情報をわかりやすく掲載しています。</p>
+
+            <h2>主な機能</h2>
+            <ul>
+                <li>トーナメント情報のリアルタイム掲載（店舗からの投稿）</li>
+                <li>各アミューズメントポーカー店舗の紹介ページ</li>
+                <li>ミニゲームやBlogなどのエンタメ要素</li>
+                <li>店舗専用ログインによるトーナメント情報の投稿・管理</li>
+            </ul>
+
+            <h2>掲載ポリシー・運営についてのご案内</h2>
+            <p>当サイト「OKIPOKA」は、広告掲載によって運営されています。今後も継続的に便利な情報提供を行うため、ご理解いただけますと幸いです。</p>
+
+            <p>なお、本サイトに掲載しているアミューズメントポーカー店舗の情報は、すべて店舗様の許可を得たうえで掲載しております。そのため、許可をいただいていない店舗様や、まだご連絡・ご協力をいただけていない店舗様の情報は掲載しておりません。したがって、掲載店舗が必ずしもすべての沖縄県内のポーカースポットを網羅しているわけではありません。
+            </p>
+
+            <p>また、トーナメント情報は、店舗からの投稿と、運営側による手動掲載の両方を通じて、可能な限り網羅できるよう努めておりますが、リアルタイム性や店舗ごとの事情により、掲載が間に合わない、または一部掲載できない場合がございます。特にゲリラ的なイベントや緊急開催トーナメントなどは、当サイト上で事前に確認できないケースもございます。ご理解とご協力のほど、よろしくお願いいたします。
+            </p>
+        </section>
+    </main>
+
+<Footer />
+<script src="/js/header.js" type="module"></script>
+
+</body>
+</html>

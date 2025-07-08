@@ -1,0 +1,78 @@
+---
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import "../../styles/header_footer.css";
+import "../../styles/tournaments.css";
+---
+
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>本日のトーナメント情報 | OKIPOKA</title>
+        <link rel="stylesheet" href="../css/mainstyle.css" />
+    </head>
+
+    <body>
+        <Header />
+
+        <main>
+            <section class="tournament-ad-slideshow">
+                <p
+                    style="text-align: center; font-size: 0.9rem; margin-bottom: 0.5rem; color: #888;"
+                >
+                    広告
+                </p>
+                <div class="ad-slider">
+                    <img
+                        src="../images/slideshow1.png"
+                        alt="広告バナー1"
+                        class="ad-slide active"
+                    />
+                    <img
+                        src="../images/slideshow2.png"
+                        alt="広告バナー2"
+                        class="ad-slide"
+                    />
+                    <img
+                        src="../images/slideshow3.png"
+                        alt="広告バナー3"
+                        class="ad-slide"
+                    />
+                    <img
+                        src="../images/slideshow4.png"
+                        alt="広告バナー4"
+                        class="ad-slide"
+                    />
+                    <img
+                        src="../images/slideshow5.png"
+                        alt="広告バナー5"
+                        class="ad-slide"
+                    />
+                </div>
+                <div class="ad-indicators">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+            </section>
+            <section class="tournament-info">
+                <h2>本日のトーナメント情報</h2>
+                <p>
+                    沖縄県内で本日開催予定のトーナメント情報を店舗別に掲載しています。
+                </p>
+
+                <div id="tournament-list">
+                    <!-- Firestoreから取得したトーナメント情報がここに表示されます -->
+                </div>
+            </section>
+        </main>
+
+        <Footer />
+
+        <script src="/js/tournaments.js" type="module"></script>
+        <script src="/js/header.js" type="module"></script>
+    </body>
+</html>

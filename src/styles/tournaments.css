@@ -1,0 +1,108 @@
+        .tournament-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2em;
+            font-size: 0.95rem;
+        }
+
+        .tournament-table th,
+        .tournament-table td {
+            border: 1px solid #ddd;
+            padding: 0.75em;
+            text-align: left;
+        }
+
+        .tournament-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        .tournament-table tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+
+        .tournament-table tr:hover {
+            background-color: #f0f0f0;
+        }
+
+        @media screen and (max-width: 600px) {
+
+            .tournament-table,
+            .tournament-table thead,
+            .tournament-table tbody,
+            .tournament-table th,
+            .tournament-table td,
+            .tournament-table tr {
+                display: block;
+                width: 100%;
+            }
+
+            .tournament-table thead {
+                display: none;
+            }
+
+            .tournament-table tr {
+                margin-bottom: 1em;
+                border: 1px solid #ccc;
+                padding: 0.5em;
+                background: #fff;
+            }
+
+            .tournament-table td {
+                display: flex;
+                justify-content: space-between;
+                padding: 0.5em;
+                border: none;
+                border-bottom: 1px solid #eee;
+            }
+
+            .tournament-table td::before {
+                content: attr(data-label);
+                font-weight: bold;
+                margin-right: 1em;
+            }
+        }
+
+        .tournament-ad-slideshow {
+            margin: 2rem auto;
+            max-width: 800px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .ad-slider {
+            position: relative;
+            width: 100%;
+            height: auto;
+        }
+
+        .ad-slide {
+            width: 100%;
+            aspect-ratio: 16 / 7;
+            display: none;
+            border-radius: 6px;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .ad-slide.active {
+            display: block;
+        }
+
+        .ad-indicators {
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+
+        .ad-indicators .dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            margin: 0 4px;
+            background-color: #ccc;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+        }
+
+        .ad-indicators .dot.active {
+            background-color: #333;
+        }
