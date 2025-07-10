@@ -15,7 +15,7 @@ import "../../styles/header_footer.css";
             <h2>トーナメント情報投稿</h2>
             <p id="welcome-msg"></p>
 
-            <form id="tournament-form">
+            <form id="tournament-form" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="event-name"
                         ><strong>タイトル(必須)</strong></label
@@ -46,8 +46,8 @@ import "../../styles/header_footer.css";
                     <input type="text" id="stack" required />
                 </div>
                 <div class="form-group">
-                    <label for="note"><strong>備考</strong></label>
-                    <textarea id="note"></textarea>
+                  <label for="note"><strong>備考（任意）</strong></label>
+                  <textarea id="note" rows="2"></textarea>
                 </div>
                 <button type="submit">投稿する</button>
             </form>
