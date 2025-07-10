@@ -106,3 +106,43 @@
         .ad-indicators .dot.active {
             background-color: #333;
         }
+        .tournament-card {
+            border: 1px solid #999;
+            border-radius: 10px;
+            margin: 1em 0;
+            padding: 1.2em;
+            background: #fefefe;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .tournament-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+        }
+
+        .tournament-card-body {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6em;
+            font-size: 0.95rem;
+        }
+
+        .tournament-card-body .row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .tournament-card-body .row p {
+            width: 48%;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .tournament-card-body p {
+            margin: 0;
+            line-height: 1.4;
+            word-break: break-word; /* allow breaking long words */
+            white-space: pre-wrap; /* preserve line breaks and wrap */
+        }
