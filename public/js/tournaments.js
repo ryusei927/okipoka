@@ -22,41 +22,29 @@ const q = query(
 );
 
 onSnapshot(q, (snapshot) => {
-    // テーブルの構造を一度だけセット
-    list.innerHTML = `
-      <table class="tournament-table">
-        <thead>
-          <tr>
-            <th>タイトル</th>
-            <th>店舗名</th>
-            <th>開始時間</th>
-            <th>Buy-in</th>
-            <th>Add-on</th>
-            <th>スタック</th>
-            <th>プライズ</th>
-            <th>備考</th>
-          </tr>
-        </thead>
-        <tbody id="tournament-rows"></tbody>
-      </table>
-    `;
-    const tbody = document.getElementById("tournament-rows");
-    // データ行を追加（本日の日付のみ表示）
+    list.innerHTML = ""; // Clear previous contents
+
     snapshot.forEach(doc => {
         const data = doc.data();
-        console.log("データ受信:", data);
-        const row = document.createElement("tr");
-        row.innerHTML = `
-        <td data-label="タイトル">${data.eventName || "タイトル未定"}</td>
-        <td data-label="店舗">${data.storeName || data.postedBy || "不明な店舗"}</td>
-        <td data-label="開始時間">${data.startTime || "時間未定"}</td>
-        <td data-label="Buy-in">${data.buyIn || "未定"}</td>
-        <td data-label="Add-on">${data.addon || "なし"}</td>
-        <td data-label="スタック">${data.stack || "未定"}</td>
-        <td data-label="プライズ">${data.prize || ""}</td>
-        <td data-label="備考">${data.note || ""}</td>
-      `;
-        tbody.appendChild(row);
+        const card = document.createElement("div");
+        card.classList.add("tournament-card");
+
+        card.innerHTML = `
+          <div class="tournament-card-body">
+            <p><strong>タイトル：</strong>${data.eventName || "タイトル未定"}</p>
+            <div class="row">
+              <p><strong>店舗：</strong>${data.storeName || data.postedBy || "不明な店舗"}</p>
+              <p><strong>開始時間：</strong>${data.startTime || "時間未定"}</p>
+            </div>
+            <div class="row">
+              <p><strong>Buy-in：</strong>${data.buyIn || "未定"}</p>
+              <p><strong>Add-on：</strong>${data.addon || "なし"}</p>
+            </div>
+            <p><strong>スタック：</strong>${data.stack || "未定"}</p>
+            <p><strong>プライズ：</strong>${data.prize || ""}</p>
+          </div>
+        `;
+        list.appendChild(card);
     });
 });
 
