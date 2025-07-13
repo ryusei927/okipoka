@@ -1,0 +1,81 @@
+
+---
+const ads = [
+  { image: "/images/kuri1.jpg", link: "https://sponsor1.example.com", alt: "スポンサー広告1" },
+  { image: "/images/kuri2.jpg", link: "https://sponsor2.example.com", alt: "スポンサー広告2" },
+  { image: "/images/kuri3.jpg", link: "https://sponsor3.example.com", alt: "スポンサー広告3" },
+];
+const selectedAd = ads[Math.floor(Math.random() * ads.length)];
+---
+
+<div id="ad-popup" class="ad-overlay hidden">
+  <div class="ad-box">
+    <a href={selectedAd.link} target="_blank" rel="noopener">
+      <img src={selectedAd.image} alt={selectedAd.alt} class="ad-image" />
+    </a>
+    <button id="ad-close" class="ad-close">×</button>
+  </div>
+</div>
+
+<style>
+  .ad-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+
+  .ad-box {
+    background: #fff;
+    border-radius: 12px;
+    padding: 1rem;
+    max-width: 90%;
+    max-height: 90%;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    position: relative;
+  }
+
+  .ad-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+
+  .ad-close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #555;
+  }
+
+  .hidden {
+    display: none;
+  }
+</style>
+
+<script is:inline>
+  const shownAt = sessionStorage.getItem('ad-shown-at');
+  const now = Date.now();
+
+  if (!shownAt || now - shownAt > 1 * 60 * 1000) {
+    window.addEventListener('DOMContentLoaded', () => {
+      const popup = document.getElementById('ad-popup');
+      popup?.classList.remove('hidden');
+      sessionStorage.setItem('ad-shown-at', now);
+    });
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('ad-close')?.addEventListener('click', () => {
+      document.getElementById('ad-popup')?.classList.add('hidden');
+    });
+  });
+</script>
