@@ -11,7 +11,10 @@ const selectedAd = ads[Math.floor(Math.random() * ads.length)];
 <div id="ad-popup" class="ad-overlay hidden">
   <div class="ad-box">
     <a href={selectedAd.link} target="_blank" rel="noopener">
-      <img src={selectedAd.image} alt={selectedAd.alt} class="ad-image" />
+      <div class="ad-image-wrapper">
+        <span class="ad-label">広告</span>
+        <img src={selectedAd.image} alt={selectedAd.alt} class="ad-image" />
+      </div>
     </a>
     <button id="ad-close" class="ad-close">×</button>
   </div>
@@ -58,6 +61,21 @@ const selectedAd = ads[Math.floor(Math.random() * ads.length)];
 
   .hidden {
     display: none;
+  }
+
+  .ad-image-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .ad-label {
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 4px;
   }
 </style>
 
