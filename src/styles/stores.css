@@ -1,0 +1,92 @@
+.store-detail {
+  padding: 3rem 1.5rem;
+  max-width: 960px;
+  margin: 0 auto;
+  background-color: #fefefe;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  font-family: "Noto Serif JP", serif;
+  line-height: 1.8;
+}
+
+.store-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.store-header h1 {
+  font-size: 2.2rem;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+.store-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.store-section {
+  margin-top: 2rem;
+}
+
+.store-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #34495e;
+  border-left: 5px solid #e67e22;
+  padding-left: 0.75rem;
+}
+
+.store-section ul {
+  padding-left: 1.5rem;
+  list-style: disc;
+}
+
+.store-section ul li {
+  margin-bottom: 0.5rem;
+}
+
+.store-section dl {
+  margin: 1rem 0;
+}
+
+.store-section dt {
+  font-weight: bold;
+  margin-top: 0.5rem;
+  color: #333;
+}
+
+.store-section dd {
+  margin-left: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.store-links ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.store-links ul li {
+  margin-bottom: 0.5rem;
+}
+
+.store-links a {
+  color: #e67e22;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.store-links a:hover {
+  text-decoration: underline;
+}
+
+.store-note {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: #fdf2e9;
+  border-left: 5px solid #e67e22;
+  border-radius: 8px;
+  font-style: italic;
+}
