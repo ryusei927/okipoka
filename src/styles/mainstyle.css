@@ -1,0 +1,83 @@
+/* 店舗アイコン画像のスタイル */
+.store-icon {
+    width: 110px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin: 0 auto;
+    vertical-align: middle;
+}
+
+/* 店舗ディレクトリのカード風レイアウト */
+.store-directory {
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.store-directory ul {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding-left: 0;
+    list-style: none;
+}
+
+.store-directory li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #333;
+    text-align: center;
+    gap: 3px;
+}
+
+.store-directory li a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #333;
+    text-decoration: none;
+    width: 100%;
+}
+
+.store-directory li a div {
+    margin-top: 4px;
+}
+
+/* リンク全体のホバー効果 */
+.store-directory li a:hover {
+    text-decoration: underline;
+    color: #222;
+}
+
+@media (max-width: 768px) {
+    .store-directory ul {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 5px;
+    }
+
+    .store-directory li {
+        padding: 6px 8px;
+        font-size: 12px;
+    }
+
+    .store-icon {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+/* 店舗ディレクトリのリンクスタイル */
+.store-directory a {
+    color: #222;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.store-directory a:hover {
+    text-decoration: underline;
+}
