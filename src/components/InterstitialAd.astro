@@ -63,20 +63,21 @@ const selectedAd = ads[Math.floor(Math.random() * ads.length)];
     display: none;
   }
 
-  .ad-image-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-  }
+.ad-image-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-  .ad-label {
-    background-color: rgba(0, 0, 0, 0.6);
-    color: white;
-    font-size: 0.75rem;
-    padding: 2px 8px;
-    border-radius: 4px;
-  }
+.ad-label {
+  margin-bottom: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-decoration: none;
+}
 </style>
 
 <script is:inline>
