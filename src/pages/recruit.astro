@@ -1,63 +1,131 @@
 ---
-
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
 ---
 
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja"></html>
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap"
-            rel="stylesheet"
-        />
-        <meta
-        <title>OKIPOKA |寄稿者募集</title>
-    </head>
-  <article class="prose mx-auto p-6">
-    <h1>OKIPOKA 寄稿者募集</h1>
-    <p>OKIPOKAでは、沖縄のポーカープレイヤーや業界関係者、旅打ちプレイヤー、戦略好きの皆さんからの「寄稿記事」を募集しています。</p>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap"
+        rel="stylesheet"
+    />
+    <title>OKIPOKA |寄稿者募集</title>
+    <style>
+        body {
+            background-color: #fdfcf9;
+            font-family: "Noto Serif JP", serif;
+        }
 
-    <h2>✍️ 募集内容</h2>
-    <ul>
-      <li>ポーカー戦略・考察（例：GTO、MDF、CB、リバー判断など）</li>
-      <li>トーナメント参戦記（沖縄・国内遠征・海外遠征問わず）</li>
-      <li>おすすめのポーカールームや店長インタビュー</li>
-      <li>地元ポーカープレイヤーならではの視点や文化</li>
-      <li>面白かったハンドの紹介・考察</li>
-      <li>その他、ポーカーと沖縄に関わる内容であれば自由！</li>
-    </ul>
+        article {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+            max-width: 720px;
+            margin: 0 auto;
+        }
 
-    <h2>💰 報酬について</h2>
-    <ul>
-      <li>寄稿1記事につき、<strong>2,000円</strong>を報酬としてお支払いします。</li>
-      <li>記事は<strong>350円の有料記事</strong>として販売されます。</li>
-      <li>売上の一部は<strong>沖縄の地域支援</strong>（子ども食堂など）に寄付されます。</li>
-    </ul>
+        article h1 {
+            font-size: 2rem;
+            color: #da6f00;
+            margin-bottom: 1rem;
+        }
 
-    <h2>📘 執筆ルール</h2>
-    <ul>
-      <li>文字数：800〜2000文字程度</li>
-      <li>画像つき歓迎（なくてもOK）</li>
-      <li>形式：テキスト or Googleドキュメントなど</li>
-      <li>匿名／ニックネームでもOK</li>
-    </ul>
+        article h2 {
+            margin-top: 2rem;
+            font-size: 1.25rem;
+            color: #333;
+            border-left: 4px solid #ffa94d;
+            padding-left: 0.5rem;
+        }
 
-    <h2>🙌 募集対象</h2>
-    <ul>
-      <li>沖縄在住のポーカープレイヤー</li>
-      <li>県外や海外の遠征経験者</li>
-      <li>ポーカーが大好きな戦略オタク</li>
-      <li>店舗関係者・スタッフ・ディーラー</li>
-      <li>一度でも「書いてみたい」と思った人</li>
-    </ul>
+        article ul {
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+        }
 
-    <h2>📩 応募方法</h2>
-    <p>「書いてみたいテーマ」や「過去の遠征体験」など、気軽に下記のメールまでご連絡ください。</p>
-    <p><strong>メール：</strong> <a href="mailto:okipoka.blog@gmail.com">okipoka.blog@gmail.com</a></p>
+        article li {
+            margin-bottom: 0.5rem;
+        }
 
-    <h2>🧡 最後に</h2>
-    <p>あなたの言葉が、誰かの学びになり、沖縄のポーカーをもっと面白くします。たくさんのご応募、お待ちしています！</p>
-  </article>
-</Layout>
+        a {
+            color: #ff6600;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <Header />
+    <article class="prose mx-auto p-6">
+        <h1>OKIPOKA 寄稿者募集</h1>
+        <p>
+            OKIPOKAでは、沖縄のポーカープレイヤーや業界関係者の皆さんからの「寄稿記事」を募集しています
+        </p>
+
+        <h2>募集内容</h2>
+        <ul>
+            <li>ポーカー戦略・考察</li>
+            <li>トーナメント参戦記</li>
+            <li>面白かったハンドの紹介・考察</li>
+            <li>その他、ポーカーに関わる内容であれば基本自由</li>
+        </ul>
+
+        <h2>執筆について</h2>
+        <ul>
+            <li>
+                文章の長さは800文字以上を目安にしてください（長くてもOKです）
+            </li>
+            <li>写真や画像の添付も歓迎ですが、なくても大丈夫です</li>
+            <li>提出形式はテキストファイルやGoogleドキュメントなど自由です</li>
+            <li>
+                記事には執筆者名（ニックネーム可）を掲載します。完全匿名での投稿は受け付けていません
+            </li>
+        </ul>
+        <p>
+            原則として、執筆者ご本人の文体や表現は尊重し、そのまま掲載させていただきますが、AIによる確認を行い、不適切な表現や著しく読みづらい文章などについては、編集・添削させていただく場合があります。あらかじめご了承ください。
+        </p>
+
+        <h2>報酬について</h2>
+        <ul>
+            <li>寄稿1記事につき、2,000円を報酬としてお支払いします。</li>
+            <li>記事は350円の有料記事として販売されます。</li>
+            <li>
+                売上の20%は
+                <a
+                    href="https://www.okinawa-child-future.jp/"
+                    target="_blank"
+                    rel="noopener">おきなわこども未来ランチサポート</a
+                >に寄付されます。
+            </li>
+        </ul>
+
+        <h2>募集対象</h2>
+        <ul>
+            <li>沖縄を拠点にポーカーを楽しんでいる方</li>
+            <li>遠征や体験談を語りたいプレイヤー</li>
+            <li>戦略や考察を共有したい方</li>
+        </ul>
+
+        <h2>📩 応募方法</h2>
+        <p>
+            「書いてみたいテーマ」や「過去の遠征体験」など、気軽に下記のメールまでご連絡ください。
+        </p>
+        <p>
+            ご連絡いただいた内容をもとに、執筆をお願いするかどうか判断させていただきます。内容やタイミングによっては掲載を見送らせていただく場合もありますので、あらかじめご了承ください。
+        </p>
+        <p>
+            ご質問や相談があれば、<a href="https://www.instagram.com/okipoka?igsh=MXdwcXc5ZDQ5ODh3OQ==" target="_blank" rel="noopener">OKIPOKA公式インスタグラム</a>のDMからもお気軽にご連絡ください。
+        </p>
+        <h2>最後に</h2>
+        <p>
+            あなたの言葉が、誰かの学びになり、沖縄のポーカーをもっと面白くします。たくさんのご応募、お待ちしています！
+        </p>
+    </article>
+
+    <Footer />
+    <script src="/js/header.js" type="module"></script>
+</body>
