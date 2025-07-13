@@ -1,21 +1,21 @@
 
 ---
 const ads = [
-  { image: "/images/kuri1.jpg", link: "https://sponsor1.example.com", alt: "スポンサー広告1" },
-  { image: "/images/kuri2.jpg", link: "https://sponsor2.example.com", alt: "スポンサー広告2" },
-  { image: "/images/kuri3.jpg", link: "https://sponsor3.example.com", alt: "スポンサー広告3" },
+  { image: "/images/kuri1.jpg", link: "https://www.instagram.com/kurikinton_t/?utm_source=ig_web_button_share_sheet", alt: "スポンサー広告1" },
+  { image: "/images/kuri2.jpg", link: "https://www.instagram.com/kurikinton_t/?utm_source=ig_web_button_share_sheet", alt: "スポンサー広告2" },
+  { image: "/images/kuri3.jpg", link: "https://www.instagram.com/kurikinton_t/?utm_source=ig_web_button_share_sheet", alt: "スポンサー広告3" },
 ];
 const selectedAd = ads[Math.floor(Math.random() * ads.length)];
 ---
 
 <div id="ad-popup" class="ad-overlay hidden">
   <div class="ad-box">
-    <a href={selectedAd.link} target="_blank" rel="noopener">
-      <div class="ad-image-wrapper">
-        <span class="ad-label">広告</span>
+    <div class="ad-image-wrapper">
+      <span class="ad-label">広告</span>
+      <a href={selectedAd.link} target="_blank" rel="noopener">
         <img src={selectedAd.image} alt={selectedAd.alt} class="ad-image" />
-      </div>
-    </a>
+      </a>
+    </div>
     <button id="ad-close" class="ad-close">×</button>
   </div>
 </div>
@@ -76,8 +76,8 @@ const selectedAd = ads[Math.floor(Math.random() * ads.length)];
   font-size: 0.75rem;
   padding: 2px 8px;
   border-radius: 4px;
-  text-decoration: none;
 }
+
 </style>
 
 <script is:inline>
