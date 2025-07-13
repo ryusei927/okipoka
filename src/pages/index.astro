@@ -1,90 +1,138 @@
 ---
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
 import "../styles/mainstyle.css";
 ---
 
 <html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="沖縄でポーカーができるアミューズメント店舗やトーナメント情報を毎日更新。初心者や旅行者にも安心のポータルサイトOKIPOKA。" />
-    <title>OKIPOKA</title>
-  </head>
-  <body>
-    <Header />
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap"
+            rel="stylesheet"
+        />
+        <meta
+            name="description"
+            content="沖縄でポーカーができるアミューズメント店舗やトーナメント情報を毎日更新。初心者や旅行者にも安心のポータルサイトOKIPOKA。"
+        />
+        <title>OKIPOKA</title>
+    </head>
+    <body>
+        <Header />
 
-    <main>
-      <section class="hero-image">
+        <main>
+            <section class="hero-image">
                 <section class="store-directory">
-            <h2>沖縄ポーカースポット一覧</h2>
-            <ul>
-                <li>
-                    <a href="amusement/Jack9.html">
-                        <img src="images/j9logo.jpg" alt="Jack9" class="store-icon">
-                        <div>Jack9</div>
-                    </a>
-                </li>
-                <li>
-                    <a href="amusement/underthegun.html">
-                        <img src="images/underthegun.jpg" alt="UnderTheGun" class="store-icon">
-                        <div>UnderTheGun</div>
-                    </a>
-                </li>
-                <li>
-                    <a href="amusement/rebarta.html">
-                        <img src="images/rebarta.png" alt="icons" class="store-icon">
-                        <div>Re:Barta</div>
-                    </a>
-                </li>
-                <li>
-                    <a href="">
-                        <img src="images/backdoor.jpg" alt="icons" class="store-icon">
-                        <div>BACKDOOR NAHA</div>
-                    </a>
-                </li>
-                <li>
-                    <a href="stores/kingdom.html">
-                        <img src="images/sample.png" alt="icons" class="store-icon">
-                        <div></div>
-                    </a>
-                </li>
-                <li>
-                    <a href="stores/jungle.html">
-                        <img src="images/sample.png" alt="icons" class="store-icon">
-                        <div></div>
-                    </a>
-                </li>
-                <li>
-                    <a href="stores/pokerlab.html">
-                        <img src="images/sample.png" alt="icons" class="store-icon">
-                        <div></div>
-                    </a>
-                </li>
-                <li>
-                    <a href="stores/dealerz.html">
-                        <img src="images/sample.png" alt="icons" class="store-icon">
-                        <div></div>
-                    </a>
-                </li>
-                <li>
-                    <a href="stores/royalflush.html">
-                        <img src="images/sample.png" alt="icons" class="store-icon">
-                        <div></div>
-                    </a>
-                </li>
-                <li>
-                    <a href="stores/flatcall.html">
-                        <img src="images/sample.png" alt="icons" class="store-icon">
-                        <div></div>
-                    </a>
-                </li>
-            </ul>
-        </section>
-      </section>
-    </main>
+                    <br>
+                    <h2>沖縄ポーカースポット一覧</h2><br>
+                    <ul>
+                        <li>
+                            <a href="amusement/Jack9.html">
+                                <img
+                                    src="images/j9logo.jpg"
+                                    alt="Jack9"
+                                    class="store-icon"
+                                />
+                                <div>Jack9</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="amusement/underthegun.html">
+                                <img
+                                    src="images/underthegun.jpg"
+                                    alt="UnderTheGun"
+                                    class="store-icon"
+                                />
+                                <div>UnderTheGun</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="amusement/rebarta.html">
+                                <img
+                                    src="images/rebarta.png"
+                                    alt="icons"
+                                    class="store-icon"
+                                />
+                                <div>Re:Barta</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <img
+                                    src="images/backdoor.jpg"
+                                    alt="icons"
+                                    class="store-icon"
+                                />
+                                <div>BACKDOOR NAHA</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="stores/kingdom.html">
+                                <img
+                                    src="images/jacks.png"
+                                    alt="icons"
+                                    class="store-icon"
+                                />
+                                <div>JACKS</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="stores/jungle.html">
+                                <img
+                                    src="images/tokishirazu.png"
+                                    alt="icons"
+                                    class="store-icon"
+                                />
+                                <div>TOKISHIRAZU</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="stores/pokerlab.html">
+                                <img
+                                    src="images/hand.png"
+                                    alt="icons"
+                                    class="store-icon"
+                                />
+                                <div>Hand</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="stores/dealerz.html">
+                                <img
+                                    src="images/gutshot.png"
+                                    alt="icons"
+                                    class="store-icon"
+                                />
+                                <div>GUTSHOT</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="stores/royalflush.html">
+                                <img
+                                    src="images/sample.png"
+                                    alt="icons"
+                                    class="store-icon"
+                                />
+                                <div></div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="stores/flatcall.html">
+                                <img
+                                    src="images/sample.png"
+                                    alt="icons"
+                                    class="store-icon"
+                                />
+                                <div></div>
+                            </a>
+                        </li>
+                    </ul>
+                </section>
+            </section>
+        </main>
 
-<Footer />
-<script src="/js/header.js" type="module"></script>
-  </body>
+        <Footer />
+        <script src="/js/header.js" type="module"></script>
+    </body>
 </html>
