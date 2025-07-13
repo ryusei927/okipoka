@@ -17,7 +17,12 @@ import "../styles/blog.css";
 <Header />
 <InterstitialAd  />
 
+    <section class="blog-search-bar" style="padding: 1rem; text-align: center;">
+        <input type="text" id="blog-search-input" placeholder="キーワードや著者名で検索" style="padding: 0.5rem; width: 60%; max-width: 400px; font-size: 1rem;" />
+        <button id="blog-search-button" style="padding: 0.5rem 1rem; margin-left: 0.5rem; font-size: 1rem;">検索</button>
+    </section>
     <main class="blog-container">
+        <div id="blog-list">
         <section class="blog-thumbnail-grid">
 
            <a href="/blog/test" class="blog-thumb">
@@ -69,9 +74,8 @@ import "../styles/blog.css";
                 <img src="images/sample.png" alt="ブログ記事10">
                 <p>タイトル</p>
             </a>
-
-
         </section>
+        </div>
         <!-- 追加ブログ記事をここに追記していけます -->
         <div class="pagination">
             <a href="#" class="page-number">1</a>
@@ -83,6 +87,7 @@ import "../styles/blog.css";
     </main>
 
 <Footer />
+<script src="/js/blog-search.js" type="module"></script>
 <script src="/js/header.js" type="module"></script>
 
 </body>
