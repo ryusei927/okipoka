@@ -6,6 +6,23 @@ h2{
     text-align: center;
 }
 
+.hero-logo {
+  width: min(60vw, 360px);
+  height: auto;
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 /* 店舗アイコン画像のスタイル */
 .store-icon {
     width: 110px;
@@ -88,4 +105,14 @@ h2{
 
 .store-directory a:hover {
     text-decoration: underline;
+}
+
+.hero-image {
+  background: url('../images/backimage.png') no-repeat center center;
+  background-size: cover;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
