@@ -20,73 +20,75 @@ import "../styles/blog.css";
     <section class="blog-search-bar" style="padding: 1rem; text-align: center;">
         <input type="text" id="blog-search-input" placeholder="キーワードや著者名で検索" style="padding: 0.5rem; width: 60%; max-width: 400px; font-size: 1rem;" />
         <button id="blog-search-button" style="padding: 0.5rem 1rem; margin-left: 0.5rem; font-size: 1rem;">検索</button>
+        <div style="margin-top: 1rem;">
+            <button class="filter-button" data-filter="all">すべて</button>
+            <button class="filter-button" data-filter="free">無料</button>
+            <button class="filter-button" data-filter="paid">有料</button>
+        </div>
     </section>
     <main class="blog-container">
         <div id="blog-list">
         <section class="blog-thumbnail-grid">
 
-           <a href="/blog/test" class="blog-thumb">
-                <img src="images/sample.png" alt="ブログ記事1">
-                <p>タイトル</p>
+           <a href="/blog/paid/test" class="blog-thumb" data-title="テスト" data-author="Ryusei" data-tags="戦略 有料">
+                <img src="images/sample.png">
+                <p>テスト</p>
             </a>
 
-            <a href="/blog/free/pot-odds" class="blog-thumb">
-                <img src="images/sample.png" alt="ポットオッズの基本">
+            <a href="/blog/free/pot-odds" class="blog-thumb" data-title="ポットオッズの基本" data-author="Ryusei" data-tags="戦略 数学 初心者">
+                <img src="images/sample.png">
                 <p>ポットオッズの基本</p>
             </a>
 
-            <a href="blog2.html" class="blog-thumb">
+            <a href="blog2.html" class="blog-thumb" data-title="タイトル" data-author="不明" data-tags="その他">
                 <img src="images/sample.png" alt="ブログ記事3">
                 <p>タイトル</p>
             </a>
 
-            <a href="blog2.html" class="blog-thumb">
+            <a href="blog2.html" class="blog-thumb" data-title="タイトル" data-author="不明" data-tags="その他">
                 <img src="images/sample.png" alt="ブログ記事4">
                 <p>タイトル</p>
             </a>
 
-            <a href="blog2.html" class="blog-thumb">
+            <a href="blog2.html" class="blog-thumb" data-title="タイトル" data-author="不明" data-tags="その他">
                 <img src="images/sample.png" alt="ブログ記事5">
                 <p>タイトル</p>
             </a>
 
-            <a href="blog2.html" class="blog-thumb">
+            <a href="blog2.html" class="blog-thumb" data-title="タイトル" data-author="不明" data-tags="その他">
                 <img src="images/sample.png" alt="ブログ記事6">
                 <p>タイトル</p>
             </a>
 
-            <a href="blog2.html" class="blog-thumb">
+            <a href="blog2.html" class="blog-thumb" data-title="タイトル" data-author="不明" data-tags="その他">
                 <img src="images/sample.png" alt="ブログ記事7">
                 <p>タイトル</p>
             </a>
 
-            <a href="blog2.html" class="blog-thumb">
+            <a href="blog2.html" class="blog-thumb" data-title="タイトル" data-author="不明" data-tags="その他">
                 <img src="images/sample.png" alt="ブログ記事8">
                 <p>タイトル</p>
             </a>
 
-            <a href="blog2.html" class="blog-thumb">
+            <a href="blog2.html" class="blog-thumb" data-title="タイトル" data-author="不明" data-tags="その他">
                 <img src="images/sample.png" alt="ブログ記事9">
                 <p>タイトル</p>
             </a>
 
-            <a href="blog2.html" class="blog-thumb">
+            <a href="blog2.html" class="blog-thumb" data-title="タイトル" data-author="不明" data-tags="その他">
                 <img src="images/sample.png" alt="ブログ記事10">
-                <p>タイトル</p>
+                <p>タイトルああ</p>
             </a>
         </section>
         </div>
         <!-- 追加ブログ記事をここに追記していけます -->
-        <div class="pagination">
-            <a href="#" class="page-number">1</a>
-            <a href="#" class="page-number">2</a>
-            <a href="#" class="page-number">3</a>
-            <a href="#" class="page-number">4</a>
-            <a href="#" class="page-number">次へ »</a>
-        </div>
+        <div class="pagination"></div>
     </main>
 
+
+    
 <Footer />
+<script src="/js/blog.js" type="module"></script>
 <script src="/js/blog-search.js" type="module"></script>
 <script src="/js/header.js" type="module"></script>
 
