@@ -1,0 +1,62 @@
+---
+const { articleTitle, contextContent } = Astro.props;
+---
+
+<div class="codoc-entries" id="codoc-subscribe-XXXXXXX">
+  <section class="ai-question-box"
+           data-title={articleTitle}
+           data-context={contextContent}>
+    <h3>この記事についてAIに質問する</h3>
+    <textarea id="ai-question" placeholder="例：この記事のMDFってターンでも使えるの？"></textarea>
+    <div class="ai-buttons">
+      <button id="ask-ai">質問する</button>
+      <button id="simplify-ai">超噛み砕いて説明して！</button>
+    </div>
+    <div id="ai-response"></div>
+  </section>
+</div>
+
+<style>
+  .ai-question-box {
+    margin-top: 2rem;
+    background: #fdfdfd;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+  }
+
+  .ai-question-box textarea {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+  }
+
+  .ai-buttons {
+    margin-top: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .ai-buttons button {
+    padding: 0.5rem 1rem;
+    background-color: #ffa94d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  #ai-response {
+    margin-top: 1rem;
+    background: #fff;
+    padding: 1rem;
+    border-radius: 4px;
+    border: 1px solid #eee;
+    white-space: pre-wrap;
+  }
+</style>
+
+<script type="module" src="/js/ai-question-box.js"></script>
