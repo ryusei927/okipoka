@@ -7,7 +7,7 @@ h2{
 }
 
 .hero-logo {
-  width: min(60vw, 360px);
+  width: min(50vw, 340px);
   height: auto;
   animation: fadeIn 1.5s ease-in-out;
 }
