@@ -78,6 +78,13 @@ h2{
         width: 100px;
         height: 100px;
     }
+
+    .hero-image {
+      background-size: contain !important;
+      background-repeat: no-repeat;
+      background-position: center;
+      padding: 40px 0;
+    }
 }
 
 /* 店舗ディレクトリのリンクスタイル */
@@ -95,9 +102,33 @@ h2{
 .hero-image {
   background: url('../images/backimage.png') no-repeat center center;
   background-size: cover;
-  min-height: 100vh;
+  height: 100vh;
+  padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+
+@media (max-width: 768px) {
+  .hero-image {
+    height: auto !important;
+    background-size: contain !important;
+    background-repeat: no-repeat;
+    background-position: top center;
+    padding: 120px 0;
+  }
+}
+
+/* 時間帯ごとの背景画像クラス */
+.hero-image.morning {
+  background-image: url('/images/asa_si-sa-png');
+}
+
+.hero-image.afternoon {
+  background-image: url('/images/yugata_si-sa-.png');
+}
+
+.hero-image.night {
+  background-image: url('/images/yoru_si-sa-.png');
 }
