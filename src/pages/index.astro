@@ -21,12 +21,16 @@ import "../styles/mainstyle.css";
         <title>OKIPOKA</title>
     </head>
     <body>
+
         <Header />
         <InterstitialAd />
+                <section class="hero-image time-based-bg">
+          <h1>ようこそ OKIPOKA へ</h1>
+          <p>沖縄ポーカースポットを今すぐチェック！</p>
+        </section>
 
         <main>
-            <section class="hero-image">
-                 </section>
+            
                 <section class="store-directory">
                     <br>
                     <h2>沖縄ポーカースポット一覧</h2><br>
@@ -116,10 +120,34 @@ import "../styles/mainstyle.css";
 
                     </ul>
                 </section>
-           
+
+                <!-- 今日のトーナメント -->
+                <section class="top-section">
+                  <h2>本日のトーナメント</h2>
+                  <p>本日開催予定のイベントを一部ご紹介！</p>
+                  <div class="card-list">
+                    <div class="info-card">Jack9 - 19:00 NLH</div>
+                    <div class="info-card">Re:Barta - 20:00 PLO</div>
+                  </div>
+                  <a href="/tournaments" class="top-link">すべての大会を見る →</a>
+                </section>
+
+                <!-- ブログ -->
+                <section class="top-section">
+                  <h2>最新のブログ記事</h2>
+                  <p>戦略・メンタル・イベントレポートなどを公開中</p>
+                  <div class="card-list">
+                    <div class="info-card"><a href="/blog/post1">[戦略] ボードテクスチャの考察</a></div>
+                    <div class="info-card"><a href="/blog/post2">[思考] ミスからの立て直し</a></div>
+                  </div>
+                  <a href="/blog" class="top-link">すべてのブログ記事 →</a>
+                </section>
+
+
         </main>
 
         <Footer />
+        <script src="/js/script.js" type="module"></script>
         <script src="/js/header.js" type="module"></script>
     </body>
 </html>
