@@ -99,7 +99,7 @@ h2{
     text-decoration: underline;
 }
 
-.hero-image {
+.si-sa- {
   background: url('../images/backimage.png') no-repeat center center;
   background-size: cover;
   height: 100vh;
@@ -111,7 +111,7 @@ h2{
 }
 
 @media (max-width: 768px) {
-  .hero-image {
+  .si-sa- {
     height: auto !important;
     background-size: contain !important;
     background-repeat: no-repeat;
@@ -121,14 +121,14 @@ h2{
 }
 
 /* 時間帯ごとの背景画像クラス */
-.hero-image.morning {
+.si-sa-.morning {
   background-image: url('/images/asa_si-sa-png');
 }
 
-.hero-image.afternoon {
+.si-sa-.afternoon {
   background-image: url('/images/yugata_si-sa-.png');
 }
 
-.hero-image.night {
+.si-sa-.night {
   background-image: url('/images/yoru_si-sa-.png');
 }
