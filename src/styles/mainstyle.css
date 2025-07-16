@@ -99,40 +99,6 @@ h2{
     text-decoration: underline;
 }
 
-.si-sa- {
-  background: url('../images/backimage.png') no-repeat center center;
-  background-size: cover;
-  height: 100vh;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-@media (max-width: 768px) {
-  .si-sa- {
-    height: auto !important;
-    background-size: contain !important;
-    background-repeat: no-repeat;
-    background-position: top center;
-    padding: 120px 0;
-  }
-}
-
-/* 時間帯ごとの背景画像クラス */
-.si-sa-.morning {
-  background-image: url('/images/asa_si-sa-png');
-}
-
-.si-sa-.afternoon {
-  background-image: url('/images/yugata_si-sa-.png');
-}
-
-.si-sa-.night {
-  background-image: url('/images/yoru_si-sa-.png');
-}
-
 
 /* ===== Video Hero Section ===== */
 .video-hero {
