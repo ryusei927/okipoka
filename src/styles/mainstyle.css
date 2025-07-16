@@ -164,3 +164,21 @@ h2{
   text-shadow: 0 2px 6px rgba(0,0,0,0.6);
   text-align: center;
 }
+
+
+/* 完璧すぎる バージョン: スマホ表示時の .video-hero の高さをさらに短く28vhに調整 */
+@media (max-width: 768px) {
+  .video-hero {
+    height: 28vh;
+    min-height: 28vh;
+  }
+
+  .video-background {
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .video-overlay {
+    padding: 60px 20px;
+  }
+}
