@@ -106,6 +106,7 @@ h2{
   width: 100%;
   height: 100vh;
   overflow: hidden;
+  padding-top: 100px;
 }
 
 .video-background {
@@ -137,6 +138,7 @@ h2{
   .video-hero {
     height: 28vh;
     min-height: 28vh;
+    padding-top: 60px;
   }
 
   .video-background {
