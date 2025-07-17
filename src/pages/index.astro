@@ -5,11 +5,14 @@ import InterstitialAd from "../components/InterstitialAd.astro";
 import "../styles/mainstyle.css";
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
     <head>
         <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no"
+        />
         <link
             href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap"
             rel="stylesheet"
@@ -20,137 +23,132 @@ import "../styles/mainstyle.css";
         />
         <title>OKIPOKA</title>
     </head>
-            <Header />
-        <InterstitialAd />
+    <Header />
+    <InterstitialAd />
     <body>
-
-
-                <section class="video-hero">
-                  <video autoplay muted loop playsinline class="video-background">
-                    <source src="/images/back.mp4" type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
-                  <div class="video-overlay">
-                    <h1>Okinawa Poker Site</h1>
-                  </div>
-                </section>
+        <section class="video-hero">
+            <video autoplay muted loop playsinline class="video-background">
+                <source src="/images/back.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+            </video>
+            <div class="video-overlay">
+                <h1>Okinawa Poker Site</h1>
+            </div>
+        </section>
 
         <main>
+            <section class="store-directory">
+                <br />
+                <h2>沖縄ポーカースポット一覧</h2><br />
+                <ul>
+                    <li>
+                        <a href="stores/Jack9">
+                            <img
+                                src="images/j9logo.jpg"
+                                alt="Jack9"
+                                class="store-icon"
+                            />
+                            <div>Jack9</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="stores/UnderTheGun">
+                            <img
+                                src="images/underthegun.jpg"
+                                alt="UnderTheGun"
+                                class="store-icon"
+                            />
+                            <div>UnderTheGun</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="stores/Rebarta">
+                            <img
+                                src="images/rebarta.png"
+                                alt="icons"
+                                class="store-icon"
+                            />
+                            <div>Re:Barta</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="stores/BACKDOOR">
+                            <img
+                                src="images/backdoor.jpg"
+                                alt="icons"
+                                class="store-icon"
+                            />
+                            <div>BACKDOOR NAHA</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="stores/JACKS">
+                            <img
+                                src="images/jacks.png"
+                                alt="icons"
+                                class="store-icon"
+                            />
+                            <div>JACKS</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="stores/TOKISHIRAZU">
+                            <img
+                                src="images/tokishirazu.png"
+                                alt="icons"
+                                class="store-icon"
+                            />
+                            <div>TOKISHIRAZU</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="stores/TheHand">
+                            <img
+                                src="images/hand.png"
+                                alt="icons"
+                                class="store-icon"
+                            />
+                            <div>Hand</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="stores/GUTSHOT">
+                            <img
+                                src="images/gutshot.png"
+                                alt="icons"
+                                class="store-icon"
+                            />
+                            <div>GUTSHOT</div>
+                        </a>
+                    </li>
+                </ul>
+            </section>
 
-            
-                <section class="store-directory">
-                    <br>
-                    <h2>沖縄ポーカースポット一覧</h2><br>
-                    <ul>
-
-                        
-                        <li>
-                            <a href="stores/Jack9">
-                                <img
-                                    src="images/j9logo.jpg"
-                                    alt="Jack9"
-                                    class="store-icon"
-                                />
-                                <div>Jack9</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="stores/UnderTheGun">
-                                <img
-                                    src="images/underthegun.jpg"
-                                    alt="UnderTheGun"
-                                    class="store-icon"
-                                />
-                                <div>UnderTheGun</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="stores/Rebarta">
-                                <img
-                                    src="images/rebarta.png"
-                                    alt="icons"
-                                    class="store-icon"
-                                />
-                                <div>Re:Barta</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="stores/BACKDOOR">
-                                <img
-                                    src="images/backdoor.jpg"
-                                    alt="icons"
-                                    class="store-icon"
-                                />
-                                <div>BACKDOOR NAHA</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="stores/JACKS">
-                                <img
-                                    src="images/jacks.png"
-                                    alt="icons"
-                                    class="store-icon"
-                                />
-                                <div>JACKS</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="stores/TOKISHIRAZU">
-                                <img
-                                    src="images/tokishirazu.png"
-                                    alt="icons"
-                                    class="store-icon"
-                                />
-                                <div>TOKISHIRAZU</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="stores/TheHand">
-                                <img
-                                    src="images/hand.png"
-                                    alt="icons"
-                                    class="store-icon"
-                                />
-                                <div>Hand</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="stores/GUTSHOT">
-                                <img
-                                    src="images/gutshot.png"
-                                    alt="icons"
-                                    class="store-icon"
-                                />
-                                <div>GUTSHOT</div>
-                            </a>
-                        </li>
-
-                    </ul>
-                </section>
-
-                <!-- 今日のトーナメント -->
-                <section class="top-section">
-                  <h2>本日のトーナメント</h2>
-                  <p>本日開催予定のイベントを一部ご紹介！</p>
-                  <div class="card-list">
+            <!-- 今日のトーナメント -->
+            <section class="top-section">
+                <h2>本日のトーナメント</h2>
+                <p>本日開催予定のイベントを一部ご紹介！</p>
+                <div class="card-list">
                     <div class="info-card">Jack9 - 19:00 NLH</div>
                     <div class="info-card">Re:Barta - 20:00 PLO</div>
-                  </div>
-                  <a href="/tournaments" class="top-link">すべての大会を見る →</a>
-                </section>
+                </div>
+                <a href="/tournaments" class="top-link">すべての大会を見る →</a>
+            </section>
 
-                <!-- ブログ -->
-                <section class="top-section">
-                  <h2>最新のブログ記事</h2>
-                  <p>戦略・メンタル・イベントレポートなどを公開中</p>
-                  <div class="card-list">
-                    <div class="info-card"><a href="/blog/post1">[戦略] ボードテクスチャの考察</a></div>
-                    <div class="info-card"><a href="/blog/post2">[思考] ミスからの立て直し</a></div>
-                  </div>
-                  <a href="/blog" class="top-link">すべてのブログ記事 →</a>
-                </section>
-
-
+            <!-- ブログ -->
+            <section class="top-section">
+                <h2>最新のブログ記事</h2>
+                <p>戦略・メンタル・イベントレポートなどを公開中</p>
+                <div class="card-list">
+                    <div class="info-card">
+                        <a href="/blog/post1">[戦略] ボードテクスチャの考察</a>
+                    </div>
+                    <div class="info-card">
+                        <a href="/blog/post2">[思考] ミスからの立て直し</a>
+                    </div>
+                </div>
+                <a href="/blog" class="top-link">すべてのブログ記事 →</a>
+            </section>
         </main>
 
         <Footer />
