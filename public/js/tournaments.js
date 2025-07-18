@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, query, orderBy, onSnapshot, where } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyBhItIbOxR6rXdClsDidrcB1iB1714paAs",
@@ -14,55 +14,65 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+
 const list = document.getElementById("tournament-list");
-// JSTベースの今日の日付（YYYY-MM-DD）を取得（整合性を保つ）
-const now = new Date();
-const jst = new Date(now.getTime() + 9 * 60 * 60 * 1000); // convert to JST
-const yyyy = jst.getFullYear();
-const mm = String(jst.getMonth() + 1).padStart(2, "0");
-const dd = String(jst.getDate()).padStart(2, "0");
-const formattedToday = `${yyyy}-${mm}-${dd}`;
-console.log("今日の日付: ", formattedToday);
+const dateInput = document.getElementById("datePicker");
 
-const q = query(
-    collection(db, "tournaments"),
-    where("startDate", "==", formattedToday)
-);
+// 日付取得関数（JST対応）
+function getFormattedDate(dateObj) {
+  const jst = new Date(dateObj.getTime() + 9 * 60 * 60 * 1000);
+  const yyyy = jst.getFullYear();
+  const mm = String(jst.getMonth() + 1).padStart(2, "0");
+  const dd = String(jst.getDate()).padStart(2, "0");
+  return `${yyyy}-${mm}-${dd}`;
+}
 
-onSnapshot(q, (snapshot) => {
-    list.innerHTML = ""; // Clear previous contents
+// 初期設定（今日を表示）
+const defaultDate = new Date();
+const formattedToday = getFormattedDate(defaultDate);
+dateInput.value = formattedToday;
+loadTournaments(formattedToday);
 
-    snapshot.forEach(doc => {
-        const data = doc.data();
-        console.log("取得データ:", data.startDate, "==", formattedToday);
-        const card = document.createElement("div");
-        card.classList.add("tournament-card");
-
-        card.innerHTML = `
-          <div class="tournament-card-body">
-            <p><strong>タイトル：</strong>${data.eventName || "タイトル未定"}</p>
-            <div class="row">
-              <p><strong>店舗：</strong>${data.storeName || data.postedBy || "不明な店舗"}</p>
-              <p><strong>開始時間：</strong>${data.startTime || "時間未定"}</p>
-            </div>
-            <div class="row">
-              <p><strong>Buy-in：</strong>${data.buyIn || "未定"}</p>
-              <p><strong>Add-on：</strong>${data.addon || "なし"}</p>
-            </div>
-            <p><strong>スタック：</strong>${data.stack || "未定"}</p>
-            <p><strong>プライズ：</strong>${data.prize || ""}</p>
-          </div>
-        `;
-        list.appendChild(card);
-    });
-    if (snapshot.empty) {
-      console.log("本日一致するトーナメントがありません");
-    }
-
-    if (list.innerHTML === "") {
-      list.innerHTML = "<p style='text-align: center; color: #666;'>本日のトーナメントはまだ登録されていません。</p>";
-    }
+// イベントリスナー：日付変更時に再取得
+dateInput.addEventListener("change", () => {
+  const selected = dateInput.value;
+  loadTournaments(selected);
 });
+
+// Firestoreから該当日のデータを取得＆表示
+async function loadTournaments(dateStr) {
+  list.innerHTML = ""; // Clear previous
+
+  const q = query(collection(db, "tournaments"), where("startDate", "==", dateStr));
+  const snapshot = await getDocs(q);
+
+  if (snapshot.empty) {
+    list.innerHTML = "<p style='text-align: center; color: #666;'>指定された日のトーナメントはありません。</p>";
+    return;
+  }
+
+  snapshot.forEach(doc => {
+    const data = doc.data();
+    const card = document.createElement("div");
+    card.classList.add("tournament-card");
+    card.innerHTML = `
+      <div class="tournament-card-body">
+        <p><strong>タイトル：</strong>${data.eventName || "タイトル未定"}</p>
+        <div class="row">
+          <p><strong>店舗：</strong>${data.storeName || data.postedBy || "不明な店舗"}</p>
+          <p><strong>開始時間：</strong>${data.startTime || "時間未定"}</p>
+        </div>
+        <div class="row">
+          <p><strong>Buy-in：</strong>${data.buyIn || "未定"}</p>
+          <p><strong>Add-on：</strong>${data.addon || "なし"}</p>
+        </div>
+        <p><strong>スタック：</strong>${data.stack || "未定"}</p>
+        <p><strong>プライズ：</strong>${data.prize || ""}</p>
+      </div>
+    `;
+    list.appendChild(card);
+  });
+}
 
 
 document.addEventListener("DOMContentLoaded", () => {
