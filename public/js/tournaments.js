@@ -15,10 +15,18 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const list = document.getElementById("tournament-list");
-// トーナメントを開始時間で昇順に全件取得
+// JSTベースの今日の日付（YYYY-MM-DD）を取得（整合性を保つ）
+const now = new Date();
+const jst = new Date(now.getTime() + 9 * 60 * 60 * 1000); // convert to JST
+const yyyy = jst.getFullYear();
+const mm = String(jst.getMonth() + 1).padStart(2, "0");
+const dd = String(jst.getDate()).padStart(2, "0");
+const formattedToday = `${yyyy}-${mm}-${dd}`;
+console.log("今日の日付: ", formattedToday);
+
 const q = query(
     collection(db, "tournaments"),
-    orderBy("startTime", "asc")
+    where("startDate", "==", formattedToday)
 );
 
 onSnapshot(q, (snapshot) => {
@@ -26,6 +34,7 @@ onSnapshot(q, (snapshot) => {
 
     snapshot.forEach(doc => {
         const data = doc.data();
+        console.log("取得データ:", data.startDate, "==", formattedToday);
         const card = document.createElement("div");
         card.classList.add("tournament-card");
 
@@ -46,6 +55,13 @@ onSnapshot(q, (snapshot) => {
         `;
         list.appendChild(card);
     });
+    if (snapshot.empty) {
+      console.log("本日一致するトーナメントがありません");
+    }
+
+    if (list.innerHTML === "") {
+      list.innerHTML = "<p style='text-align: center; color: #666;'>本日のトーナメントはまだ登録されていません。</p>";
+    }
 });
 
 

@@ -63,6 +63,7 @@ import "../../styles/tournaments.css";
             </section>
             <section class="tournament-info">
                 <h2>本日のトーナメント情報</h2>
+                <p id="today-date" style="text-align: center; color: #666; font-size: 0.9rem;"></p>
                 <p>
                     沖縄県内で本日開催予定のトーナメント情報を店舗別に掲載しています。
                 </p>
@@ -75,5 +76,15 @@ import "../../styles/tournaments.css";
 
         <script src="/js/tournaments.js" type="module"></script>
         <script src="/js/header.js" type="module"></script>
+        <script>
+          document.addEventListener("DOMContentLoaded", () => {
+            const now = new Date();
+            const offset = now.getTimezoneOffset();
+            const jstDate = new Date(now.getTime() - offset * 60 * 1000);
+            const formatted = jstDate.toISOString().slice(0, 10);
+            // @ts-ignore
+            document.getElementById("today-date").textContent = `本日：${formatted}`;
+          });
+        </script>
     </body>
 </html>
