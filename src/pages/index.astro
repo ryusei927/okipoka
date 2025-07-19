@@ -2,6 +2,17 @@
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import InterstitialAd from "../components/InterstitialAd.astro";
+
+import AdSectionVIP_1 from "../components/AdSectionVIP_1.astro";
+import AdSectionVIP_2 from "../components/AdSectionVIP_2.astro";
+import AdSection1 from "../components/AdSection1.astro";
+import AdSection2 from "../components/AdSection2.astro";
+import AdSection3 from "../components/AdSection3.astro";
+import AdSection4 from "../components/AdSection4.astro";
+import AdSection5 from "../components/AdSection5.astro";
+import AdSection6 from "../components/AdSection6.astro";
+import AdSection7 from "../components/AdSection7.astro";
+import AdSection8 from "../components/AdSection8.astro";
 import "../styles/mainstyle.css";
 ---
 
@@ -38,6 +49,20 @@ import "../styles/mainstyle.css";
         </section>
 
         <main>
+            
+            <br><AdSectionVIP_1 />
+
+            <section class="top-section" style="background-color: #ffffff; padding: 2rem 1rem; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;">
+              <h2>お知らせ</h2>
+              <ul id="notice-rotator" class="notice-list">
+                <li>お知らせ１</li>
+                <li>お知らせ２</li>
+                <li>お知らせ３</li>
+              </ul>
+            </section>
+
+            <AdSection1 />
+
             <section class="store-directory" style="background-color: #f9f9f9; padding: 2rem 1rem;">
               
                 <h2>沖縄ポーカースポット一覧</h2><br />
@@ -125,12 +150,17 @@ import "../styles/mainstyle.css";
                 </ul>
             </section>
 
+            <AdSection2 />
+            
+            <AdSection3 />
             <!-- 今日のトーナメント -->
             <section class="top-section" style="background-color: #fffdf6; padding: 2rem 1rem; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;">
                 <h2>本日のトーナメント情報</h2><br>
                 <div id="today-all-card" class="card-list" style="max-height: 300px; overflow-y: auto;"></div>
                 <a href="/tournaments/tournaments" class="top-link">詳細を見る →</a>
             </section>
+
+            <AdSection4 />
 
             <!-- ブログ -->
             <section class="top-section" style="background-color: #f4f7fc; padding: 2rem 1rem; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;">
@@ -146,6 +176,8 @@ import "../styles/mainstyle.css";
                 <a href="/blog" class="top-link">すべてのブログ記事 →</a>
             </section>
 
+            <AdSectionVIP_2 />
+        
             <!-- 寄稿者募集バナー -->
             <section class="top-section" style="text-align: center; padding: 2rem 1rem; background-color: #fef9f3; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;">
                 <h2 style="margin-bottom: 0.5rem;">寄稿者募集中！</h2>
@@ -155,6 +187,10 @@ import "../styles/mainstyle.css";
                 </a>
             </section>
 
+            <AdSection5 />
+
+            <AdSection6 />
+
             <!-- グッズ紹介バナー -->
             <section class="top-section" style="text-align: center; padding: 2rem 1rem; background-color: #f3f9fe; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;">
                 <h2 style="margin-bottom: 0.5rem;">SHOP</h2>
@@ -163,9 +199,34 @@ import "../styles/mainstyle.css";
                     商品一覧（近日公開）
                 </a>
             </section>
+
+            <AdSection7 />
+            <AdSection8 />
         </main>
 
         <Footer />
+                <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            const items = document.querySelectorAll(".notice-list li");
+            let current = 0;
+
+            if (items.length === 0) return;
+
+            // 初期状態で最初の要素以外を非表示
+            items.forEach((item, index) => {
+                // @ts-ignore
+              item.style.display = index === 0 ? "list-item" : "none";
+            });
+
+            setInterval(() => {
+                // @ts-ignore
+              items[current].style.display = "none";
+              current = (current + 1) % items.length;
+              // @ts-ignores
+              items[current].style.display = "list-item";
+            }, 3000);
+          });
+        </script>
         <script src="/js/script.js" type="module"></script>
         <script src="/js/header.js" type="module"></script>
         <script src="/js/todayAll.js" type="module"></script>

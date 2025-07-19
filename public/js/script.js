@@ -10,3 +10,4 @@ if (hour >= 7 && hour < 17) {
 } else {
   section.classList.add('night');
 }
+

@@ -6,7 +6,12 @@ h2{
     text-align: center;
 }
 
-
+.notice-list li {
+  display: none;
+}
+.notice-list li:first-child {
+  display: list-item;
+}
 
 /* 店舗アイコン画像のスタイル */
 .store-icon {
