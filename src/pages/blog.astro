@@ -4,6 +4,17 @@ import Footer from "../components/Footer.astro";
 import InterstitialAd from "../components/InterstitialAd.astro";
 import Article1 from "../components/blog_article/article_1.astro";
 import "../styles/blog.css";
+import adList from "../assets/adList.json";
+const allStandard = adList.standard1.concat(
+  adList.standard2,
+  adList.standard3,
+  adList.standard4,
+  adList.standard5,
+  adList.standard6,
+  adList.standard7,
+  adList.standard8
+);
+const blogAd = allStandard[Math.floor(Math.random() * allStandard.length)];
 ---
 
 <html lang="ja">
@@ -20,6 +31,16 @@ import "../styles/blog.css";
     <body>
         <Header />
         <InterstitialAd />
+
+        <div class="standard-ad-wrapper" style="text-align: center; margin: 1.5rem 0;">
+          <a href={blogAd.link} target="_blank" rel="noopener noreferrer">
+            <img
+              src={blogAd.image}
+              alt="スポンサー広告"
+              style="max-width: 650px; width: 100%; height: auto;"
+            />
+          </a>
+        </div>
 
         <section
             class="blog-search-bar"
