@@ -1,0 +1,10 @@
+---
+import adList from '../assets/adList.json';
+const standard2 = adList.standard2;
+const randomIndex = Math.floor(Math.random() * standard2.length);
+const ad = standard2[randomIndex];
+---
+
+<a href={ad.link} target="_blank" rel="noopener noreferrer">
+  <img src={ad.image} alt="スポンサー広告" style="width: 100%; max-width: 650px; margin: auto; display: block;" />
+</a>

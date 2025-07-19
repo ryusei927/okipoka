@@ -1,0 +1,10 @@
+---
+import adList from '../assets/adList.json';
+const vip1 = adList.vip1;
+const randomIndex = Math.floor(Math.random() * vip1.length);
+const ad = vip1[randomIndex];
+---
+
+<a href={ad.link} target="_blank" rel="noopener noreferrer">
+  <img src={ad.image} alt="VIPスポンサー広告" style="width: 100%; max-width: 320px; margin: auto; display: block;" />
+</a>
