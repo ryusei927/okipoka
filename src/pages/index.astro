@@ -36,8 +36,8 @@ import "../styles/mainstyle.css";
     </head>
 
     <body>
-            <Header />
-    <InterstitialAd />
+        <Header />
+        <InterstitialAd />
         <section class="video-hero">
             <video autoplay muted loop playsinline class="video-background">
                 <source src="/images/back.mp4" type="video/mp4" />
@@ -49,22 +49,29 @@ import "../styles/mainstyle.css";
         </section>
 
         <main>
-            
-            <br><AdSectionVIP_1 />
+            <div style="height: 0.5rem;"></div>
+            <AdSectionVIP_1 />
 
-            <section class="top-section" style="background-color: #ffffff; padding: 2rem 1rem; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;">
-              <h2>お知らせ</h2>
-              <ul id="notice-rotator" class="notice-list">
-                <li>お知らせ１</li>
-                <li>お知らせ２</li>
-                <li>お知らせ３</li>
-              </ul>
+            <section
+                class="top-section"
+                style="background-color: #ffffff; margin: 1rem 0; padding: 1.2rem 1rem; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;"
+            >
+                <h2>お知らせ</h2>
+                <ul id="notice-rotator" class="notice-list">
+                    <li>お知らせ１</li>
+                    <li>お知らせ２</li>
+                    <li>お知らせ３</li>
+                </ul>
             </section>
+
+            <div style="height: 0.5rem;"></div>
 
             <AdSection1 />
 
-            <section class="store-directory" style="background-color: #f9f9f9; padding: 2rem 1rem;">
-              
+            <section
+                class="store-directory"
+                style="background-color: #f9f9f9; padding: 2rem 1rem;"
+            >
                 <h2>沖縄ポーカースポット一覧</h2><br />
                 <ul>
                     <li>
@@ -151,20 +158,33 @@ import "../styles/mainstyle.css";
             </section>
 
             <AdSection2 />
-            
+            <div style="height: 0.3rem;"></div>
             <AdSection3 />
             <!-- 今日のトーナメント -->
-            <section class="top-section" style="background-color: #fffdf6; padding: 2rem 1rem; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;">
-                <h2>本日のトーナメント情報</h2><br>
-                <div id="today-all-card" class="card-list" style="max-height: 300px; overflow-y: auto;"></div>
-                <a href="/tournaments/tournaments" class="top-link">詳細を見る →</a>
+            <section
+                class="top-section"
+                style="background-color: #fffdf6; margin: 1rem 0; padding: 1.2rem 1rem; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;"
+            >
+                <h2>本日のトーナメント情報</h2><br />
+                <div
+                    id="today-all-card"
+                    class="card-list"
+                    style="max-height: 300px; overflow-y: auto;"
+                >
+                </div>
+                <a href="/tournaments/tournaments" class="top-link"
+                    >詳細を見る →</a
+                >
             </section>
 
             <AdSection4 />
 
             <!-- ブログ -->
-            <section class="top-section" style="background-color: #f4f7fc; padding: 2rem 1rem; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;">
-                <h2>Blog</h2><br>
+            <section
+                class="top-section"
+                style="background-color: #f4f7fc; margin: 1rem 0; padding: 1.2rem 1rem; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;"
+            >
+                <h2>Blog</h2><br />
                 <div class="card-list">
                     <div class="info-card">
                         <a href="/blog/post1">テキスト</a>
@@ -177,55 +197,74 @@ import "../styles/mainstyle.css";
             </section>
 
             <AdSectionVIP_2 />
-        
+
             <!-- 寄稿者募集バナー -->
-            <section class="top-section" style="text-align: center; padding: 2rem 1rem; background-color: #fef9f3; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;">
+            <section
+                class="top-section"
+                style="text-align: center; margin: 1rem 0; padding: 1.2rem 1rem; background-color: #fef9f3; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;"
+            >
                 <h2 style="margin-bottom: 0.5rem;">寄稿者募集中！</h2>
-                <p style="margin-bottom: 1rem;">Blogに掲載する記事を書いてくれる寄稿者の方を募集中です。ご興味ある方はぜひご連絡ください。</p>
-                <a href="/recruit" class="top-link" style="display: inline-block; padding: 0.5rem 1rem; background-color: #f60; color: white; text-decoration: none; border-radius: 4px;">
+                <p style="margin-bottom: 1rem;">
+                    Blogに掲載する記事を書いてくれる寄稿者の方を募集中です。ご興味ある方はぜひご連絡ください。
+                </p>
+                <a
+                    href="/recruit"
+                    class="top-link"
+                    style="display: inline-block; padding: 0.5rem 1rem; background-color: #f60; color: white; text-decoration: none; border-radius: 4px;"
+                >
                     募集の詳細を見る
                 </a>
             </section>
 
             <AdSection5 />
-
+            <div style="height: 0.3rem;"></div>
             <AdSection6 />
 
             <!-- グッズ紹介バナー -->
-            <section class="top-section" style="text-align: center; padding: 2rem 1rem; background-color: #f3f9fe; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;">
+            <section
+                class="top-section"
+                style="text-align: center; margin: 1rem 0; padding: 1.2rem 1rem; background-color: #f3f9fe; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;"
+            >
                 <h2 style="margin-bottom: 0.5rem;">SHOP</h2>
-                <p style="margin-bottom: 1rem;">オリジナルグッズを今後展開予定です。どうぞお楽しみに。</p>
-                <a href="#" class="top-link" style="display: inline-block; padding: 0.5rem 1rem; background-color: #007acc; color: white; text-decoration: none; border-radius: 4px;">
+                <p style="margin-bottom: 1rem;">
+                    オリジナルグッズを今後展開予定です。どうぞお楽しみに。
+                </p>
+                <a
+                    href="#"
+                    class="top-link"
+                    style="display: inline-block; padding: 0.5rem 1rem; background-color: #007acc; color: white; text-decoration: none; border-radius: 4px;"
+                >
                     商品一覧（近日公開）
                 </a>
             </section>
 
             <AdSection7 />
+            <div style="height: 0.3rem;"></div>
             <AdSection8 />
         </main>
 
         <Footer />
-                <script>
-          document.addEventListener("DOMContentLoaded", function () {
-            const items = document.querySelectorAll(".notice-list li");
-            let current = 0;
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const items = document.querySelectorAll(".notice-list li");
+                let current = 0;
 
-            if (items.length === 0) return;
+                if (items.length === 0) return;
 
-            // 初期状態で最初の要素以外を非表示
-            items.forEach((item, index) => {
-                // @ts-ignore
-              item.style.display = index === 0 ? "list-item" : "none";
+                // 初期状態で最初の要素以外を非表示
+                items.forEach((item, index) => {
+                    // @ts-ignore
+                    item.style.display = index === 0 ? "list-item" : "none";
+                });
+
+                setInterval(() => {
+                    // @ts-ignore
+                    items[current].style.display = "none";
+                    current = (current + 1) % items.length;
+                    // @ts-ignores
+                    items[current].style.display = "list-item";
+                }, 3000);
             });
-
-            setInterval(() => {
-                // @ts-ignore
-              items[current].style.display = "none";
-              current = (current + 1) % items.length;
-              // @ts-ignores
-              items[current].style.display = "list-item";
-            }, 3000);
-          });
         </script>
         <script src="/js/script.js" type="module"></script>
         <script src="/js/header.js" type="module"></script>

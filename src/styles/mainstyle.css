@@ -21,6 +21,7 @@ h2{
     border-radius: 10px;
     margin: 0 auto;
     vertical-align: middle;
+    margin-bottom: 0.5rem;
 }
 
 /* 店舗ディレクトリのカード風レイアウト */
@@ -47,6 +48,7 @@ h2{
     color: #333;
     text-align: center;
     gap: 3px;
+    margin-bottom: 0.3rem;
 }
 
 .store-directory li a {
