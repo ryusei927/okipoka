@@ -15,6 +15,7 @@ const allStandard = adList.standard1.concat(
   adList.standard8
 );
 const blogAd = allStandard[Math.floor(Math.random() * allStandard.length)];
+const blogAd2 = allStandard[Math.floor(Math.random() * allStandard.length)];
 ---
 
 <html lang="ja">
@@ -28,7 +29,7 @@ const blogAd = allStandard[Math.floor(Math.random() * allStandard.length)];
         <title>ブログ | OKIPOKA</title>
     </head>
 
-    <body>
+        <body>
         <Header />
         <InterstitialAd />
 
@@ -41,6 +42,7 @@ const blogAd = allStandard[Math.floor(Math.random() * allStandard.length)];
             />
           </a>
         </div>
+
 
         <section
             class="blog-search-bar"
@@ -70,6 +72,17 @@ const blogAd = allStandard[Math.floor(Math.random() * allStandard.length)];
                 </section>
             </div>
             <div class="pagination"></div>
+            
+                                    <div class="standard-ad-wrapper" style="text-align: center; margin: 1.5rem 0;">
+          <a href={blogAd2.link} target="_blank" rel="noopener noreferrer">
+            <img
+              src={blogAd2.image}
+              alt="スポンサー広告"
+              style="max-width: 650px; width: 100%; height: auto;"
+            />
+          </a>
+        </div>
+        
         </main>
 
         <Footer />
