@@ -1,0 +1,75 @@
+---
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import InterstitialAd from "../../components/InterstitialAd.astro";
+import AdSection1 from "../../components/AdSection1.astro";
+import AdSection2 from "../../components/AdSection2.astro";
+import AdSection3 from "../../components/AdSection3.astro";
+import AdSection4 from "../../components/AdSection4.astro";
+import AdSection5 from "../../components/AdSection5.astro";
+import AdSection6 from "../../components/AdSection6.astro";
+import AdSection7 from "../../components/AdSection7.astro";
+import AdSection8 from "../../components/AdSection8.astro";
+
+import "../../styles/stores.css";
+---
+
+<!doctype html>
+<html lang="ja"></html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap"
+        rel="stylesheet"
+    />
+    <title>OKIPOKA|Donk</title>
+</head>
+
+<Header />
+<InterstitialAd  />
+
+
+<section class="store-detail" style="max-width: 720px; margin: 0 auto;">
+  <div class="store-header center-align">
+    <h2>Donk</h2><br>
+    <img src="/images/backdoor.jpg" class="store-image" />
+  </div>
+
+    <div class="store-note">
+    <p>※このページの詳細情報は後ほど追加されます。お楽しみに！</p>
+  </div>
+
+  <div class="store-intro">
+    <p>
+
+    </p>
+  </div>
+
+
+  <div class="store-section">
+    <h2>店舗情報</h2>
+    <dl>
+      <dt>店舗名</dt>
+      <dd>BACKDOOR NAHA</dd>
+      <dt>所在地</dt>
+      <dd>〒900-0015 沖縄県那覇市久茂地３丁目３−２０ Mビル国際通り 7階</dd>
+      <dt>営業時間</dt>
+      <dd>19:00〜</dd>
+    </dl>
+  </div>
+
+  <div class="store-links">
+    <h2>関連リンク</h2>
+    <ul>
+      <li><a href="https://www.instagram.com/naha_backdoor?utm_source=ig_web_button_share_sheet&igsh=MWN0aHRzMjB1bDR2aw==" target="_blank" rel="noopener">公式Instagram</a></li>
+      <li><a href="https://naha.backdoor.casino/" target="_blank" rel="noopener">公式ホームページ</a></li>
+      <li><a href="https://maps.app.goo.gl/RjRjLq7FYm6bodyN9" target="_blank" rel="noopener">Googleマップで見る</a></li>
+    </ul>
+  </div>
+
+</section>
+
+
+<Footer />
+<script src="/js/header.js" type="module"></script>
