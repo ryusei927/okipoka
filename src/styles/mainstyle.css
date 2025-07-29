@@ -142,8 +142,8 @@ h2{
 /* 完璧すぎる バージョン: スマホ表示時の .video-hero の高さをさらに短く28vhに調整 */
 @media (max-width: 768px) {
   .video-hero {
-    height: 28vh;
-    min-height: 28vh;
+    height: 45vh;
+    min-height: 45vh;
   }
 
   .video-background {
