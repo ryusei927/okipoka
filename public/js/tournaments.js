@@ -18,12 +18,11 @@ const db = getFirestore(app);
 const list = document.getElementById("tournament-list");
 const dateInput = document.getElementById("datePicker");
 
-// 日付取得関数（JST対応）
+// 日付取得関数（ローカルタイム）
 function getFormattedDate(dateObj) {
-  const jst = new Date(dateObj.getTime() + 9 * 60 * 60 * 1000);
-  const yyyy = jst.getFullYear();
-  const mm = String(jst.getMonth() + 1).padStart(2, "0");
-  const dd = String(jst.getDate()).padStart(2, "0");
+  const yyyy = dateObj.getFullYear();
+  const mm = String(dateObj.getMonth() + 1).padStart(2, "0");
+  const dd = String(dateObj.getDate()).padStart(2, "0");
   return `${yyyy}-${mm}-${dd}`;
 }
 
