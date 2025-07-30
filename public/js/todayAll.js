@@ -15,11 +15,10 @@ const db = getFirestore(app);
 
 const list = document.getElementById("today-all-card");
 
-const now = new Date();
-const jst = new Date(now.getTime() + 9 * 60 * 60 * 1000);
-const yyyy = jst.getFullYear();
-const mm = String(jst.getMonth() + 1).padStart(2, "0");
-const dd = String(jst.getDate()).padStart(2, "0");
+const now = new Date(); // assume local JST environment
+const yyyy = now.getFullYear();
+const mm = String(now.getMonth() + 1).padStart(2, "0");
+const dd = String(now.getDate()).padStart(2, "0");
 const today = `${yyyy}-${mm}-${dd}`;
 
 const q = query(
