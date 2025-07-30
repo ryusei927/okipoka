@@ -8,13 +8,31 @@ import "../../../styles/blog.css";
 <!doctype html>
 <html lang="ja">
     <head>
+        <!-- Google tag (gtag.js) -->
+        <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-N4PCMT7BZB"
+        ></script>
+        <script>
+            // @ts-ignore
+            window.dataLayer = window.dataLayer || [];
+            // @ts-ignore
+            function gtag() {
+                // @ts-ignore
+                dataLayer.push(arguments);
+            }
+            // @ts-ignore
+            gtag("js", new Date());
+            // @ts-ignore
+            gtag("config", "G-N4PCMT7BZB");
+        </script>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>ポットオッズの基本</title>
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     </head>
-<Header />
-       <body class="blog-font">
+    <Header />
+    <body class="blog-font">
         <InterstitialAd />
         <style>
             table {
@@ -56,15 +74,9 @@ import "../../../styles/blog.css";
                 line-height: 1.8;
                 margin: 1rem 0;
             }
-
-
-
-
         </style>
         <main>
-            <p class="author">
-                著者：Ryusei Hayashi
-            </p>
+            <p class="author">著者：Ryusei Hayashi</p>
 
             <div class="blog-tags">
                 <span>#戦略</span>
@@ -173,11 +185,10 @@ import "../../../styles/blog.css";
                 そんなふうに、なんとなくのプレイから卒業して、論理的に考える力をつけることで、
                 あなたのポーカーは着実に強くなります。
             </p>
-
-        
         </main>
 
         <Footer />
         <script src="/js/header.js" type="module"></script>
     </body>
+
 </html>

@@ -4,6 +4,26 @@ import Footer from "../components/Footer.astro"
 ---
 <!DOCTYPE html>
   <head>
+
+            <!-- Google tag (gtag.js) -->
+        <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-N4PCMT7BZB"
+        ></script>
+        <script>
+            // @ts-ignore
+            window.dataLayer = window.dataLayer || [];
+            // @ts-ignore
+            function gtag() {
+            // @ts-ignore
+                dataLayer.push(arguments);
+            }
+            // @ts-ignore
+            gtag("js", new Date());
+            // @ts-ignore
+            gtag("config", "G-N4PCMT7BZB");
+        </script>
+        
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>免責事項｜OKIPOKA</title>

@@ -1,113 +1,132 @@
 ---
-import Header from "../../components/Header.astro"
-import Footer from "../../components/Footer.astro"
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
 import "../../styles/tournaments.css";
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
-
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>自分の投稿一覧 | OKIPOKA</title>
-    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-    <link rel="stylesheet" href="../css/mainstyle.css" />
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 2em;
-        }
-
-        th,
-        td {
-            border: 1px solid #ddd;
-            padding: 0.5em;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        .delete-btn {
-            background-color: crimson;
-            color: white;
-            border: none;
-            padding: 0.4em 0.8em;
-            cursor: pointer;
-        }
-    </style>
-</head>
-
-<body>
-
-<Header  />
-
-    <main>
-        <table>
-            <thead>
-                <tr>
-                    <th>タイトル</th>
-                    <th>開始</th>
-                    <th>Buy-in</th>
-                    <th>スタック</th>
-                    <th>備考</th>
-                    <th>削除</th>
-                </tr>
-            </thead>
-            <tbody id="my-posts-body"></tbody>
-        </table>
-    </main>
-
-     <script src="/js/header.js" type="module"></script>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import {
-            getFirestore,
-            collection,
-            query,
-            where,
-            onSnapshot,
-            deleteDoc,
-            doc as firestoreDoc
-        } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-        import {
-            getAuth,
-            onAuthStateChanged
-        } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyBhItIbOxR6rXdClsDidrcB1iB1714paAs",
-            authDomain: "okipoka-68419.firebaseapp.com",
-            projectId: "okipoka-68419",
-            storageBucket: "okipoka-68419.firebasestorage.app",
-            messagingSenderId: "749122576664",
-            appId: "1:749122576664:web:20b93253162b185d993e6d"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
-
-        onAuthStateChanged(auth, (user) => {
-            if (!user) {
-                alert("ログインが必要です");
-                window.location.href = "login.html";
-                return;
+    <head>
+        <!-- Google tag (gtag.js) -->
+        <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-N4PCMT7BZB"
+        ></script>
+        <script>
+            // @ts-ignore
+            window.dataLayer = window.dataLayer || [];
+            // @ts-ignore
+            function gtag() {
+                // @ts-ignore
+                dataLayer.push(arguments);
+            }
+            // @ts-ignore
+            gtag("js", new Date());
+            // @ts-ignore
+            gtag("config", "G-N4PCMT7BZB");
+        </script>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>自分の投稿一覧 | OKIPOKA</title>
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="stylesheet" href="../css/mainstyle.css" />
+        <style>
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 2em;
             }
 
-            const postsBody = document.getElementById("my-posts-body");
-            const q = query(collection(db, "tournaments"), where("postedBy", "==", user.email));
+            th,
+            td {
+                border: 1px solid #ddd;
+                padding: 0.5em;
+                text-align: left;
+            }
 
-            onSnapshot(q, (snapshot) => {
-                postsBody.innerHTML = "";
-                snapshot.forEach(doc => {
-                    const data = doc.data();
-                    const row = document.createElement("tr");
-                    row.innerHTML = `
+            th {
+                background-color: #f2f2f2;
+            }
+
+            .delete-btn {
+                background-color: crimson;
+                color: white;
+                border: none;
+                padding: 0.4em 0.8em;
+                cursor: pointer;
+            }
+        </style>
+    </head>
+
+    <body>
+        <Header />
+
+        <main>
+            <table>
+                <thead>
+                    <tr>
+                        <th>タイトル</th>
+                        <th>開始</th>
+                        <th>Buy-in</th>
+                        <th>スタック</th>
+                        <th>備考</th>
+                        <th>削除</th>
+                    </tr>
+                </thead>
+                <tbody id="my-posts-body"></tbody>
+            </table>
+        </main>
+
+        <script src="/js/header.js" type="module"></script>
+
+        <script type="module">
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+            import {
+                getFirestore,
+                collection,
+                query,
+                where,
+                onSnapshot,
+                deleteDoc,
+                doc as firestoreDoc,
+            } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+            import {
+                getAuth,
+                onAuthStateChanged,
+            } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+            const firebaseConfig = {
+                apiKey: "AIzaSyBhItIbOxR6rXdClsDidrcB1iB1714paAs",
+                authDomain: "okipoka-68419.firebaseapp.com",
+                projectId: "okipoka-68419",
+                storageBucket: "okipoka-68419.firebasestorage.app",
+                messagingSenderId: "749122576664",
+                appId: "1:749122576664:web:20b93253162b185d993e6d",
+            };
+
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);
+            const auth = getAuth(app);
+
+            onAuthStateChanged(auth, (user) => {
+                if (!user) {
+                    alert("ログインが必要です");
+                    window.location.href = "login.html";
+                    return;
+                }
+
+                const postsBody = document.getElementById("my-posts-body");
+                const q = query(
+                    collection(db, "tournaments"),
+                    where("postedBy", "==", user.email),
+                );
+
+                onSnapshot(q, (snapshot) => {
+                    postsBody.innerHTML = "";
+                    snapshot.forEach((doc) => {
+                        const data = doc.data();
+                        const row = document.createElement("tr");
+                        row.innerHTML = `
             <td>${data.eventName || "未定"}</td>
             <td>${data.startTime || ""}</td>
             <td>${data.buyIn || ""}</td>
@@ -115,23 +134,21 @@ import "../../styles/tournaments.css";
             <td>${data.note || ""}</td>
             <td><button class="delete-btn" data-id="${doc.id}">削除</button></td>
           `;
-                    postsBody.appendChild(row);
+                        postsBody.appendChild(row);
+                    });
+                });
+
+                document.addEventListener("click", async (e) => {
+                    if (e.target.classList.contains("delete-btn")) {
+                        const id = e.target.getAttribute("data-id");
+                        if (confirm("本当に削除しますか？")) {
+                            await deleteDoc(
+                                firestoreDoc(db, "tournaments", id),
+                            );
+                        }
+                    }
                 });
             });
-
-            document.addEventListener("click", async (e) => {
-                if (e.target.classList.contains("delete-btn")) {
-                    const id = e.target.getAttribute("data-id");
-                    if (confirm("本当に削除しますか？")) {
-                        await deleteDoc(firestoreDoc(db, "tournaments", id));
-                    }
-                }
-            });
-        });
-    </script>
-
-
-
-</body>
-
+        </script>
+    </body>
 </html>

@@ -23,6 +23,24 @@ import "../../styles/tournaments.css";
 <!doctype html>
 <html lang="ja">
     <head>
+        <!-- Google tag (gtag.js) -->
+        <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-N4PCMT7BZB"
+        ></script>
+        <script>
+            // @ts-ignore
+            window.dataLayer = window.dataLayer || [];
+            // @ts-ignore
+            function gtag() {
+                // @ts-ignore
+                dataLayer.push(arguments);
+            }
+            // @ts-ignore
+            gtag("js", new Date());
+            // @ts-ignore
+            gtag("config", "G-N4PCMT7BZB");
+        </script>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta
@@ -38,7 +56,6 @@ import "../../styles/tournaments.css";
         <InterstitialAd />
 
         <main>
-
             <div
                 class="standard-ad-wrapper"
                 style="text-align: center; margin: 1.5rem 0;"
@@ -81,8 +98,8 @@ import "../../styles/tournaments.css";
 
                 <div id="tournament-list"></div>
             </section>
-            
-             <div
+
+            <div
                 class="standard-ad-wrapper"
                 style="text-align: center; margin: 1.5rem 0;"
             >
@@ -98,7 +115,6 @@ import "../../styles/tournaments.css";
                     />
                 </a>
             </div>
-
         </main>
 
         <Footer />

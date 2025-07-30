@@ -1,127 +1,148 @@
 ---
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
 import "../styles/mainstyle.css";
 import "../styles/sponsor.css";
 ---
+
 <html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OKIPOKAスポンサー</title>
-  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-</head>
-<body>
-<Header />
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-N4PCMT7BZB"
+    ></script>
+    <script>
+      // @ts-ignore
+      window.dataLayer = window.dataLayer || [];
+      // @ts-ignore
+      function gtag() {
+        // @ts-ignore
+        dataLayer.push(arguments);
+      }
+      // @ts-ignore
+      gtag("js", new Date());
+      // @ts-ignore
+      gtag("config", "G-N4PCMT7BZB");
+    </script>
 
-  <main class="sponsor-page">
-    <h1 style="font-size: 2rem; margin-bottom: 0.5rem;">スポンサー一覧</h1>
-    <p style="font-size: 1rem; color: #555;">以下のスポンサー様は、OKIPOKAの理念にご賛同いただき、広告・掲載にご協力いただいています。</p>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OKIPOKAスポンサー</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  </head>
+  <body>
+    <Header />
 
-    <div class="sponsor-store-grid">
-      <a href="stores/sponsor1.html" class="sponsor-card">
-        <img src="images/sample.png" alt="Sponsor 1">
-      </a>
-      <a href="stores/sponsor2.html" class="sponsor-card">
-        <img src="images/sample.png" alt="Sponsor 2">
-      </a>
-      <a href="stores/sponsor3.html" class="sponsor-card">
-        <img src="images/sample.png" alt="Sponsor 3">
-      </a>
-      <a href="stores/sponsor4.html" class="sponsor-card">
-        <img src="images/sample.png" alt="Sponsor 4">
-      </a>
-      <a href="stores/sponsor5.html" class="sponsor-card">
-        <img src="images/sample.png" alt="Sponsor 5">
-      </a>
-      <a href="stores/sponsor6.html" class="sponsor-card">
-        <img src="images/sample.png" alt="Sponsor 6">
-      </a>
-      <a href="stores/sponsor7.html" class="sponsor-card">
-        <img src="images/sample.png" alt="Sponsor 7">
-      </a>
-      <a href="stores/sponsor8.html" class="sponsor-card">
-        <img src="images/sample.png" alt="Sponsor 8">
-      </a>
-      <a href="stores/sponsor9.html" class="sponsor-card">
-        <img src="images/sample.png" alt="Sponsor 9">
-      </a>
-      <a href="stores/sponsor10.html" class="sponsor-card">
-        <img src="images/sample.png" alt="Sponsor 10">
-      </a>
-      <a href="stores/sponsor11.html" class="sponsor-card">
-        <img src="images/sample.png" alt="Sponsor 11">
-      </a>
-      <a href="stores/sponsor12.html" class="sponsor-card">
-        <img src="images/sample.png" alt="Sponsor 12">
-      </a>
-      <a href="stores/sponsor13.html" class="sponsor-card">
-        <img src="images/sample.png" alt="Sponsor 13">
-      </a>
-      <a href="stores/sponsor14.html" class="sponsor-card">
-        <img src="images/sample.png" alt="Sponsor 14">
-      </a>
-      <a href="stores/sponsor15.html" class="sponsor-card">
-        <img src="images/sample.png" alt="Sponsor 15">
-      </a>
-      <a href="stores/sponsor16.html" class="sponsor-card">
-        <img src="images/sample.png" alt="Sponsor 16">
-      </a>
-      <a href="stores/sponsor17.html" class="sponsor-card">
-        <img src="images/sample.png" alt="Sponsor 17">
-      </a>
-      <a href="stores/sponsor18.html" class="sponsor-card">
-        <img src="images/sample.png" alt="Sponsor 18">
-      </a>
-      <a href="stores/sponsor19.html" class="sponsor-card">
-        <img src="images/sample.png" alt="Sponsor 19">
-      </a>
-      <a href="stores/sponsor20.html" class="sponsor-card">
-        <img src="images/sample.png" alt="Sponsor 20">
-      </a>
-      <a href="stores/sponsor21.html" class="sponsor-card">
-        <img src="images/sample.png" alt="Sponsor 21">
-      </a>
-      <a href="stores/sponsor22.html" class="sponsor-card">
-        <img src="images/sample.png" alt="Sponsor 22">
-      </a>
-      <a href="stores/sponsor23.html" class="sponsor-card">
-        <img src="images/sample.png" alt="Sponsor 23">
-      </a>
-      <a href="stores/sponsor24.html" class="sponsor-card">
-        <img src="images/sample.png" alt="Sponsor 24">
-      </a>
-      <a href="stores/sponsor25.html" class="sponsor-card">
-        <img src="images/sample.png" alt="Sponsor 25">
-      </a>
-      <a href="stores/sponsor26.html" class="sponsor-card">
-        <img src="images/sample.png" alt="Sponsor 26">
-      </a>
-      <a href="stores/sponsor27.html" class="sponsor-card">
-        <img src="images/sample.png" alt="Sponsor 27">
-      </a>
-      <a href="stores/sponsor28.html" class="sponsor-card">
-        <img src="images/sample.png" alt="Sponsor 28">
-      </a>
-      <a href="stores/sponsor29.html" class="sponsor-card">
-        <img src="images/sample.png" alt="Sponsor 29">
-      </a>
-      <a href="stores/sponsor30.html" class="sponsor-card">
-        <img src="images/sample.png" alt="Sponsor 30">
-      </a>
-      <a href="stores/bluechip.html" class="sponsor-card">
-        <img src="images/sample.png" alt="BLUE CHIP">
-      </a>
-      <!-- 他のスポンサー様をここに追加 -->
-    </div>
+    <main class="sponsor-page">
+      <h1 style="font-size: 2rem; margin-bottom: 0.5rem;">スポンサー一覧</h1>
+      <p style="font-size: 1rem; color: #555;">
+        以下のスポンサー様は、OKIPOKAの理念にご賛同いただき、広告・掲載にご協力いただいています。
+      </p>
 
-    <p style="text-align:center; margin-top:2rem; font-size: 0.9rem;">
-      スポンサーをご希望の方は <br><a href="mailto:okipoka.jp@gmail.com">okipoka.jp@gmail.com</a> までご連絡ください。
-    </p>
-  </main>
+      <div class="sponsor-store-grid">
+        <a href="stores/sponsor1.html" class="sponsor-card">
+          <img src="images/sample.png" alt="Sponsor 1" />
+        </a>
+        <a href="stores/sponsor2.html" class="sponsor-card">
+          <img src="images/sample.png" alt="Sponsor 2" />
+        </a>
+        <a href="stores/sponsor3.html" class="sponsor-card">
+          <img src="images/sample.png" alt="Sponsor 3" />
+        </a>
+        <a href="stores/sponsor4.html" class="sponsor-card">
+          <img src="images/sample.png" alt="Sponsor 4" />
+        </a>
+        <a href="stores/sponsor5.html" class="sponsor-card">
+          <img src="images/sample.png" alt="Sponsor 5" />
+        </a>
+        <a href="stores/sponsor6.html" class="sponsor-card">
+          <img src="images/sample.png" alt="Sponsor 6" />
+        </a>
+        <a href="stores/sponsor7.html" class="sponsor-card">
+          <img src="images/sample.png" alt="Sponsor 7" />
+        </a>
+        <a href="stores/sponsor8.html" class="sponsor-card">
+          <img src="images/sample.png" alt="Sponsor 8" />
+        </a>
+        <a href="stores/sponsor9.html" class="sponsor-card">
+          <img src="images/sample.png" alt="Sponsor 9" />
+        </a>
+        <a href="stores/sponsor10.html" class="sponsor-card">
+          <img src="images/sample.png" alt="Sponsor 10" />
+        </a>
+        <a href="stores/sponsor11.html" class="sponsor-card">
+          <img src="images/sample.png" alt="Sponsor 11" />
+        </a>
+        <a href="stores/sponsor12.html" class="sponsor-card">
+          <img src="images/sample.png" alt="Sponsor 12" />
+        </a>
+        <a href="stores/sponsor13.html" class="sponsor-card">
+          <img src="images/sample.png" alt="Sponsor 13" />
+        </a>
+        <a href="stores/sponsor14.html" class="sponsor-card">
+          <img src="images/sample.png" alt="Sponsor 14" />
+        </a>
+        <a href="stores/sponsor15.html" class="sponsor-card">
+          <img src="images/sample.png" alt="Sponsor 15" />
+        </a>
+        <a href="stores/sponsor16.html" class="sponsor-card">
+          <img src="images/sample.png" alt="Sponsor 16" />
+        </a>
+        <a href="stores/sponsor17.html" class="sponsor-card">
+          <img src="images/sample.png" alt="Sponsor 17" />
+        </a>
+        <a href="stores/sponsor18.html" class="sponsor-card">
+          <img src="images/sample.png" alt="Sponsor 18" />
+        </a>
+        <a href="stores/sponsor19.html" class="sponsor-card">
+          <img src="images/sample.png" alt="Sponsor 19" />
+        </a>
+        <a href="stores/sponsor20.html" class="sponsor-card">
+          <img src="images/sample.png" alt="Sponsor 20" />
+        </a>
+        <a href="stores/sponsor21.html" class="sponsor-card">
+          <img src="images/sample.png" alt="Sponsor 21" />
+        </a>
+        <a href="stores/sponsor22.html" class="sponsor-card">
+          <img src="images/sample.png" alt="Sponsor 22" />
+        </a>
+        <a href="stores/sponsor23.html" class="sponsor-card">
+          <img src="images/sample.png" alt="Sponsor 23" />
+        </a>
+        <a href="stores/sponsor24.html" class="sponsor-card">
+          <img src="images/sample.png" alt="Sponsor 24" />
+        </a>
+        <a href="stores/sponsor25.html" class="sponsor-card">
+          <img src="images/sample.png" alt="Sponsor 25" />
+        </a>
+        <a href="stores/sponsor26.html" class="sponsor-card">
+          <img src="images/sample.png" alt="Sponsor 26" />
+        </a>
+        <a href="stores/sponsor27.html" class="sponsor-card">
+          <img src="images/sample.png" alt="Sponsor 27" />
+        </a>
+        <a href="stores/sponsor28.html" class="sponsor-card">
+          <img src="images/sample.png" alt="Sponsor 28" />
+        </a>
+        <a href="stores/sponsor29.html" class="sponsor-card">
+          <img src="images/sample.png" alt="Sponsor 29" />
+        </a>
+        <a href="stores/sponsor30.html" class="sponsor-card">
+          <img src="images/sample.png" alt="Sponsor 30" />
+        </a>
+        <a href="stores/bluechip.html" class="sponsor-card">
+          <img src="images/sample.png" alt="BLUE CHIP" />
+        </a>
+        <!-- 他のスポンサー様をここに追加 -->
+      </div>
 
-<Footer />
-<script src="/js/header.js" type="module"></script>
+      <p style="text-align:center; margin-top:2rem; font-size: 0.9rem;">
+        スポンサーをご希望の方は <br /><a href="mailto:okipoka.jp@gmail.com"
+          >okipoka.jp@gmail.com</a
+        > までご連絡ください。
+      </p>
+    </main>
 
-</body>
+    <Footer />
+    <script src="/js/header.js" type="module"></script>
+  </body>
 </html>

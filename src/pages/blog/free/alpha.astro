@@ -7,136 +7,147 @@ import "../../../styles/blog.css";
 
 <!doctype html>
 <html lang="ja">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>アルファ（α）</title>
-        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-    </head>
-<Header />
-       <body class="blog-font">
-        <InterstitialAd />
-        <style>
-            table {
-                border-collapse: collapse;
-                width: 100%;
-                margin: 1.5rem 0;
-            }
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-N4PCMT7BZB"
+    ></script>
+    <script>
+      // @ts-ignore
+      window.dataLayer = window.dataLayer || [];
+      // @ts-ignore
+      function gtag() {
+        // @ts-ignore
+        dataLayer.push(arguments);
+      }
+      // @ts-ignore
+      gtag("js", new Date());
+      // @ts-ignore
+      gtag("config", "G-N4PCMT7BZB");
+    </script>
 
-            th,
-            td {
-                border: 1px solid #ccc;
-                padding: 0.6rem;
-                text-align: center;
-            }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>アルファ（α）</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  </head>
+  <Header />
+  <body class="blog-font">
+    <InterstitialAd />
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 1.5rem 0;
+      }
 
-            th {
-                background-color: #f4f4f4;
-                font-weight: bold;
-            }
+      th,
+      td {
+        border: 1px solid #ccc;
+        padding: 0.6rem;
+        text-align: center;
+      }
 
-            ul {
-                margin: 1rem 0;
-                padding-left: 1.5rem;
-            }
+      th {
+        background-color: #f4f4f4;
+        font-weight: bold;
+      }
 
-            li {
-                margin-bottom: 0.4rem;
-            }
+      ul {
+        margin: 1rem 0;
+        padding-left: 1.5rem;
+      }
 
-            h3 {
-                margin-top: 2rem;
-                font-size: 1.25rem;
-                border-left: 4px solid #ffa94d;
-                padding-left: 0.6rem;
-                color: #444;
-            }
+      li {
+        margin-bottom: 0.4rem;
+      }
 
-            p {
-                line-height: 1.8;
-                margin: 1rem 0;
-            }
+      h3 {
+        margin-top: 2rem;
+        font-size: 1.25rem;
+        border-left: 4px solid #ffa94d;
+        padding-left: 0.6rem;
+        color: #444;
+      }
+
+      p {
+        line-height: 1.8;
+        margin: 1rem 0;
+      }
+    </style>
+    <main>
+      <p class="author">著者：Ryusei Hayashi</p>
+
+      <div class="blog-tags">
+        <span>#戦略</span>
+        <span>#数学</span>
+        <span>#初心者</span>
+      </div>
+      <h2 class="blog-title">アルファ（α）</h2>
+
+      <p>
+        ポーカーの戦略理論において「アルファ（α）」とは、特定のベットサイズにおけるブラフとバリューベットの境界線を意味します。簡単に言うと、「この手はバリューとしてベットすべき？それともブラフにする？それとも諦める？」という判断を、感覚ではなく数字で整理するための考え方です。
+      </p>
+
+      <p>
+        例えば、あなたがリバーでベットを検討しているとします。強いハンド（バリュー）が20%、ブラフに使いたいハンドが30%あるとして、相手のベットに対してGTO的に許容されるブラフ率が40%だった場合、ブラフにできるのは全体のうちのある一定ラインまでです。その「ライン」を決める役割を担うのがアルファです。
+      </p>
+
+      <h3>アルファが意味するもの</h3>
+      <p>
+        アルファとは、「最も強いブラフ」のことです。言い換えれば、「ギリギリでショーダウンには回せないが、ブラフとしてなら機能する可能性のあるハンド」です。このアルファを境に、それよりも強いハンドはチェック、または諦め、それより弱いハンドをブラフに回す、といった戦略的な整理が可能になります。
+      </p>
+
+      <h3>攻めの基準としてのアルファ</h3>
+      <p>
+        MDF（最小防御頻度）がディフェンス＝“守り”の理論であるのに対し、アルファは“攻め”の理論です。ベットサイズに応じて適切なブラフ率を保ち、過剰なブラフやバリューの偏りを防ぐことで、相手に読みづらいレンジを構築できます。ブラフの頻度を最適化するための設計図とも言えるこの概念は、GTOを理解する上で欠かせない要素の一つです。
+      </p>
+
+      <h3>ベットサイズと許容されるブラフ率の目安</h3>
+      <p>
+        アルファの考え方を理解するには、まずベットサイズごとに許されるブラフ比率（バリューベットに対するブラフの割合）を知ることが重要です。以下の表は、代表的なベットサイズに対するGTO理論上のブラフ比率の目安です。
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>ベットサイズ（ポット比）</th>
+            <th>必要勝率</th>
+            <th>許容されるブラフ比率</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>1/4ポット</td>
+            <td>20%</td>
+            <td>25%</td>
+          </tr>
+          <tr>
+            <td>1/2ポット</td>
+            <td>25%</td>
+            <td>50%</td>
+          </tr>
+          <tr>
+            <td>ポット</td>
+            <td>33%</td>
+            <td>100%</td>
+          </tr>
+          <tr>
+            <td>2倍ポット</td>
+            <td>40%</td>
+            <td>200%</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        例えば、1/2ポットのベットをする場合、理論上はバリューベット1つに対してブラフを1つ入れてもGTO的には成立します。アルファの概念では、「ショーダウンにはやや届かないが、ブラフとして最適な強さのハンド」を選んでいくことで、このバランスが実現されます。
+      </p>
+    </main>
+
+    <Footer />
+    <script src="/js/header.js" type="module"></script>
+  </body>
 
 
-
-
-        </style>
-        <main>
-            <p class="author">
-                著者：Ryusei Hayashi
-            </p>
-
-            <div class="blog-tags">
-                <span>#戦略</span>
-                <span>#数学</span>
-                <span>#初心者</span>
-            </div>
-            <h2 class="blog-title">アルファ（α）</h2>
-
-            <p>
-              ポーカーの戦略理論において「アルファ（α）」とは、特定のベットサイズにおけるブラフとバリューベットの境界線を意味します。簡単に言うと、「この手はバリューとしてベットすべき？それともブラフにする？それとも諦める？」という判断を、感覚ではなく数字で整理するための考え方です。
-            </p>
-
-            <p>
-              例えば、あなたがリバーでベットを検討しているとします。強いハンド（バリュー）が20%、ブラフに使いたいハンドが30%あるとして、相手のベットに対してGTO的に許容されるブラフ率が40%だった場合、ブラフにできるのは全体のうちのある一定ラインまでです。その「ライン」を決める役割を担うのがアルファです。
-            </p>
-
-            <h3>アルファが意味するもの</h3>
-            <p>
-              アルファとは、「最も強いブラフ」のことです。言い換えれば、「ギリギリでショーダウンには回せないが、ブラフとしてなら機能する可能性のあるハンド」です。このアルファを境に、それよりも強いハンドはチェック、または諦め、それより弱いハンドをブラフに回す、といった戦略的な整理が可能になります。
-            </p>
-
-            <h3>攻めの基準としてのアルファ</h3>
-            <p>
-              MDF（最小防御頻度）がディフェンス＝“守り”の理論であるのに対し、アルファは“攻め”の理論です。ベットサイズに応じて適切なブラフ率を保ち、過剰なブラフやバリューの偏りを防ぐことで、相手に読みづらいレンジを構築できます。ブラフの頻度を最適化するための設計図とも言えるこの概念は、GTOを理解する上で欠かせない要素の一つです。
-            </p>
-
-            <h3>ベットサイズと許容されるブラフ率の目安</h3>
-            <p>
-              アルファの考え方を理解するには、まずベットサイズごとに許されるブラフ比率（バリューベットに対するブラフの割合）を知ることが重要です。以下の表は、代表的なベットサイズに対するGTO理論上のブラフ比率の目安です。
-            </p>
-
-            <table>
-
-              <thead>
-                <tr>
-                  <th>ベットサイズ（ポット比）</th>
-                  <th>必要勝率</th>
-                  <th>許容されるブラフ比率</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                <tr>
-                  <td>1/4ポット</td>
-                  <td>20%</td>
-                  <td>25%</td>
-                </tr>
-                <tr>
-                  <td>1/2ポット</td>
-                  <td>25%</td>
-                  <td>50%</td>
-                </tr>
-                <tr>
-                  <td>ポット</td>
-                  <td>33%</td>
-                  <td>100%</td>
-                </tr>
-                <tr>
-                  <td>2倍ポット</td>
-                  <td>40%</td>
-                  <td>200%</td>
-                </tr>
-              </tbody>
-            </table>
-
-            <p>
-              例えば、1/2ポットのベットをする場合、理論上はバリューベット1つに対してブラフを1つ入れてもGTO的には成立します。アルファの概念では、「ショーダウンにはやや届かないが、ブラフとして最適な強さのハンド」を選んでいくことで、このバランスが実現されます。
-            </p>
-        </main>
-
-        <Footer />
-        <script src="/js/header.js" type="module"></script>
-    </body>
-    
 </html>

@@ -1,20 +1,36 @@
 ---
-import Header from '../../../components/Header.astro';
-import Footer from '../../../components/Footer.astro';
+import Header from "../../../components/Header.astro";
+import Footer from "../../../components/Footer.astro";
 import InterstitialAd from "../../../components/InterstitialAd.astro";
 import "../../../styles/blog.css";
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
   <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-N4PCMT7BZB"
+    ></script>
+    <script>
+      // @ts-ignore
+      window.dataLayer = window.dataLayer || [];
+      // @ts-ignore
+      function gtag() {
+        // @ts-ignore
+        dataLayer.push(arguments);
+      }
+      // @ts-ignore
+      gtag("js", new Date());
+      // @ts-ignore
+      gtag("config", "G-N4PCMT7BZB");
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>テスト記事2</title>
   </head>
-  <Header  />
-  <InterstitialAd  />
-  
+  <Header />
+  <InterstitialAd />
+
   <body>
     <main>
       <article>
@@ -22,13 +38,19 @@ import "../../../styles/blog.css";
         <p>ここに本文を書きます。ここが無料です2</p>
         <p>テス2ト</p>
 
-        <script src="https://codoc.jp/js/cms.js" data-css="rainbow-square" data-usercode="2IdkeF1xQw" charset="UTF-8" defer></script>
- <div id="codoc-entry-9sEDxxQr1w" class="codoc-entries" >この続きはcodocで購読!</div>
-
+        <script
+          src="https://codoc.jp/js/cms.js"
+          data-css="rainbow-square"
+          data-usercode="2IdkeF1xQw"
+          charset="UTF-8"
+          defer></script>
+        <div id="codoc-entry-9sEDxxQr1w" class="codoc-entries">
+          この続きはcodocで購読!
+        </div>
+      </article>
     </main>
-  </body>
 
-        <Footer />
-        <script src="/js/header.js" type="module"></script>
-    </body>
+    <Footer />
+    <script src="/js/header.js" type="module"></script>
+  </body>
 </html>

@@ -6,6 +6,23 @@ import Footer from "../components/Footer.astro";
 <!doctype html>
 <html lang="ja"></html>
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-N4PCMT7BZB"
+    ></script>
+    <script>
+        // @ts-ignore
+        window.dataLayer = window.dataLayer || [];
+        // @ts-ignore
+        function gtag() {
+            // @ts-ignore
+            dataLayer.push(arguments);
+        }
+        // @ts-ignore
+        gtag("js", new Date());
+        // @ts-ignore
+        gtag("config", "G-N4PCMT7BZB");
+    </script>
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
@@ -103,7 +120,7 @@ import Footer from "../components/Footer.astro";
                     target="_blank"
                     rel="noopener">おきなわこども未来ランチサポート</a
                 >に寄付されます。
-            </li><br>
+            </li><br />
             <p>
                 なお、特に情報価値の高い内容やボリュームのある寄稿については、ご相談のうえ報酬を2,000円以上に増額させていただく場合があります（原則は1記事あたり2,000円です）
             </p>

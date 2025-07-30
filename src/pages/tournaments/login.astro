@@ -5,6 +5,22 @@ import "../../styles/header_footer.css";
 
 <html lang="ja">
   <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-N4PCMT7BZB"
+    ></script>
+    <script>
+      // @ts-ignore
+      window.dataLayer = window.dataLayer || [];
+      // @ts-ignore
+      function gtag() {
+        // @ts-ignore
+        dataLayer.push(arguments);
+      }
+      // @ts-ignore
+      gtag("js", new Date());
+      // @ts-ignore
+      gtag("config", "G-N4PCMT7BZB");
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>店舗ログイン | OKIPOKA</title>
@@ -17,10 +33,10 @@ import "../../styles/header_footer.css";
       <h1>店舗ログイン</h1>
       <form id="login-form">
         <label for="email">メールアドレス</label>
-        <input type="email" id="email" required /><br><br>
+        <input type="email" id="email" required /><br /><br />
 
         <label for="password">パスワード</label>
-        <input type="password" id="password" required /><br><br>
+        <input type="password" id="password" required /><br /><br />
 
         <button type="submit">ログイン</button>
         <p id="login-error" style="color: red; margin-top: 1rem;"></p>

@@ -20,16 +20,22 @@ import "../styles/mainstyle.css";
 <html lang="ja">
     <head>
         <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-N4PCMT7BZB"></script>
+        <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-N4PCMT7BZB"
+        ></script>
         <script>
             // @ts-ignore
-          window.dataLayer = window.dataLayer || [];
-          // @ts-ignore
-          function gtag(){dataLayer.push(arguments);}
-          // @ts-ignore
-          gtag('js', new Date());
-          // @ts-ignore
-          gtag('config', 'G-N4PCMT7BZB');
+            window.dataLayer = window.dataLayer || [];
+            // @ts-ignore
+            function gtag() {
+                // @ts-ignore
+                dataLayer.push(arguments);
+            }
+            // @ts-ignore
+            gtag("js", new Date());
+            // @ts-ignore
+            gtag("config", "G-N4PCMT7BZB");
         </script>
 
         <meta charset="UTF-8" />
