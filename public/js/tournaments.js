@@ -56,17 +56,17 @@ async function loadTournaments(dateStr) {
     card.classList.add("tournament-card");
     card.innerHTML = `
       <div class="tournament-card-body">
-        <p><strong>タイトル：</strong>${data.eventName || "タイトル未定"}</p>
+        <p><strong>Title：</strong>${data.eventName || "タイトル未定"}</p>
         <div class="row">
-          <p><strong>店舗：</strong>${data.storeName || data.postedBy || "不明な店舗"}</p>
-          <p><strong>開始時間：</strong>${data.startTime || "時間未定"}</p>
+          <p><strong>Venue：</strong>${data.storeName || data.postedBy || "不明な店舗"}</p>
+          <p><strong>Start：</strong>${data.startTime || "時間未定"}</p>
         </div>
         <div class="row">
           <p><strong>Buy-in：</strong>${data.buyIn || "未定"}</p>
           <p><strong>Add-on：</strong>${data.addon || "なし"}</p>
         </div>
-        <p><strong>スタック：</strong>${data.stack || "未定"}</p>
-        <p><strong>プライズ：</strong>${data.prize || ""}</p>
+        <p><strong>Stack：</strong>${data.stack || "未定"}</p>
+        <p><strong>Prize：</strong>${data.prize || ""}</p>
       </div>
     `;
     list.appendChild(card);
