@@ -75,7 +75,99 @@ import "../../styles/stores.css";
     </ul>
   </div>
 </section>
+<div style="text-align: center; margin-bottom: 1rem;">
+  <input type="date" id="datePicker" />
+</div>
 
+<ul id="Re:Raise-tournaments"></ul>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBhItIbOxR6rXdClsDidrcB1iB1714paAs",
+    authDomain: "okipoka-68419.firebaseapp.com",
+    projectId: "okipoka-68419",
+    storageBucket: "okipoka-68419.appspot.com",
+    messagingSenderId: "749122576664",
+    appId: "1:749122576664:web:20b93253162b185d993e6d"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const list = document.getElementById("rebarta-tournaments");
+  const dateInput = document.getElementById("datePicker");
+
+  // 日付取得（ローカルタイム使用）
+  function getFormattedDate(dateObj) {
+    const yyyy = dateObj.getFullYear();
+    const mm = String(dateObj.getMonth() + 1).padStart(2, "0");
+    const dd = String(dateObj.getDate()).padStart(2, "0");
+    return `${yyyy}-${mm}-${dd}`;
+  }
+
+  const today = new Date();
+  const todayStr = getFormattedDate(today);
+  dateInput.value = todayStr;
+
+  dateInput.addEventListener("change", () => {
+    loadTournaments(dateInput.value);
+  });
+
+  loadTournaments(todayStr);
+
+  async function loadTournaments(dateStr) {
+    list.innerHTML = "";
+
+    const q = query(
+      collection(db, "tournaments"),
+      where("storeName", "==", "Re:Raise"),
+      where("startDate", "==", dateStr)
+    );
+    const snapshot = await getDocs(q);
+
+    if (snapshot.empty) {
+      list.innerHTML = "<p style='text-align: center; color: #666;'>該当日のトーナメントはありません。</p>";
+      return;
+    }
+
+    snapshot.forEach((doc) => {
+      const data = doc.data();
+
+      const card = document.createElement("div");
+      card.className = "tournament-card";
+
+      const body = document.createElement("div");
+      body.className = "tournament-card-body";
+
+      const row1 = document.createElement("div");
+      row1.className = "row";
+      row1.style.display = "flex";
+      row1.style.justifyContent = "space-between";
+      row1.innerHTML = `
+        <p><strong>Title:</strong> ${data.eventName}</p>
+        <p><strong>Start:</strong> ${data.startTime}</p>
+      `;
+
+      const row2 = document.createElement("div");
+      row2.className = "row";
+      row2.innerHTML = `
+        <p><strong>Buy-in:</strong> ${data.buyIn}</p>
+        <p><strong>Stack:</strong> ${data.stack}</p>
+        <p><strong>Add-on:</strong> ${data.addon}</p>
+        <p><strong>Prize:</strong> ${data.prize}</p>
+      `;
+
+      body.appendChild(row1);
+      body.appendChild(row2);
+      card.appendChild(body);
+      list.appendChild(card);
+    });
+  }
+</script>
+</section>
 <Footer />
 <Analytics />
 <script src="/js/header.js" type="module"></script>
