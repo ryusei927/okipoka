@@ -37,6 +37,30 @@ import "../../styles/tournaments.css";
                 padding: 0.4em 0.8em;
                 cursor: pointer;
             }
+
+            tr {
+                border-bottom: 1px solid #ccc;
+            }
+
+            td {
+                font-size: 0.95rem;
+                padding: 0.75em 0.5em;
+            }
+
+            table {
+                background-color: #fff;
+                border-radius: 6px;
+                overflow: hidden;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            }
+
+            th {
+                font-size: 0.95rem;
+            }
+
+            main {
+                padding: 1.5em;
+            }
         </style>
     </head>
 
@@ -48,10 +72,8 @@ import "../../styles/tournaments.css";
                 <thead>
                     <tr>
                         <th>タイトル</th>
+                        <th>開催日</th>
                         <th>開始</th>
-                        <th>Buy-in</th>
-                        <th>スタック</th>
-                        <th>備考</th>
                         <th>削除</th>
                     </tr>
                 </thead>
@@ -110,10 +132,8 @@ import "../../styles/tournaments.css";
                         const row = document.createElement("tr");
                         row.innerHTML = `
             <td>${data.eventName || "未定"}</td>
+            <td>${data.startDate || ""}</td>
             <td>${data.startTime || ""}</td>
-            <td>${data.buyIn || ""}</td>
-            <td>${data.stack || ""}</td>
-            <td>${data.note || ""}</td>
             <td><button class="delete-btn" data-id="${doc.id}">削除</button></td>
           `;
                         postsBody.appendChild(row);
