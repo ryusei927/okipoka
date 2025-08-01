@@ -28,6 +28,17 @@ const { id } = Astro.params;
 const docRef = doc(db, "tournaments", id as string);
 const snap = await getDoc(docRef);
 const data = snap.exists() ? snap.data() : null;
+
+// FirestoreのusersコレクションからinstagramUrlを取得
+let instagramUrl = "";
+if (data?.postedBy) {
+  const userRef = doc(db, "users", data.postedBy);
+  const userSnap = await getDoc(userRef);
+  if (userSnap.exists()) {
+    const userData = userSnap.data();
+    instagramUrl = userData.instagramUrl || "";
+  }
+}
 ---
 
 <html lang="ja">
@@ -225,7 +236,11 @@ const data = snap.exists() ? snap.data() : null;
 
           <div class="tournament-item">
             <h2 class="section-label">基本情報</h2>
-            <p><strong>会場：</strong>{data.storeName || data.postedBy || "未登録"}</p>
+            <p><strong>会場：</strong>
+              {instagramUrl
+                ? <a href={instagramUrl} target="_blank" rel="noopener noreferrer">{data.storeName}</a>
+                : data.storeName || data.postedBy || "未登録"}
+            </p>
             <p><strong>日付：</strong>{data.startDate}</p>
             <p><strong>開始：</strong>{data.startTime}</p>
             <p><strong>締切：</strong>{data.lateReg || "未設定"}</p>
