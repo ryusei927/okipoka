@@ -67,6 +67,7 @@ async function loadTournaments(dateStr) {
         </div>
         <p><strong>Stack：</strong>${data.stack || "未定"}</p>
         <p><strong>Prize：</strong>${data.prize || ""}</p>
+        <p><strong>Late Reg：</strong>${data.lateReg || "未設定"}</p>
       </div>
     `;
     list.appendChild(card);

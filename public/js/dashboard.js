@@ -42,6 +42,9 @@ document.getElementById("tournament-form").addEventListener("submit", async func
   const prize = document.getElementById("prize").value || "未定";
   const stack = document.getElementById("stack").value;
   const note = document.getElementById("note").value;
+  const lateReg = document.getElementById("late-reg").value;
+  const structureUrl = document.getElementById("structureUrl").value;
+  const eventType = document.getElementById("eventType").value;
 
   if (!eventName || !start || selectedDates.length === 0) {
     alert("トーナメントタイトル、開催日、開始時間は必須です");
@@ -54,6 +57,20 @@ document.getElementById("tournament-form").addEventListener("submit", async func
 
     for (const rawDate of selectedDates) {
       const startDate = new Date(rawDate).toISOString().slice(0, 10);
+      console.log("Firestore送信データ", {
+        eventName,
+        storeName,
+        startTime: start,
+        startDate,
+        buyIn,
+        addon,
+        prize,
+        stack,
+        note,
+        lateReg,
+        structureUrl,
+        eventType
+      });
       await addDoc(collection(db, "tournaments"), {
         eventName,
         storeName,
@@ -64,6 +81,9 @@ document.getElementById("tournament-form").addEventListener("submit", async func
         prize,
         stack,
         note,
+        lateReg,
+        structureUrl,
+        eventType,
         postedBy: auth.currentUser ? auth.currentUser.email : "unknown",
         timestamp: serverTimestamp()
       });
