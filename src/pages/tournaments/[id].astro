@@ -1,4 +1,6 @@
 ---
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
 export const prerender = false;
 import { initializeApp } from "firebase/app";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
@@ -28,6 +30,7 @@ const data = snap.exists() ? snap.data() : null;
     <title>トーナメント詳細 | OKIPOKA</title>
   </head>
   <body>
+    <Header  />
     <h1>トーナメント詳細</h1>
 
     {data ? (
@@ -53,5 +56,7 @@ const data = snap.exists() ? snap.data() : null;
     ) : (
       <p>データが見つかりませんでした。</p>
     )}
+    <Footer  />
+    <script src="/js/header.js" type="module"></script>
   </body>
 </html>
