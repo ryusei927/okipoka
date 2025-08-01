@@ -1,0 +1,42 @@
+---
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<html lang="ja">
+  <meta charset="UTF-8" />
+  <head>
+    <title>VIPプラン加入 | OKIPOKA</title>
+  </head>
+  <body>
+    <Header  />
+    <main style="padding: 2rem; max-width: 600px; margin: auto;">
+
+      <h1>VIPプランに加入しよう</h1>
+      <p>月額2,480円で、以下の特典が受けられます：</p>
+      <ul>
+        <li>🏆 提携店舗でサービス</li>
+        <li>🃏 サブスク限定トーナメント参加権</li>
+        <li>📰 ブログの有料記事読み放題</li>
+      </ul>
+
+      <button id="subscribeBtn" style="margin-top: 1rem; padding: 0.75rem 1.5rem;">
+        サブスクに加入する
+      </button>
+
+      <script type="module">
+        const btn = document.getElementById("subscribeBtn");
+        btn.onclick = async () => {
+          const response = await fetch("/api/checkout", {
+            method: "POST",
+          });
+          const data = await response.json();
+          window.location.href = data.url;
+        };
+      </script>
+
+    </main>
+    <Footer  />
+    <script src="/js/header.js" type="module"></script>
+  </body>
+</html>
