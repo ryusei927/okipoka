@@ -54,6 +54,7 @@ async function loadTournaments(dateStr) {
     const data = doc.data();
     const card = document.createElement("div");
     card.classList.add("tournament-card");
+    card.style.color = "inherit";
     card.innerHTML = `
       <div class="tournament-card-body">
         <p><strong>Title：</strong>${data.eventName || "タイトル未定"}</p>
@@ -69,6 +70,11 @@ async function loadTournaments(dateStr) {
         <p><strong>Prize：</strong>${data.prize || ""}</p>
         <p><strong>Late Reg：</strong>${data.lateReg || "未設定"}</p>
       </div>
+      <p style="text-align: right;">
+        <a href="/tournaments/${doc.id}" class="details-button" style="padding: 0.4em 0.8em; background: #ff7f00; color: white; text-decoration: none; border-radius: 4px;">
+          詳細
+        </a>
+      </p>
     `;
     list.appendChild(card);
   });

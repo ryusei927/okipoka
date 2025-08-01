@@ -1,0 +1,57 @@
+---
+export const prerender = false;
+import { initializeApp } from "firebase/app";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBhItIbOxR6rXdClsDidrcB1iB1714paAs",
+  authDomain: "okipoka-68419.firebaseapp.com",
+  projectId: "okipoka-68419",
+  storageBucket: "okipoka-68419.appspot.com",
+  messagingSenderId: "749122576664",
+  appId: "1:749122576664:web:20b93253162b185d993e6d",
+  measurementId: "G-GN4PCM7BZB"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const { id } = Astro.params;
+const docRef = doc(db, "tournaments", id);
+const snap = await getDoc(docRef);
+const data = snap.exists() ? snap.data() : null;
+---
+
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>トーナメント詳細 | OKIPOKA</title>
+  </head>
+  <body>
+    <h1>トーナメント詳細</h1>
+
+    {data ? (
+      <div>
+        <p><strong>タイトル：</strong>{data.eventName}</p>
+        <p><strong>開催日：</strong>{data.startDate}</p>
+        <p><strong>開始時間：</strong>{data.startTime}</p>
+        <p><strong>レイトレジスト：</strong>{data.lateReg || "未設定"}</p>
+        <p><strong>イベント種類：</strong>{data.eventType || "不明"}</p>
+        <p><strong>参加費：</strong>{data.buyIn}</p>
+        <p><strong>アドオン：</strong>{data.addon}</p>
+        <p><strong>スタック：</strong>{data.stack}</p>
+        <p><strong>プライズ：</strong>{data.prize}</p>
+        <p><strong>外部リンク：</strong>
+          {data.structureUrl
+            ? <a href={data.structureUrl} target="_blank">見る</a>
+            : "なし"}
+        </p>
+        <p><strong>備考：</strong>{data.note || "なし"}</p>
+        <br />
+        <a href="/tournaments/tournaments">← 一覧へ戻る</a>
+      </div>
+    ) : (
+      <p>データが見つかりませんでした。</p>
+    )}
+  </body>
+</html>
