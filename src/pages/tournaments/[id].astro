@@ -1,4 +1,6 @@
 ---
+import "../../styles/header_footer.css";
+import "../../styles/mainstyle.css";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 export const prerender = false;
@@ -28,34 +30,83 @@ const data = snap.exists() ? snap.data() : null;
   <head>
     <meta charset="UTF-8" />
     <title>トーナメント詳細 | OKIPOKA</title>
+    <style>
+      .main-container {
+        padding: 2rem;
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 0 12px rgba(0, 0, 0, 0.06);
+      }
+
+      h1 {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+        border-bottom: 2px solid #ffa500;
+        padding-bottom: 0.5rem;
+        color: #222;
+      }
+
+      .tournament-detail p {
+        font-size: 1rem;
+        margin-bottom: 0.6rem;
+        line-height: 1.5;
+      }
+
+      .tournament-detail a {
+        color: #ff7f00;
+        text-decoration: underline;
+      }
+
+      .back-link {
+        display: inline-block;
+        margin-top: 1.5rem;
+        font-size: 0.95rem;
+        color: #555;
+        text-decoration: none;
+      }
+
+      .back-link:hover {
+        text-decoration: underline;
+      }
+
+      @media (max-width: 600px) {
+        .main-container {
+          padding: 1rem;
+        }
+      }
+    </style>
   </head>
   <body>
     <Header  />
-    <h1>トーナメント詳細</h1>
+    <main class="main-container">
+      <h1>トーナメント詳細</h1>
 
-    {data ? (
-      <div>
-        <p><strong>タイトル：</strong>{data.eventName}</p>
-        <p><strong>開催日：</strong>{data.startDate}</p>
-        <p><strong>開始時間：</strong>{data.startTime}</p>
-        <p><strong>レイトレジスト：</strong>{data.lateReg || "未設定"}</p>
-        <p><strong>イベント種類：</strong>{data.eventType || "不明"}</p>
-        <p><strong>参加費：</strong>{data.buyIn}</p>
-        <p><strong>アドオン：</strong>{data.addon}</p>
-        <p><strong>スタック：</strong>{data.stack}</p>
-        <p><strong>プライズ：</strong>{data.prize}</p>
-        <p><strong>外部リンク：</strong>
-          {data.structureUrl
-            ? <a href={data.structureUrl} target="_blank">見る</a>
-            : "なし"}
-        </p>
-        <p><strong>備考：</strong>{data.note || "なし"}</p>
-        <br />
-        <a href="/tournaments/tournaments">← 一覧へ戻る</a>
-      </div>
-    ) : (
-      <p>データが見つかりませんでした。</p>
-    )}
+      {data ? (
+        <div class="tournament-detail">
+          <p><strong>タイトル：</strong>{data.eventName}</p>
+          <p><strong>開催日：</strong>{data.startDate}</p>
+          <p><strong>開始時間：</strong>{data.startTime}</p>
+          <p><strong>レイトレジスト：</strong>{data.lateReg || "未設定"}</p>
+          <p><strong>イベント種類：</strong>{data.eventType || "不明"}</p>
+          <p><strong>参加費：</strong>{data.buyIn}</p>
+          <p><strong>アドオン：</strong>{data.addon}</p>
+          <p><strong>スタック：</strong>{data.stack}</p>
+          <p><strong>プライズ：</strong>{data.prize}</p>
+          <p><strong>外部リンク：</strong>
+            {data.structureUrl
+              ? <a href={data.structureUrl} target="_blank">見る</a>
+              : "なし"}
+          </p>
+          <p><strong>備考：</strong>{data.note || "なし"}</p>
+          <br />
+          <a href="/tournaments/tournaments" class="back-link">← 一覧へ戻る</a>
+        </div>
+      ) : (
+        <p>データが見つかりませんでした。</p>
+      )}
+    </main>
     <Footer  />
     <script src="/js/header.js" type="module"></script>
   </body>
