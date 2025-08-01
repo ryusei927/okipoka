@@ -1,6 +1,5 @@
 ---
 import Header from "../../components/Header.astro";
-import Footer from "../../components/Footer.astro";
 import "../../styles/header_footer.css";
 ---
 
@@ -35,8 +34,84 @@ import "../../styles/header_footer.css";
       </p>
     </main>
 
-    <Footer />
     <script src="/js/signup.js" type="module"></script>
     <script src="/js/header.js" type="module"></script>
   </body>
+
+  <style>
+    body {
+      font-family: "Noto Sans JP", sans-serif;
+      background-color: #f0f2f5;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    .signup-page {
+      max-width: 500px;
+      margin: 3rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 1.5rem;
+      color: #222;
+    }
+
+    form label {
+      display: block;
+      margin: 1rem 0 0.25rem;
+      font-weight: 500;
+    }
+
+    form input {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+
+    form button {
+      margin-top: 1.5rem;
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #ff7f00;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    form button:hover {
+      background-color: #e67100;
+    }
+
+    #error-message {
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    .signup-page p {
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    .signup-page a {
+      color: #ff7f00;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .signup-page a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </html>
