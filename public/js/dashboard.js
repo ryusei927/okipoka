@@ -57,6 +57,7 @@ document.getElementById("tournament-form").addEventListener("submit", async func
 
     for (const rawDate of selectedDates) {
       const startDate = new Date(rawDate).toISOString().slice(0, 10);
+
       console.log("Firestore送信データ", {
         eventName,
         storeName,
