@@ -17,7 +17,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const { id } = Astro.params;
-const docRef = doc(db, "tournaments", id);
+const docRef = doc(db, "tournaments", id as string);
 const snap = await getDoc(docRef);
 const data = snap.exists() ? snap.data() : null;
 ---
