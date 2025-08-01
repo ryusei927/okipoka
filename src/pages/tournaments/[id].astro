@@ -1,8 +1,12 @@
 ---
+import Analytics from '@vercel/analytics/astro'
 import "../../styles/header_footer.css";
 import "../../styles/mainstyle.css";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
+import AdSectionVIP_1 from "../../components/AdSectionVIP_1.astro";
+import AdSectionVIP_2 from "../../components/AdSectionVIP_2.astro";
+
 export const prerender = false;
 import { initializeApp } from "firebase/app";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
@@ -32,8 +36,8 @@ const data = snap.exists() ? snap.data() : null;
     <title>トーナメント詳細 | OKIPOKA</title>
     <style>
       .main-container {
-        padding: 2rem;
-        max-width: 800px;
+        padding: 2rem 1rem;
+        max-width: 600px;
         margin: 0 auto;
         background-color: #fff;
         border-radius: 12px;
@@ -46,61 +50,66 @@ const data = snap.exists() ? snap.data() : null;
         border-bottom: 2px solid #ffa500;
         padding-bottom: 0.5rem;
         color: #222;
+        text-align: center;
+      }
+
+      .tournament-detail {
+        margin-bottom: 2rem;
+        padding: 1rem;
       }
 
       .tournament-detail p {
-        font-size: 1rem;
-        margin-bottom: 0.6rem;
-        line-height: 1.5;
+        font-size: 1.1rem;
+        margin: 0.6rem 0;
+        line-height: 1.8;
       }
 
       .tournament-detail a {
         color: #ff7f00;
         text-decoration: underline;
+        font-weight: bold;
       }
 
       .back-link {
-        display: inline-block;
-        margin-top: 1.5rem;
-        font-size: 0.95rem;
+        display: block;
+        margin: 2rem auto 0;
+        font-size: 1rem;
         color: #555;
+        text-align: center;
         text-decoration: none;
       }
 
       .back-link:hover {
         text-decoration: underline;
       }
-
-      @media (max-width: 600px) {
-        .main-container {
-          padding: 1rem;
-        }
-      }
     </style>
   </head>
   <body>
     <Header  />
-    <main class="main-container">
-      <h1>トーナメント詳細</h1>
 
+    <main class="main-container">
       {data ? (
-        <div class="tournament-detail">
-          <p><strong>タイトル：</strong>{data.eventName}</p>
-          <p><strong>開催日：</strong>{data.startDate}</p>
-          <p><strong>開始時間：</strong>{data.startTime}</p>
-          <p><strong>レイトレジスト：</strong>{data.lateReg || "未設定"}</p>
-          <p><strong>イベント種類：</strong>{data.eventType || "不明"}</p>
-          <p><strong>参加費：</strong>{data.buyIn}</p>
-          <p><strong>アドオン：</strong>{data.addon}</p>
-          <p><strong>スタック：</strong>{data.stack}</p>
-          <p><strong>プライズ：</strong>{data.prize}</p>
-          <p><strong>外部リンク：</strong>
-            {data.structureUrl
-              ? <a href={data.structureUrl} target="_blank">見る</a>
-              : "なし"}
-          </p>
-          <p><strong>備考：</strong>{data.note || "なし"}</p>
-          <br />
+        <div style="display: flex; flex-direction: row; gap: 1rem; flex-wrap: wrap;">
+          <h1 style="flex: 1 1 100%;">トーナメント詳細</h1>
+          <div class="tournament-detail" style="flex: 1 1 48%;">
+            <p><strong>タイトル：</strong>{data.eventName}</p>
+            <p><strong>開催日：</strong>{data.startDate}</p>
+            <p><strong>開始時間：</strong>{data.startTime}</p>
+            <p><strong>レイトレジスト：</strong>{data.lateReg || "未設定"}</p>
+            <p><strong>イベント種類：</strong>{data.eventType || "不明"}</p>
+          </div>
+          <div class="tournament-detail" style="flex: 1 1 48%;">
+            <p><strong>参加費：</strong>{data.buyIn}</p>
+            <p><strong>アドオン：</strong>{data.addon}</p>
+            <p><strong>スタック：</strong>{data.stack}</p>
+            <p><strong>プライズ：</strong>{data.prize}</p>
+            <p><strong>外部リンク：</strong>
+              {data.structureUrl
+                ? <a href={data.structureUrl} target="_blank">見る</a>
+                : "なし"}
+            </p>
+            <p><strong>備考：</strong>{data.note || "なし"}</p>
+          </div>
           <a href="/tournaments/tournaments" class="back-link">← 一覧へ戻る</a>
         </div>
       ) : (
@@ -108,6 +117,7 @@ const data = snap.exists() ? snap.data() : null;
       )}
     </main>
     <Footer  />
+    <Analytics />
     <script src="/js/header.js" type="module"></script>
   </body>
 </html>
