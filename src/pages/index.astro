@@ -273,28 +273,7 @@ import "../styles/mainstyle.css";
 
         <Footer />
         <Analytics />
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                const items = document.querySelectorAll(".notice-list li");
-                let current = 0;
 
-                if (items.length === 0) return;
-
-                // 初期状態で最初の要素以外を非表示
-                items.forEach((item, index) => {
-                    // @ts-ignore
-                    item.style.display = index === 0 ? "list-item" : "none";
-                });
-
-                setInterval(() => {
-                    // @ts-ignore
-                    items[current].style.display = "none";
-                    current = (current + 1) % items.length;
-                    // @ts-ignores
-                    items[current].style.display = "list-item";
-                }, 3000);
-            });
-        </script>
         <script src="/js/script.js" type="module"></script>
         <script src="/js/header.js" type="module"></script>
         <script src="/js/todayAll.js" type="module"></script>
