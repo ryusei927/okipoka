@@ -15,13 +15,14 @@ h2{
 
 /* 店舗アイコン画像のスタイル */
 .store-icon {
-    width: 110px;
-    height: 110px;
+    width: 90px;
+    height: 90px;
     object-fit: cover;
-    border-radius: 10px;
-    margin: 0 auto;
-    vertical-align: middle;
+    border-radius: 8px;
     margin-bottom: 0.5rem;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    padding: 4px;
 }
 
 /* 店舗ディレクトリのカード風レイアウト */
@@ -34,21 +35,29 @@ h2{
 .store-directory ul {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    gap: 16px;
     padding-left: 0;
     list-style: none;
+    justify-items: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
 }
 
 .store-directory li {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 8px 12px;
-    font-size: 14px;
-    color: #333;
-    text-align: center;
-    gap: 3px;
-    margin-bottom: 0.3rem;
+    padding: 12px;
+    background: linear-gradient(145deg, #ffffff, #f3f3f3);
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
+    transition: all 0.25s ease;
+}
+
+.store-directory li:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
 }
 
 .store-directory li a {
@@ -62,6 +71,9 @@ h2{
 
 .store-directory li a div {
     margin-top: 4px;
+    font-size: 13px;
+    color: #444;
+    font-weight: 500;
 }
 
 /* リンク全体のホバー効果 */
@@ -164,23 +176,42 @@ h2{
 }
 
 
+/* ===== 本日のトーナメントカードを洗練表示 ===== */
 #today-all-card {
-  max-height: 300px;
-  overflow-y: auto;
-  padding: 0.75em;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background: #fff;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75em;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  padding: 1rem;
+  background: #fefefe;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #eaeaea;
 }
 
 .info-card {
-  padding: 0.8em 1em;
-  border-radius: 6px;
-  background: #f9f9f9;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem 1.5rem;
+  border-left: 6px solid #f60;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  transition: transform 0.2s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-2px);
+}
+
+.info-card h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
+  color: #222;
+}
+
+.info-card p {
+  margin: 0.3rem 0;
+  color: #555;
   font-size: 0.95rem;
   line-height: 1.5;
 }
