@@ -224,3 +224,40 @@ section:not(.video-hero) {
   padding: 2em 0;
   margin: 2em 0;
 }
+/* ===== 広告セクション ===== */
+.ad-section {
+  background: linear-gradient(to bottom, #f7f9fc, #fff);
+  padding: 2rem 1rem;
+  margin: 2rem 0;
+}
+
+.ad-card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  margin: 2rem auto;
+  overflow: hidden;
+  max-width: 680px;
+  border: 1px solid #ddd;
+  /* transition: transform 0.3s ease; */
+  position: relative;
+}
+
+
+.ad-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.ad-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: #f60;
+  color: white;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  z-index: 10;
+}
