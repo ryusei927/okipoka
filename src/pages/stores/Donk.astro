@@ -32,56 +32,85 @@ import "../../styles/stores.css";
 <InterstitialAd />
 
 <section class="store-detail" style="max-width: 720px; margin: 0 auto;">
-  <div class="store-header center-align">
-    <h2>Donk</h2><br />
-    <img src="/images/donk.png" class="store-image" />
-  </div>
+  <!-- アイキャッチ -->
+  <img src="/images/donk.png" alt="Donk 外観イメージ" class="store-eyecatch" />
 
-  <div class="store-note">
-    <p>※このページの詳細情報は後ほど追加されます。お楽しみに！</p>
+  <div class="store-header center-align">
+    <h2>Donk</h2>
+    <p class="store-tags">#初心者歓迎 #シーシャ #飲食あり</p>
   </div>
 
   <div class="store-intro">
-    <p></p>
+    <p>Donk（ドンク）は、沖縄・那覇市に位置するアットホームなアミューズメントポーカーバー。<br />
+    毎晩ワイワイとした雰囲気の中で、初心者から常連まで幅広い層が楽しくポーカーを楽しめます。</p>
+
+    <p>ポーカーだけでなく、シーシャやカラオケ付き個室（最大30名収容）も完備しており、室料は何名様でも無料でご利用いただけます。<br />
+    明け方まで営業しているので、遅い時間からの来店も大歓迎。<br />
+    女性プレイヤーや初参加の方にも優しく、自然と会話が生まれる“また来たくなる”お店です。</p>
+
+    <p>さらに90分飲み放題プランもご用意！<br />
+    男性 2,000円、女性 1,000円でお楽しみいただけます。</p>
   </div>
 
   <div class="store-section">
-    <h2>店舗情報</h2>
-    <dl>
-      <dt>店舗名</dt>
-      <dd>Donk</dd>
-      <dt>所在地</dt>
-      <dd>〒900-0015 沖縄県那覇市久茂地２丁目１６−２４</dd>
-      <dt>営業時間</dt>
-      <dd>20:00〜6:00</dd>
-    </dl>
+    <h2>リングチップ料金プラン</h2>
+    <div class="chip-plan-grid">
+      <div class="chip-card">
+        <ul>
+          <li>100BB：¥3,000</li>
+          <li>引き出し（100BB）：¥1,500</li>
+          <li>女性は100BBまで引き出し無料</li>
+          <li>テーブルチャージ：¥500</li>
+        </ul>
+      </div>
+    </div>
   </div>
 
-  <div class="store-links">
+  <div class="store-section store-gallery">
+    <h2>店舗写真</h2>
+    <div class="gallery-grid">
+      <img src="/images/sample.png" alt="店舗写真1" />
+      <img src="/images/sample.png" alt="店舗写真2" />
+      <img src="/images/sample.png" alt="店舗写真3" />
+      <img src="/images/sample.png" alt="店舗写真4" />
+    </div>
+  </div>
+
+  <div class="store-section">
     <h2>関連リンク</h2>
     <ul>
       <li>
         <a
           href="https://www.instagram.com/bar__donk?utm_source=ig_web_button_share_sheet&igsh=MW5mNDBoY2sxankwdA=="
           target="_blank"
-          rel="noopener">公式Instagram</a
-        >
+          rel="noopener">公式Instagram</a>
       </li>
       <li>
         <a
           href="https://maps.app.goo.gl/Lh7QKbvDE3ZZeZik6"
           target="_blank"
-          rel="noopener">Googleマップで見る</a
-        >
+          rel="noopener">Googleマップで見る</a>
       </li>
     </ul>
   </div>
-</section>
-<div style="text-align: center; margin-bottom: 1rem;">
-  <input type="date" id="datePicker" />
-</div>
 
-<ul id="Donk-tournaments"></ul>
+  <div class="store-section">
+    <h2>店舗情報</h2>
+    <dl>
+      <dt>店舗名</dt><dd>Donk</dd>
+      <dt>所在地</dt><dd>〒900-0015 沖縄県那覇市久茂地２丁目１６−２４</dd>
+      <dt>営業時間</dt><dd>20:00〜6:00</dd>
+    </dl>
+  </div>
+
+  <div class="store-section">
+    <h2>本日のトーナメント</h2>
+    <div style="text-align: center; margin-bottom: 1rem;">
+      <input type="date" id="datePicker" />
+    </div>
+    <ul id="Donk-tournaments"></ul>
+  </div>
+</section>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -105,7 +134,7 @@ import "../../styles/stores.css";
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  const list = document.getElementById("rebarta-tournaments");
+  const list = document.getElementById("Donk-tournaments");
   const dateInput = document.getElementById("datePicker");
 
   // 日付取得（ローカルタイム使用）

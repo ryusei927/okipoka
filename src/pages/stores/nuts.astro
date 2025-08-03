@@ -20,10 +20,6 @@ import "../../styles/stores.css";
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap"
-    rel="stylesheet"
-  />
   <title>OKIPOKA|NUTS</title>
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 </head>
@@ -31,18 +27,38 @@ import "../../styles/stores.css";
 <Header />
 <InterstitialAd />
 
-<section class="store-detail" style="max-width: 720px; margin: 0 auto;">
+
+<section class="store-detail" style="max-width: 720px; margin: 0 auto; font-family: system-ui, Helvetica, Arial, sans-serif;">
   <div class="store-header center-align">
-    <h2>NUTS</h2><br />
+    <h2>NUTS</h2>
+    <p class="store-tags">#初心者歓迎　#国際通り　#おしゃれ空間</p>
     <img src="/images/Nuts.png" class="store-image" />
   </div>
 
-  <div class="store-note">
-    <p>※このページの詳細情報は後ほど追加されます。お楽しみに！</p>
+  <div class="store-intro">
+    <p>NUTSは沖縄・那覇の国際通り沿いに位置する、洗練されたアミューズメントポーカーバー。<br />
+    初心者から上級者まで楽しめる環境が整っており、初めての方でも安心して参加できます。</p>
+
+    <p>店内はスタイリッシュで落ち着いた雰囲気。ポーカーに加え、LINEグループやトークルームでの交流など、はじめての方に優しい運営体制が整っています。</p>
+
+    <p>グランドオープンは9月！<br />
+    現在プレ期間中につき、今だけのお得なキャンペーンも開催中。<br />
+    「沖縄で夜を遊ぶ」なら、NUTSへ。</p>
   </div>
 
-  <div class="store-intro">
-    <p></p>
+  <div class="store-section">
+    <h2>リングチップ料金プラン</h2>
+    <div class="chip-plan-grid">
+      <div class="chip-card">
+        <ul>
+          <li>100BB：男性 ¥3,500 / 女性 ¥2,500</li>
+          <li>200BB：男性 ¥6,500 / 女性 ¥4,500</li>
+          <li>300BB：男性 ¥9,000 / 女性 ¥6,000</li>
+          <li>チップ引き出し：男性 ¥1,500 / 女性 ¥1,000</li>
+          <li>※すべて1ドリンク付き</li>
+        </ul>
+      </div>
+    </div>
   </div>
 
   <div class="store-section">
@@ -57,7 +73,17 @@ import "../../styles/stores.css";
     </dl>
   </div>
 
-  <div class="store-links">
+  <div class="store-section store-gallery">
+    <h2>店舗写真</h2>
+    <div class="gallery-grid">
+      <img src="/images/sample.png" alt="店舗写真1" />
+      <img src="/images/sample.png" alt="店舗写真2" />
+      <img src="/images/sample.png" alt="店舗写真3" />
+      <img src="/images/sample.png" alt="店舗写真4" />
+    </div>
+  </div>
+
+  <div class="store-section">
     <h2>関連リンク</h2>
     <ul>
       <li>
@@ -80,12 +106,15 @@ import "../../styles/stores.css";
       </li>
     </ul>
   </div>
-</section>
-<div style="text-align: center; margin-bottom: 1rem;">
-  <input type="date" id="datePicker" />
-</div>
 
-<ul id="NUTS-tournaments"></ul>
+  <div class="store-section">
+    <h2>本日のトーナメント</h2>
+    <div style="text-align: center; margin-bottom: 1rem;">
+      <input type="date" id="datePicker" />
+    </div>
+    <ul id="NUTS-tournaments"></ul>
+  </div>
+</section>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -103,7 +132,7 @@ import "../../styles/stores.css";
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  const list = document.getElementById("rebarta-tournaments");
+  const list = document.getElementById("NUTS-tournaments");
   const dateInput = document.getElementById("datePicker");
 
   // 日付取得（ローカルタイム使用）

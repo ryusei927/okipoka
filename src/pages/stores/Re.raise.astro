@@ -31,18 +31,36 @@ import "../../styles/stores.css";
 <Header />
 <InterstitialAd />
 
-<section class="store-detail" style="max-width: 720px; margin: 0 auto;">
+<section class="store-detail" style="max-width: 720px; margin: 0 auto; font-family: system-ui, Helvetica, Arial, sans-serif;">
   <div class="store-header center-align">
-    <h2>Re:raise</h2><br />
     <img src="/images/Re.raise.png" class="store-image" />
-  </div>
-
-  <div class="store-note">
-    <p>※このページの詳細情報は後ほど追加されます。お楽しみに！</p>
+    <h2>Re:Raise</h2>
+    <p class="store-tags">#うるま市　#初心者歓迎　#キャッシュレス対応</p>
   </div>
 
   <div class="store-intro">
-    <p></p>
+    <p>Re:Raise（リレイズ）は、沖縄・うるま市に2024年8月にオープンしたアミューズメントポーカーバー。<br />
+    テキサスホールデムをメインに、MIXゲームも楽しめる地域密着型の新拠点です。</p>
+
+    <p>キャッシュレス決済に対応し、初回はドリンク無料＆講習付き。<br />
+    初心者でも安心して楽しめる環境が整っています。</p>
+  </div>
+
+  <div class="store-section">
+    <h2>リングチップ料金プラン</h2>
+    <div class="chip-plan-grid">
+      <div class="chip-card">
+        <ul>
+          <li>¥2,000 → $100</li>
+          <li>¥4,000 → $200</li>
+          <li>¥6,000 → $300</li>
+          <li>引き出し：$100ごとに¥500（LINE追加で可能）</li>
+          <li>施設利用料：¥500</li>
+          <li>女性・学生は¥1,000割引</li>
+          <li>初回：ドリンク無料＋講習あり</li>
+        </ul>
+      </div>
+    </div>
   </div>
 
   <div class="store-section">
@@ -51,35 +69,59 @@ import "../../styles/stores.css";
       <dt>店舗名</dt>
       <dd>Re:Raise</dd>
       <dt>所在地</dt>
-      <dd>〒904-2245 うるま市赤道2-16 ニューアカミチビル2F</dd>
+      <dd>〒904-2245 沖縄県うるま市赤道2-16 ニューアカミチビル2F</dd>
       <dt>営業時間</dt>
       <dd>20:00〜</dd>
     </dl>
   </div>
 
-  <div class="store-links">
+  <div class="store-section">
+    <h2>アクセス</h2>
+    <iframe 
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3316.242307940288!2d127.85108841520975!3d26.34654858382623!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34e5a1c1f5e4e7d3%3A0x123456789abcdef0!2z44CSOTA0LTIyNDUg5p2x5Lqs6YO95biC6aSo5Yy65rC05bO26YeO5bel5aSn5a2X77yR5LiB55uu77yS77yR4oiS77yQ!5e0!3m2!1sja!2sjp!4v1696000000000!5m2!1sja!2sjp" 
+      width="100%" 
+      height="300" 
+      style="border:0;" 
+      allowfullscreen="" 
+      loading="lazy" 
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+  </div>
+
+  <div class="store-section store-gallery">
+    <h2>店舗写真</h2>
+    <div class="gallery-grid">
+      <img src="/images/sample.png" alt="店舗写真1" />
+      <img src="/images/sample.png" alt="店舗写真2" />
+      <img src="/images/sample.png" alt="店舗写真3" />
+      <img src="/images/sample.png" alt="店舗写真4" />
+    </div>
+  </div>
+
+  <div class="store-section">
     <h2>関連リンク</h2>
     <ul>
       <li>
-        <a
-          href="https://www.instagram.com/re.raise88okinawa?utm_source=ig_web_button_share_sheet&igsh=MXd3dnByeGxncHV6cg=="
-          target="_blank"
-          rel="noopener">公式Instagram</a>
+        <a href="https://www.instagram.com/re.raise88okinawa?utm_source=ig_web_button_share_sheet&igsh=MXd3dnByeGxncHV6cg==" target="_blank" rel="noopener">公式Instagram</a>
       </li>
       <li>
-        <a
-          href="https://maps.app.goo.gl/A3tQNHiseandV8JTA"
-          target="_blank"
-          rel="noopener">Googleマップで見る</a>
+        <a href="https://maps.app.goo.gl/A3tQNHiseandV8JTA" target="_blank" rel="noopener">Googleマップで見る</a>
       </li>
     </ul>
   </div>
-</section>
-<div style="text-align: center; margin-bottom: 1rem;">
-  <input type="date" id="datePicker" />
-</div>
 
-<ul id="Re:Raise-tournaments"></ul>
+  <div class="store-section">
+    <h2>本日のトーナメント</h2>
+    <div style="text-align: center; margin-bottom: 1rem;">
+      <input type="date" id="datePicker" />
+    </div>
+    <ul id="ReRaise-tournaments"></ul>
+  </div>
+</section>
+
+<Footer />
+<Analytics />
+<script src="/js/header.js" type="module"></script>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -97,7 +139,7 @@ import "../../styles/stores.css";
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  const list = document.getElementById("rebarta-tournaments");
+  const list = document.getElementById("ReRaise-tournaments");
   const dateInput = document.getElementById("datePicker");
 
   // 日付取得（ローカルタイム使用）
@@ -167,7 +209,3 @@ import "../../styles/stores.css";
     });
   }
 </script>
-</section>
-<Footer />
-<Analytics />
-<script src="/js/header.js" type="module"></script>
