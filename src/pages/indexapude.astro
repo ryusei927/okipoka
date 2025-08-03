@@ -81,15 +81,23 @@ import AdSection8 from "../components/AdSection8.astro";
             .top-link {
               display: inline-block;
               padding: 0.5rem 1rem;
-              color: white;
+              color: #222; /* 通常時は見やすいダークグレー */
               text-decoration: none;
               border-radius: 4px;
+              transition: color 0.2s;
             }
 
+            .top-link:hover {
+              text-decoration: underline;
+            }
+
+            .top-section.recruit .top-link,
+            .top-section.shop .top-link {
+              color: white; /* ボタン形式の背景ありリンクは白文字 */
+            }
             .top-section.recruit .top-link {
               background-color: #f60;
             }
-
             .top-section.shop .top-link {
               background-color: #007acc;
             }
@@ -156,6 +164,12 @@ import AdSection8 from "../components/AdSection8.astro";
           padding: 6px;
           display: block;
           margin: 0 auto;
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .store-icon:hover {
+          transform: scale(1.08);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
         .store-list div {
@@ -167,9 +181,14 @@ import AdSection8 from "../components/AdSection8.astro";
         @media (max-width: 768px) {
           .store-list {
             grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
           }
           .store-list div {
             display: none !important;
+          }
+          .store-icon {
+            width: 80px;
+            height: 80px;
           }
         }
 
@@ -184,9 +203,8 @@ import AdSection8 from "../components/AdSection8.astro";
           .store-list li {
             height: 90px;
           }
-
-          /* .store-iconの幅・高さは上で統一しているため、ここでの上書きは不要 */
         }
+
         </style>
         <Header />
         <section class="video-hero">
@@ -340,7 +358,7 @@ import AdSection8 from "../components/AdSection8.astro";
                     >
                     </div>
                     <a href="/tournaments/tournaments" class="top-link"
-                        >詳細を見る →</a
+                        >詳細を見る</a
                     >
                 </section>
 
@@ -359,7 +377,7 @@ import AdSection8 from "../components/AdSection8.astro";
                             <a href="/blog/post2">準備中</a>
                         </div>
                     </div>
-                    <a href="#" class="top-link">すべてのブログ記事 →</a>
+                    <a href="#" class="top-link">すべてのブログ記事</a>
                 </section>
 
                 <AdSectionVIP_2 />
