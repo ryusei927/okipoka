@@ -1,5 +1,5 @@
 ---
-import Analytics from '@vercel/analytics/astro'
+import Analytics from "@vercel/analytics/astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import InterstitialAd from "../../components/InterstitialAd.astro";
@@ -20,11 +20,7 @@ import "../../styles/stores.css";
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap"
-    rel="stylesheet"
-  />
-  <title>OKIPOKA|Re:Barta</title>
+  <title>OKIPOKA|Re:barta</title>
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 </head>
 
@@ -33,137 +29,184 @@ import "../../styles/stores.css";
 
 <section class="store-detail" style="max-width: 720px; margin: 0 auto;">
   <div class="store-header center-align">
+    <h2>Re:Barta</h2><br />
     <img src="/images/rebarta.png" class="store-image" />
-    <h2>Re:Barta(リバータ)</h2><br />
   </div>
+  <style>
+    .store-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .store-image {
+      display: block;
+      width: 350px;
+      height: 350px;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+  </style>
 
   <div class="store-intro">
-    <p>Re:Barta（リバータ）は、那覇・国際通りすぐそばにあるおしゃれなアミューズメントポーカーバー。<br />
-    気軽に立ち寄れて、初心者から上級者までゆったりポーカーが楽しめる落ち着いた雰囲気が魅力です。</p>
+    <p>
+      テキスト<br />
+      テキスト
+    </p>
   </div>
+  <AdSection1 />
+  <style>
+    .store-intro {
+      margin: 2.5rem 0 2rem 0;
+      padding: 0 0 1.5rem 0;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: #333;
+      font-family: system-ui, Helvetica, Arial, sans-serif;
+      /* border-left removed */
+    }
 
+    .store-intro h2 {
+      font-size: 1.3rem;
+      color: #e67e22;
+      margin-bottom: 1rem;
+    }
+
+    .store-intro p {
+      margin: 0 0 1rem;
+    }
+  </style>
+
+  <!-- リングチップ料金プラン セクション ここから -->
   <div class="store-section">
     <h2>リングチップ料金プラン</h2>
     <div class="chip-plan-grid">
       <div class="chip-card">
-        <ul>
-          <li>1,000点（100BB）：¥3,500（ソフトドリンク付）</li>
-          <li>2,000点（200BB）：¥7,000（ソフトドリンク付）</li>
-          <li>3,000点（300BB）：¥10,000（ALLドリンク付）</li>
-          <li>女性：すべて ¥1,500 引き</li>
-          <li>引き出し（1,000点）：男性 ¥1,500 / 女性 ¥500</li>
-        </ul>
+        <h3>1,000点（100BB）</h3>
+        <p>¥3,500（ドリンク付）</p>
+      </div>
+      <div class="chip-card">
+        <h3>2,000点（200BB）</h3>
+        <p>¥7,000（ドリンク付）</p>
+      </div>
+      <div class="chip-card">
+        <h3>3,000点（300BB）</h3>
+        <p>¥10,000（ドリンク付）</p>
+      </div>
+      <div class="chip-card">
+        <p>女性：すべて ¥1,500 引き</p>
+      </div>
+      <div class="chip-card">
+        <h3>引き出し（1,000点）</h3>
+        <p>男性 ¥1,500 / 女性 ¥500</p>
       </div>
     </div>
-  </div>
+    <style>
+      .chip-plan-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1rem;
+      }
+      .chip-card {
+        background-color: #fff;
+        border-left: 5px solid #e67e22;
+        border-radius: 10px;
+        padding: 1rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+      .chip-card h3 {
+        margin: 0 0 0.5rem;
+        font-size: 1.1rem;
+        color: #e67e22;
+      }
+      .chip-card p {
+        margin: 0.2rem 0;
+        font-size: 0.95rem;
+        color: #333;
+      }
+    </style>
+    <!-- リングチップ料金プラン セクション ここまで -->
+    <br><AdSection2 />
 
-  <div class="store-section">
-    <h2>店舗情報</h2>
-    <dl>
-      <dt>店舗名</dt>
-      <dd>リバータ・カジノバー</dd>
-      <dt>所在地</dt>
-      <dd>〒900-0013 沖縄県那覇市牧志１丁目２−３ HCビル 2F</dd>
-      <dt>営業時間</dt>
-      <dd>19:00〜5:00</dd>
-    </dl>
-  </div>
-
-  <div class="store-section">
-    <h2>本日のトーナメント</h2>
-    <div style="text-align: center; margin-bottom: 1rem;">
-      <input type="date" id="datePicker" />
+    <!-- 店舗写真セクション ここから -->
+    <div class="store-section store-gallery">
+      <h2>店舗写真</h2>
+      <div class="gallery-grid">
+        <img src="/images/sample.png" />
+        <img src="/images/sample.png" />
+        <img src="/images/sample.png" />
+        <img src="/images/sample.png" />
+      </div>
     </div>
-    <ul id="rebarta-tournaments"></ul>
+    <style>
+      .store-gallery .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+      .store-gallery .gallery-grid img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+    <!-- 店舗写真セクション ここまで -->
+
+    <div class="store-section">
+      <h2>店舗情報</h2>
+      <dl>
+        <dt>店舗名</dt>
+        <dd>リバータ・カジノバー</dd>
+        <dt>所在地</dt>
+        <dd>〒900-0013 沖縄県那覇市牧志１丁目２−３ HCビル 2F</dd>
+        <dt>営業時間</dt>
+        <dd>19:00〜5:00</dd>
+      </dl>
+    </div>
+
+    <div class="store-section">
+      <h2>関連リンク</h2>
+      <ul>
+        <li>
+          <a
+            href="https://www.instagram.com/re.barta?utm_source=ig_web_button_share_sheet&igsh=MTlvc2pwajF0aDJ3dg=="
+            target="_blank"
+            rel="noopener"
+            ><img src="/images/insta.png" class="icon" /> 公式Instagram</a
+          >
+        </li>
+
+        <li>
+          <a
+            href="https://maps.app.goo.gl/aRmZBV54ksj7otzw9"
+            target="_blank"
+            rel="noopener">Googleマップで見る</a
+          >
+        </li>
+      </ul>
+    </div><br />
+    <AdSection3 />
   </div>
-</section>
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyBhItIbOxR6rXdClsDidrcB1iB1714paAs",
-    authDomain: "okipoka-68419.firebaseapp.com",
-    projectId: "okipoka-68419",
-    storageBucket: "okipoka-68419.appspot.com",
-    messagingSenderId: "749122576664",
-    appId: "1:749122576664:web:20b93253162b185d993e6d"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  const list = document.getElementById("rebarta-tournaments");
-  const dateInput = document.getElementById("datePicker");
-
-  // 日付取得（ローカルタイム使用）
-  function getFormattedDate(dateObj) {
-    const yyyy = dateObj.getFullYear();
-    const mm = String(dateObj.getMonth() + 1).padStart(2, "0");
-    const dd = String(dateObj.getDate()).padStart(2, "0");
-    return `${yyyy}-${mm}-${dd}`;
-  }
-
-  const today = new Date();
-  const todayStr = getFormattedDate(today);
-  dateInput.value = todayStr;
-
-  dateInput.addEventListener("change", () => {
-    loadTournaments(dateInput.value);
-  });
-
-  loadTournaments(todayStr);
-
-  async function loadTournaments(dateStr) {
-    list.innerHTML = "";
-
-    const q = query(
-      collection(db, "tournaments"),
-      where("storeName", "==", "リバータ"),
-      where("startDate", "==", dateStr)
-    );
-    const snapshot = await getDocs(q);
-
-    if (snapshot.empty) {
-      list.innerHTML = "<p style='text-align: center; color: #666;'>該当日のトーナメントはありません。</p>";
-      return;
+  <style>
+    .icon {
+      width: 20px;
+      height: 20px;
+      object-fit: cover;
+      margin-right: 0.4em;
+      vertical-align: middle;
+      border-radius: 50%;
     }
-
-    snapshot.forEach((doc) => {
-      const data = doc.data();
-
-      const card = document.createElement("div");
-      card.className = "tournament-card";
-
-      const body = document.createElement("div");
-      body.className = "tournament-card-body";
-
-      const row1 = document.createElement("div");
-      row1.className = "row";
-      row1.style.display = "flex";
-      row1.style.justifyContent = "space-between";
-      row1.innerHTML = `
-        <p><strong>Title:</strong> ${data.eventName}</p>
-        <p><strong>Start:</strong> ${data.startTime}</p>
-      `;
-
-      const row2 = document.createElement("div");
-      row2.className = "row";
-      row2.innerHTML = `
-        <p><strong>Buy-in:</strong> ${data.buyIn}</p>
-        <p><strong>Stack:</strong> ${data.stack}</p>
-        <p><strong>Add-on:</strong> ${data.addon}</p>
-        <p><strong>Prize:</strong> ${data.prize}</p>
-      `;
-
-      body.appendChild(row1);
-      body.appendChild(row2);
-      card.appendChild(body);
-      list.appendChild(card);
-    });
-  }
-</script>
+    .store-section ul {
+      list-style: none;
+      padding-left: 0;
+    }
+  </style>
+</section>
 
 <Footer />
 <Analytics />
