@@ -50,7 +50,15 @@ async function loadTournaments(dateStr) {
     return;
   }
 
-  snapshot.forEach(doc => {
+  const docs = snapshot.docs.slice();
+
+  docs.sort((a, b) => {
+    const timeA = a.data().startTime || "";
+    const timeB = b.data().startTime || "";
+    return timeA.localeCompare(timeB);
+  });
+
+  docs.forEach(doc => {
     const data = doc.data();
     const card = document.createElement("div");
     card.classList.add("tournament-card");

@@ -33,6 +33,14 @@ getDocs(q).then(snapshot => {
   }
 
   const docs = snapshot.docs;
+
+  // startTimeで昇順ソート
+  docs.sort((a, b) => {
+    const timeA = a.data().startTime || "";
+    const timeB = b.data().startTime || "";
+    return timeA.localeCompare(timeB);
+  });
+
   docs.forEach(doc => {
     const data = doc.data();
     const div = document.createElement("div");
