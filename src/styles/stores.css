@@ -36,20 +36,33 @@
   margin-right: auto;
 }
 
+/* --- Store Section Card Style --- */
 .store-section {
   margin-top: 2rem;
   max-width: 720px;
   width: 100%;
   margin-left: auto;
   margin-right: auto;
+  background-color: #ffffff;
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
 .store-section h2 {
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
-  color: #34495e;
-  border-left: 5px solid #e67e22;
-  padding-left: 0.75rem;
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+  color: #e67e22;
+  border-left: 0;
+  padding-left: 0;
+  position: relative;
+}
+
+.store-section h2::before {
+  content: "★";
+  color: #e67e22;
+  font-size: 1.2rem;
+  margin-right: 0.5rem;
 }
 
 .store-section ul {
@@ -61,19 +74,43 @@
   margin-bottom: 0.5rem;
 }
 
+/* --- Store Section Definition List (Card Grid) --- */
 .store-section dl {
-  margin: 1rem 0;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 0.25rem 1rem;
+  margin-top: 1rem;
+  background-color: #fcf8f5;
+  border-left: 4px solid #e67e22;
+  border-radius: 8px;
+  padding: 1rem;
 }
 
 .store-section dt {
   font-weight: bold;
+  color: #2c3e50;
+  font-size: 1rem;
   margin-top: 0.5rem;
-  color: #333;
 }
 
 .store-section dd {
-  margin-left: 1rem;
+  color: #555;
+  font-size: 0.95rem;
   margin-bottom: 0.5rem;
+}
+
+@media (max-width: 600px) {
+  .store-section {
+    padding: 1rem 0.5rem;
+  }
+  .store-section dl {
+    grid-template-columns: 1fr;
+    padding: 0.75rem;
+  }
+}
+
+.store-links {
+  margin-top: 1rem;
 }
 
 .store-links ul {
@@ -145,4 +182,32 @@
   line-height: 1.4;
   word-break: break-word;
   white-space: pre-wrap;
+}
+
+.store-tags {
+  font-size: 0.95rem;
+  color: #777;
+  margin-top: -0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.store-eyecatch {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.store-gallery .gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.store-gallery .gallery-grid img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }

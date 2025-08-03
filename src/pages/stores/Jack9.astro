@@ -32,17 +32,46 @@ import "../../styles/stores.css";
 <InterstitialAd />
 
 <section class="store-detail" style="max-width: 720px; margin: 0 auto;">
-  <div class="store-header center-align">
-    <h2>Jack9（ジャックナイン）</h2><br />
-    <img src="/images/j9logo.jpg" class="store-image" />
-  </div>
 
-  <div class="store-note">
-    <p>※このページの詳細情報は後ほど追加されます。お楽しみに！</p>
+
+  <div class="store-header center-align">
+    <h2>Jack9（ジャックナイン）</h2>
+    <p class="store-tags">#初心者歓迎　#那覇市　#飲食あり　#Wi-Fi</p>
+    <img src="/images/sample.png" class="store-image" />
   </div>
 
   <div class="store-intro">
-    <p></p>
+    <p>Jack9（ジャックナイン）は、沖縄・那覇市に位置するアミューズメントバー。初心者から上級者まで幅広いプレイヤーが集い、毎晩熱いトーナメントが開催されています。</p>
+  </div>
+
+  <div class="store-section">
+    <h2>リングチップ料金プラン</h2>
+    <div class="chip-plan-grid">
+      <div class="chip-card green">
+        <h3>カメプラン</h3>
+        <p><strong>100点</strong>｜¥2,200（1ドリンク込）</p>
+        <ul>
+          <li>どんなゲームか知りたい方</li>
+          <li>とりあえずオタメシしたい方</li>
+        </ul>
+      </div>
+      <div class="chip-card orange">
+        <h3>シーサープラン</h3>
+        <p><strong>300点（100BB）</strong>｜¥4,300（1ドリンク込）</p>
+        <ul>
+          <li>ポーカーを覚えたい方</li>
+          <li>ちょっと遊びたい方向け</li>
+        </ul>
+      </div>
+      <div class="chip-card pink">
+        <h3>首里城プラン</h3>
+        <p><strong>600点（300BB）</strong>｜¥6,400（1ドリンク込）</p>
+        <ul>
+          <li>長く遊びたい方</li>
+          <li>経験者・アグレッシブ歓迎</li>
+        </ul>
+      </div>
+    </div>
   </div>
 
   <div class="store-section">
@@ -57,29 +86,91 @@ import "../../styles/stores.css";
     </dl>
   </div>
 
-  <div class="store-links">
+  <div class="store-section">
+    <h2>アクセス</h2>
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3561.002!2d127.700000!3d26.216000!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2z44CSOTAyLTAwNjcg5rKW57iE55yM6YKj6KaH5biC5q2m5bqn77yT5LiB55uu77yR77yS!5e0!3m2!1sja!2sjp!4v1699999999999"
+      width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+  </div>
+
+
+  <div class="store-section store-gallery">
+    <h2>店舗写真</h2>
+    <div class="gallery-grid">
+      <img src="/images/sample.png" alt="店舗写真1" />
+      <img src="/images/sample.png" alt="店舗写真2" />
+      <img src="/images/sample.png" alt="店舗写真3" />
+      <img src="/images/sample.png" alt="店舗写真4" />
+    </div>
+  </div>
+
+  <div class="store-links store-section">
     <h2>関連リンク</h2>
     <ul>
       <li>
-        <a
-          href="https://www.instagram.com/jack9_amusement?utm_source=ig_web_button_share_sheet&igsh=MW4wbjh4b2Jjb2Y2NA=="
-          target="_blank"
-          rel="noopener">公式Instagram</a>
+        <a href="https://www.instagram.com/jack9_amusement?utm_source=ig_web_button_share_sheet&igsh=MW4wbjh4b2Jjb2Y2NA==" target="_blank" rel="noopener">
+          公式Instagram
+        </a>
       </li>
       <li>
-        <a
-          href="https://maps.app.goo.gl/6vLMtwGHHWkqWb8X8"
-          target="_blank"
-          rel="noopener">Googleマップで見る</a>
+        <a href="https://maps.app.goo.gl/6vLMtwGHHWkqWb8X8" target="_blank" rel="noopener">
+          Googleマップで見る
+        </a>
       </li>
     </ul>
   </div>
-</section>
-<div style="text-align: center; margin-bottom: 1rem;">
-  <input type="date" id="datePicker" />
-</div>
 
-<ul id="Jack9-tournaments"></ul>
+  <div class="store-section">
+    <h2>本日のトーナメント</h2>
+    <div style="text-align: center; margin-bottom: 1rem;">
+      <input type="date" id="datePicker" />
+    </div>
+    <ul id="Jack9-tournaments"></ul>
+  </div>
+
+  <style>
+    .chip-plan-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .chip-card {
+      background-color: #fefefe;
+      border-left: 5px solid #e67e22;
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .chip-card.green { border-color: #2ecc71; }
+    .chip-card.orange { border-color: #e67e22; }
+    .chip-card.pink { border-color: #e91e63; }
+
+    .chip-card h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.2rem;
+      color: #333;
+    }
+
+    .chip-card p {
+      margin: 0 0 0.5rem;
+      font-weight: bold;
+    }
+
+    .chip-card ul {
+      padding-left: 1.2rem;
+      margin: 0;
+      list-style: disc;
+      font-size: 0.95rem;
+      color: #444;
+    }
+  </style>
+
+</section>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -97,7 +188,7 @@ import "../../styles/stores.css";
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  const list = document.getElementById("rebarta-tournaments");
+  const list = document.getElementById("Jack9-tournaments");
   const dateInput = document.getElementById("datePicker");
 
   // 日付取得（ローカルタイム使用）
