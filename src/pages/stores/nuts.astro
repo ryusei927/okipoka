@@ -1,5 +1,5 @@
 ---
-import Analytics from '@vercel/analytics/astro'
+import Analytics from "@vercel/analytics/astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import InterstitialAd from "../../components/InterstitialAd.astro";
@@ -27,182 +27,205 @@ import "../../styles/stores.css";
 <Header />
 <InterstitialAd />
 
-
-<section class="store-detail" style="max-width: 720px; margin: 0 auto; font-family: system-ui, Helvetica, Arial, sans-serif;">
+<section class="store-detail" style="max-width: 720px; margin: 0 auto;">
   <div class="store-header center-align">
-    <h2>NUTS</h2>
-    <p class="store-tags">#初心者歓迎　#国際通り　#おしゃれ空間</p>
+    <h2>NUTS</h2><br />
     <img src="/images/Nuts.png" class="store-image" />
   </div>
+  <style>
+    .store-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .store-image {
+      display: block;
+      width: 350px;
+      height: 350px;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+  </style>
 
   <div class="store-intro">
-    <p>NUTSは沖縄・那覇の国際通り沿いに位置する、洗練されたアミューズメントポーカーバー。<br />
-    初心者から上級者まで楽しめる環境が整っており、初めての方でも安心して参加できます。</p>
+    <p>
+      NUTSは沖縄・那覇の国際通り沿いに位置する、洗練されたアミューズメントポーカーバー。<br
+      />
+      初心者から上級者まで楽しめる環境が整っており、初めての方でも安心して参加できます。<br
+      />
 
-    <p>店内はスタイリッシュで落ち着いた雰囲気。ポーカーに加え、LINEグループやトークルームでの交流など、はじめての方に優しい運営体制が整っています。</p>
+      店内はスタイリッシュで落ち着いた雰囲気。ポーカーに加え、LINEグループやトークルームでの交流など、はじめての方に優しい運営体制が整っています。<br
+      />
 
-    <p>グランドオープンは9月！<br />
-    現在プレ期間中につき、今だけのお得なキャンペーンも開催中。<br />
-    「沖縄で夜を遊ぶ」なら、NUTSへ。</p>
+      グランドオープンは9月！<br />
+      現在プレ期間中につき、今だけのお得なキャンペーンも開催中。<br />
+      「沖縄で夜を遊ぶ」なら、NUTSへ。
+    </p>
   </div>
+  <AdSection1 />
+  <style>
+    .store-intro {
+      margin: 2.5rem 0 2rem 0;
+      padding: 0 0 1.5rem 0;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: #333;
+      font-family: system-ui, Helvetica, Arial, sans-serif;
+      /* border-left removed */
+    }
 
+    .store-intro h2 {
+      font-size: 1.3rem;
+      color: #e67e22;
+      margin-bottom: 1rem;
+    }
+
+    .store-intro p {
+      margin: 0 0 1rem;
+    }
+  </style>
+
+  <!-- リングチップ料金プラン セクション ここから -->
   <div class="store-section">
     <h2>リングチップ料金プラン</h2>
     <div class="chip-plan-grid">
       <div class="chip-card">
-        <ul>
-          <li>100BB：男性 ¥3,500 / 女性 ¥2,500</li>
-          <li>200BB：男性 ¥6,500 / 女性 ¥4,500</li>
-          <li>300BB：男性 ¥9,000 / 女性 ¥6,000</li>
-          <li>チップ引き出し：男性 ¥1,500 / 女性 ¥1,000</li>
-          <li>※すべて1ドリンク付き</li>
-        </ul>
+        <h3>100BB</h3>
+        <p>男性 ¥3,500 <br /> 女性 ¥2,500</p>
+      </div>
+      <div class="chip-card">
+        <h3>200BB</h3>
+        <p>男性 ¥6,500 <br /> 女性 ¥4,500</p>
+      </div>
+      <div class="chip-card">
+        <h3>300BB</h3>
+        <p>男性 ¥9,000 <br /> 女性 ¥6,000</p>
+      </div>
+      <div class="chip-card">
+        <h3>チップ引き出し</h3>
+        <p>男性 ¥1,500 <br /> 女性 ¥1,000</p>
+      </div>
+      <div class="chip-card" style="grid-column: span 2;">
+        <p>※すべて1ドリンク付き</p>
       </div>
     </div>
-  </div>
+    <style>
+      .chip-plan-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1rem;
+      }
+      .chip-card {
+        background-color: #fff;
+        border-left: 5px solid #e67e22;
+        border-radius: 10px;
+        padding: 1rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+      .chip-card h3 {
+        margin: 0 0 0.5rem;
+        font-size: 1.1rem;
+        color: #e67e22;
+      }
+      .chip-card p {
+        margin: 0.2rem 0;
+        font-size: 0.95rem;
+        color: #333;
+      }
+    </style>
+    <!-- リングチップ料金プラン セクション ここまで -->
+    <AdSection2 />
 
-  <div class="store-section">
-    <h2>店舗情報</h2>
-    <dl>
-      <dt>店舗名</dt>
-      <dd>NUTS</dd>
-      <dt>所在地</dt>
-      <dd>〒900-0015 沖縄県那覇市久茂地3-4-1 キャプテンズビル5F</dd>
-      <dt>営業時間</dt>
-      <dd>18:00〜2:00</dd>
-    </dl>
-  </div>
-
-  <div class="store-section store-gallery">
-    <h2>店舗写真</h2>
-    <div class="gallery-grid">
-      <img src="/images/sample.png" alt="店舗写真1" />
-      <img src="/images/sample.png" alt="店舗写真2" />
-      <img src="/images/sample.png" alt="店舗写真3" />
-      <img src="/images/sample.png" alt="店舗写真4" />
+    <!-- 店舗写真セクション ここから -->
+    <div class="store-section store-gallery">
+      <h2>店舗写真</h2>
+      <div class="gallery-grid">
+        <img src="/images/sample.png" />
+        <img src="/images/sample.png" />
+        <img src="/images/sample.png" />
+        <img src="/images/sample.png" />
+      </div>
     </div>
-  </div>
+    <style>
+      .store-gallery .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+      .store-gallery .gallery-grid img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+    <!-- 店舗写真セクション ここまで -->
 
-  <div class="store-section">
-    <h2>関連リンク</h2>
-    <ul>
-      <li>
-        <a
-          href="https://www.instagram.com/nuts_okinawa.poker?utm_source=ig_web_button_share_sheet&igsh=MXh5c3gwY3l4dDk3MQ=="
-          target="_blank"
-          rel="noopener">公式Instagram</a>
-      </li>
-      <li>
-        <a
-          href="https://nuts.hp.peraichi.com/?_gl=1%2A1tistjy%2A_gcl_au%2AODg2ODcyNTg3LjE3NTE1NjQzODYuNDM0OTA5MjA5LjE3NTE1NjQ2NjAuMTc1MTU2NDY2MA..&_ga=2.44215463.2043561131.1751564386-1506519760.1751564386&fbclid=PAZXh0bgNhZW0CMTEAAafvZhpy7oVKKstaqDF-ISrJbVv-W5tgjUrjGRuZY6zExbMXb24hRS1N3iMpKQ_aem_5_kxYzGuRtJsweDKsrzsZQ"
-          target="_blank"
-          rel="noopener">公式ホームページ</a>
-      </li>
-      <li>
-        <a
-          href="https://maps.app.goo.gl/q7DXjn4xghnbRiN76"
-          target="_blank"
-          rel="noopener">Googleマップで見る</a>
-      </li>
-    </ul>
-  </div>
-
-  <div class="store-section">
-    <h2>本日のトーナメント</h2>
-    <div style="text-align: center; margin-bottom: 1rem;">
-      <input type="date" id="datePicker" />
+    <div class="store-section">
+      <h2>店舗情報</h2>
+      <dl>
+        <dt>店舗名</dt>
+        <dd>NUTS</dd>
+        <dt>所在地</dt>
+        <dd>〒900-0015 沖縄県那覇市久茂地3-4-1 キャプテンズビル5F</dd>
+        <dt>営業時間</dt>
+        <dd>18:00〜2:00</dd>
+      </dl>
     </div>
-    <ul id="NUTS-tournaments"></ul>
+
+    <div class="store-section">
+      <h2>関連リンク</h2>
+      <ul>
+        <li>
+          <a
+            href="https://www.instagram.com/nuts_okinawa.poker?utm_source=ig_web_button_share_sheet&igsh=MXh5c3gwY3l4dDk3MQ%3D%3D"
+            target="_blank"
+            rel="noopener"
+            ><img src="/images/insta.png" class="icon" /> 公式Instagram</a
+          >
+        </li>
+
+        <li>
+          <a
+            href="https://nuts.hp.peraichi.com/?_gl=1%2A1tistjy%2A_gcl_au%2AODg2ODcyNTg3LjE3NTE1NjQzODYuNDM0OTA5MjA5LjE3NTE1NjQ2NjAuMTc1MTU2NDY2MA..&_ga=2.44215463.2043561131.1751564386-1506519760.1751564386&fbclid=PAZXh0bgNhZW0CMTEAAafvZhpy7oVKKstaqDF-ISrJbVv-W5tgjUrjGRuZY6zExbMXb24hRS1N3iMpKQ_aem_5_kxYzGuRtJsweDKsrzsZQ"
+            target="_blank"
+            rel="noopener"
+            > 公式ホームページ</a
+          >
+        </li>
+
+        <li>
+          <a
+            href="https://www.google.com/maps/place/NUTS/@26.2146219,127.680085,17z/data=!3m1!4b1!4m6!3m5!1s0x34e56935ce2bac9b:0xa7840d8bfbd053ac!8m2!3d26.2146171!4d127.6826599!16s%2Fg%2F11xmb3zgv7?entry=tts&g_ep=EgoyMDI1MDcyMy4wIPu8ASoASAFQAw%3D%3D&skid=861dcb00-fa58-47c0-8e82-c10d72dccab1"
+            target="_blank"
+            rel="noopener">Googleマップで見る</a
+          >
+        </li>
+      </ul>
+    </div><br />
+    <AdSection3 />
   </div>
-</section>
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyBhItIbOxR6rXdClsDidrcB1iB1714paAs",
-    authDomain: "okipoka-68419.firebaseapp.com",
-    projectId: "okipoka-68419",
-    storageBucket: "okipoka-68419.appspot.com",
-    messagingSenderId: "749122576664",
-    appId: "1:749122576664:web:20b93253162b185d993e6d"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  const list = document.getElementById("NUTS-tournaments");
-  const dateInput = document.getElementById("datePicker");
-
-  // 日付取得（ローカルタイム使用）
-  function getFormattedDate(dateObj) {
-    const yyyy = dateObj.getFullYear();
-    const mm = String(dateObj.getMonth() + 1).padStart(2, "0");
-    const dd = String(dateObj.getDate()).padStart(2, "0");
-    return `${yyyy}-${mm}-${dd}`;
-  }
-
-  const today = new Date();
-  const todayStr = getFormattedDate(today);
-  dateInput.value = todayStr;
-
-  dateInput.addEventListener("change", () => {
-    loadTournaments(dateInput.value);
-  });
-
-  loadTournaments(todayStr);
-
-  async function loadTournaments(dateStr) {
-    list.innerHTML = "";
-
-    const q = query(
-      collection(db, "tournaments"),
-      where("storeName", "==", "NUTS"),
-      where("startDate", "==", dateStr)
-    );
-    const snapshot = await getDocs(q);
-
-    if (snapshot.empty) {
-      list.innerHTML = "<p style='text-align: center; color: #666;'>該当日のトーナメントはありません。</p>";
-      return;
+  <style>
+    .icon {
+      width: 20px;
+      height: 20px;
+      object-fit: cover;
+      margin-right: 0.4em;
+      vertical-align: middle;
+      border-radius: 50%;
     }
-
-    snapshot.forEach((doc) => {
-      const data = doc.data();
-
-      const card = document.createElement("div");
-      card.className = "tournament-card";
-
-      const body = document.createElement("div");
-      body.className = "tournament-card-body";
-
-      const row1 = document.createElement("div");
-      row1.className = "row";
-      row1.style.display = "flex";
-      row1.style.justifyContent = "space-between";
-      row1.innerHTML = `
-        <p><strong>Title:</strong> ${data.eventName}</p>
-        <p><strong>Start:</strong> ${data.startTime}</p>
-      `;
-
-      const row2 = document.createElement("div");
-      row2.className = "row";
-      row2.innerHTML = `
-        <p><strong>Buy-in:</strong> ${data.buyIn}</p>
-        <p><strong>Stack:</strong> ${data.stack}</p>
-        <p><strong>Add-on:</strong> ${data.addon}</p>
-        <p><strong>Prize:</strong> ${data.prize}</p>
-      `;
-
-      body.appendChild(row1);
-      body.appendChild(row2);
-      card.appendChild(body);
-      list.appendChild(card);
-    });
-  }
-</script>
+    .store-section ul {
+      list-style: none;
+      padding-left: 0;
+    }
+  </style>
 </section>
+
 <Footer />
 <Analytics />
 <script src="/js/header.js" type="module"></script>

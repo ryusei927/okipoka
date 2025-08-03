@@ -1,5 +1,5 @@
 ---
-import Analytics from '@vercel/analytics/astro'
+import Analytics from "@vercel/analytics/astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import InterstitialAd from "../../components/InterstitialAd.astro";
@@ -20,10 +20,6 @@ import "../../styles/stores.css";
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap"
-    rel="stylesheet"
-  />
   <title>OKIPOKA|Jack9</title>
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 </head>
@@ -32,47 +28,130 @@ import "../../styles/stores.css";
 <InterstitialAd />
 
 <section class="store-detail" style="max-width: 720px; margin: 0 auto;">
-
-
   <div class="store-header center-align">
-    <h2>Jack9（ジャックナイン）</h2>
-    <p class="store-tags">#初心者歓迎　#那覇市　#飲食あり　#Wi-Fi</p>
-    <img src="/images/sample.png" class="store-image" />
+    <h2>Jack9</h2><br />
+    <img src="/images/j9logo.jpg" class="store-image" />
   </div>
+  <style>
+    .store-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .store-image {
+      display: block;
+      width: 350px;
+      height: 350px;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+  </style>
 
   <div class="store-intro">
-    <p>Jack9（ジャックナイン）は、沖縄・那覇市に位置するアミューズメントバー。初心者から上級者まで幅広いプレイヤーが集い、毎晩熱いトーナメントが開催されています。</p>
+    <p>
+      テキスト<br />
+      テキスト
+    </p>
   </div>
+  <AdSection1 />
+  <style>
+    .store-intro {
+      margin: 2.5rem 0 2rem 0;
+      padding: 0 0 1.5rem 0;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: #333;
+      font-family: system-ui, Helvetica, Arial, sans-serif;
+      /* border-left removed */
+    }
 
+    .store-intro h2 {
+      font-size: 1.3rem;
+      color: #e67e22;
+      margin-bottom: 1rem;
+    }
+
+    .store-intro p {
+      margin: 0 0 1rem;
+    }
+  </style>
+
+  <!-- リングチップ料金プラン セクション ここから -->
   <div class="store-section">
     <h2>リングチップ料金プラン</h2>
     <div class="chip-plan-grid">
-      <div class="chip-card green">
-        <h3>カメプラン</h3>
-        <p><strong>100点</strong>｜¥2,200（1ドリンク込）</p>
-        <ul>
-          <li>どんなゲームか知りたい方</li>
-          <li>とりあえずオタメシしたい方</li>
-        </ul>
+      <div class="chip-card">
+        <h3>カメプラン（100点）</h3>
+        <p>¥2,200（1ドリンク込み）</p>
+        <p>どんなゲームか知りたい！とりあえずオタメシしたい方向け</p>
       </div>
-      <div class="chip-card orange">
-        <h3>シーサープラン</h3>
-        <p><strong>300点（100BB）</strong>｜¥4,300（1ドリンク込）</p>
-        <ul>
-          <li>ポーカーを覚えたい方</li>
-          <li>ちょっと遊びたい方向け</li>
-        </ul>
+      <div class="chip-card">
+        <h3>シーサープラン（300点）</h3>
+        <p>¥4,300（100BB・1ドリンク込み）</p>
+        <p>ゲームを知っている・本格的に覚えていきたい方向け</p>
       </div>
-      <div class="chip-card pink">
-        <h3>首里城プラン</h3>
-        <p><strong>600点（300BB）</strong>｜¥6,400（1ドリンク込）</p>
-        <ul>
-          <li>長く遊びたい方</li>
-          <li>経験者・アグレッシブ歓迎</li>
-        </ul>
+      <div class="chip-card">
+        <h3>首里城プラン（600点）</h3>
+        <p>¥6,400（300BB・1ドリンク込み）</p>
+        <p>長く遊びたい！アグレッション高めな方や上級者向け</p>
       </div>
     </div>
   </div>
+  <style>
+    .chip-plan-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+    .chip-card {
+      background-color: #fff;
+      border-left: 5px solid #e67e22;
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+    .chip-card h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.1rem;
+      color: #e67e22;
+    }
+    .chip-card p {
+      margin: 0.2rem 0;
+      font-size: 0.95rem;
+      color: #333;
+    }
+  </style>
+  <!-- リングチップ料金プラン セクション ここまで -->
+  <AdSection2 />
+
+  <!-- 店舗写真セクション ここから -->
+  <div class="store-section store-gallery">
+    <h2>店舗写真</h2>
+    <div class="gallery-grid">
+      <img src="/images/sample.png" />
+      <img src="/images/sample.png" />
+      <img src="/images/sample.png" />
+      <img src="/images/sample.png" />
+    </div>
+  </div>
+  <style>
+    .store-gallery .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .store-gallery .gallery-grid img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+  <!-- 店舗写真セクション ここまで -->
 
   <div class="store-section">
     <h2>店舗情報</h2>
@@ -87,178 +166,44 @@ import "../../styles/stores.css";
   </div>
 
   <div class="store-section">
-    <h2>アクセス</h2>
-    <iframe
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3561.002!2d127.700000!3d26.216000!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2z44CSOTAyLTAwNjcg5rKW57iE55yM6YKj6KaH5biC5q2m5bqn77yT5LiB55uu77yR77yS!5e0!3m2!1sja!2sjp!4v1699999999999"
-      width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"
-      referrerpolicy="no-referrer-when-downgrade">
-    </iframe>
-  </div>
-
-
-  <div class="store-section store-gallery">
-    <h2>店舗写真</h2>
-    <div class="gallery-grid">
-      <img src="/images/sample.png" alt="店舗写真1" />
-      <img src="/images/sample.png" alt="店舗写真2" />
-      <img src="/images/sample.png" alt="店舗写真3" />
-      <img src="/images/sample.png" alt="店舗写真4" />
-    </div>
-  </div>
-
-  <div class="store-links store-section">
     <h2>関連リンク</h2>
     <ul>
       <li>
-        <a href="https://www.instagram.com/jack9_amusement?utm_source=ig_web_button_share_sheet&igsh=MW4wbjh4b2Jjb2Y2NA==" target="_blank" rel="noopener">
-          公式Instagram
-        </a>
+        <a
+          href="https://www.instagram.com/jack9_amusement?utm_source=ig_web_button_share_sheet&igsh=MW4wbjh4b2Jjb2Y2NA%3D%3D"
+          target="_blank"
+          rel="noopener"
+          ><img src="/images/insta.png" class="icon" /> 公式Instagram</a
+        >
       </li>
+
       <li>
-        <a href="https://maps.app.goo.gl/6vLMtwGHHWkqWb8X8" target="_blank" rel="noopener">
-          Googleマップで見る
-        </a>
+        <a
+          href="https://www.google.com/maps/place/%E3%82%A2%E3%83%9F%E3%83%A5%E3%83%BC%E3%82%BA%E3%83%A1%E3%83%B3%E3%83%88%E3%83%90%E3%83%BC+JACK9/@26.2189448,127.6922752,17z/data=!3m1!5s0x34e569639c0908c1:0x565404b787982471!4m7!3m6!1s0x34e5695b3c1ec7e5:0xb23f31df0309408!8m2!3d26.2189209!4d127.6948361!15sCljjgJI5MDItMDA2NyDmspbnuITnnIzpgqPopofluILlronph4zvvJHkuIHnm67vvJTiiJLvvJHvvJTvvIjjgbXjgY_jgojjgZfjg5Pjg6sg77yS6ZqO77yJWlgiVuOAkiA5MDIgMDA2NyDmspbnuIQg55yMIOmCo-imhyDluIIg5a6J6YeMIDEg5LiB55uuIDQg4oiSIDE0IOOBteOBj-OCiCDjgZcg44OT44OrIDIg6ZqOkgEDYmFyqgGIARABKgciA-OAkigIMh8QASIbwKHjs3_JfmhRD28t60z2LQT58rD827echfNyMloQAiJW44CSIDkwMiAwMDY3IOaylue4hCDnnIwg6YKj6KaHIOW4giDlronph4wgMSDkuIHnm64gNCDiiJIgMTQg44G144GP44KIIOOBlyDjg5Pjg6sgMiDpmo7gAQA!16s%2Fg%2F11rlsgb9p8?entry=tts&g_ep=EgoyMDI1MDcwOS4wIPu8ASoASAFQAw%3D%3D&skid=1330cc9d-cb16-4c38-b4e2-09173e50138f"
+          target="_blank"
+          rel="noopener">Googleマップで見る</a
+        >
       </li>
     </ul>
-  </div>
-
-  <div class="store-section">
-    <h2>本日のトーナメント</h2>
-    <div style="text-align: center; margin-bottom: 1rem;">
-      <input type="date" id="datePicker" />
-    </div>
-    <ul id="Jack9-tournaments"></ul>
-  </div>
-
-  <style>
-    .chip-plan-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.5rem;
-      margin-top: 1rem;
-    }
-
-    .chip-card {
-      background-color: #fefefe;
-      border-left: 5px solid #e67e22;
-      border-radius: 10px;
-      padding: 1rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-
-    .chip-card.green { border-color: #2ecc71; }
-    .chip-card.orange { border-color: #e67e22; }
-    .chip-card.pink { border-color: #e91e63; }
-
-    .chip-card h3 {
-      margin: 0 0 0.5rem;
-      font-size: 1.2rem;
-      color: #333;
-    }
-
-    .chip-card p {
-      margin: 0 0 0.5rem;
-      font-weight: bold;
-    }
-
-    .chip-card ul {
-      padding-left: 1.2rem;
-      margin: 0;
-      list-style: disc;
-      font-size: 0.95rem;
-      color: #444;
-    }
-  </style>
-
+  </div><br />
+  <AdSection3 />
 </section>
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyBhItIbOxR6rXdClsDidrcB1iB1714paAs",
-    authDomain: "okipoka-68419.firebaseapp.com",
-    projectId: "okipoka-68419",
-    storageBucket: "okipoka-68419.appspot.com",
-    messagingSenderId: "749122576664",
-    appId: "1:749122576664:web:20b93253162b185d993e6d"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  const list = document.getElementById("Jack9-tournaments");
-  const dateInput = document.getElementById("datePicker");
-
-  // 日付取得（ローカルタイム使用）
-  function getFormattedDate(dateObj) {
-    const yyyy = dateObj.getFullYear();
-    const mm = String(dateObj.getMonth() + 1).padStart(2, "0");
-    const dd = String(dateObj.getDate()).padStart(2, "0");
-    return `${yyyy}-${mm}-${dd}`;
-  }
-
-  const today = new Date();
-  const todayStr = getFormattedDate(today);
-  dateInput.value = todayStr;
-
-  dateInput.addEventListener("change", () => {
-    loadTournaments(dateInput.value);
-  });
-
-  loadTournaments(todayStr);
-
-  async function loadTournaments(dateStr) {
-    list.innerHTML = "";
-
-    const q = query(
-      collection(db, "tournaments"),
-      where("storeName", "==", "Jack9"),
-      where("startDate", "==", dateStr)
-    );
-    const snapshot = await getDocs(q);
-
-    if (snapshot.empty) {
-      list.innerHTML = "<p style='text-align: center; color: #666;'>該当日のトーナメントはありません。</p>";
-      return;
-    }
-
-    snapshot.forEach((doc) => {
-      const data = doc.data();
-
-      const card = document.createElement("div");
-      card.className = "tournament-card";
-
-      const body = document.createElement("div");
-      body.className = "tournament-card-body";
-
-      const row1 = document.createElement("div");
-      row1.className = "row";
-      row1.style.display = "flex";
-      row1.style.justifyContent = "space-between";
-      row1.innerHTML = `
-        <p><strong>Title:</strong> ${data.eventName}</p>
-        <p><strong>Start:</strong> ${data.startTime}</p>
-      `;
-
-      const row2 = document.createElement("div");
-      row2.className = "row";
-      row2.innerHTML = `
-        <p><strong>Buy-in:</strong> ${data.buyIn}</p>
-        <p><strong>Stack:</strong> ${data.stack}</p>
-        <p><strong>Add-on:</strong> ${data.addon}</p>
-        <p><strong>Prize:</strong> ${data.prize}</p>
-      `;
-
-      body.appendChild(row1);
-      body.appendChild(row2);
-      card.appendChild(body);
-      list.appendChild(card);
-    });
-  }
-</script>
-</section>
 <Footer />
 <Analytics />
 <script src="/js/header.js" type="module"></script>
+
+<style>
+  .icon {
+    width: 20px;
+    height: 20px;
+    object-fit: cover;
+    margin-right: 0.4em;
+    vertical-align: middle;
+    border-radius: 50%;
+  }
+  .store-section ul {
+    list-style: none;
+    padding-left: 0;
+  }
+</style>

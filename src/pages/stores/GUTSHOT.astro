@@ -1,5 +1,5 @@
 ---
-import Analytics from '@vercel/analytics/astro'
+import Analytics from "@vercel/analytics/astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import InterstitialAd from "../../components/InterstitialAd.astro";
@@ -20,10 +20,6 @@ import "../../styles/stores.css";
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap"
-    rel="stylesheet"
-  />
   <title>OKIPOKA|GUTSHOT</title>
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 </head>
@@ -31,164 +27,173 @@ import "../../styles/stores.css";
 <Header />
 <InterstitialAd />
 
-
-<div class="store-header center-align">
-  <h2>GUTSHOT（ガットショット）</h2>
-  <p class="store-tags">#名護市　#8月中旬オープン　#ポーカーBAR</p>
-  <img src="/images/gutshot.png" class="store-image" />
-</div>
-
-<div class="store-intro">
-  <p>GUTSHOT（ガットショット）は、名護市に8月中旬オープン予定の新しいアミューズメントポーカーバー。<br />
-  北部エリアで本格的にポーカーを楽しめる貴重な拠点として注目されています。</p>
-</div>
-
-<div class="store-section">
-  <h2>リングチップ料金プラン</h2>
-  <div class="chip-plan-grid">
-    <div class="chip-card">
-      <ul>
-        <li>※情報準備中（後ほど掲載予定）</li>
-      </ul>
-    </div>
+<section class="store-detail" style="max-width: 720px; margin: 0 auto;">
+  <div class="store-header center-align">
+    <h2>GUTSHOT</h2><br />
+    <img src="/images/gutshot.png" class="store-image" />
   </div>
-</div>
+  <style>
+    .store-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .store-image {
+      display: block;
+      width: 350px;
+      height: 350px;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+  </style>
 
-<div class="store-section">
-  <h2>店舗情報</h2>
-  <dl>
-    <dt>店舗名</dt><dd>沖縄ポーカー BAR ガットショット</dd>
-    <dt>所在地</dt><dd>〒905-0021 沖縄県名護市東江１丁目１０−３０</dd>
-    <dt>営業時間</dt><dd>未定</dd>
-  </dl>
-</div>
-
-<div class="store-section">
-  <h2>アクセス</h2>
-  <iframe
-    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3577.7495661414796!2d127.97496307574762!3d26.594659376798986!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34e4532a2cc46a5f%3A0x9dcb9b89a3fc91f6!2z44CSOTA1LTAwMjEg5rKW57iE55yM6ZW36YGT5biC5p2R5Yy65bCP5qmf77yR77yQ77yZ!5e0!3m2!1sja!2sjp!4v1699999999999"
-    width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"
-    referrerpolicy="no-referrer-when-downgrade">
-  </iframe>
-</div>
-
-<div class="store-section store-gallery">
-  <h2>店舗写真</h2>
-  <div class="gallery-grid">
-    <img src="/images/sample.png" alt="店舗写真1" />
-    <img src="/images/sample.png" alt="店舗写真2" />
-    <img src="/images/sample.png" alt="店舗写真3" />
-    <img src="/images/sample.png" alt="店舗写真4" />
+  <div class="store-intro">
+    <p>
+      GUTSHOT（ガットショット）は、名護市に8月中旬オープン予定の新しいアミューズメントポーカーバー。<br
+      />
+      北部エリアで本格的にポーカーを楽しめる貴重な拠点として注目されています。
+    </p>
   </div>
-</div>
-
-<div class="store-section">
-  <h2>関連リンク</h2>
-  <ul>
-    <li>
-      <a href="https://www.instagram.com/poker_bar_gutshot?utm_source=ig_web_button_share_sheet&igsh=MTI1bXlzOGppbnhuYg==" target="_blank" rel="noopener">公式Instagram</a>
-    </li>
-    <li>
-      <a href="https://maps.app.goo.gl/5425S1uqxK3uaSMR7" target="_blank" rel="noopener">Googleマップで見る</a>
-    </li>
-  </ul>
-</div>
-
-<div class="store-section">
-  <h2>本日のトーナメント</h2>
-  <div style="text-align: center; margin-bottom: 1rem;">
-    <input type="date" id="datePicker" />
-  </div>
-  <ul id="GUTSHOT-tournaments"></ul>
-</div>
-
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyBhItIbOxR6rXdClsDidrcB1iB1714paAs",
-    authDomain: "okipoka-68419.firebaseapp.com",
-    projectId: "okipoka-68419",
-    storageBucket: "okipoka-68419.appspot.com",
-    messagingSenderId: "749122576664",
-    appId: "1:749122576664:web:20b93253162b185d993e6d"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  const list = document.getElementById("GUTSHOT-tournaments");
-  const dateInput = document.getElementById("datePicker");
-
-  // 日付取得（ローカルタイム使用）
-  function getFormattedDate(dateObj) {
-    const yyyy = dateObj.getFullYear();
-    const mm = String(dateObj.getMonth() + 1).padStart(2, "0");
-    const dd = String(dateObj.getDate()).padStart(2, "0");
-    return `${yyyy}-${mm}-${dd}`;
-  }
-
-  const today = new Date();
-  const todayStr = getFormattedDate(today);
-  dateInput.value = todayStr;
-
-  dateInput.addEventListener("change", () => {
-    loadTournaments(dateInput.value);
-  });
-
-  loadTournaments(todayStr);
-
-  async function loadTournaments(dateStr) {
-    list.innerHTML = "";
-
-    const q = query(
-      collection(db, "tournaments"),
-      where("storeName", "==", "GUTSHOT"),
-      where("startDate", "==", dateStr)
-    );
-    const snapshot = await getDocs(q);
-
-    if (snapshot.empty) {
-      list.innerHTML = "<p style='text-align: center; color: #666;'>該当日のトーナメントはありません。</p>";
-      return;
+  <AdSection1 />
+  <style>
+    .store-intro {
+      margin: 2.5rem 0 2rem 0;
+      padding: 0 0 1.5rem 0;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: #333;
+      font-family: system-ui, Helvetica, Arial, sans-serif;
+      /* border-left removed */
     }
 
-    snapshot.forEach((doc) => {
-      const data = doc.data();
+    .store-intro h2 {
+      font-size: 1.3rem;
+      color: #e67e22;
+      margin-bottom: 1rem;
+    }
 
-      const card = document.createElement("div");
-      card.className = "tournament-card";
+    .store-intro p {
+      margin: 0 0 1rem;
+    }
+  </style>
 
-      const body = document.createElement("div");
-      body.className = "tournament-card-body";
+  <!-- リングチップ料金プラン セクション ここから -->
+  <div class="store-section">
+    <h2>リングチップ料金プラン</h2>
+    <div class="chip-plan-grid">
+      <div class="chip-card">
+        <p>※情報準備中（後ほど掲載予定）</p>
+      </div>
+    </div>
+    <style>
+      .chip-plan-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1rem;
+      }
+      .chip-card {
+        background-color: #fffdf9; /* 明るい背景に戻す */
+        border-left: 5px solid #e67e22; /* アクセントをオレンジ系に */
+        border-radius: 10px;
+        padding: 1rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+      .chip-card h3 {
+        margin: 0 0 0.5rem;
+        font-size: 1.2rem;
+        color: #e67e22; /* タイトルもオレンジ系に */
+      }
+      .chip-card ul {
+        padding-left: 1.2rem;
+        margin: 0;
+        list-style: disc;
+        font-size: 0.95rem;
+        color: #444; /* 通常の文字色に戻す */
+      }
+    </style>
+    <!-- リングチップ料金プラン セクション ここまで -->
+    <br /><AdSection2 />
 
-      const row1 = document.createElement("div");
-      row1.className = "row";
-      row1.style.display = "flex";
-      row1.style.justifyContent = "space-between";
-      row1.innerHTML = `
-        <p><strong>Title:</strong> ${data.eventName}</p>
-        <p><strong>Start:</strong> ${data.startTime}</p>
-      `;
+    <!-- 店舗写真セクション ここから -->
+    <div class="store-section store-gallery">
+      <h2>店舗写真</h2>
+      <div class="gallery-grid">
+        <img src="/images/sample.png" />
+        <img src="/images/sample.png" />
+        <img src="/images/sample.png" />
+        <img src="/images/sample.png" />
+      </div>
+    </div>
+    <style>
+      .store-gallery .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+      .store-gallery .gallery-grid img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+    <!-- 店舗写真セクション ここまで -->
 
-      const row2 = document.createElement("div");
-      row2.className = "row";
-      row2.innerHTML = `
-        <p><strong>Buy-in:</strong> ${data.buyIn}</p>
-        <p><strong>Stack:</strong> ${data.stack}</p>
-        <p><strong>Add-on:</strong> ${data.addon}</p>
-        <p><strong>Prize:</strong> ${data.prize}</p>
-      `;
+    <div class="store-section">
+      <h2>店舗情報</h2>
+      <dl>
+        <dt>店舗名</dt>
+        <dd>沖縄ポーカー BAR ガットショット</dd>
+        <dt>所在地</dt>
+        <dd>〒905-0021 沖縄県名護市東江１丁目１０−３０</dd>
+        <dt>営業時間</dt>
+        <dd>未調査</dd>
+      </dl>
+    </div>
 
-      body.appendChild(row1);
-      body.appendChild(row2);
-      card.appendChild(body);
-      list.appendChild(card);
-    });
-  }
-</script>
+    <div class="store-section">
+      <h2>関連リンク</h2>
+      <ul>
+        <li>
+          <a
+            href="https://www.instagram.com/poker_bar_gutshot?utm_source=ig_web_button_share_sheet&igsh=MTI1bXlzOGppbnhuYg%3D%3D"
+            target="_blank"
+            rel="noopener"
+            ><img src="/images/insta.png" class="icon" /> 公式Instagram</a
+          >
+        </li>
+        <li>
+          <a
+            href="https://www.google.com/maps/place/ONE+WAY/@26.58562,127.9859449,17z/data=!3m1!4b1!4m6!3m5!1s0x34e4558f717cb743:0x3233d49a75e108d1!8m2!3d26.58562!4d127.9859449!16s%2Fg%2F11g7z6gy_3?entry=tts&g_ep=EgoyMDI1MDcwOS4wIPu8ASoASAFQAw%3D%3D&skid=7ea87234-a69b-480a-b70c-fcdd9b765f21"
+            target="_blank"
+            rel="noopener">Googleマップで見る</a
+          >
+        </li>
+      </ul>
+    </div><br />
+    <AdSection3 />
+  </div>
+
+  <Footer />
+  <Analytics />
+  <script src="/js/header.js" type="module"></script>
+
+  <style>
+    .icon {
+      width: 20px;
+      height: 20px;
+      object-fit: cover;
+      margin-right: 0.4em;
+      vertical-align: middle;
+      border-radius: 50%;
+    }
+    .store-section ul {
+      list-style: none;
+      padding-left: 0;
+    }
+  </style>
 </section>
-<Footer />
-<Analytics />
-<script src="/js/header.js" type="module"></script>

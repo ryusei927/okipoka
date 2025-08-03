@@ -1,5 +1,5 @@
 ---
-import Analytics from '@vercel/analytics/astro'
+import Analytics from "@vercel/analytics/astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import InterstitialAd from "../../components/InterstitialAd.astro";
@@ -20,10 +20,6 @@ import "../../styles/stores.css";
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap"
-    rel="stylesheet"
-  />
   <title>OKIPOKA|BACKDOOR</title>
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 </head>
@@ -33,14 +29,54 @@ import "../../styles/stores.css";
 
 <section class="store-detail" style="max-width: 720px; margin: 0 auto;">
   <div class="store-header center-align">
-    <h2>BACKDOOR（バックドア）</h2><br />
+    <h2>BACKDOOR</h2><br />
     <img src="/images/backdoor.jpg" class="store-image" />
   </div>
+  <style>
+    .store-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .store-image {
+      display: block;
+      width: 350px;
+      height: 350px;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+  </style>
 
   <div class="store-intro">
-    <p>BACKDOOR（バックドア）は、沖縄・那覇市に位置する本格アミューズメントカジノバー。<br />
-    初心者から上級者まで幅広いプレイヤーが集い、毎晩熱いリングゲームやトーナメントが開催されています。</p>
+    <p>
+      テキスト<br />
+      テキスト
+    </p>
   </div>
+  <AdSection1 />
+  <style>
+    .store-intro {
+      margin: 2.5rem 0 2rem 0;
+      padding: 0 0 1.5rem 0;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: #333;
+      font-family: system-ui, Helvetica, Arial, sans-serif;
+      /* border-left removed */
+    }
+
+    .store-intro h2 {
+      font-size: 1.3rem;
+      color: #e67e22;
+      margin-bottom: 1rem;
+    }
+
+    .store-intro p {
+      margin: 0 0 1rem;
+    }
+  </style>
 
   <!-- リングチップ料金プラン セクション ここから -->
   <div class="store-section">
@@ -78,35 +114,36 @@ import "../../styles/stores.css";
       margin-top: 1rem;
     }
     .chip-card {
-      background-color: #fffdf9;
-      border-left: 5px solid #c0392b;
+      background-color: #fffdf9; /* 明るい背景に戻す */
+      border-left: 5px solid #e67e22; /* アクセントをオレンジ系に */
       border-radius: 10px;
       padding: 1rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     }
     .chip-card h3 {
       margin: 0 0 0.5rem;
       font-size: 1.2rem;
-      color: #c0392b;
+      color: #e67e22; /* タイトルもオレンジ系に */
     }
     .chip-card ul {
       padding-left: 1.2rem;
       margin: 0;
       list-style: disc;
       font-size: 0.95rem;
-      color: #444;
+      color: #444; /* 通常の文字色に戻す */
     }
   </style>
   <!-- リングチップ料金プラン セクション ここまで -->
+  <AdSection2 />
 
   <!-- 店舗写真セクション ここから -->
   <div class="store-section store-gallery">
     <h2>店舗写真</h2>
     <div class="gallery-grid">
-      <img src="/images/sample.png" alt="店舗写真1" />
-      <img src="/images/sample.png" alt="店舗写真2" />
-      <img src="/images/sample.png" alt="店舗写真3" />
-      <img src="/images/sample.png" alt="店舗写真4" />
+      <img src="/images/sample.png" />
+      <img src="/images/sample.png" />
+      <img src="/images/sample.png" />
+      <img src="/images/sample.png" />
     </div>
   </div>
   <style>
@@ -120,13 +157,13 @@ import "../../styles/stores.css";
       width: 100%;
       height: auto;
       border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     }
   </style>
   <!-- 店舗写真セクション ここまで -->
 
   <div class="store-section">
-    <h2>★ 店舗情報</h2>
+    <h2>店舗情報</h2>
     <dl>
       <dt>店舗名</dt>
       <dd>BACKDOOR NAHA</dd>
@@ -142,119 +179,46 @@ import "../../styles/stores.css";
     <ul>
       <li>
         <a
-          href="https://www.instagram.com/naha_backdoor?utm_source=ig_web_button_share_sheet&igsh=MWN0aHRzMjB1bDR2aw=="
+          href="https://www.instagram.com/naha_backdoor?utm_source=ig_web_button_share_sheet&igsh=MWN0aHRzMjB1bDR2aw%3D%3D"
           target="_blank"
-          rel="noopener">公式Instagram</a>
+          rel="noopener"
+          ><img src="/images/insta.png" class="icon" /> 公式Instagram</a
+        >
       </li>
-      <li>
-        <a href="https://naha.backdoor.casino/" target="_blank" rel="noopener"
-          >公式ホームページ</a>
+            <li>
+        <a
+          href="https://naha.backdoor.casino/"
+          target="_blank"
+          rel="noopener">公式ホームページ</a
+        >
       </li>
       <li>
         <a
-          href="https://maps.app.goo.gl/RjRjLq7FYm6bodyN9"
+          href="https://www.google.com/maps/place/%E3%80%92900-0015+%E6%B2%96%E7%B8%84%E7%9C%8C%E9%82%A3%E8%A6%87%E5%B8%82%E4%B9%85%E8%8C%82%E5%9C%B0%EF%BC%93%E4%B8%81%E7%9B%AE%EF%BC%93%E2%88%92%EF%BC%92%EF%BC%90+M%E3%83%93%E3%83%AB%E9%82%A3%E8%A6%87%E5%9B%BD%E9%9A%9B%E9%80%9A%E3%82%8A+7%E9%9A%8E/@26.2144118,127.6795757,17z/data=!3m1!4b1!4m5!3m4!1s0x34e569763335153f:0x6a94a1079f9ebbaa!8m2!3d26.2144118!4d127.6821506?entry=tts&g_ep=EgoyMDI1MDcwOS4wIPu8ASoASAFQAw%3D%3D&skid=6591ac4c-8e98-4362-a616-78532aca4e74"
           target="_blank"
-          rel="noopener">Googleマップで見る</a>
+          rel="noopener">Googleマップで見る</a
+        >
       </li>
     </ul>
-  </div>
-
-  <div class="store-section">
-    <h2>本日のトーナメント</h2>
-    <div style="text-align: center; margin-bottom: 1rem;">
-      <input type="date" id="datePicker" />
-    </div>
-    <ul id="BACKDOOR-tournaments"></ul>
-  </div>
-
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyBhItIbOxR6rXdClsDidrcB1iB1714paAs",
-    authDomain: "okipoka-68419.firebaseapp.com",
-    projectId: "okipoka-68419",
-    storageBucket: "okipoka-68419.appspot.com",
-    messagingSenderId: "749122576664",
-    appId: "1:749122576664:web:20b93253162b185d993e6d"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  const list = document.getElementById("BACKDOOR-tournaments");
-  const dateInput = document.getElementById("datePicker");
-
-  // 日付取得（ローカルタイム使用）
-  function getFormattedDate(dateObj) {
-    const yyyy = dateObj.getFullYear();
-    const mm = String(dateObj.getMonth() + 1).padStart(2, "0");
-    const dd = String(dateObj.getDate()).padStart(2, "0");
-    return `${yyyy}-${mm}-${dd}`;
-  }
-
-  const today = new Date();
-  const todayStr = getFormattedDate(today);
-  dateInput.value = todayStr;
-
-  dateInput.addEventListener("change", () => {
-    loadTournaments(dateInput.value);
-  });
-
-  loadTournaments(todayStr);
-
-  async function loadTournaments(dateStr) {
-    list.innerHTML = "";
-
-    const q = query(
-      collection(db, "tournaments"),
-      where("storeName", "==", "BACKDOOR"),
-      where("startDate", "==", dateStr)
-    );
-    const snapshot = await getDocs(q);
-
-    if (snapshot.empty) {
-      list.innerHTML = "<p style='text-align: center; color: #666;'>該当日のトーナメントはありません。</p>";
-      return;
-    }
-
-    snapshot.forEach((doc) => {
-      const data = doc.data();
-
-      const card = document.createElement("div");
-      card.className = "tournament-card";
-
-      const body = document.createElement("div");
-      body.className = "tournament-card-body";
-
-      const row1 = document.createElement("div");
-      row1.className = "row";
-      row1.style.display = "flex";
-      row1.style.justifyContent = "space-between";
-      row1.innerHTML = `
-        <p><strong>Title:</strong> ${data.eventName}</p>
-        <p><strong>Start:</strong> ${data.startTime}</p>
-      `;
-
-      const row2 = document.createElement("div");
-      row2.className = "row";
-      row2.innerHTML = `
-        <p><strong>Buy-in:</strong> ${data.buyIn}</p>
-        <p><strong>Stack:</strong> ${data.stack}</p>
-        <p><strong>Add-on:</strong> ${data.addon}</p>
-        <p><strong>Prize:</strong> ${data.prize}</p>
-      `;
-
-      body.appendChild(row1);
-      body.appendChild(row2);
-      card.appendChild(body);
-      list.appendChild(card);
-    });
-  }
-</script>
+  </div><br />
+  <AdSection3 />
 </section>
 
 <Footer />
 <Analytics />
 <script src="/js/header.js" type="module"></script>
+
+<style>
+  .icon {
+    width: 20px;
+    height: 20px;
+    object-fit: cover;
+    margin-right: 0.4em;
+    vertical-align: middle;
+    border-radius: 50%;
+  }
+  .store-section ul {
+    list-style: none;
+    padding-left: 0;
+  }
+</style>

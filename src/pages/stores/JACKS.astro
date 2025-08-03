@@ -1,5 +1,5 @@
 ---
-import Analytics from '@vercel/analytics/astro'
+import Analytics from "@vercel/analytics/astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import InterstitialAd from "../../components/InterstitialAd.astro";
@@ -20,10 +20,6 @@ import "../../styles/stores.css";
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap"
-    rel="stylesheet"
-  />
   <title>OKIPOKA|JACKS</title>
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 </head>
@@ -31,175 +27,167 @@ import "../../styles/stores.css";
 <Header />
 <InterstitialAd />
 
-
-<div class="store-header center-align">
-  <h2>JACKS（ジャックス）</h2>
-  <p class="store-tags">#ビリヤード　#ダーツ　#糸満市</p>
-  <img src="/images/jacks.png" class="store-image" />
-</div>
-
-<div class="store-intro">
-  <p>JACKS（ジャックス）は、沖縄・糸満市にあるビリヤード＆ダーツバー。<br />
-  ポーカーだけでなく、ビリヤードやダーツも楽しむことができます。</p>
-
-  <p>シックで落ち着いた雰囲気の中、初めての方から常連さんまで幅広く楽しめる空間をご提供。<br />
-  店内の照明やインテリアにもこだわりがあり、ゆっくりくつろぎながら遊べること間違いなし。</p>
-
-  <p>ポーカー、ビリヤード、麻雀、卓球まで、多彩な遊びが揃ったオールインワン空間。<br />
-  オールスリング方式のポーカーや、ゆったり楽しめるドリンク飲み放題も人気です。<br />
-  ポーカー勉強会も開催中！</p>
-</div>
-
-<div class="store-section">
-  <h2>リングチップ料金プラン</h2>
-  <div class="chip-plan-grid">
-    <div class="chip-card">
-      <ul>
-        <li>※情報準備中（後ほど掲載予定）</li>
-      </ul>
-    </div>
+<section class="store-detail" style="max-width: 720px; margin: 0 auto;">
+  <div class="store-header center-align">
+    <h2>JACKS</h2><br />
+    <img src="/images/jacks.png" class="store-image" />
   </div>
-</div>
+  <style>
+    .store-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .store-image {
+      display: block;
+      width: 350px;
+      height: 350px;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+  </style>
 
-<div class="store-section store-gallery">
-  <h2>店舗写真</h2>
-  <div class="gallery-grid">
-    <img src="/images/sample.png" alt="店舗写真1" />
-    <img src="/images/sample.png" alt="店舗写真2" />
-    <img src="/images/sample.png" alt="店舗写真3" />
-    <img src="/images/sample.png" alt="店舗写真4" />
+  <div class="store-intro">
+    <p>
+      テキスト<br />
+      テキスト
+    </p>
   </div>
-</div>
-
-
-<div class="store-section">
-  <h2>店舗情報</h2>
-  <dl>
-    <dt>店舗名</dt>
-    <dd>ビリヤード＆ダーツ ジャックス</dd>
-    <dt>所在地</dt>
-    <dd>〒901-0302 沖縄県糸満市潮平６０３−４</dd>
-    <dt>営業時間</dt>
-    <dd>20:00〜4:00</dd>
-  </dl>
-</div>
-
-<div class="store-section">
-  <h2>アクセス</h2>
-  <iframe
-    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3580.8258003553386!2d127.67538577574294!3d26.121419293340316!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34e569efdb38df4d%3A0x9b12fd152527fd0c!2z44CSOTAxLTAzMDIg5rKW57iE55yM5bGx5bed5biC6Iq46I2S5Yy65Y2X5Lqs77yT5LiB55uu77yR77yS!5e0!3m2!1sja!2sjp!4v1699999999999"
-    width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"
-    referrerpolicy="no-referrer-when-downgrade">
-  </iframe>
-</div>
-
-<div class="store-section">
-  <h2>関連リンク</h2>
-  <ul>
-    <li>
-      <a href="https://www.instagram.com/bar._jacks?utm_source=ig_web_button_share_sheet&igsh=M2hudTV5NDBuZWRw" target="_blank" rel="noopener">公式Instagram</a>
-    </li>
-    <li>
-      <a href="https://maps.app.goo.gl/eT6NYnio8XstSrhH9" target="_blank" rel="noopener">Googleマップで見る</a>
-    </li>
-  </ul>
-</div>
-
-<div class="store-section">
-  <h2>本日のトーナメント</h2>
-  <div style="text-align: center; margin-bottom: 1rem;">
-    <input type="date" id="datePicker" />
-  </div>
-  <ul id="JACKS-tournaments"></ul>
-</div>
-
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyBhItIbOxR6rXdClsDidrcB1iB1714paAs",
-    authDomain: "okipoka-68419.firebaseapp.com",
-    projectId: "okipoka-68419",
-    storageBucket: "okipoka-68419.appspot.com",
-    messagingSenderId: "749122576664",
-    appId: "1:749122576664:web:20b93253162b185d993e6d"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  const list = document.getElementById("JACKS-tournaments");
-  const dateInput = document.getElementById("datePicker");
-
-  // 日付取得（ローカルタイム使用）
-  function getFormattedDate(dateObj) {
-    const yyyy = dateObj.getFullYear();
-    const mm = String(dateObj.getMonth() + 1).padStart(2, "0");
-    const dd = String(dateObj.getDate()).padStart(2, "0");
-    return `${yyyy}-${mm}-${dd}`;
-  }
-
-  const today = new Date();
-  const todayStr = getFormattedDate(today);
-  dateInput.value = todayStr;
-
-  dateInput.addEventListener("change", () => {
-    loadTournaments(dateInput.value);
-  });
-
-  loadTournaments(todayStr);
-
-  async function loadTournaments(dateStr) {
-    list.innerHTML = "";
-
-    const q = query(
-      collection(db, "tournaments"),
-      where("storeName", "==", "JACKS"),
-      where("startDate", "==", dateStr)
-    );
-    const snapshot = await getDocs(q);
-
-    if (snapshot.empty) {
-      list.innerHTML = "<p style='text-align: center; color: #666;'>該当日のトーナメントはありません。</p>";
-      return;
+  <AdSection1 />
+  <style>
+    .store-intro {
+      margin: 2.5rem 0 2rem 0;
+      padding: 0 0 1.5rem 0;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: #333;
+      font-family: system-ui, Helvetica, Arial, sans-serif;
+      /* border-left removed */
     }
 
-    snapshot.forEach((doc) => {
-      const data = doc.data();
+    .store-intro h2 {
+      font-size: 1.3rem;
+      color: #e67e22;
+      margin-bottom: 1rem;
+    }
 
-      const card = document.createElement("div");
-      card.className = "tournament-card";
+    .store-intro p {
+      margin: 0 0 1rem;
+    }
+  </style>
 
-      const body = document.createElement("div");
-      body.className = "tournament-card-body";
+  <!-- リングチップ料金プラン セクション ここから -->
+  <div class="store-section">
+    <h2>リングチップ料金プラン</h2>
+    <div class="chip-plan-grid">調査中</div>
+    <style>
+      .chip-plan-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1rem;
+      }
+      .chip-card {
+        background-color: #fff;
+        border-left: 5px solid #e67e22;
+        border-radius: 10px;
+        padding: 1rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+      .chip-card h3 {
+        margin: 0 0 0.5rem;
+        font-size: 1.1rem;
+        color: #e67e22;
+      }
+      .chip-card p {
+        margin: 0.2rem 0;
+        font-size: 0.95rem;
+        color: #333;
+      }
+    </style>
+    <!-- リングチップ料金プラン セクション ここまで -->
+    <AdSection2 />
 
-      const row1 = document.createElement("div");
-      row1.className = "row";
-      row1.style.display = "flex";
-      row1.style.justifyContent = "space-between";
-      row1.innerHTML = `
-        <p><strong>Title:</strong> ${data.eventName}</p>
-        <p><strong>Start:</strong> ${data.startTime}</p>
-      `;
+    <!-- 店舗写真セクション ここから -->
+    <div class="store-section store-gallery">
+      <h2>店舗写真</h2>
+      <div class="gallery-grid">
+        <img src="/images/sample.png" />
+        <img src="/images/sample.png" />
+        <img src="/images/sample.png" />
+        <img src="/images/sample.png" />
+      </div>
+    </div>
+    <style>
+      .store-gallery .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+      .store-gallery .gallery-grid img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+    <!-- 店舗写真セクション ここまで -->
 
-      const row2 = document.createElement("div");
-      row2.className = "row";
-      row2.innerHTML = `
-        <p><strong>Buy-in:</strong> ${data.buyIn}</p>
-        <p><strong>Stack:</strong> ${data.stack}</p>
-        <p><strong>Add-on:</strong> ${data.addon}</p>
-        <p><strong>Prize:</strong> ${data.prize}</p>
-      `;
+    <div class="store-section">
+      <h2>店舗情報</h2>
+      <dl>
+        <dt>店舗名</dt>
+        <dd>ビリヤード＆ダーツ ジャックス</dd>
+        <dt>所在地</dt>
+        <dd>〒901-0302 沖縄県糸満市潮平６０３−４</dd>
+        <dt>営業時間</dt>
+        <dd>20:00〜4:00</dd>
+      </dl>
+    </div>
 
-      body.appendChild(row1);
-      body.appendChild(row2);
-      card.appendChild(body);
-      list.appendChild(card);
-    });
-  }
-</script>
+    <div class="store-section">
+      <h2>関連リンク</h2>
+      <ul>
+        <li>
+          <a
+            href="https://www.instagram.com/bar._jacks?utm_source=ig_web_button_share_sheet&igsh=M2hudTV5NDBuZWRw"
+            target="_blank"
+            rel="noopener"
+            ><img src="/images/insta.png" class="icon" /> 公式Instagram</a
+          >
+        </li>
+
+        <li>
+          <a
+            href="https://www.google.com/maps/place/%E3%80%92901-0302+%E6%B2%96%E7%B8%84%E7%9C%8C%E7%B3%B8%E6%BA%80%E5%B8%82%E6%BD%AE%E5%B9%B3%EF%BC%96%EF%BC%90%EF%BC%93%E2%88%92%EF%BC%94+%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%8F%E3%83%B3%E3%82%BA+%E4%B8%8A%E5%8E%9F/@26.1430813,127.6698843,17z/data=!3m1!4b1!4m6!3m5!1s0x34e567d0e85aacb1:0x2c33dceb4ee405c6!8m2!3d26.1430813!4d127.6724592!16s%2Fg%2F12hkj76v6?entry=tts&g_ep=EgoyMDI1MDcwOS4wIPu8ASoASAFQAw%3D%3D&skid=387ad1bb-452b-4f2d-94bd-34564fe37733"
+            target="_blank"
+            rel="noopener">Googleマップで見る</a
+          >
+        </li>
+      </ul>
+    </div><br />
+    <AdSection3 />
+  </div>
+
+  <style>
+    .icon {
+      width: 20px;
+      height: 20px;
+      object-fit: cover;
+      margin-right: 0.4em;
+      vertical-align: middle;
+      border-radius: 50%;
+    }
+    .store-section ul {
+      list-style: none;
+      padding-left: 0;
+    }
+  </style>
 </section>
-<Footer />
-<Analytics />
-<script src="/js/header.js" type="module"></script>
+
+  <Footer />
+  <Analytics />
+  <script src="/js/header.js" type="module"></script>
