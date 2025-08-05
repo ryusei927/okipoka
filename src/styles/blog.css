@@ -1,25 +1,21 @@
             .blog-title {
-                font-size: 1.8rem;
-                font-weight: bold;
-                color: #223;
-                background: #fff;
-                border: 2px solid #223;
-                padding: 0.8rem 1.2rem;
-                border-radius: 6px;
-                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
-                margin: 2rem 0 1.5rem;
+                font-size: 2.2rem;
+                padding: 1rem 1.5rem;
+                background: linear-gradient(90deg, #ffa94d 0%, #ffd6a5 100%);
+                border-left: 6px solid #e77f0f;
+                border-radius: 8px;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+                margin-bottom: 2rem;
             }
 
             .author {
-                display: inline-block;
-                font-weight: bold;
+                background: #fff7e6;
+                border-left: 5px solid #ffa94d;
+                padding: 0.5rem 1rem;
                 font-size: 0.95rem;
-                margin-top: 1rem;
-                background-color: #f7f7f7;
-                padding: 0.4rem 0.8rem;
-                border-left: 4px solid #ffa94d;
+                color: #555;
+                margin: 2rem 0;
                 border-radius: 4px;
-                margin-bottom: 1.2rem;
             }
 
             .author-badge {
@@ -38,11 +34,13 @@
             }
 
             .blog-tags span {
-                background-color: #eee;
-                color: #333;
+                background-color: #ffe1b3;
+                color: #5c3d00;
+                font-weight: bold;
                 font-size: 0.85rem;
-                padding: 0.3rem 0.6rem;
-                border-radius: 12px;
+                padding: 0.3rem 0.8rem;
+                border-radius: 9999px;
+                border: 1px solid #ffae42;
             }
 
             .blog-container {
@@ -60,7 +58,12 @@
             }
 
             .blog-post h2 {
-                margin-top: 0;
+                font-size: 1.5rem;
+                border-left: 4px solid #ffa94d;
+                padding-left: 0.6rem;
+                margin-top: 2.5rem;
+                margin-bottom: 1rem;
+                color: #222;
             }
 
             .blog-post p.date {
@@ -70,7 +73,10 @@
             }
 
             .blog-post p {
-                line-height: 1.6;
+                font-size: 1.05rem;
+                line-height: 1.9;
+                color: #333;
+                margin-bottom: 1.2rem;
             }
 
             .blog-thumbnail-grid {
@@ -207,4 +213,23 @@
                 background-color: #ffa94d;
                 color: #fff;
                 border-color: #ffa94d;
+            }
+            @media screen and (max-width: 768px) {
+                .blog-container {
+                    padding: 1rem;
+                }
+
+                .blog-title {
+                    font-size: 1.5rem;
+                }
+
+                .blog-post img {
+                    width: 100%;
+                    height: auto;
+                }
+
+                .blog-tags {
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
             }

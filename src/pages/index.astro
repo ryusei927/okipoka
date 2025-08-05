@@ -1,5 +1,5 @@
 ---
-import Analytics from '@vercel/analytics/astro';
+import Analytics from "@vercel/analytics/astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import InterstitialAd from "../components/InterstitialAd.astro";
@@ -18,446 +18,369 @@ import AdSection8 from "../components/AdSection8.astro";
 
 <!doctype html>
 <html lang="ja">
-    <head>
-        <meta charset="UTF-8" />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no"
-        />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap"
-            rel="stylesheet"
-        />
-        <meta
-            name="description"
-            content="沖縄でポーカーができるアミューズメント店舗やトーナメント情報を毎日更新。初心者や旅行者にも安心のポータルサイトOKIPOKA。"
-        />
-        <meta
-            name="keywords"
-            content="おきぽか,オキポカ,OKIPOKA,沖縄ポーカー,アミューズメントポーカー,ポーカー店舗,沖縄トーナメント,沖縄ポーカー大会"
-        />
-        <meta
-            name="description"
-            content="OKIPOKA（おきぽか）は、沖縄のアミューズメントポーカー大会・店舗情報・ブログを発信する総合サイトです。"
-        />
-        <title>OKIPOKA</title>
-        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-    </head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap"
+      rel="stylesheet"
+    />
+    <meta
+      name="description"
+      content="沖縄でポーカーができるアミューズメント店舗やトーナメント情報を毎日更新。初心者や旅行者にも安心のポータルサイトOKIPOKA。"
+    />
+    <meta
+      name="keywords"
+      content="おきぽか,オキポカ,OKIPOKA,沖縄ポーカー,アミューズメントポーカー,ポーカー店舗,沖縄トーナメント,沖縄ポーカー大会"
+    />
+    <meta
+      name="description"
+      content="OKIPOKA（おきぽか）は、沖縄のアミューズメントポーカー大会・店舗情報・ブログを発信する総合サイトです。"
+    />
+    <title>OKIPOKA</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  </head>
 
-    <body>
-        <style>
-        .scroll-to-top {
-          position: fixed;
-          bottom: 2rem;
-          right: 1.5rem;
-          background: rgba(255, 255, 255, 0.7);
-          color: #007acc;
-          border: 1px solid #ddd;
-          border-radius: 50%;
-          padding: 0.4rem 0.5rem;
-          font-size: 1.5rem;
-          cursor: pointer;
-          display: none;
-          z-index: 999;
+  <body>
+    <style>
+      .scroll-to-top {
+        position: fixed;
+        bottom: 2rem;
+        right: 1.5rem;
+        background: rgba(255, 255, 255, 0.7);
+        color: #007acc;
+        border: 1px solid #ddd;
+        border-radius: 50%;
+        padding: 0.4rem 0.5rem;
+        font-size: 1.5rem;
+        cursor: pointer;
+        display: none;
+        z-index: 999;
+      }
+      .scroll-to-top:hover {
+        text-decoration: underline;
+      }
+      .store-page-wrapper {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 1rem;
+      }
+
+      .store-directory {
+        background-color: #f9f9f9;
+        padding: 2rem 1rem;
+      }
+
+      .top-section {
+        margin: 1rem 0;
+        padding: 1.2rem 1rem;
+        border-top: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .top-section.blog {
+        background-color: #f4f7fc;
+      }
+
+      .top-section.recruit {
+        text-align: center;
+        background-color: #fef9f3;
+      }
+
+      .top-section.shop {
+        text-align: center;
+        background-color: #f3f9fe;
+      }
+
+      .top-link {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        color: #222; /* 通常時は見やすいダークグレー */
+        text-decoration: none;
+        border-radius: 4px;
+        transition: color 0.2s;
+      }
+
+      .top-link:hover {
+        text-decoration: underline;
+      }
+
+      .top-section.recruit .top-link,
+      .top-section.shop .top-link {
+        color: white; /* ボタン形式の背景ありリンクは白文字 */
+      }
+      .top-section.recruit .top-link {
+        background-color: #f60;
+      }
+      .top-section.shop .top-link {
+        background-color: #007acc;
+      }
+
+      #today-all-card {
+        max-height: 300px;
+        overflow-y: auto;
+      }
+
+      .video-hero {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      .video-background {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      /* スマホ(横幅768px以下)で.video-heroの高さを画面縦の45%に縮小 */
+      @media (max-width: 768px) {
+        .video-hero {
+          height: 45vh;
         }
-        .scroll-to-top:hover {
-          text-decoration: underline;
-        }
-            .store-page-wrapper {
-              max-width: 800px;
-              margin: 0 auto;
-              padding: 1rem;
-            }
+      }
 
-            .store-directory {
-              background-color: #f9f9f9;
-              padding: 2rem 1rem;
-            }
+      /* 追加CSS: 店舗リストのグリッドレイアウトとカードスタイル */
+      .store-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+        padding: 0;
+        list-style: none;
+      }
 
-            .top-section {
-              margin: 1rem 0;
-              padding: 1.2rem 1rem;
-              border-top: 1px solid #ddd;
-              border-bottom: 1px solid #ddd;
-            }
+      .store-list li {
+        height: auto;
+        background: none;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+        padding: 0;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
 
-            .top-section.blog {
-              background-color: #f4f7fc;
-            }
+      .store-list li:hover {
+        transform: scale(1.03);
+      }
 
-            .top-section.recruit {
-              text-align: center;
-              background-color: #fef9f3;
-            }
+      .store-icon {
+        width: 70px;
+        height: 70px;
+        aspect-ratio: 1 / 1;
+        object-fit: contain;
+        border-radius: 50%;
+        border: 2px solid #ccc;
+        background-color: white;
+        padding: 6px;
+        display: block;
+        margin: 0 auto;
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+      }
 
-            .top-section.shop {
-              text-align: center;
-              background-color: #f3f9fe;
-            }
+      .store-icon:hover {
+        transform: scale(1.08);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
 
-            .top-link {
-              display: inline-block;
-              padding: 0.5rem 1rem;
-              color: #222; /* 通常時は見やすいダークグレー */
-              text-decoration: none;
-              border-radius: 4px;
-              transition: color 0.2s;
-            }
-
-            .top-link:hover {
-              text-decoration: underline;
-            }
-
-            .top-section.recruit .top-link,
-            .top-section.shop .top-link {
-              color: white; /* ボタン形式の背景ありリンクは白文字 */
-            }
-            .top-section.recruit .top-link {
-              background-color: #f60;
-            }
-            .top-section.shop .top-link {
-              background-color: #007acc;
-            }
-
-            #today-all-card {
-              max-height: 300px;
-              overflow-y: auto;
-            }
-
-            .video-hero {
-              position: relative;
-              width: 100vw;
-              height: 100vh;
-              overflow: hidden;
-            }
-
-            .video-background {
-              width: 100%;
-              height: 100%;
-              object-fit: cover;
-            }
-        /* スマホ(横幅768px以下)で.video-heroの高さを画面縦の45%に縮小 */
-        @media (max-width: 768px) {
-          .video-hero {
-            height: 45vh;
-          }
-        }
-
-        /* 追加CSS: 店舗リストのグリッドレイアウトとカードスタイル */
+      .store-list div {
+        padding: 0.5rem 0;
+        font-weight: bold;
+        color: #333;
+        display: block;
+      }
+      @media (max-width: 768px) {
         .store-list {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-          gap: 1rem;
-          padding: 0;
-          list-style: none;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 0.5rem;
+        }
+        .store-list div {
+          display: none !important;
+        }
+        .store-icon {
+          width: 80px;
+          height: 80px;
+        }
+      }
+
+      /* スマホ表示時でも店舗画像を1:1正方形の正円で固定サイズに */
+      /* .store-iconはスマホでもPCでも同じスタイルを適用するので、個別のメディアクエリは不要 */
+      @media (max-width: 480px) {
+        .store-list {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 0.5rem;
         }
 
         .store-list li {
-          height: auto;
-          background: none;
-          border: none;
-          border-radius: 0;
-          box-shadow: none;
-          padding: 0;
-          text-align: center;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
+          height: 90px;
         }
+      }
+    </style>
+    <Header />
+    <section class="video-hero">
+      <video autoplay muted loop playsinline class="video-background">
+        <source src="/images/okipoka.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </section>
+    <div class="store-page-wrapper">
+      <InterstitialAd />
+      <main>
+        <div style="height: 0.5rem;"></div>
+        <AdSectionVIP_1 />
 
-        .store-list li:hover {
-          transform: scale(1.03);
-        }
+        <div style="height: 0.5rem;"></div>
 
-        .store-icon {
-          width: 70px;
-          height: 70px;
-          aspect-ratio: 1 / 1;
-          object-fit: contain;
-          border-radius: 50%;
-          border: 2px solid #ccc;
-          background-color: white;
-          padding: 6px;
-          display: block;
-          margin: 0 auto;
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+        <section class="store-directory">
+          <h2>沖縄ポーカースポット</h2><br />
 
-        .store-icon:hover {
-          transform: scale(1.08);
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .store-list div {
-          padding: 0.5rem 0;
-          font-weight: bold;
-          color: #333;
-          display: block;
-        }
-        @media (max-width: 768px) {
-          .store-list {
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0.5rem;
-          }
-          .store-list div {
-            display: none !important;
-          }
-          .store-icon {
-            width: 80px;
-            height: 80px;
-          }
-        }
-
-        /* スマホ表示時でも店舗画像を1:1正方形の正円で固定サイズに */
-        /* .store-iconはスマホでもPCでも同じスタイルを適用するので、個別のメディアクエリは不要 */
-        @media (max-width: 480px) {
-          .store-list {
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0.5rem;
-          }
-
-          .store-list li {
-            height: 90px;
-          }
-        }
-
-        </style>
-        <Header />
-        <section class="video-hero">
-            <video autoplay muted loop playsinline class="video-background">
-                <source src="/images/okipoka.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-            </video>
+          <ul class="store-list">
+            <li>
+              <a href="stores/Jack9">
+                <img src="images/j9logo.jpg" alt="Jack9" class="store-icon" />
+                <div>Jack9</div>
+              </a>
+            </li>
+            <li>
+              <a href="stores/UnderTheGun">
+                <img
+                  src="images/underthegun.jpg"
+                  alt="UnderTheGun"
+                  class="store-icon"
+                />
+                <div>UnderTheGun</div>
+              </a>
+            </li>
+            <li>
+              <a href="stores/Rebarta">
+                <img
+                  src="images/rebarta.png"
+                  alt="Rebarta"
+                  class="store-icon"
+                />
+                <div>Rebarta</div>
+              </a>
+            </li>
+            <li>
+              <a href="stores/BACKDOOR">
+                <img
+                  src="images/backdoor.jpg"
+                  alt="BACKDOOR"
+                  class="store-icon"
+                />
+                <div>BACKDOOR</div>
+              </a>
+            </li>
+            <li>
+              <a href="stores/JACKS">
+                <img src="images/jacks.png" alt="JACKS" class="store-icon" />
+                <div>JACKS</div>
+              </a>
+            </li>
+            <li>
+              <a href="stores/TOKISHIRAZU">
+                <img
+                  src="images/tokishirazu.png"
+                  alt="TOKISHIRAZU"
+                  class="store-icon"
+                />
+                <div>TOKISHIRAZU</div>
+              </a>
+            </li>
+            <li>
+              <a href="stores/TheHand">
+                <img src="images/hand.png" alt="TheHand" class="store-icon" />
+                <div>TheHand</div>
+              </a>
+            </li>
+            <li>
+              <a href="stores/GUTSHOT">
+                <img
+                  src="images/gutshot.png"
+                  alt="GUTSHOT"
+                  class="store-icon"
+                />
+                <div>GUTSHOT</div>
+              </a>
+            </li>
+            <li>
+              <a href="stores/Donk">
+                <img src="images/donk.png" alt="Donk" class="store-icon" />
+                <div>Donk</div>
+              </a>
+            </li>
+            <li>
+              <a href="stores/Re.raise">
+                <img
+                  src="images/Re.raise.png"
+                  alt="Re.raise"
+                  class="store-icon"
+                />
+                <div>Re.raise</div>
+              </a>
+            </li>
+            <li>
+              <a href="stores/nuts">
+                <img src="images/Nuts.png" alt="nuts" class="store-icon" />
+                <div>nuts</div>
+              </a>
+            </li>
+          </ul>
         </section>
-        <div class="store-page-wrapper">
-            <InterstitialAd />
-            <main>
-                <div style="height: 0.5rem;"></div>
-                <AdSectionVIP_1 />
 
+        <AdSection1 />
+        <div style="height: 0.3rem;"></div>
+        <AdSection2 />
+        <div style="height: 0.3rem;"></div>
+        <!-- 今日のトーナメント -->
+        <section class="top-section">
+          <h2>本日のトーナメント情報</h2><br />
+          <div id="today-all-card" class="card-list"></div>
+          <a href="/tournaments/tournaments" class="top-link">詳細を見る</a>
+        </section>
 
+        <AdSectionVIP_2 />
 
-                <div style="height: 0.5rem;"></div>
+        <!-- グッズ紹介バナー -->
+        <section class="top-section shop">
+          <h2 style="margin-bottom: 0.5rem;">SHOP（準備中）</h2>
+          <p style="margin-bottom: 1rem;">オリジナルグッズを今後展開予定です</p>
+          <a href="#" class="top-link"> 商品一覧（近日公開） </a>
+        </section>
+        <AdSection3 />
+        <div style="height: 0.3rem;"></div>
+        <AdSection4 />
+      </main>
+    </div>
+    <Footer />
+    <Analytics />
 
-                <AdSection1 />
-
-                <section
-                    class="store-directory"
-                >
-                    <h2>沖縄ポーカースポット</h2><br />
-                    
-                    <ul class="store-list">
-                        <li>
-                            <a href="stores/Jack9">
-                                <img
-                                    src="images/j9logo.jpg"
-                                    alt="Jack9"
-                                    class="store-icon"
-                                />
-                                <div>Jack9</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="stores/UnderTheGun">
-                                <img
-                                    src="images/underthegun.jpg"
-                                    alt="UnderTheGun"
-                                    class="store-icon"
-                                />
-                                <div>UnderTheGun</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="stores/Rebarta">
-                                <img
-                                    src="images/rebarta.png"
-                                    alt="Rebarta"
-                                    class="store-icon"
-                                />
-                                <div>Rebarta</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="stores/BACKDOOR">
-                                <img
-                                    src="images/backdoor.jpg"
-                                    alt="BACKDOOR"
-                                    class="store-icon"
-                                />
-                                <div>BACKDOOR</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="stores/JACKS">
-                                <img
-                                    src="images/jacks.png"
-                                    alt="JACKS"
-                                    class="store-icon"
-                                />
-                                <div>JACKS</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="stores/TOKISHIRAZU">
-                                <img
-                                    src="images/tokishirazu.png"
-                                    alt="TOKISHIRAZU"
-                                    class="store-icon"
-                                />
-                                <div>TOKISHIRAZU</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="stores/TheHand">
-                                <img
-                                    src="images/hand.png"
-                                    alt="TheHand"
-                                    class="store-icon"
-                                />
-                                <div>TheHand</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="stores/GUTSHOT">
-                                <img
-                                    src="images/gutshot.png"
-                                    alt="GUTSHOT"
-                                    class="store-icon"
-                                />
-                                <div>GUTSHOT</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="stores/Donk">
-                                <img
-                                    src="images/donk.png"
-                                    alt="Donk"
-                                    class="store-icon"
-                                />
-                                <div>Donk</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="stores/Re.raise">
-                                <img
-                                    src="images/Re.raise.png"
-                                    alt="Re.raise"
-                                    class="store-icon"
-                                />
-                                <div>Re.raise</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="stores/nuts">
-                                <img
-                                    src="images/Nuts.png"
-                                    alt="nuts"
-                                    class="store-icon"
-                                />
-                                <div>nuts</div>
-                            </a>
-                        </li>
-                    </ul>
-                </section>
-
-                <AdSection2 />
-                <div style="height: 0.3rem;"></div>
-                <AdSection3 />
-                <!-- 今日のトーナメント -->
-                <section
-                    class="top-section"
-                >
-                    <h2>本日のトーナメント情報</h2><br />
-                    <div
-                        id="today-all-card"
-                        class="card-list"
-                    >
-                    </div>
-                    <a href="/tournaments/tournaments" class="top-link"
-                        >詳細を見る</a
-                    >
-                </section>
-
-                <AdSection4 />
-
-                <!-- ブログ -->
-                <section
-                    class="top-section blog"
-                >
-                    <h2>Blog（準備中）</h2><br />
-                    <div class="card-list">
-                        <div class="info-card">
-                            <a href="/blog/post1">準備中</a>
-                        </div>
-                        <div class="info-card">
-                            <a href="/blog/post2">準備中</a>
-                        </div>
-                    </div>
-                    <a href="#" class="top-link">すべてのブログ記事</a>
-                </section>
-
-                <AdSectionVIP_2 />
-
-                <!-- 寄稿者募集バナー -->
-                <section
-                    class="top-section recruit"
-                >
-                    <h2 style="margin-bottom: 0.5rem;">寄稿者募集中！</h2>
-                    <p style="margin-bottom: 1rem;">
-                        Blogに掲載する記事を書いてくれる寄稿者の方を募集中です。ご興味ある方はぜひご連絡ください。
-                    </p>
-                    <a
-                        href="/recruit"
-                        class="top-link"
-                    >
-                        募集の詳細を見る
-                    </a>
-                </section>
-
-                <AdSection5 />
-                <div style="height: 0.3rem;"></div>
-                <AdSection6 />
-
-                <!-- グッズ紹介バナー -->
-                <section
-                    class="top-section shop"
-                >
-                    <h2 style="margin-bottom: 0.5rem;">SHOP（準備中）</h2>
-                    <p style="margin-bottom: 1rem;">
-                        オリジナルグッズを今後展開予定です
-                    </p>
-                    <a
-                        href="#"
-                        class="top-link"
-                    >
-                        商品一覧（近日公開）
-                    </a>
-                </section>
-
-                <AdSection7 />
-                <div style="height: 0.3rem;"></div>
-                <AdSection8 />
-                <div style="height: 0.3rem;"></div>
-            </main>
-        </div>
-        <Footer />
-        <Analytics />
-
-        <button id="scrollToTopBtn" class="scroll-to-top" aria-label="ページ上部に戻る">♠️</button>
-        <script>
-          const scrollBtn = document.getElementById("scrollToTopBtn");
-          if (scrollBtn) {
-            window.addEventListener("scroll", () => {
-              scrollBtn.style.display = window.scrollY > 0 ? "block" : "none";
-            });
-            scrollBtn.addEventListener("click", () => {
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            });
-          }
-        </script>
-        <script src="/js/script.js" type="module"></script>
-        <script src="/js/header.js" type="module"></script>
-        <script src="/js/todayAll.js" type="module"></script>
-    </body>
+    <button
+      id="scrollToTopBtn"
+      class="scroll-to-top"
+      aria-label="ページ上部に戻る">♠️</button
+    >
+    <script>
+      const scrollBtn = document.getElementById("scrollToTopBtn");
+      if (scrollBtn) {
+        window.addEventListener("scroll", () => {
+          scrollBtn.style.display = window.scrollY > 0 ? "block" : "none";
+        });
+        scrollBtn.addEventListener("click", () => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      }
+    </script>
+    <script src="/js/script.js" type="module"></script>
+    <script src="/js/header.js" type="module"></script>
+    <script src="/js/todayAll.js" type="module"></script>
+  </body>
 </html>

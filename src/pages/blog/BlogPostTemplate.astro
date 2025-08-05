@@ -1,0 +1,41 @@
+---
+import Header from "../../components/Header.astro";
+---
+
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>ブログ記事タイトル｜OKIPOKA</title>
+    <meta name="description" content="この記事の説明をここに書きます。" />
+    <link rel="stylesheet" href="/styles/blog-modern.css" />
+  </head>
+  <body>
+    <Header />
+    <main class="blog-container">
+      <article class="blog-post">
+        <p class="blog-date">📅 2025年8月5日</p>
+
+        <h1 class="blog-title">ここに記事タイトル</h1>
+
+        <div class="blog-tags">
+          <span>タグ1</span>
+          <span>タグ2</span>
+        </div>
+
+        <img src="/images/blog/sample.jpg" alt="アイキャッチ画像" class="blog-hero" />
+
+        <h2>見出しタイトル</h2>
+        <p>ここに本文を書いていきます。文章は自由に調整可能です。</p>
+
+        <h2>別のセクション見出し</h2>
+        <p>さらに本文を続けます。リストなども使えます：</p>
+        <ul>
+          <li>ポイント1</li>
+          <li>ポイント2</li>
+        </ul>
+
+        <p class="author">✍️ OKIPOKA編集部</p>
+      </article>
+    </main>
+  </body>
+</html>
