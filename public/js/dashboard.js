@@ -38,8 +38,8 @@ document.getElementById("tournament-form").addEventListener("submit", async func
   const selectedDates = dateRaw.split(",").map(s => s.trim());
   const start = document.getElementById("start-time").value;
   const buyIn = document.getElementById("buy-in").value;
-  const addon = document.getElementById("addon").value || "0";
-  const prize = document.getElementById("prize").value || "未定";
+  const addon = document.getElementById("addon").value || "なし";
+  const prize = document.getElementById("prize").value || "店舗にてご確認ください";
   const stack = document.getElementById("stack").value;
   const note = document.getElementById("note").value;
   const lateReg = document.getElementById("late-reg").value;
