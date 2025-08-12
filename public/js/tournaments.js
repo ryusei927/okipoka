@@ -68,7 +68,7 @@ async function loadTournaments(dateStr) {
         <p class="tournament-title"><strong>${data.eventName || "タイトル未定"}</strong></p>
         <div class="row">
           <p><span class="label">場所：</span>${data.storeName || data.postedBy || "不明な店舗"}</p>
-          <p><span class="label">Start：</span>${data.startTime || "時間未定"}</p>
+          <p><span class="label">開始時間：</span>${data.startTime || "時間未定"}</p>
         </div>
         <p><span class="label">Buy-in：</span>${data.buyIn || "未定"}</p>
       </div>
