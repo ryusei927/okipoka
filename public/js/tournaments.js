@@ -14,9 +14,16 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-
 const list = document.getElementById("tournament-list");
 const dateInput = document.getElementById("datePicker");
+
+// 円表記フォーマッタ
+function formatYen(v) {
+  if (v === undefined || v === null || v === "") return "";
+  const n = Number(v);
+  if (Number.isNaN(n)) return v; // 文字ならそのまま
+  return `${n.toLocaleString()}円`;
+}
 
 // 日付取得関数（ローカルタイム）
 function getFormattedDate(dateObj) {
@@ -71,6 +78,9 @@ async function loadTournaments(dateStr) {
           <p><span class="label">開始時間：</span>${data.startTime || "時間未定"}</p>
         </div>
         <p><span class="label">Buy-in：</span>${data.buyIn || "未定"}</p>
+        <p><span class="label">リエントリー：</span>${(data.reentryFee !== undefined && data.reentryFee !== null && data.reentryFee !== "")
+          ? formatYen(data.reentryFee)
+          : "—"}</p>
       </div>
       <div class="details-button-wrapper">
         <a href="/tournaments/${doc.id}" class="details-button">
@@ -81,7 +91,6 @@ async function loadTournaments(dateStr) {
     list.appendChild(card);
   });
 }
-
 
 document.addEventListener("DOMContentLoaded", () => {
     const slides = document.querySelectorAll(".ad-slide");
@@ -124,6 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
     showSlide(currentIndex);
     setInterval(nextSlide, 4000);
 });
+
 // --- Styles for tournament card (Consider moving to external CSS for production) ---
 const tournamentCardStyles = `
 .tournament-card-body {

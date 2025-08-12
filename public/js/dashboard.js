@@ -69,6 +69,7 @@ document.getElementById("tournament-form").addEventListener("submit", async func
   const dateRaw = document.getElementById("multi-date").value;
   const selectedDates = dateRaw.split(",").map(s => s.trim()).filter(Boolean);
   const start = document.getElementById("start-time").value;
+
   const buyIn = document.getElementById("buy-in").value;
   const addon = document.getElementById("addon").value || "なし";
   const prize = document.getElementById("prize").value || "店舗にてご確認ください";
@@ -77,6 +78,10 @@ document.getElementById("tournament-form").addEventListener("submit", async func
   const lateReg = document.getElementById("late-reg").value;
   const structureUrl = document.getElementById("structureUrl").value;
   const eventType = document.getElementById("eventType").value;
+
+  // ★ 追加：リエントリー料金（数値）
+  const reentryFeeRaw = document.getElementById("reentry-fee")?.value ?? "";
+  const reentryFee = reentryFeeRaw.trim() === "" ? null : Number(reentryFeeRaw);
 
   if (!eventName || !start || selectedDates.length === 0) {
     alert("トーナメントタイトル、開催日、開始時間は必須です");
@@ -103,6 +108,7 @@ document.getElementById("tournament-form").addEventListener("submit", async func
         lateReg,
         structureUrl,
         eventType,
+        reentryFee,                                 // ★ 追加：リエントリー料金（数値 or null）
         postedBy: auth.currentUser ? auth.currentUser.email : "unknown",
         postedByEmailLower: profile.emailLower,     // ← 互換用
         storeId: profile.uid,                       // ← 将来のUID方式移行に備え保存

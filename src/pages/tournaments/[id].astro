@@ -102,7 +102,7 @@ if (data?.postedBy) {
 
       .tournament-item p strong {
         display: inline-block;
-        width: 110px;
+        width: 90px;
         color: #333;
         font-weight: 600;
       }
@@ -250,6 +250,7 @@ if (data?.postedBy) {
           <div class="tournament-item">
             <h2 class="section-label">参加情報</h2>
             <p><strong>参加費：</strong>{data.buyIn} 円</p>
+            <p><strong>リエントリー：</strong>{data.reentryFee ? `${data.reentryFee} 円` : "—"}</p>
             <p><strong>アドオン：</strong>{data.addon}</p>
             <p><strong>スタック：</strong>{data.stack}</p>
             <p><strong>プライズ：</strong>{data.prize}</p>
