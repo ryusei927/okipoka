@@ -88,21 +88,21 @@ if (data?.postedBy) {
       }
 
       .tournament-item p {
-        font-size: 1.3rem;
+        font-size: 2.1rem;
         margin: 0.6rem 0;
-        line-height: 1.75;
+        line-height: 1.9;
         color: #444;
         border-bottom: 1px solid #eee;
         padding-bottom: 0.5rem;
+        /* 改行を防ぎつつ可変レイアウトにする */
         display: flex;
-        justify-content: start;
-        align-items: center;
-        gap: 0.5rem;
+        align-items: baseline;
+        gap: 0.75rem;
       }
 
       .tournament-item p strong {
-        display: inline-block;
-        width: 90px;
+        flex: 0 0 7.5em;
+        white-space: nowrap;
         color: #333;
         font-weight: 600;
       }
@@ -121,13 +121,13 @@ if (data?.postedBy) {
 
       .tournament-item a.button-link {
         display: inline-block;
-        padding: 4px 10px;
+        padding: 6px 12px;
         background-color: #eee;
         color: #333;
         border-radius: 6px;
         text-decoration: none;
         font-weight: 500;
-        font-size: 0.95rem;
+        font-size: 1rem;
         transition: background-color 0.3s, color 0.3s;
       }
       .tournament-item a.button-link:hover {
@@ -174,7 +174,7 @@ if (data?.postedBy) {
         }
 
         .tournament-item p strong {
-          width: 90px;
+          flex-basis: 6.5em;
           font-size: 1.1rem;
         }
 
@@ -220,6 +220,41 @@ if (data?.postedBy) {
         background-color: #999;
         border-radius: 2px;
       }
+
+      /* 備考（details/summary） */
+      .note-row {
+        display: flex;
+        align-items: baseline;
+        gap: 0.75rem;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 0.5rem;
+        margin: 0.6rem 0;
+        font-size: 1.45rem;
+        line-height: 1.9;
+        color: #444;
+      }
+      .note-row > strong {
+        flex: 0 0 7.5em;
+        white-space: nowrap;
+        color: #333;
+        font-weight: 600;
+      }
+      .note-details summary {
+        cursor: pointer;
+        list-style: none;
+        font-weight: 600;
+        text-decoration: underline;
+        color: #ff7f00;
+      }
+      .note-details summary::-webkit-details-marker { display: none; }
+      .note-details { display: block; }
+      .note-details .note-body { margin-top: 0.4rem; color: #333; font-weight: 400; }
+      @media (max-width: 600px) {
+        .note-row { font-size: 1.35rem; line-height: 1.85; }
+        .note-row > strong { flex-basis: 6.5em; }
+      }
+      /* ボタンの可読性を少しだけUP */
+      .tournament-item a.button-link { padding: 6px 12px; font-size: 1rem; }
     </style>
   </head>
   <body>
@@ -268,7 +303,17 @@ if (data?.postedBy) {
                   </>
                 : "なし"}
             </p>
-            <p><strong>備考：</strong>{data.note || "なし"}</p>
+            {data.note ? (
+              <div class="note-row">
+                <strong>備考：</strong>
+                <details class="note-details">
+                  <summary>タップして表示</summary>
+                  <div class="note-body">{data.note}</div>
+                </details>
+              </div>
+            ) : (
+              <p><strong>備考：</strong>なし</p>
+            )}
           </div>
 
           <p style="text-align: center; font-size: 0.95rem; color: #555; margin-top: 1.5rem;">
