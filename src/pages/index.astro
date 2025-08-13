@@ -128,7 +128,7 @@ import AdSection8 from "../components/AdSection8.astro";
       .shop-card {
         max-width: 680px;
         margin: 0 auto;
-        padding: 1.4rem 1.2rem;
+        padding: 1.2rem 1rem;
         border-radius: 14px;
         background: linear-gradient(180deg, #ffffff 0%, #f7faff 100%);
         border: 1px solid rgba(0, 0, 0, 0.06);
@@ -153,14 +153,18 @@ import AdSection8 from "../components/AdSection8.astro";
         justify-content: center;
         background: #fff;
         border-radius: 12px;
-        padding: 14px 18px;
+        padding: 16px 18px;
         border: 1px solid rgba(0,0,0,0.08);
         box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 6px 14px rgba(16,24,40,0.06);
         transition: transform .2s ease, box-shadow .2s ease;
+        width: 100%;
+        max-width: 420px;
+        box-sizing: border-box;
       }
       .shop-logo-wrap:hover { transform: translateY(-2px); box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 10px 20px rgba(16,24,40,0.10); }
       .shop-logo {
-        max-width: 300px;
+        width: 100%;
+        max-width: 260px;
         height: auto;
         display: block;
         filter: drop-shadow(0 0 0 rgba(0,0,0,0));
@@ -187,9 +191,10 @@ import AdSection8 from "../components/AdSection8.astro";
         color: #64748b;
       }
       @media (max-width: 480px) {
-        .shop-card { padding: 1.1rem .9rem; border-radius: 12px; }
+        .shop-card { padding: 1rem .9rem; border-radius: 12px; }
         .shop-heading { font-size: 1.1rem; }
-        .shop-logo { max-width: 200px; }
+        .shop-logo { max-width: 220px; }
+        .shop-logo-wrap { max-width: 340px; padding: 12px 14px; }
       }
 
       .top-link {
@@ -470,7 +475,7 @@ import AdSection8 from "../components/AdSection8.astro";
           <div class="shop-card">
             <div class="shop-heading">SHOP</div>
             <a href="https://shop.poker-showdown.net/?srsltid=AfmBOopMDhVP41GahXgxsuOecempuTorU3Cem0gIlGabR2U6D73NlkN0" target="_blank" rel="noopener noreferrer" class="shop-logo-wrap">
-              <img src="/images/showdown.png" alt="Showdown Poker Apparel" class="shop-logo" style="max-width: 300px;" />
+              <img src="/images/showdown.png" alt="Showdown Poker Apparel" class="shop-logo" loading="lazy" width="600" height="160" />
             </a>
             <div>
               <a href="https://shop.poker-showdown.net/?srsltid=AfmBOopMDhVP41GahXgxsuOecempuTorU3Cem0gIlGabR2U6D73NlkN0" target="_blank" rel="noopener noreferrer" class="shop-cta">
