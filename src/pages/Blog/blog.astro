@@ -1,0 +1,78 @@
+---
+import Analytics from "@vercel/analytics/astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+---
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ブログ | OKIPOKA</title>
+</head>
+
+<Header />
+
+<main style="max-width: 800px; margin: 2rem auto; padding: 1rem;">
+  <h1 style="font-size: 2rem; margin-bottom: 1rem;">ブログ</h1>
+
+  <!-- イベント情報 -->
+  <section style="margin-bottom: 3rem;">
+    <h2 style="font-size: 1.5rem; margin-bottom: 1rem; border-bottom: 2px solid #f90; padding-bottom: 0.5rem;">イベント情報</h2>
+    <ul style="list-style: none; padding: 0;">
+      <li style="margin-bottom: 1.5rem; border-bottom: 1px solid #333; padding-bottom: 1rem;">
+        <strong style="font-size: 1.2rem; color: #f90;">OKIPOKA トーナメント 2025/08/20</strong>
+        <div style="font-size: 0.9rem; color: #888;">
+          開催場所: OKIPOKA本店
+        </div>
+        <p style="margin-top: 0.5rem; color: #ccc;">
+          豪華賞品付きのトーナメントイベントです。初心者から上級者まで楽しめます！
+        </p>
+      </li>
+      <li style="margin-bottom: 1.5rem; border-bottom: 1px solid #333; padding-bottom: 1rem;">
+        <strong style="font-size: 1.2rem; color: #f90;">OKIPOKA スペシャルゲームデー 2025/08/25</strong>
+        <div style="font-size: 0.9rem; color: #888;">
+          開催場所: OKIPOKAサテライト
+        </div>
+        <p style="margin-top: 0.5rem; color: #ccc;">
+          一日限定の特別ゲームイベント！プロプレイヤーとの対戦も可能です。
+        </p>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ブログ記事 -->
+  <section>
+    <h2 style="font-size: 1.5rem; margin-bottom: 1rem; border-bottom: 2px solid #f90; padding-bottom: 0.5rem;">最新ブログ記事</h2>
+    <ul style="list-style: none; padding: 0;">
+      <li style="margin-bottom: 1.5rem; border-bottom: 1px solid #333; padding-bottom: 1rem;">
+        <a href="/blog/sample-post" style="color: #f90; font-size: 1.2rem; text-decoration: none;">
+          サンプル記事タイトル
+        </a>
+        <div style="font-size: 0.9rem; color: #888;">
+          2025/08/14
+        </div>
+        <p style="margin-top: 0.5rem; color: #ccc;">
+          これはサンプル記事の説明文です。
+        </p>
+      </li>
+      <li style="margin-bottom: 1.5rem; border-bottom: 1px solid #333; padding-bottom: 1rem;">
+        <a href="/blog/another-post" style="color: #f90; font-size: 1.2rem; text-decoration: none;">
+          別の記事タイトル
+        </a>
+        <div style="font-size: 0.9rem; color: #888;">
+          2025/08/13
+        </div>
+        <p style="margin-top: 0.5rem; color: #ccc;">
+          別の記事の簡単な説明文がここに入ります。
+        </p>
+      </li>
+    </ul>
+  </section>
+</main>
+
+<Footer />
+<script src="/js/header.js" type="module"></script>
+
+</html>
