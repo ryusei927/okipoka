@@ -1,0 +1,43 @@
+---
+export const prerender = false;
+import Analytics from "@vercel/analytics/astro";
+import Header from "../../../components/Header.astro";
+import Footer from "../../../components/Footer.astro";
+
+import InterstitialAd from "../../../components/InterstitialAd.astro";
+
+import AdSectionVIP_1 from "../../../components/AdSectionVIP_1.astro";
+import AdSectionVIP_2 from "../../../components/AdSectionVIP_2.astro";
+import AdSection1 from "../../../components/AdSection1.astro";
+import AdSection2 from "../../../components/AdSection2.astro";
+import AdSection3 from "../../../components/AdSection3.astro";
+import AdSection4 from "../../../components/AdSection4.astro";
+import AdSection5 from "../../../components/AdSection5.astro";
+import AdSection6 from "../../../components/AdSection6.astro";
+import AdSection7 from "../../../components/AdSection7.astro";
+import AdSection8 from "../../../components/AdSection8.astro";
+
+const showVIP1 = Math.random() < 0.5;
+---
+
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>サンプル記事</title>
+  </head>
+  <InterstitialAd />
+  <body>
+    <Header />
+
+    <main>
+これはテスト記事です
+
+        
+    </main>
+    <Footer />
+    <Analytics />
+    <script src="/js/header.js" type="module"></script>
+  </body>
+</html>
