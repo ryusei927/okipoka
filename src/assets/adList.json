@@ -59,17 +59,9 @@
         {
             "image": "/images/radio_ad.jpg",
             "link": "https://www.instagram.com/kurikinton_t/?utm_source=ig_web_button_share_sheet"
-        },
-        {
-            "image": "/images/radio_ad.jpg",
-            "link": "https://www.instagram.com/kurikinton_t/?utm_source=ig_web_button_share_sheet"
         }
     ],
     "standard2": [
-        {
-            "image": "/images/cave2_ad.png",
-            "link": "https://www.instagram.com/luxuryspace_cave_0922?utm_source=ig_web_button_share_sheet&igsh=aGVzc3FwZWRwNmht"
-        },
         {
             "image": "/images/cave2_ad.png",
             "link": "https://www.instagram.com/luxuryspace_cave_0922?utm_source=ig_web_button_share_sheet&igsh=aGVzc3FwZWRwNmht"
@@ -103,10 +95,6 @@
         {
             "image": "/images/standard24.png",
             "link": "https://example.com/standard24"
-        },
-        {
-            "image": "/images/standard25.png",
-            "link": "https://example.com/standard25"
         }
     ],
     "standard4": [
@@ -125,10 +113,6 @@
         {
             "image": "/images/standard29.png",
             "link": "https://example.com/standard29"
-        },
-        {
-            "image": "/images/standard30.png",
-            "link": "https://example.com/standard30"
         }
     ],
     "standard5": [
@@ -147,76 +131,8 @@
         {
             "image": "/images/standard34.png",
             "link": "https://example.com/standard34"
-        },
-        {
-            "image": "/images/standard35.png",
-            "link": "https://example.com/standard35"
-        }
-    ],
-    "standard6": [
-        {
-            "image": "/images/standard36.png",
-            "link": "https://example.com/standard36"
-        },
-        {
-            "image": "/images/standard37.png",
-            "link": "https://example.com/standard37"
-        },
-        {
-            "image": "/images/standard38.png",
-            "link": "https://example.com/standard38"
-        },
-        {
-            "image": "/images/standard39.png",
-            "link": "https://example.com/standard39"
-        },
-        {
-            "image": "/images/standard40.png",
-            "link": "https://example.com/standard40"
-        }
-    ],
-    "standard7": [
-        {
-            "image": "/images/standard41.png",
-            "link": "https://example.com/standard41"
-        },
-        {
-            "image": "/images/standard42.png",
-            "link": "https://example.com/standard42"
-        },
-        {
-            "image": "/images/standard43.png",
-            "link": "https://example.com/standard43"
-        },
-        {
-            "image": "/images/standard44.png",
-            "link": "https://example.com/standard44"
-        },
-        {
-            "image": "/images/standard45.png",
-            "link": "https://example.com/standard45"
-        }
-    ],
-    "standard8": [
-        {
-            "image": "/images/standard46.png",
-            "link": "https://example.com/standard46"
-        },
-        {
-            "image": "/images/standard47.png",
-            "link": "https://example.com/standard47"
-        },
-        {
-            "image": "/images/standard48.png",
-            "link": "https://example.com/standard48"
-        },
-        {
-            "image": "/images/standard49.png",
-            "link": "https://example.com/standard49"
-        },
-        {
-            "image": "/images/standard50.png",
-            "link": "https://example.com/standard50"
         }
     ]
+
+
 }
