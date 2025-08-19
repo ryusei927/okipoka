@@ -1,0 +1,360 @@
+<style>
+/* 上部の余白を消す（ヘッダーの余白対策） */
+      body { margin: 0; }
+      header.header_fixed { margin-bottom: 0; }
+      header.header_fixed + .video-hero { margin-top: 0; }
+      /* 念のためヒーロー直上の隙間を完全にゼロ化 */
+      .video-hero { margin-top: 0; }
+
+      /* ---- Ad label badge ---- */
+      .ad-wrapper {
+        position: relative;
+      }
+      .ad-label {
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        z-index: 2;
+        padding: 2px 6px;
+        font-size: 0.72rem;
+        font-weight: 700;
+        border-radius: 6px;
+        background: rgba(226, 232, 240, 0.8); /* slate-200 with transparency */
+        color: rgba(71, 85, 105, 0.75); /* slate-600 less prominent */
+        letter-spacing: 0.02em;
+        pointer-events: none; /* クリックを邪魔しない */
+      }
+      .ad-label.center-top {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      @media (max-width: 480px) {
+        .ad-label {
+          font-size: 0.68rem;
+          top: 5px;
+          left: 5px;
+        }
+      }
+      /* 広告画像のレスポンシブ対応（枠からはみ出さない） */
+      .ad-wrapper img,
+      .ad-wrapper picture img,
+      .ad-wrapper a img {
+        max-width: 100%;
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 8px;
+      }
+      .scroll-to-top {
+        position: fixed;
+        bottom: 2rem;
+        right: 1.5rem;
+        background: rgba(255, 255, 255, 0.7);
+        color: #007acc;
+        border: 1px solid #ddd;
+        border-radius: 50%;
+        padding: 0.4rem 0.5rem;
+        font-size: 1.5rem;
+        cursor: pointer;
+        display: none;
+        z-index: 999;
+      }
+      .scroll-to-top:hover {
+        text-decoration: underline;
+      }
+      .store-page-wrapper {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 1rem;
+      }
+
+      .store-directory {
+        background-color: #f9f9f9;
+        padding: 2rem 1rem;
+      }
+
+      .top-section {
+        margin: 1rem 0;
+        padding: 1.2rem 1rem;
+        border-top: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .top-section.blog {
+        background-color: #f4f7fc;
+      }
+
+      .top-section.recruit {
+        text-align: center;
+        background-color: #fef9f3;
+      }
+
+      .top-section.shop {
+        text-align: center;
+        background-color: #f3f9fe;
+      }
+
+      /* --- SHOWDOWN shop card --- */
+      .shop-card {
+        max-width: 680px;
+        margin: 0 auto;
+        padding: 1.2rem 1rem;
+        border-radius: 14px;
+        background: linear-gradient(180deg, #ffffff 0%, #f7faff 100%);
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+        text-align: center;
+      }
+      .shop-heading {
+        font-size: 1.25rem;
+        letter-spacing: 0.02em;
+        margin: 0 0 0.25rem 0;
+        font-weight: 700;
+        color: #0f172a;
+      }
+      .shop-sub {
+        font-size: 0.95rem;
+        color: #475569;
+        margin: 0 0 1rem 0;
+      }
+      .shop-logo-wrap {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: #fff;
+        border-radius: 12px;
+        padding: 16px 18px;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.6),
+          0 6px 14px rgba(16, 24, 40, 0.06);
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+        width: 100%;
+        max-width: 420px;
+        box-sizing: border-box;
+      }
+      .shop-logo-wrap:hover {
+        transform: translateY(-2px);
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.6),
+          0 10px 20px rgba(16, 24, 40, 0.1);
+      }
+      .shop-logo {
+        width: 100%;
+        max-width: 260px;
+        height: auto;
+        display: block;
+        filter: drop-shadow(0 0 0 rgba(0, 0, 0, 0));
+      }
+      .shop-cta {
+        margin-top: 1rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 10px 16px;
+        border-radius: 10px;
+        background: #0ea5e9;
+        color: #fff;
+        font-weight: 700;
+        text-decoration: none;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        box-shadow: 0 6px 14px rgba(14, 165, 233, 0.35);
+        transition:
+          background 0.2s ease,
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+      .shop-cta:hover {
+        background: #0284c7;
+        transform: translateY(-1px);
+        box-shadow: 0 10px 22px rgba(2, 132, 199, 0.45);
+      }
+      .shop-meta {
+        margin-top: 0.8rem;
+        font-size: 0.85rem;
+        color: #64748b;
+      }
+      @media (max-width: 480px) {
+        .shop-card {
+          padding: 1rem 0.9rem;
+          border-radius: 12px;
+        }
+        .shop-heading {
+          font-size: 1.1rem;
+        }
+        .shop-logo {
+          max-width: 220px;
+        }
+        .shop-logo-wrap {
+          max-width: 340px;
+          padding: 12px 14px;
+        }
+      }
+
+      .top-link {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        color: #222; /* 通常時は見やすいダークグレー */
+        text-decoration: none;
+        border-radius: 4px;
+        transition: color 0.2s;
+      }
+
+      .top-link:hover {
+        text-decoration: underline;
+      }
+
+      .top-section.recruit .top-link,
+      .top-section.shop .top-link {
+        color: white; /* ボタン形式の背景ありリンクは白文字 */
+      }
+      .top-section.recruit .top-link {
+        background-color: #f60;
+      }
+      .top-section.shop .top-link {
+        background-color: #007acc;
+      }
+
+      #today-all-card {
+        max-height: 300px;
+        overflow-y: auto;
+      }
+
+      .video-hero {
+        position: relative;
+        width: 100%;
+        /* さらにスリムな横長比率 */
+        height: clamp(480px, 75vh, 900px);
+        overflow: hidden;
+      }
+
+      .video-background {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        /* ロゴ下の反射を少し見せつつ中央を外さない */
+        object-position: center 62%;
+        display: block;
+      }
+
+      /* スマホは画像の実寸比(16:9)を保って全体を見せる */
+      @media (max-width: 768px) {
+        .video-hero {
+          width: 100%;
+          height: auto;            /* 固定高さを解除 */
+          aspect-ratio: 16 / 9;    /* 1536x864 の比率を維持 */
+          overflow: hidden;
+        }
+        .video-background{
+          width: 100%;
+          height: 100%;
+          object-fit: contain;     /* トリミングしない＝画像全体を表示 */
+          object-position: center center;
+          display: block;
+        }
+      }
+
+      /* さらに小さい端末でも同じ挙動（比率固定＋トリミング無し） */
+      @media (max-width: 420px){
+        .video-hero { height: auto; aspect-ratio: 16 / 9; }
+        .video-background { object-fit: contain; }
+      }
+
+      /* 追加CSS: 店舗リストのグリッドレイアウトとカードスタイル */
+      .store-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+        padding: 0;
+        list-style: none;
+      }
+
+      .store-list li {
+        height: auto;
+        background: none;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+        padding: 0;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .store-list li:hover {
+        transform: scale(1.03);
+      }
+
+      .store-icon {
+        width: 70px;
+        height: 70px;
+        aspect-ratio: 1 / 1;
+        object-fit: contain;
+        border-radius: 50%;
+        border: 2px solid #ccc;
+        background-color: white;
+        padding: 6px;
+        display: block;
+        margin: 0 auto;
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+
+      .store-icon:hover {
+        transform: scale(1.08);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      .store-list div {
+        padding: 0.5rem 0;
+        font-weight: bold;
+        color: #333;
+        display: block;
+      }
+      @media (max-width: 768px) {
+        .store-list {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 0.5rem;
+        }
+        .store-list div {
+          display: none !important;
+        }
+        .store-icon {
+          width: 80px;
+          height: 80px;
+        }
+      }
+
+      /* スマホ表示時でも店舗画像を1:1正方形の正円で固定サイズに */
+      /* .store-iconはスマホでもPCでも同じスタイルを適用するので、個別のメディアクエリは不要 */
+      @media (max-width: 480px) {
+        .store-list {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 0.5rem;
+        }
+
+        .store-list li {
+          height: 90px;
+        }
+      }
+
+      @media (min-width: 1024px){
+        /* PCでは「沖縄ポーカースポット」と同じ横幅（= .store-page-wrapper の最大幅800px）に揃える */
+        .vip-ad{
+          width: 100%;
+          max-width: 800px; /* .store-page-wrapper と同値 */
+          margin: 36px auto 56px;
+          border-radius: 16px;
+        }
+      }
+      @media (min-width: 1440px){
+        /* 超ワイドでも枠幅に固定（スマホは触らない） */
+        .vip-ad{ width: 100%; max-width: 800px; }
+      }
+
+      </style>

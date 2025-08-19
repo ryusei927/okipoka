@@ -13,17 +13,24 @@ h2{
   display: list-item;
 }
 
-/* 店舗アイコン画像のスタイル */
-.store-icon {
+/* 店舗アイコン画像のスタイル（常に真円に統一） */
+.store-icon,
+.store-directory .store-icon,
+.store-list .store-icon {
     width: 90px;
     height: 90px;
-    object-fit: cover;
-    border-radius: 8px;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    border-radius: 50% !important; /* 競合に勝つ */
     margin-bottom: 0.5rem;
-    border: 1px solid #ccc;
+    border: 2px solid #ccc;
     background-color: #fff;
-    padding: 4px;
+    padding: 6px;
+    display: block;
 }
+
+/* Legacy card layout keeps rounded square icons */
+.store-directory .store-icon { border-radius: 8px; }
 
 /* 店舗ディレクトリのカード風レイアウト */
 .store-directory {
@@ -32,7 +39,7 @@ h2{
     padding: 0 1em;
 }
 
-.store-directory ul {
+.store-directory ul:not(.store-list) {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 16px;
@@ -43,24 +50,20 @@ h2{
     padding-bottom: 1rem;
 }
 
-.store-directory li {
+.store-directory ul:not(.store-list) > li {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 12px;
-    background: linear-gradient(145deg, #ffffff, #f3f3f3);
-    border-radius: 12px;
-    border: 1px solid #e0e0e0;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
-    transition: all 0.25s ease;
+    padding: 8px;           /* 枠は消し、余白だけ軽く */
+    background: transparent;/* カード風を解除 */
+    border: none;
+    box-shadow: none;
+    transition: transform 0.25s ease;
 }
 
-.store-directory li:hover {
-    transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
-}
+.store-directory ul:not(.store-list) > li:hover { transform: translateY(-2px); box-shadow: none; }
 
-.store-directory li a {
+.store-directory ul:not(.store-list) > li a {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -69,7 +72,7 @@ h2{
     width: 100%;
 }
 
-.store-directory li a div {
+.store-directory ul:not(.store-list) > li a div {
     margin-top: 4px;
     font-size: 13px;
     color: #444;
@@ -77,26 +80,23 @@ h2{
 }
 
 /* リンク全体のホバー効果 */
-.store-directory li a:hover {
+.store-directory ul:not(.store-list) > li a:hover {
     text-decoration: underline;
     color: #222;
 }
 
 @media (max-width: 768px) {
-    .store-directory ul {
+    .store-directory ul:not(.store-list) {
         grid-template-columns: repeat(3, 1fr);
         gap: 5px;
     }
 
-    .store-directory li {
+    .store-directory ul:not(.store-list) > li {
         padding: 6px 8px;
         font-size: 12px;
     }
 
-    .store-icon {
-        width: 100px;
-        height: 100px;
-    }
+    .store-icon { width: 100px; height: 100px; aspect-ratio: 1/1; object-fit: contain; border-radius: 50% !important; }
 
     .hero-image {
       background-size: contain !important;
@@ -290,3 +290,44 @@ section:not(.video-hero) {
     display: block;
   }
 }
+
+/* =========================================
+   MOVED FROM index.astro
+   Purpose: Page-specific styles originally in index.astro
+   ========================================= */
+.page-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #333;
+}
+
+.intro-text {
+  font-size: 1.125rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #666;
+}
+
+.featured-section {
+  background-color: #fafafa;
+  padding: 2rem 1rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  max-width: 900px;
+  margin: 0 auto 3rem auto;
+}
+
+.featured-section h3 {
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+  color: #222;
+}
+
+.featured-section p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #444;
+}
+
