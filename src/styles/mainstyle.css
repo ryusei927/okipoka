@@ -2,332 +2,386 @@ body {
   font-family: 'Noto Sans JP', sans-serif;
 }
 
+/* 見出し2のスタイル：すべてのh2要素のテキストを中央揃えにする */
 h2{
     text-align: center;
 }
 
+/* お知らせリストのスタイル */
+/* .notice-list内のすべてのリスト項目を初期状態で非表示にする */
 .notice-list li {
   display: none;
 }
+/* 最初のリスト項目のみ表示する */
 .notice-list li:first-child {
   display: list-item;
 }
 
 /* 店舗アイコン画像のスタイル（常に真円に統一） */
+/* 店舗アイコンが常に完全な円形になるように設定 */
+/* .store-iconおよび.store-directoryと.store-list内の店舗アイコンに適用 */
 .store-icon,
 .store-directory .store-icon,
 .store-list .store-icon {
     width: 90px;
     height: 90px;
-    aspect-ratio: 1 / 1;
-    object-fit: contain;
-    border-radius: 50% !important; /* 競合に勝つ */
-    margin-bottom: 0.5rem;
-    border: 2px solid #ccc;
-    background-color: #fff;
-    padding: 6px;
-    display: block;
+    aspect-ratio: 1 / 1; /* 幅と高さの比率を1:1に保つ（円形にするため） */
+    object-fit: contain; /* 画像が切り取られずにコンテナ内に収まるように調整 */
+    border-radius: 50% !important; /* 他のスタイルを上書きして円形に強制 */
+    margin-bottom: 0.5rem; /* アイコンの下に余白を設ける */
+    border: 2px solid #ccc; /* アイコンの周りに薄いグレーの枠線 */
+    background-color: #fff; /* アイコン内の背景を白に設定 */
+    padding: 6px; /* 枠線の内側に余白を追加 */
+    display: block; /* ブロック要素として扱う */
 }
 
-/* Legacy card layout keeps rounded square icons */
+/* 従来のカードレイアウトでは角丸四角形のアイコンを維持 */
+/* .store-directory内の店舗アイコンは円形ではなく角丸四角形にする */
 .store-directory .store-icon { border-radius: 8px; }
 
 /* 店舗ディレクトリのカード風レイアウト */
+/* 店舗ディレクトリセクションのコンテナ */
 .store-directory {
-    width: 100%;
-    margin: 0 auto;
-    padding: 0 1em;
+    width: 100%; /* 幅を100%に設定 */
+    margin: 0 auto; /* 横方向中央寄せ */
+    padding: 0 1em; /* 左右にパディングを追加 */
 }
 
+/* 店舗ディレクトリのリストスタイル */
+/* .store-directory内の.store-listクラスを持たないul要素を対象 */
 .store-directory ul:not(.store-list) {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-    padding-left: 0;
-    list-style: none;
-    justify-items: center;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+    display: grid; /* CSSグリッドレイアウトを使用 */
+    grid-template-columns: repeat(4, 1fr); /* 4つの均等なカラムを作成 */
+    gap: 16px; /* グリッドアイテム間の隙間 */
+    padding-left: 0; /* デフォルトの左パディングを削除 */
+    list-style: none; /* デフォルトのリストマーカーを消す */
+    justify-items: center; /* グリッドセル内でアイテムを中央揃え */
+    padding-top: 1rem; /* 上部パディング */
+    padding-bottom: 1rem; /* 下部パディング */
 }
 
+/* 店舗ディレクトリの個別リスト項目 */
+/* グリッド内のリスト項目のスタイル */
 .store-directory ul:not(.store-list) > li {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 8px;           /* 枠は消し、余白だけ軽く */
-    background: transparent;/* カード風を解除 */
-    border: none;
-    box-shadow: none;
-    transition: transform 0.25s ease;
+    display: flex; /* フレックスボックスレイアウトを使用 */
+    flex-direction: column; /* 子要素を縦方向に積み重ねる */
+    align-items: center; /* 子要素を横方向中央揃え */
+    padding: 8px;           /* 項目の周囲に軽い余白 */
+    background: transparent;/* 背景を透明にしてカード風を解除 */
+    border: none;           /* 枠線を削除 */
+    box-shadow: none;       /* 影を削除 */
+    transition: transform 0.25s ease; /* ホバー時の変形を滑らかに */
 }
 
+/* 店舗ディレクトリ項目のホバー効果 */
+/* ホバー時に少し浮き上がるように見せる */
 .store-directory ul:not(.store-list) > li:hover { transform: translateY(-2px); box-shadow: none; }
 
+/* 店舗ディレクトリリスト内のリンクのスタイル */
+/* リンクを縦方向に整列するフレックスコンテナにする */
 .store-directory ul:not(.store-list) > li a {
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: #333;
-    text-decoration: none;
-    width: 100%;
+    color: #333; /* 濃いグレーのテキスト色 */
+    text-decoration: none; /* 下線を消す */
+    width: 100%; /* リスト項目の幅いっぱいに広げる */
 }
 
+/* 店舗ディレクトリリンク内のテキスト */
+/* 店舗名や情報を表示するdivのスタイル */
 .store-directory ul:not(.store-list) > li a div {
-    margin-top: 4px;
-    font-size: 13px;
-    color: #444;
-    font-weight: 500;
+    margin-top: 4px; /* テキストの上に余白 */
+    font-size: 13px; /* 小さめのフォントサイズ */
+    color: #444; /* 少し薄い濃いグレー */
+    font-weight: 500; /* 中程度の太さ */
 }
 
 /* リンク全体のホバー効果 */
+/* リンクにホバーした時に下線を表示し、色を濃くする */
 .store-directory ul:not(.store-list) > li a:hover {
     text-decoration: underline;
     color: #222;
 }
 
+/* 画面幅768px以下のレスポンシブ対応 */
 @media (max-width: 768px) {
+    /* グリッドのカラム数と隙間を小さい画面向けに調整 */
     .store-directory ul:not(.store-list) {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 5px;
+        grid-template-columns: repeat(3, 1fr); /* 小さい画面では3カラムに */
+        gap: 5px; /* 隙間を狭く */
     }
 
+    /* リスト項目のパディングとフォントサイズを小さく */
     .store-directory ul:not(.store-list) > li {
         padding: 6px 8px;
         font-size: 12px;
     }
 
+    /* ストアアイコンのサイズを少し大きく */
     .store-icon { width: 100px; height: 100px; aspect-ratio: 1/1; object-fit: contain; border-radius: 50% !important; }
 
+    /* ヒーロー画像の背景調整（小さい画面用） */
     .hero-image {
-      background-size: contain !important;
-      background-repeat: no-repeat;
-      background-position: center;
-      padding: 40px 0;
+      background-size: contain !important; /* 画像全体が見えるように調整 */
+      background-repeat: no-repeat; /* 繰り返し表示を防止 */
+      background-position: center; /* 画像を中央に配置 */
+      padding: 40px 0; /* 上下の余白 */
     }
 }
 
-/* 店舗ディレクトリのリンクスタイル */
+/* 店舗ディレクトリ内のリンクスタイル */
+/* 店舗ディレクトリ内のリンク全般のスタイル */
 .store-directory a {
-    color: #222;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 14px;
+    color: #222; /* 濃いテキスト色 */
+    text-decoration: none; /* 下線なし */
+    font-weight: 600; /* セミボールド */
+    font-size: 14px; /* 基本のフォントサイズ */
 }
 
+/* 店舗ディレクトリリンクのホバー効果 */
+/* ホバー時に下線を表示 */
 .store-directory a:hover {
     text-decoration: underline;
 }
 
 
-/* ===== Video Hero Section ===== */
+/* ===== ビデオヒーローセクション ===== */
+/* ビデオヒーローセクションのコンテナ */
 .video-hero {
   position: relative;
   width: 100%;
-  height: auto;
-  overflow: hidden;
+  height: auto; /* コンテンツに応じて高さ調整 */
+  overflow: hidden; /* はみ出した部分を隠す */
 }
 
+/* ビデオ背景のスタイル */
+/* ビデオがコンテナいっぱいに広がるようにする */
 .video-background {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* PCは従来通りカバー */
+  object-fit: cover; /* コンテナ全体を覆うように表示（切り抜きあり） */
 }
 
+/* ビデオの上に重ねるコンテンツ */
+/* 相対配置でz-indexを上げてビデオの上に表示 */
 .video-overlay {
   position: relative;
   z-index: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: center; /* 垂直方向中央揃え */
+  align-items: center; /* 水平方向中央揃え */
   height: 100%;
-  color: white;
-  text-shadow: 0 2px 6px rgba(0,0,0,0.6);
-  text-align: center;
+  color: white; /* 白いテキスト */
+  text-shadow: 0 2px 6px rgba(0,0,0,0.6); /* 読みやすくするための影 */
+  text-align: center; /* テキスト中央揃え */
 }
 
 
 /* 完璧すぎる バージョン: スマホ表示時の .video-hero の高さをさらに短く28vhに調整 */
+/* 小さい画面用のビデオヒーローのレスポンシブ調整 */
 @media (max-width: 768px) {
   .video-hero {
     height: auto;          /* 固定高さを解除 */
-    min-height: 0;
-    aspect-ratio: 16 / 9;  /* 1536x864の比率で表示 */
+    min-height: 0;         /* 最小高さを解除 */
+    aspect-ratio: 16 / 9;  /* 16:9のアスペクト比を維持 */
   }
 
   .video-background {
     height: 100%;
-    object-fit: contain;   /* 画像全体を見せる（トリミングしない） */
+    object-fit: contain;   /* ビデオや画像全体を切り抜かずに表示 */
   }
 
   .video-overlay {
-    padding: 60px 20px;
+    padding: 60px 20px; /* オーバーレイ内の余白を追加 */
   }
 }
-/* ===== Section Wave ===== */
+/* ===== セクションウェーブ ===== */
+/* コンテンツセクション間の装飾的な波形セクション */
 .section-wave {
   position: relative;
-  margin-top: -2px; /* 段差防止 */
-  line-height: 0;
-  box-shadow: 0 -6px 10px rgba(0, 0, 0, 0.05); /* 上方向のやわらかい影 */
+  margin-top: -2px; /* セクション間の隙間をなくす */
+  line-height: 0; /* 行の高さをなくしてスペースを詰める */
+  box-shadow: 0 -6px 10px rgba(0, 0, 0, 0.05); /* 上側に柔らかい影をつける */
 }
 
 
 /* ===== 本日のトーナメントカードを洗練表示 ===== */
+/* 今日のトーナメントカードのコンテナスタイル */
 #today-all-card {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-  padding: 1rem;
-  background: #fefefe;
-  border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
-  border: 1px solid #eaeaea;
+  display: grid; /* グリッドレイアウトを使用 */
+  grid-template-columns: 1fr; /* 1カラム */
+  gap: 1rem; /* カード間の隙間 */
+  padding: 1rem; /* コンテナ内の余白 */
+  background: #fefefe; /* 非常に明るい背景色 */
+  border-radius: 12px; /* 角丸 */
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05); /* 柔らかい影 */
+  border: 1px solid #eaeaea; /* 薄い枠線 */
 }
 
+/* 個別の情報カードスタイル */
 .info-card {
-  display: flex;
-  flex-direction: column;
-  padding: 1.25rem 1.5rem;
-  border-left: 6px solid #f60;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-  transition: transform 0.2s ease;
+  display: flex; /* フレックスコンテナ */
+  flex-direction: column; /* 縦方向に積む */
+  padding: 1.25rem 1.5rem; /* カード内の余白 */
+  border-left: 6px solid #f60; /* 左側にオレンジ色のアクセント線 */
+  background-color: #ffffff; /* 白背景 */
+  border-radius: 10px; /* 角丸 */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03); /* 微かな影 */
+  transition: transform 0.2s ease; /* ホバー時の変形を滑らかに */
 }
 
+/* 情報カードのホバー効果 */
+/* ホバー時にカードが少し浮き上がる */
 .info-card:hover {
   transform: translateY(-2px);
 }
 
+/* 情報カード内の見出し */
 .info-card h3 {
-  margin: 0 0 0.5rem;
-  font-size: 1.2rem;
-  color: #222;
+  margin: 0 0 0.5rem; /* 見出し下の余白 */
+  font-size: 1.2rem; /* 大きめのフォントサイズ */
+  color: #222; /* 濃いテキスト色 */
 }
 
+/* 情報カード内の段落 */
 .info-card p {
-  margin: 0.3rem 0;
-  color: #555;
-  font-size: 0.95rem;
-  line-height: 1.5;
+  margin: 0.3rem 0; /* 上下の余白 */
+  color: #555; /* 中間のグレー色 */
+  font-size: 0.95rem; /* 少し小さめのフォント */
+  line-height: 1.5; /* 読みやすい行間 */
 }
 
 
-/* ===== Section Divider Styling ===== */
+/* ===== セクションの区切り線スタイル ===== */
+/* .video-hero以外のすべてのセクションに適用 */
+/* 上下に境界線と縦方向の余白を追加 */
 section:not(.video-hero) {
-  border-top: 2px solid #ddd;
-  border-bottom: 2px solid #ddd;
-  padding: 2em 0;
-  margin: 2em 0;
+  border-top: 2px solid #ddd; /* 薄いグレーの上境界線 */
+  border-bottom: 2px solid #ddd; /* 薄いグレーの下境界線 */
+  padding: 2em 0; /* 上下のパディング */
+  margin: 2em 0; /* 上下のマージン */
 }
 /* ===== 広告セクション ===== */
+/* 広告セクションのスタイル */
 .ad-section {
-  background: linear-gradient(to bottom, #f7f9fc, #fff);
-  padding: 2rem 1rem;
-  margin: 2rem 0;
+  background: linear-gradient(to bottom, #f7f9fc, #fff); /* 微妙なグラデーション背景 */
+  padding: 2rem 1rem; /* セクション内の余白 */
+  margin: 2rem 0; /* 上下のマージン */
 }
 
+/* 個別の広告カードスタイル */
 .ad-card {
-  background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  margin: 2rem auto;
-  overflow: hidden;
-  max-width: 680px;
-  border: 1px solid #ddd;
-  /* transition: transform 0.3s ease; */
-  position: relative;
+  background: #ffffff; /* 白背景 */
+  border-radius: 16px; /* 角丸 */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05); /* 柔らかい影 */
+  margin: 2rem auto; /* 横中央寄せ＋上下マージン */
+  overflow: hidden; /* はみ出し部分を隠す */
+  max-width: 680px; /* 最大幅 */
+  border: 1px solid #ddd; /* 薄い枠線 */
+  /* transition: transform 0.3s ease; */ /* コメントアウトされたトランジション */
+  position: relative; /* バッジの位置指定用 */
 }
 
-
+/* 広告カード内の画像 */
+/* 画像をレスポンシブかつブロック要素に */
 .ad-card img {
   width: 100%;
   height: auto;
   display: block;
 }
 
+/* 広告のバッジラベル */
+/* 左上にオレンジ背景のバッジを配置 */
 .ad-badge {
   position: absolute;
   top: 8px;
   left: 8px;
-  background: #f60;
-  color: white;
-  font-size: 12px;
-  padding: 2px 6px;
-  border-radius: 4px;
-  z-index: 10;
+  background: #f60; /* オレンジ背景 */
+  color: white; /* 白文字 */
+  font-size: 12px; /* 小さいフォント */
+  padding: 2px 6px; /* バッジ内の余白 */
+  border-radius: 4px; /* 角丸 */
+  z-index: 10; /* 他の要素より前面に表示 */
 }
 
-/* PCでは広告を沖縄ポーカースポットの横幅に合わせる */
+/* PC画面（1024px以上）では広告の最大幅を店舗ディレクトリに合わせる */
+/* PC画面用の広告ラッパーのスタイル */
 @media (min-width: 1024px) {
   .ad-wrapper {
-    max-width: 1100px; /* store-directoryのcontainer幅に近づける */
-    margin: 2rem auto;
+    max-width: 1100px; /* 店舗ディレクトリの幅に近づける */
+    margin: 2rem auto; /* 横中央寄せ＋上下マージン */
   }
   .ad-wrapper img {
-    width: 100%;
+    width: 100%; /* 画像の幅を親要素に合わせる */
     height: auto;
     display: block;
   }
 }
 
-/* スマホでは広告を中央寄せ＆最大320pxに制限（VIP1/2両対応） */
+/* スマホ画面（768px以下）では広告を中央寄せ＆最大幅320pxに制限 */
+/* モバイル用の広告ラッパーとカードのスタイル */
 @media (max-width: 768px) {
   .ad-wrapper {
-    max-width: 100%;
-    margin-left: auto;
+    max-width: 100%; /* 幅を100%に */
+    margin-left: auto; /* 横中央寄せ */
     margin-right: auto;
-    display: flex;
-    justify-content: center;
+    display: flex; /* フレックスコンテナ */
+    justify-content: center; /* 中央揃え */
   }
   .ad-card,
   .ad-card img,
   .ad-wrapper img {
-    width: 100%;
-    max-width: 320px;
-    margin: 0 auto;
+    width: 100%; /* 幅を100%に */
+    max-width: 320px; /* 最大幅320pxに制限 */
+    margin: 0 auto; /* 横中央寄せ */
     display: block;
   }
 }
 
 /* =========================================
-   MOVED FROM index.astro
-   Purpose: Page-specific styles originally in index.astro
+   index.astroから移動したスタイル
+   ページ固有のスタイルとして元々index.astro内にあったもの
    ========================================= */
+/* ページタイトルのスタイル */
 .page-title {
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  text-align: center;
-  color: #333;
+  font-size: 2.5rem; /* 大きなフォントサイズ */
+  font-weight: bold; /* 太字 */
+  margin-bottom: 1rem; /* タイトル下の余白 */
+  text-align: center; /* 中央揃え */
+  color: #333; /* 濃いグレー色 */
 }
 
+/* タイトル下の紹介テキスト */
 .intro-text {
-  font-size: 1.125rem;
-  text-align: center;
-  margin-bottom: 2rem;
-  color: #666;
+  font-size: 1.125rem; /* 少し大きめのフォント */
+  text-align: center; /* 中央揃え */
+  margin-bottom: 2rem; /* 下の余白 */
+  color: #666; /* 中間グレー */
 }
 
+/* 特集セクションのコンテナ */
+/* 特集コンテンツの背景色とパディング */
 .featured-section {
-  background-color: #fafafa;
-  padding: 2rem 1rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  max-width: 900px;
-  margin: 0 auto 3rem auto;
+  background-color: #fafafa; /* 非常に薄いグレー背景 */
+  padding: 2rem 1rem; /* セクション内の余白 */
+  border-radius: 12px; /* 角丸 */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* 柔らかい影 */
+  max-width: 900px; /* 最大幅制限 */
+  margin: 0 auto 3rem auto; /* 横中央寄せ＋下マージン */
 }
 
+/* 特集セクション内の見出し */
 .featured-section h3 {
-  font-size: 1.75rem;
-  margin-bottom: 1rem;
-  color: #222;
+  font-size: 1.75rem; /* 大きめのフォント */
+  margin-bottom: 1rem; /* 見出し下の余白 */
+  color: #222; /* 濃いテキスト色 */
 }
 
+/* 特集セクション内の段落テキスト */
 .featured-section p {
-  font-size: 1rem;
-  line-height: 1.6;
-  color: #444;
+  font-size: 1rem; /* 通常のフォントサイズ */
+  line-height: 1.6; /* 読みやすい行間 */
+  color: #444; /* 中程度の濃さのグレー */
 }
-

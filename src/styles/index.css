@@ -6,9 +6,11 @@
       .video-hero { margin-top: 0; }
 
       /* ---- Ad label badge ---- */
+      /* 広告のラベルを表示するための親要素の位置を相対指定 */
       .ad-wrapper {
         position: relative;
       }
+      /* 広告ラベルのスタイル設定：画面上部左側に小さく表示し、クリックを妨げない */
       .ad-label {
         position: absolute;
         top: 6px;
@@ -23,10 +25,12 @@
         letter-spacing: 0.02em;
         pointer-events: none; /* クリックを邪魔しない */
       }
+      /* 広告ラベルを中央上部に表示するための調整 */
       .ad-label.center-top {
         left: 50%;
         transform: translateX(-50%);
       }
+      /* 画面幅が480px以下のときの広告ラベルのサイズと位置調整 */
       @media (max-width: 480px) {
         .ad-label {
           font-size: 0.68rem;
@@ -34,7 +38,7 @@
           left: 5px;
         }
       }
-      /* 広告画像のレスポンシブ対応（枠からはみ出さない） */
+      /* 広告画像のレスポンシブ対応（枠からはみ出さないように幅を制限） */
       .ad-wrapper img,
       .ad-wrapper picture img,
       .ad-wrapper a img {
@@ -44,6 +48,7 @@
         display: block;
         border-radius: 8px;
       }
+      /* スクロールトップボタンのスタイルと位置設定、初期状態は非表示 */
       .scroll-to-top {
         position: fixed;
         bottom: 2rem;
@@ -55,23 +60,27 @@
         padding: 0.4rem 0.5rem;
         font-size: 1.5rem;
         cursor: pointer;
-        display: none;
+        display: none; /* 初期は見えない。スクロール時に表示される想定 */
         z-index: 999;
       }
+      /* スクロールトップボタンにホバーしたときの装飾 */
       .scroll-to-top:hover {
         text-decoration: underline;
       }
+      /* 店舗ページのラッパー要素の最大幅と中央寄せ */
       .store-page-wrapper {
         max-width: 800px;
         margin: 0 auto;
         padding: 1rem;
       }
 
+      /* 店舗ディレクトリ全体の背景色とパディング */
       .store-directory {
         background-color: #f9f9f9;
         padding: 2rem 1rem;
       }
 
+      /* 上部セクションのマージンとパディング、上下のボーダー */
       .top-section {
         margin: 1rem 0;
         padding: 1.2rem 1rem;
@@ -79,21 +88,25 @@
         border-bottom: 1px solid #ddd;
       }
 
+      /* ブログ用の上部セクションの背景色 */
       .top-section.blog {
         background-color: #f4f7fc;
       }
 
+      /* リクルート用の上部セクションの中央揃えと背景色 */
       .top-section.recruit {
         text-align: center;
         background-color: #fef9f3;
       }
 
+      /* ショップ用の上部セクションの中央揃えと背景色 */
       .top-section.shop {
         text-align: center;
         background-color: #f3f9fe;
       }
 
       /* --- SHOWDOWN shop card --- */
+      /* ショップカードの最大幅、中央寄せ、パディング、背景とボーダー、影の設定 */
       .shop-card {
         max-width: 680px;
         margin: 0 auto;
@@ -104,6 +117,7 @@
         box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
         text-align: center;
       }
+      /* ショップ見出しのフォントサイズ、文字間、マージン、太字、色 */
       .shop-heading {
         font-size: 1.25rem;
         letter-spacing: 0.02em;
@@ -111,11 +125,13 @@
         font-weight: 700;
         color: #0f172a;
       }
+      /* ショップ副題のフォントサイズ、色、マージン */
       .shop-sub {
         font-size: 0.95rem;
         color: #475569;
         margin: 0 0 1rem 0;
       }
+      /* ショップロゴのラッパー：インラインフレックスで中央揃え、背景、ボーダー、影、トランジション */
       .shop-logo-wrap {
         display: inline-flex;
         align-items: center;
@@ -134,12 +150,14 @@
         max-width: 420px;
         box-sizing: border-box;
       }
+      /* ホバー時のロゴラッパーの浮き上がりと影の変化 */
       .shop-logo-wrap:hover {
         transform: translateY(-2px);
         box-shadow:
           inset 0 1px 0 rgba(255, 255, 255, 0.6),
           0 10px 20px rgba(16, 24, 40, 0.1);
       }
+      /* ショップロゴ画像の最大幅、表示方法、影のリセット */
       .shop-logo {
         width: 100%;
         max-width: 260px;
@@ -147,6 +165,7 @@
         display: block;
         filter: drop-shadow(0 0 0 rgba(0, 0, 0, 0));
       }
+      /* ショップのCTA（Call To Action）ボタンのスタイル：マージン、インラインフレックス、パディング、背景色、文字色、ボーダー、影、トランジション */
       .shop-cta {
         margin-top: 1rem;
         display: inline-flex;
@@ -165,16 +184,19 @@
           transform 0.2s ease,
           box-shadow 0.2s ease;
       }
+      /* CTAボタンのホバー時の背景色、浮き上がり、影の変化 */
       .shop-cta:hover {
         background: #0284c7;
         transform: translateY(-1px);
         box-shadow: 0 10px 22px rgba(2, 132, 199, 0.45);
       }
+      /* ショップメタ情報のマージン、フォントサイズ、色 */
       .shop-meta {
         margin-top: 0.8rem;
         font-size: 0.85rem;
         color: #64748b;
       }
+      /* 画面幅480px以下のときのショップカードのパディング、ボーダー半径、見出しサイズ、ロゴ最大幅、ロゴラッパーの最大幅とパディング調整 */
       @media (max-width: 480px) {
         .shop-card {
           padding: 1rem 0.9rem;
@@ -192,6 +214,7 @@
         }
       }
 
+      /* トップリンクの基本スタイル：インラインブロック、パディング、色、テキスト装飾、角丸、色のトランジション */
       .top-link {
         display: inline-block;
         padding: 0.5rem 1rem;
@@ -201,26 +224,32 @@
         transition: color 0.2s;
       }
 
+      /* トップリンクのホバー時は下線を表示 */
       .top-link:hover {
         text-decoration: underline;
       }
 
+      /* リクルートとショップのトップリンクはボタン形式なので白文字に変更 */
       .top-section.recruit .top-link,
       .top-section.shop .top-link {
         color: white; /* ボタン形式の背景ありリンクは白文字 */
       }
+      /* リクルートトップリンクの背景色 */
       .top-section.recruit .top-link {
         background-color: #f60;
       }
+      /* ショップトップリンクの背景色 */
       .top-section.shop .top-link {
         background-color: #007acc;
       }
 
+      /* 今日の全カードの最大高さと縦スクロール可能に設定 */
       #today-all-card {
         max-height: 300px;
         overflow-y: auto;
       }
 
+      /* ビデオヒーローセクションのスタイル：相対位置、幅100%、高さはクランプで調整、オーバーフロー隠し */
       .video-hero {
         position: relative;
         width: 100%;
@@ -229,6 +258,7 @@
         overflow: hidden;
       }
 
+      /* ビデオ背景のスタイル：幅と高さ100%、トリミング方法、中央位置調整、ブロック表示 */
       .video-background {
         width: 100%;
         height: 100%;
@@ -238,7 +268,7 @@
         display: block;
       }
 
-      /* スマホは画像の実寸比(16:9)を保って全体を見せる */
+      /* スマホは画像の実寸比(16:9)を保って全体を見せるためのメディアクエリ */
       @media (max-width: 768px) {
         .video-hero {
           width: 100%;
@@ -262,14 +292,16 @@
       }
 
       /* 追加CSS: 店舗リストのグリッドレイアウトとカードスタイル */
+      /* 店舗リストをグリッド表示にしてカード風に整える */
       .store-list {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
         gap: 1rem;
         padding: 0;
-        list-style: none;
+        list-style: none; /* リストのデフォルトスタイルを消す */
       }
 
+      /* 店舗リスト内の各アイテムのスタイル：高さ自動、背景なし、ボーダーなし、中央揃え */
       .store-list li {
         height: auto;
         background: none;
@@ -284,24 +316,27 @@
         align-items: center;
       }
 
+      /* ホバー時に少し拡大して目立たせる */
       .store-list li:hover {
         transform: scale(1.03);
       }
 
 
+      /* 店舗リスト内のdiv要素のスタイル：上下パディング、太字、色、表示ブロック */
       .store-list div {
         padding: 0.5rem 0;
         font-weight: bold;
         color: #333;
         display: block;
       }
+      /* 画面幅768px以下のときの店舗リストのカラム数とギャップ調整、テキスト非表示、アイコンサイズ指定 */
       @media (max-width: 768px) {
         .store-list {
           grid-template-columns: repeat(3, 1fr);
           gap: 0.5rem;
         }
         .store-list div {
-          display: none !important;
+          display: none !important; /* テキストは非表示にしてアイコン中心表示 */
         }
         .store-icon {
           width: 80px;
@@ -309,7 +344,7 @@
         }
       }
 
-      /* スマホ表示時でも店舗画像を1:1正方形の正円で固定サイズに */
+      /* スマホ表示時でも店舗画像を正方形の正円に固定サイズで表示 */
       /* .store-iconはスマホでもPCでも同じスタイルを適用するので、個別のメディアクエリは不要 */
       @media (max-width: 480px) {
         .store-list {
@@ -318,10 +353,11 @@
         }
 
         .store-list li {
-          height: 90px;
+          height: 90px; /* 高さ固定でアイコンが正円になるように */
         }
       }
 
+      /* PC表示時にVIP広告の幅を店舗ページの最大幅に合わせて中央寄せ、マージンと角丸を設定 */
       @media (min-width: 1024px){
         /* PCでは「沖縄ポーカースポット」と同じ横幅（= .store-page-wrapper の最大幅800px）に揃える */
         .vip-ad{
@@ -331,6 +367,7 @@
           border-radius: 16px;
         }
       }
+      /* 超ワイドスクリーンでも幅を800pxに固定（スマホは触らない） */
       @media (min-width: 1440px){
         /* 超ワイドでも枠幅に固定（スマホは触らない） */
         .vip-ad{ width: 100%; max-width: 800px; }
