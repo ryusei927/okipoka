@@ -405,3 +405,58 @@ img.section-title[alt*="トーナメント"] {
     margin-bottom: 1rem;             /* セクションとの間隔を少し広く */
   }
 }
+
+/* =========================
+   CSS-only Ticker (電光掲示板)
+   - HTML: index.astro の <Header /> 直後に .ticker / .ticker__track を配置済み
+   - 文章: .ticker__track の data-text と同じ内容がシームレスに流れる
+   - JS不要 & prefers-reduced-motion に対応
+========================= */
+.ticker{
+  position: relative;
+  width: 100%;
+  background: #0b0f1a;                  /* 黒系シンプル */
+  color: #ff7a00;                        /* OKIPOKAオレンジ */
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  overflow: hidden;                      /* はみ出しを隠す */
+  white-space: nowrap;
+  font-weight: 700;
+  letter-spacing: .02em;
+  line-height: 1;
+  padding: .55rem 0;                     /* 高さ */
+  font-size: clamp(12px, 2.6vw, 14px);   /* SP→PCで可変 */
+}
+@media (min-width: 768px){ 
+  .ticker{ padding: .6rem 0; font-size: 15px; }
+  @media (min-width: 1024px){
+    .ticker__track{ animation-duration: 40s; }
+  }
+}
+
+/* 文字の流れ本体。contentに同じ文を複製してシームレス化 */
+.ticker__track{
+  display: inline-block;
+  padding-left: 100%;                     /* 画面外から開始 */
+  will-change: transform;
+  animation: ticker-marquee 36s linear infinite;
+}
+.ticker__track::after{
+  content: attr(data-text) "  •  " attr(data-text) "  •  " attr(data-text);
+  margin-left: 2rem;
+}
+
+/* 視認性を上げるための軽いグロー */
+.ticker, .ticker__track{ text-shadow: 0 0 6px rgba(255,122,0,.25); }
+
+@keyframes ticker-marquee{
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+/* Hoverで一時停止（任意） */
+.ticker:hover .ticker__track{ animation-play-state: paused; }
+
+/* アニメーションを好まない環境では停止 */
+@media (prefers-reduced-motion: reduce){
+  .ticker__track{ animation: none; transform: translateX(0); }
+}
