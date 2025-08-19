@@ -379,13 +379,29 @@
 ========================= */
 img.section-title {
   display: block;
-  width: clamp(220px, 60vw, 420px); /* 最小220px、画面の60%、最大420px */
+  width: clamp(240px, 58vw, 500px); /* 少しだけ幅を統一（両タイトルに同じ基準） */
   height: auto;
-  margin: 0 auto 0.75rem;          /* 中央寄せ＋下に少し余白 */
+  margin: 0.25rem auto 0.9rem;      /* 上下の余白を統一 */
+  filter: drop-shadow(0 6px 14px rgba(0,0,0,.16)); /* 共通の影で重さを合わせる */
+  transition: transform .2s ease, filter .2s ease; /* ほんのりインタラクション */
+  border: 2px solid rgba(0,0,0,0.25);  /* 黒系シンプル枠 */
+  border-radius: 10px;                 /* 角丸で柔らかさを出す */
+  padding: 6px 10px;                   /* 枠と画像の間に余白を確保 */
+  background: rgba(255,255,255,0.05);  /* 背景にほんのり白を敷く */
+}
+img.section-title:hover { transform: translateY(-1px); }
+
+/* タイトルごとの色味に合わせて影色だけ微調整（視覚の一体感アップ） */
+img.section-title[alt*="ポーカースポット"] {
+  filter: drop-shadow(0 6px 14px rgba(0,160,170,.22));
+}
+img.section-title[alt*="トーナメント"] {
+  filter: drop-shadow(0 6px 14px rgba(180,80,0,.22));
 }
 
 @media (min-width: 1024px) {
   img.section-title {
-    width: clamp(260px, 28vw, 520px); /* PCでは少しだけ広めの上限 */
+    width: clamp(280px, 30vw, 560px); /* PCでは少し広めだが上限を統一 */
+    margin-bottom: 1rem;             /* セクションとの間隔を少し広く */
   }
 }
