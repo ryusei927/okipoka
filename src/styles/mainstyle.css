@@ -258,3 +258,35 @@ section:not(.video-hero) {
   border-radius: 4px;
   z-index: 10;
 }
+
+/* PCでは広告を沖縄ポーカースポットの横幅に合わせる */
+@media (min-width: 1024px) {
+  .ad-wrapper {
+    max-width: 1100px; /* store-directoryのcontainer幅に近づける */
+    margin: 2rem auto;
+  }
+  .ad-wrapper img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+
+/* スマホでは広告を中央寄せ＆最大320pxに制限（VIP1/2両対応） */
+@media (max-width: 768px) {
+  .ad-wrapper {
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    justify-content: center;
+  }
+  .ad-card,
+  .ad-card img,
+  .ad-wrapper img {
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+    display: block;
+  }
+}
