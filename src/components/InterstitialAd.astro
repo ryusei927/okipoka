@@ -1,4 +1,3 @@
-
 ---
 const ads = [
   { image: "/images/rebarta.jpg", link: "https://www.instagram.com/re.barta?utm_source=ig_web_button_share_sheet&igsh=MTlvc2pwajF0aDJ3dg==", alt: "スポンサー広告リバータ" },
@@ -12,22 +11,34 @@ const ads = [
   { image: "/images/hanausi_ad.png", link: "https://www.instagram.com/okinawa_hanaushi/", alt: "スポンサー広告はなうし" },
   { image: "/images/hanausi_ad.png", link: "https://www.instagram.com/okinawa_hanaushi/", alt: "スポンサー広告はなうし" },
 ];
+// {/* 広告の情報を配列で管理しています。画像のパス、リンク先URL、altテキストを含みます。 */}
+
 const selectedAd = ads[Math.floor(Math.random() * ads.length)];
+// {/* ads配列からランダムに1つ広告を選んでいます。Math.random()でランダムな数を作り、そのインデックスを使って選択します。 */}
+
 ---
 
 <div id="ad-popup" class="ad-overlay hidden">
+  {/* 広告のポップアップ全体のコンテナ。初期状態はhiddenクラスで非表示です。 */}
   <div class="ad-box">
+    {/* 広告の内容を囲むボックス。 */}
     <div class="ad-image-wrapper">
+      {/* 広告の画像とラベルを囲むラッパー */}
       <span class="ad-label">広告</span>
+      {/* 「広告」というラベルを表示 */}
       <a href={selectedAd.link} target="_blank" rel="noopener">
+        {/* 広告画像をクリックすると新しいタブでリンクを開きます。 */}
         <img src={selectedAd.image} alt={selectedAd.alt} class="ad-image" />
+        {/* 広告画像 */}
       </a>
     </div>
     <button id="ad-close" class="ad-close">✖︎</button>
+    {/* 広告を閉じるボタン */}
   </div>
 </div>
 
 <style>
+  /* 全画面に広がる広告の背景オーバーレイ */
   .ad-overlay {
     position: fixed;
     top: 0; left: 0;
@@ -39,6 +50,7 @@ const selectedAd = ads[Math.floor(Math.random() * ads.length)];
     z-index: 9999;
   }
 
+  /* 広告コンテンツのボックス */
   .ad-box {
     background: #fff;
     border-radius: 12px;
@@ -50,6 +62,7 @@ const selectedAd = ads[Math.floor(Math.random() * ads.length)];
     position: relative;
   }
 
+  /* 広告画像のスタイル */
   .ad-image {
     width: 100%;
     height: auto;
@@ -59,6 +72,7 @@ const selectedAd = ads[Math.floor(Math.random() * ads.length)];
     object-fit: contain;
   }
 
+  /* 閉じるボタンのスタイル */
   .ad-close {
     position: absolute;
     top: 0.5rem;
@@ -70,42 +84,48 @@ const selectedAd = ads[Math.floor(Math.random() * ads.length)];
     color: #555;
   }
 
+  /* hiddenクラスは要素を非表示にする */
   .hidden {
     display: none;
   }
 
-.ad-image-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+  /* 画像とラベルを縦に並べて中央揃え */
+  .ad-image-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-.ad-label {
-  margin-bottom: 0.5rem;
-  background-color: rgba(0, 0, 0, 0.6);
-  color: white;
-  font-size: 0.75rem;
-  padding: 2px 8px;
-  border-radius: 4px;
-}
+  /* 広告ラベルの見た目 */
+  .ad-label {
+    margin-bottom: 0.5rem;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
 
 </style>
 
 <script is:inline>
+  // セッションストレージから広告を最後に表示した時間を取得
   const shownAt = sessionStorage.getItem('ad-shown-at');
   const now = Date.now();
 
+  // 最後に広告を表示してから1分以上経っている場合のみ広告を表示する
   if (!shownAt || now - shownAt > 1 * 60 * 1000) {
     window.addEventListener('DOMContentLoaded', () => {
       const popup = document.getElementById('ad-popup');
-      popup?.classList.remove('hidden');
-      sessionStorage.setItem('ad-shown-at', now);
+      popup?.classList.remove('hidden'); // hiddenクラスを外して広告を表示
+      sessionStorage.setItem('ad-shown-at', now); // 表示時間を更新
     });
   }
 
+  // DOMが読み込まれたら閉じるボタンにクリックイベントを設定
   window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('ad-close')?.addEventListener('click', () => {
-      document.getElementById('ad-popup')?.classList.add('hidden');
+      document.getElementById('ad-popup')?.classList.add('hidden'); // 広告を非表示にする
     });
   });
 </script>
