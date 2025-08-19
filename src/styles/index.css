@@ -372,3 +372,20 @@
         /* 超ワイドでも枠幅に固定（スマホは触らない） */
         .vip-ad{ width: 100%; max-width: 800px; }
       }
+
+/* =========================
+   本日のトーナメント情報 タイトル画像（tonamejyohou.png）
+   大き過ぎないように幅を制限し、常に中央寄せ
+========================= */
+img.section-title {
+  display: block;
+  width: clamp(220px, 60vw, 420px); /* 最小220px、画面の60%、最大420px */
+  height: auto;
+  margin: 0 auto 0.75rem;          /* 中央寄せ＋下に少し余白 */
+}
+
+@media (min-width: 1024px) {
+  img.section-title {
+    width: clamp(260px, 28vw, 520px); /* PCでは少しだけ広めの上限 */
+  }
+}
