@@ -460,3 +460,56 @@ img.section-title[alt*="トーナメント"] {
 @media (prefers-reduced-motion: reduce){
   .ticker__track{ animation: none; transform: translateX(0); }
 }
+
+
+/* =========================
+   Store Directory UI Refresh
+   - 既存の <section class="store-directory"> をカード風に
+   - アイコンカード: 見た目の一体感/ホバー応答性を追加
+========================= */
+.store-directory{
+  background: linear-gradient(180deg, #ffffff 0%, #f7f9fc 100%);
+  border: 1px solid #e5e7eb;            /* 薄い枠で締める */
+  border-radius: 16px;                   /* カード感 */
+  box-shadow: 0 6px 18px rgba(15,23,42,.06); /* やわらかい影 */
+  padding: 1.25rem 1rem 1.5rem;          /* 既存より少しゆとり */
+}
+/* 上部の装飾ライン（無効化：不要な“上の線”が見えるため） */
+.store-directory::before{ display: none; }
+
+/* タイトル画像の下に薄い仕切り */
+.store-directory > .section-title{ margin-bottom: .8rem; }
+.store-directory > .section-title + .store-list{ border-top: 1px dashed rgba(0,0,0,.08); padding-top: .9rem; }
+
+/* グリッドの間隔を少し広げる */
+.store-directory .store-list{ gap: 1.1rem; }
+
+/* 各アイテムをミニカード化 */
+.store-directory .store-list li{
+  background: #fff;
+  border: 1px solid #eceff3;
+  border-radius: 12px;
+  padding: 10px 8px;                      /* アイコンの外に余白 */
+  box-shadow: 0 2px 8px rgba(15,23,42,.04);
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+.store-directory .store-list li:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(15,23,42,.08);
+  border-color: #dbe2ea;
+}
+
+/* アイコンに白フチ（リング）を追加して統一感 */
+.store-directory .store-icon{
+  border-color: #e2e8f0;                /* やわらかいグレー */
+  box-shadow: 0 0 0 4px #fff, 0 0 0 1px #e2e8f0; /* 外側リング */
+}
+.store-directory .store-list li:hover .store-icon{
+  box-shadow: 0 0 0 4px #fff, 0 0 0 1px #cbd5e1; /* ホバー時わずかに濃く */
+}
+
+@media (max-width: 768px){
+  .store-directory{ padding: 1rem .75rem 1.2rem; }
+  .store-directory .store-list{ gap: .6rem; }
+  .store-directory .store-list li{ padding: 8px 6px; }
+}
