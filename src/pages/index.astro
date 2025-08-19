@@ -39,6 +39,13 @@ import AdSection5 from "../components/AdSection5.astro";
 
   <body>
     <style>
+      /* 上部の余白を消す（ヘッダーの余白対策） */
+      body { margin: 0; }
+      header.header_fixed { margin-bottom: 0; }
+      header.header_fixed + .video-hero { margin-top: 0; }
+      /* 念のためヒーロー直上の隙間を完全にゼロ化 */
+      .video-hero { margin-top: 0; }
+
       /* ---- Ad label badge ---- */
       .ad-wrapper {
         position: relative;
@@ -257,8 +264,9 @@ import AdSection5 from "../components/AdSection5.astro";
 
       .video-hero {
         position: relative;
-        width: 100vw;
-        height: 100vh;
+        width: 100%;
+        /* さらにスリムな横長比率 */
+        height: clamp(480px, 75vh, 900px);
         overflow: hidden;
       }
 
@@ -266,12 +274,32 @@ import AdSection5 from "../components/AdSection5.astro";
         width: 100%;
         height: 100%;
         object-fit: cover;
+        /* ロゴ下の反射を少し見せつつ中央を外さない */
+        object-position: center 62%;
+        display: block;
       }
-      /* スマホ(横幅768px以下)で.video-heroの高さを画面縦の45%に縮小 */
+
+      /* スマホは画像の実寸比(16:9)を保って全体を見せる */
       @media (max-width: 768px) {
         .video-hero {
-          height: 45vh;
+          width: 100%;
+          height: auto;            /* 固定高さを解除 */
+          aspect-ratio: 16 / 9;    /* 1536x864 の比率を維持 */
+          overflow: hidden;
         }
+        .video-background{
+          width: 100%;
+          height: 100%;
+          object-fit: contain;     /* トリミングしない＝画像全体を表示 */
+          object-position: center center;
+          display: block;
+        }
+      }
+
+      /* さらに小さい端末でも同じ挙動（比率固定＋トリミング無し） */
+      @media (max-width: 420px){
+        .video-hero { height: auto; aspect-ratio: 16 / 9; }
+        .video-background { object-fit: contain; }
       }
 
       /* 追加CSS: 店舗リストのグリッドレイアウトとカードスタイル */
@@ -354,13 +382,24 @@ import AdSection5 from "../components/AdSection5.astro";
           height: 90px;
         }
       }
+
+      @media (min-width: 1024px){
+        /* PCでは「沖縄ポーカースポット」と同じ横幅（= .store-page-wrapper の最大幅800px）に揃える */
+        .vip-ad{
+          width: 100%;
+          max-width: 800px; /* .store-page-wrapper と同値 */
+          margin: 36px auto 56px;
+          border-radius: 16px;
+        }
+      }
+      @media (min-width: 1440px){
+        /* 超ワイドでも枠幅に固定（スマホは触らない） */
+        .vip-ad{ width: 100%; max-width: 800px; }
+      }
     </style>
     <Header />
     <section class="video-hero">
-      <video autoplay muted loop playsinline class="video-background">
-        <source src="/images/okipoka.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+      <img src="/images/okipoka_image.png" alt="OKIPOKA hero" class="video-background" loading="eager" decoding="async" />
     </section>
     <div class="store-page-wrapper">
       <InterstitialAd />
