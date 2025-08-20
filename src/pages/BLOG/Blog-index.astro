@@ -15,8 +15,6 @@ import AdSection4 from "../../components/AdSection4.astro";
 import AdSection5 from "../../components/AdSection5.astro";
 ---
 
-
-
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
@@ -33,37 +31,40 @@ import AdSection5 from "../../components/AdSection5.astro";
         <!-- タイトルセクション（画像に差し替え可） -->
         <section class="top-section">
           <h2>OKIPOKA ブログ</h2><br />
-          <p class="intro-text">沖縄のポーカートーナメントやスポット情報、運営アップデートなどの読み物コンテンツをお届けします。</p>
+          <p class="intro-text">
+            沖縄のポーカートーナメントやスポット情報、運営アップデートなどの読み物コンテンツをお届けします。
+          </p>
         </section>
 
-        <!-- 記事一覧 -->
-         <h3 class="blog-section__title">お知らせ・アミューズ記事</h3>
-         <Blog_amuse  />
-
-
-        <h3 class="blog-section__title">ポーカー記事</h3>
-        <Blog_poker  />
-        
-
-        <!-- 広告：上段 -->
         <div class="ad-wrapper">
-          <span class="ad-label">広告</span>
-          <AdSection1 />
-        </div>
-        <div style="height: .6rem;"></div>
-
-
-        <!-- 中段広告（VIP） -->
-        <div class="ad-wrapper">
-          <span class="ad-label center-top" style="font-size:0.68rem; top:6px;">広告</span>
+          <span class="ad-label center-top" style="font-size:0.68rem; top:6px;"
+            >広告</span
+          >
           <AdSectionVIP_2 />
         </div>
         <div style="height: .6rem;"></div>
 
-        <!-- 下段広告 -->
-        <div class="ad-wrapper"><span class="ad-label">広告</span><AdSection2 /></div>
-        <div style="height: .3rem;"></div>
-        <div class="ad-wrapper"><span class="ad-label">広告</span><AdSection3 /></div>
+        <!-- 記事一覧 -->
+        <h3 class="blog-section__title">お知らせ・最新情報</h3>
+        <p class="intro-text">
+          沖縄のアミューズメント店舗からの告知や求人情報、大会・イベントに関する最新のお知らせを掲載しています。
+        </p>
+        <Blog_amuse />
+
+                <div class="ad-wrapper">
+          <span class="ad-label center-top" style="font-size:0.68rem; top:6px;"
+            >広告</span
+          >
+          <AdSectionVIP_1 />
+        </div>
+
+        <h3 class="blog-section__title">ポーカーコラム(準備中)</h3>
+        <p class="intro-text">
+          趣味としてポーカーを楽しむ運営担当の雑記。正確な情報の掲載に努めていますが、記載内容の正確性を保証するものではありません。
+        </p>
+        <Blog_poker />
+
+        <div style="height: .6rem;"></div>
       </main>
     </div>
 
@@ -71,6 +72,5 @@ import AdSection5 from "../../components/AdSection5.astro";
     <Analytics />
 
     <script src="/js/header.js" type="module"></script>
-
-</body>
+  </body>
 </html>

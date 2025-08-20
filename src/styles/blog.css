@@ -108,6 +108,21 @@
   margin: 1.5rem 0 1rem;
   padding-bottom: .4rem;
   border-bottom: 2px solid #e5e7eb;
+  text-align: center;
+  letter-spacing: 0.5px;
+  color: #1e293b;
+}
+
+/* セクションタイトル（__titleバージョンも対応） */
+.blog-section__title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 1.5rem 0 1rem;
+  padding-bottom: .4rem;
+  border-bottom: 2px solid #e5e7eb;
+  text-align: center;
+  letter-spacing: 0.5px;
+  color: #1e293b;
 }
 
 /* カード画像ホバー */
@@ -118,3 +133,37 @@
   transform: scale(1.03);
 }
 
+
+
+/* =========================
+   Blog page Ad label
+   - 「広告」ラベルを記事広告に表示
+========================= */
+.ad-wrapper {
+  position: relative;
+}
+.ad-label {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  z-index: 2;
+  padding: 2px 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  border-radius: 6px;
+  background: rgba(226, 232, 240, 0.8);
+  color: rgba(71, 85, 105, 0.75);
+  letter-spacing: 0.02em;
+  pointer-events: none;
+}
+.ad-label.center-top {
+  left: 50%;
+  transform: translateX(-50%);
+}
+@media (max-width: 480px) {
+  .ad-label {
+    font-size: 0.68rem;
+    top: 5px;
+    left: 5px;
+  }
+}
