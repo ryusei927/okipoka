@@ -167,3 +167,14 @@
     left: 5px;
   }
 }
+
+/* 読むリンクの下線を消して目立たなくする */
+.blog-list .ad-card .card-body .readmore a {
+  text-decoration: none;
+  color: #2563eb; /* 適度な青 */
+  font-weight: 500;
+}
+.blog-list .ad-card .card-body .readmore a:hover {
+  text-decoration: none; /* ホバーでも下線を表示しない */
+  opacity: 0.8; /* 代わりに色の濃さで表現 */
+}
