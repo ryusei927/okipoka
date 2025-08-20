@@ -102,7 +102,7 @@
       /* ショップ用の上部セクションの中央揃えと背景色 */
       .top-section.shop {
         text-align: center;
-        background-color: #f3f9fe;
+        background-color: transparent;
       }
 
       /* --- SHOWDOWN shop card --- */
@@ -513,3 +513,67 @@ img.section-title[alt*="トーナメント"] {
   .store-directory .store-list{ gap: .6rem; }
   .store-directory .store-list li{ padding: 8px 6px; }
 }
+
+/* =========================
+   Blog banner (top page) – unboxed & standout
+   - セクションの枠線を消し、画像だけを際立たせる
+========================= */
+.top-section.blog {
+  background: transparent;
+  border-top: 0;
+  border-bottom: 0;
+  padding: .5rem 0 .4rem;
+}
+/* 画像の“囲み”を解除して、軽い持ち上がりと影で存在感を出す */
+.top-section.blog .section-title {
+  border: 0;                 /* 枠線なし */
+  background: transparent;   /* 背景なし */
+  padding: 0;                /* 画像だけ表示 */
+  border-radius: 0;          /* 角丸なし */
+  width: clamp(260px, 70vw, 620px); /* 少し大きめに可変 */
+  filter: drop-shadow(0 8px 20px rgba(0,0,0,.10)); /* やわらかい影 */
+  transition: transform .18s ease, filter .18s ease;
+}
+.top-section.blog a:hover .section-title {
+  transform: translateY(-2px) scale(1.01); /* ほんのり浮かせる */
+  filter: drop-shadow(0 10px 24px rgba(0,0,0,.14));
+}
+
+/* ブログバナーの直下に控えめな区切り線を表示 */
+.top-section.blog { position: relative; }
+.top-section.blog::after {
+  content: "";
+  display: block;
+  width: 92%;
+  height: 1px;
+  margin: .4rem auto .6rem;
+  background: linear-gradient(90deg,
+    rgba(0,0,0,.04) 0%,
+    rgba(0,0,0,.12) 15%,
+    rgba(0,0,0,.12) 85%,
+    rgba(0,0,0,.04) 100%);
+  border-radius: 1px;
+}
+/* ブログバナーの直上にも控えめな区切り線を表示 */
+.top-section.blog::before {
+  content: "";
+  display: block;
+  width: 92%;
+  height: 1px;
+  margin: 0  auto .75rem;   /* 上側に配置：下にだけ余白 */
+  background: linear-gradient(90deg,
+    rgba(0,0,0,.04) 0%,
+    rgba(0,0,0,.12) 15%,
+    rgba(0,0,0,.12) 85%,
+    rgba(0,0,0,.04) 100%);
+  border-radius: 1px;
+}
+@media (min-width: 1024px){
+  .top-section.blog::before{ width: 800px; }
+}
+@media (min-width: 1024px){
+  .top-section.blog::after{ width: 800px; } /* PCでは幅を固定（スポット枠に合わせる） */
+}
+
+/* ブログ直下が広告のときの余白を詰める */
+.top-section.blog + .ad-wrapper { margin-top: .4rem; }

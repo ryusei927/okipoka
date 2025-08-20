@@ -9,7 +9,7 @@
  *      ページ固有で main を上書きしたい時は、index.css 側のセレクタを強める（親を噛ませる）方針で統一。
  */
 import "../styles/index.css";
-import "../styles/mainstyle.css"
+import "../styles/mainstyle.css";
 
 /** Vercel アナリティクス（PV などの集計）*/
 import Analytics from "@vercel/analytics/astro";
@@ -80,13 +80,21 @@ import AdSection5 from "../components/AdSection5.astro";
       - 高さや比率の制御は CSS（mainstyle.css / index.css）側にまとめています。
     -->
     <section class="video-hero">
-      <img src="/images/okipoka_image.png" alt="OKIPOKA hero" class="video-background" loading="eager" decoding="async" />
+      <img
+        src="/images/okipoka_image.png"
+        alt="OKIPOKA hero"
+        class="video-background"
+        loading="eager"
+        decoding="async"
+      />
     </section>
 
-        <!-- 電光掲示板（CSSのみで流れるテキスト） -->
+    <!-- 電光掲示板（CSSのみで流れるテキスト） -->
     <div class="ticker">
-      <div class="ticker__track"
-           data-text="OKIPOKAは沖縄のポーカースポット/トーナメント情報を毎日更新するポータルサイトです。最新の大会スケジュールを一目でチェックできます。">
+      <div
+        class="ticker__track"
+        data-text="OKIPOKAは沖縄のポーカースポット/トーナメント情報を毎日更新するポータルサイトです。最新の大会スケジュールを一目でチェックできます。"
+      >
         OKIPOKAは沖縄のポーカースポット/トーナメント情報を毎日更新するポータルサイトです。最新の大会スケジュールを一目でチェックできます。
       </div>
     </div>
@@ -106,7 +114,9 @@ import AdSection5 from "../components/AdSection5.astro";
           - .ad-label は「広告」のバッジ。SPでは小さく、PCでは大きく表示。
         -->
         <div class="ad-wrapper">
-          <span class="ad-label center-top" style="font-size:0.68rem; top:6px;">広告</span>
+          <span class="ad-label center-top" style="font-size:0.68rem; top:6px;"
+            >広告</span
+          >
           <AdSectionVIP_1 />
         </div>
 
@@ -119,7 +129,11 @@ import AdSection5 from "../components/AdSection5.astro";
           - 画像（.store-icon）は CSS で常に真円（border-radius:50%）に統一しています。
         -->
         <section class="store-directory">
-          <img src="/images/pokerspot.png" alt="沖縄ポーカースポット" class="section-title" />
+          <img
+            src="/images/pokerspot.png"
+            alt="沖縄ポーカースポット"
+            class="section-title"
+          />
 
           <ul class="store-list">
             <!--
@@ -137,19 +151,31 @@ import AdSection5 from "../components/AdSection5.astro";
             </li>
             <li>
               <a href="stores/UnderTheGun">
-                <img src="images/underthegun.jpg" alt="UnderTheGun" class="store-icon" />
+                <img
+                  src="images/underthegun.jpg"
+                  alt="UnderTheGun"
+                  class="store-icon"
+                />
                 <div>UnderTheGun</div>
               </a>
             </li>
             <li>
               <a href="stores/Rebarta">
-                <img src="images/rebarta.jpg" alt="Rebarta" class="store-icon" />
+                <img
+                  src="images/rebarta.jpg"
+                  alt="Rebarta"
+                  class="store-icon"
+                />
                 <div>Rebarta</div>
               </a>
             </li>
             <li>
               <a href="stores/BACKDOOR">
-                <img src="images/backdoor.jpg" alt="BACKDOOR" class="store-icon" />
+                <img
+                  src="images/backdoor.jpg"
+                  alt="BACKDOOR"
+                  class="store-icon"
+                />
                 <div>BACKDOOR</div>
               </a>
             </li>
@@ -161,7 +187,11 @@ import AdSection5 from "../components/AdSection5.astro";
             </li>
             <li>
               <a href="stores/TOKISHIRAZU">
-                <img src="images/tokishirazu.png" alt="TOKISHIRAZU" class="store-icon" />
+                <img
+                  src="images/tokishirazu.png"
+                  alt="TOKISHIRAZU"
+                  class="store-icon"
+                />
                 <div>TOKISHIRAZU</div>
               </a>
             </li>
@@ -173,7 +203,11 @@ import AdSection5 from "../components/AdSection5.astro";
             </li>
             <li>
               <a href="stores/GUTSHOT">
-                <img src="images/gutshot.png" alt="GUTSHOT" class="store-icon" />
+                <img
+                  src="images/gutshot.png"
+                  alt="GUTSHOT"
+                  class="store-icon"
+                />
                 <div>GUTSHOT</div>
               </a>
             </li>
@@ -185,7 +219,11 @@ import AdSection5 from "../components/AdSection5.astro";
             </li>
             <li>
               <a href="stores/Re.raise">
-                <img src="images/Re.raise.png" alt="Re.raise" class="store-icon" />
+                <img
+                  src="images/Re.raise.png"
+                  alt="Re.raise"
+                  class="store-icon"
+                />
                 <div>Re.raise</div>
               </a>
             </li>
@@ -203,7 +241,11 @@ import AdSection5 from "../components/AdSection5.astro";
             </li>
             <li>
               <a href="stores/bigslick">
-                <img src="images/bigslick.png" alt="bigslick" class="store-icon" />
+                <img
+                  src="images/bigslick.png"
+                  alt="bigslick"
+                  class="store-icon"
+                />
                 <div>BIG SLICK</div>
               </a>
             </li>
@@ -234,15 +276,41 @@ import AdSection5 from "../components/AdSection5.astro";
           - 「詳細を見る」リンクは一覧ページへ遷移。
         -->
         <section class="top-section">
-          <img src="/images/honzitsunotoname.png" alt="本日のトーナメント" class="section-title" />
+          <img
+            src="/images/honzitsunotoname.png"
+            alt="本日のトーナメント"
+            class="section-title"
+          />
           <div id="today-all-card" class="card-list"></div>
           <a href="/tournaments/tournaments" class="top-link">詳細を見る</a>
         </section>
 
         <!-- VIP広告（2つ目）。PCでは大きく、SPでは最大320pxに収まるようCSSで制御 -->
         <div class="ad-wrapper">
-          <span class="ad-label center-top" style="font-size:0.68rem; top:6px;">広告</span>
+          <span class="ad-label center-top" style="font-size:0.68rem; top:6px;"
+            >広告</span
+          >
           <AdSectionVIP_2 />
+        </div>
+
+        <!-- ブログバナー -->
+        <section class="top-section blog">
+          <a href="/BLOG/Blog-index">
+            <img
+              src="/images/blog_banner.png"
+              alt="OKIPOKA ブログ"
+              class="section-title"
+            />
+          </a>
+          <div style="text-align:center; margin-top:0.5rem;">
+            <a href="/BLOG/Blog-index" class="top-link">ブログを開く</a>
+          </div>
+        </section>
+
+  
+        <div class="ad-wrapper">
+          <span class="ad-label">広告</span>
+          <AdSection4 />
         </div>
 
         <!--
@@ -282,15 +350,15 @@ import AdSection5 from "../components/AdSection5.astro";
           </div>
         </section>
 
-        <!-- 追加バナー（3,4）。順番に縦積み -->
+        <!-- 追加バナー（4,5）。順番に縦積み -->
         <div class="ad-wrapper">
           <span class="ad-label">広告</span>
-          <AdSection3 />
+          <AdSection4 />
         </div>
         <div style="height: 0.3rem;"></div>
         <div class="ad-wrapper">
           <span class="ad-label">広告</span>
-          <AdSection4 />
+          <AdSection5 />
         </div>
       </main>
     </div>
@@ -306,7 +374,11 @@ import AdSection5 from "../components/AdSection5.astro";
       ・スクロール量が 0 より大きいと表示
       ・クリックするとスムーススクロールで最上部へ
     -->
-    <button id="scrollToTopBtn" class="scroll-to-top" aria-label="ページ上部に戻る">♠️</button>
+    <button
+      id="scrollToTopBtn"
+      class="scroll-to-top"
+      aria-label="ページ上部に戻る">♠️</button
+    >
     <script>
       // ボタン要素を取得
       const scrollBtn = document.getElementById("scrollToTopBtn");
