@@ -1,0 +1,120 @@
+
+
+/* =========================
+   OKIPOKA Blog 専用スタイル
+   - blog-index や 記事ページに適用
+========================= */
+
+/* ブログ全体のレイアウト */
+.blog-wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* 記事カード一覧 */
+.blog-list {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* 記事カード */
+.blog-list .ad-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  overflow: hidden;
+  transition: transform .15s ease, box-shadow .15s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.blog-list .ad-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+}
+.blog-list .ad-card img {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  display: block;
+}
+.blog-list .ad-card .card-body {
+  padding: 0.75rem 1rem 1rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* 記事カードの中身 */
+.blog-list .ad-card .card-body h3 {
+  margin: .2rem 0 .4rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+.blog-list .ad-card .card-body .date {
+  color: #64748b;
+  font-size: .9rem;
+  margin-bottom: .25rem;
+}
+.blog-list .ad-card .card-body .readmore {
+  margin-top: .6rem;
+}
+
+/* 記事詳細 */
+.blog-post {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+.blog-post h1 {
+  font-size: clamp(1.6rem, 4vw, 2rem);
+  margin-bottom: 0.5rem;
+}
+.blog-post time {
+  color: #64748b;
+  font-size: 0.9rem;
+}
+.blog-post article {
+  margin-top: 1.2rem;
+  line-height: 1.8;
+  color: #333;
+}
+
+/* =========================
+   レスポンシブ調整
+========================= */
+@media (min-width: 640px) {
+  .blog-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  .blog-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* セクションタイトル */
+.blog-section-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 1.5rem 0 1rem;
+  padding-bottom: .4rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+/* カード画像ホバー */
+.blog-list .ad-card img {
+  transition: transform .3s ease;
+}
+.blog-list .ad-card:hover img {
+  transform: scale(1.03);
+}
+

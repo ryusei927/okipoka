@@ -1,0 +1,76 @@
+---
+import Analytics from "@vercel/analytics/astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import Blog_amuse from "../../components/Blog_amuse.astro";
+import Blog_poker from "../../components/Blog_poker.astro";
+
+import InterstitialAd from "../../components/InterstitialAd.astro";
+import AdSectionVIP_1 from "../../components/AdSectionVIP_1.astro";
+import AdSectionVIP_2 from "../../components/AdSectionVIP_2.astro";
+import AdSection1 from "../../components/AdSection1.astro";
+import AdSection2 from "../../components/AdSection2.astro";
+import AdSection3 from "../../components/AdSection3.astro";
+import AdSection4 from "../../components/AdSection4.astro";
+import AdSection5 from "../../components/AdSection5.astro";
+---
+
+
+
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OKIPOKA ブログ(製作中)</title>
+    <link rel="stylesheet" href="/styles/blog.css" />
+  </head>
+  <body>
+    <Header />
+    <InterstitialAd />
+
+    <div class="store-page-wrapper blog-wrapper">
+      <main>
+        <!-- タイトルセクション（画像に差し替え可） -->
+        <section class="top-section">
+          <h2>OKIPOKA ブログ</h2><br />
+          <p class="intro-text">沖縄のポーカートーナメントやスポット情報、運営アップデートなどの読み物コンテンツをお届けします。</p>
+        </section>
+
+        <!-- 記事一覧 -->
+         <h3 class="blog-section__title">お知らせ・アミューズ記事</h3>
+         <Blog_amuse  />
+
+
+        <h3 class="blog-section__title">ポーカー記事</h3>
+        <Blog_poker  />
+        
+
+        <!-- 広告：上段 -->
+        <div class="ad-wrapper">
+          <span class="ad-label">広告</span>
+          <AdSection1 />
+        </div>
+        <div style="height: .6rem;"></div>
+
+
+        <!-- 中段広告（VIP） -->
+        <div class="ad-wrapper">
+          <span class="ad-label center-top" style="font-size:0.68rem; top:6px;">広告</span>
+          <AdSectionVIP_2 />
+        </div>
+        <div style="height: .6rem;"></div>
+
+        <!-- 下段広告 -->
+        <div class="ad-wrapper"><span class="ad-label">広告</span><AdSection2 /></div>
+        <div style="height: .3rem;"></div>
+        <div class="ad-wrapper"><span class="ad-label">広告</span><AdSection3 /></div>
+      </main>
+    </div>
+
+    <Footer />
+    <Analytics />
+
+    <script src="/js/header.js" type="module"></script>
+
+</body>
+</html>
