@@ -1,10 +1,49 @@
 ---
-const title = "ポーカー戦略：3ベットの基本";
-const date = "2025-08-20";
+import Analytics from "@vercel/analytics/astro";
+import Header from "../../../components/Header.astro";
+import Footer from "../../../components/Footer.astro";
+import "../../../styles/article.css";
+
+import InterstitialAd from "../../../components/InterstitialAd.astro";
+import AdSection1 from "../../../components/AdSection1.astro";
+import AdSection2 from "../../../components/AdSection2.astro";
+import AdSection3 from "../../../components/AdSection3.astro";
+import AdSection4 from "../../../components/AdSection4.astro";
+import AdSection5 from "../../../components/AdSection5.astro";
 ---
 
-<article class="blog-article">
-  <h1>{title}</h1>
-  <time datetime={date}>{date}</time>
-  <p>キャッシュゲームにおける3ベットの考え方と、よくあるミスを解説します。</p>
-</article>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>お知らせ</title>
+    </head>
+    <Header />
+
+    <div class="ad-wrapper okp-article__ad">
+        <span class="ad-label center-top">広告</span>
+        <AdSection2 />
+    </div>
+
+    <body>
+        <!-- 本文 -->
+        <main class="okp-article">
+            <h1>記事タイトル</h1>
+            <h2>大見出し（中央）</h2>
+            <p>テキスト。これも中央に</p>
+            <img src="/blog_images/image.png" />
+        </main>
+        <!-- ここまで -->
+
+        <div class="ad-wrapper okp-article__ad">
+            <span class="ad-label center-top">広告</span>
+            <AdSection1 />
+        </div>
+
+        <Footer />
+        <Analytics />
+
+        <script src="/js/header.js" type="module"></script>
+    </body>
+
+</html>
