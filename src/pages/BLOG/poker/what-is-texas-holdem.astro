@@ -134,6 +134,86 @@ import AdSection5 from "../../../components/AdSection5.astro";
   自分に合ったスタイルで楽しめるのが、ポーカーの大きな魅力です。
 </p>
 
+<h2>基本用語（1日目に覚えるところ）</h2>
+<div class="table-wrap">
+<table class="term-table">
+  <thead>
+    <tr>
+      <th>カテゴリ</th>
+      <th>用語</th>
+      <th>意味</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>アクション</strong></td>
+      <td>フォールド (Fold)</td>
+      <td>手札を捨ててゲームから降りる</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>コール (Call)</td>
+      <td>直前のプレイヤーと同じ額を出して参加する</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>レイズ (Raise)</td>
+      <td>直前の額より多くベットして上乗せする</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>チェック (Check)</td>
+      <td>誰もベットしていないときに、お金を出さずに回す</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>オールイン (All-in)</td>
+      <td>持っているチップをすべて賭ける</td>
+    </tr>
+    <tr>
+      <td><strong>ルール</strong></td>
+      <td>ディーラーボタン (Button / D)</td>
+      <td>親を示す位置。進行の基準</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>スモールブラインド (SB)</td>
+      <td>ボタン左隣が強制的に出す小さいベット</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>ビッグブラインド (BB)</td>
+      <td>SBの左隣が強制的に出す大きいベット</td>
+    </tr>
+    <tr>
+      <td><strong>シチュエーション</strong></td>
+      <td>プリフロップ (Preflop)</td>
+      <td>手札2枚が配られた直後のターン</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>フロップ (Flop)</td>
+      <td>共通カードが3枚公開されるターン</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>ターン (Turn)</td>
+      <td>共通カード4枚目が公開されるターン</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>リバー (River)</td>
+      <td>共通カード5枚目が公開される最後のターン</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>ショーダウン (Showdown)</td>
+      <td>残ったプレイヤーが手札を公開して勝敗を決める</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
         </main>
         <!-- ここまで -->
 
@@ -159,6 +239,49 @@ import AdSection5 from "../../../components/AdSection5.astro";
 .caption{font-size:.85rem;color:#64748b;margin-top:.35rem;}
 .callout{max-width:42rem;margin:1.4rem auto;background:#f8fafc;border-left:4px solid var(--okp-accent);padding:.9rem 1rem;border-radius:8px;}
 .cta{margin:1.8rem 0 .2rem;text-align:center;}
+.term-table {
+  width:100%;
+  max-width:42rem;
+  margin:1rem auto 1.6rem;
+  border-collapse: collapse;
+  font-size:.95rem;
+  border: 1px solid #cbd5e1;
+}
+.term-table th,
+.term-table td {
+  border:1px solid #cbd5e1;
+  padding:.6rem .7rem;
+  vertical-align:top;
+  background:#fff;
+  text-align: left;
+}
+.term-table thead th {
+  background:#f1f5f9;
+  text-align:left;
+  border-bottom:2px solid #94a3b8;
+}
+.term-table tbody tr:nth-child(odd) td{/* background:#fcfdff; */}
+.term-table td:first-child{white-space:nowrap;width:8.5rem;color:#475569;}
+.term-table td:nth-child(2){white-space:nowrap;width:14rem;font-weight:600;}
+.term-table tbody td {
+  border-top:1px solid #e2e8f0;
+  background:#fff;
+}
+.table-wrap{max-width:100%;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;margin:0 auto;}
+/* 最小幅を確保して横スクロール可能に */
+.term-table{min-width: 560px;}
+</style>
+<style>
+/* ===== モバイルで表を画面内に収める ===== */
+@media (max-width: 430px){
+  .table-wrap{overflow-x:visible;} /* 横スクロールを基本オフ */
+  .term-table{min-width:auto; width:100%; table-layout: fixed;}
+  .term-table th,.term-table td{padding:.45rem .5rem; font-size:.88rem; box-sizing:border-box; word-break: break-word; white-space: normal;}
+  /* 列幅の比率を固定して折り返しで対応 */
+  .term-table th:nth-child(1), .term-table td:nth-child(1){width:22%;}
+  .term-table th:nth-child(2), .term-table td:nth-child(2){width:30%;}
+  .term-table th:nth-child(3), .term-table td:nth-child(3){width:48%;}
+}
 </style>
     </body>
 
