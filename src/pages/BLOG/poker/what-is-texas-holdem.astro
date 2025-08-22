@@ -30,90 +30,102 @@ import AdSection5 from "../../../components/AdSection5.astro";
         <main class="okp-article">
             <h1>テキサスホールデムとは？</h1>
 
-            <p>
-                テキサスホールデムは、世界で最も人気のあるポーカーのルールです。<br
-                /><br />
-                ラスベガスのカジノや世界大会「WSOP（ワールドシリーズ・オブ・ポーカー）」でも採用され、初心者からプロまで幅広くプレイされています。<br
-                /><br />
-                そして、OKIPOKAで紹介しているようなアミューズメントポーカーのお店でも、基本的にテキサスホールデムがメインゲームとして遊ばれています。<br
-                /><br />
-                つまり、ポーカーを学びたい人にとって「まず覚えるべきルール」がこのテキサスホールデムなのです。<br
-                /><br />
-                この記事では、その基本ルールをわかりやすく解説します。<br />
-                「ポーカーを始めてみたいけど難しそう…」という方でも安心して読める内容になっています。<br
-                />
-            </p>
+            <p class="lead">2枚の手札とテーブルに開かれる5枚の共通カードを使い、最強の5枚を作って勝負するのがテキサスホールデムです。この記事は“流れだけ”を短時間でつかめるようにまとめています。</p>
 
-            <img src="/blog_images/sinkou1.png" />
+            <p>テキサスホールデムは、世界で最も人気のあるポーカーのルールです。ラスベガスのカジノや世界大会「WSOP」でも採用され、初心者からプロまで幅広く遊ばれています。</p>
+            <p>OKIPOKAで紹介しているアミューズメントポーカーのお店でも、基本的にテキサスホールデムがメインゲームです。ポーカーを学ぶなら、まずこのルールを覚えれば大丈夫です。</p>
+            <p>以下では、ゲームの進行をわかりやすく順番に説明します。</p>
 
-<h2>テキサスホールデムの基本的なゲーム進行</h2>
+<section class="step">
+  <h3>1. ゲーム開始とブラインド</h3>
+  <p>テーブルにはディーラーボタン（D）が置かれ、この位置を基準に進行します。ボタンの左から <strong>SB（スモールブラインド）</strong>、その左に <strong>BB（ビッグブラインド）</strong> を強制的に置いてスタートします。</p>
+  <div class="figure">
+    <img src="/blog_images/sinkou1.png" alt="ボタン・SB・BBの配置" class="progress-img"/>
+    <p class="caption">ボタンの左にSB、その左にBBが座ります。</p>
+  </div>
+</section>
 
-<h2>1. ゲーム開始とブラインド</h2>
+<section class="step">
+  <h3>2. 手札（ホールカード）を配る</h3>
+  <p>全員に裏向きのカードを<strong>2枚</strong>ずつ配ります（これがホールカード）。以降はこの2枚と共通カードを組み合わせて役を作ります。</p>
+</section>
 
-<p>テキサスホールデムは2人～10人で遊べるポーカーです。
-テーブルには ディーラーボタン（D） があり、この位置を基準にゲームが進行します。
-	•	ボタンの左隣のプレイヤーが スモールブラインド（SB）
-	•	その隣が ビッグブラインド（BB）
+<section class="step">
+  <h3>3. プリフロップ（最初のアクション）</h3>
+  <p>アクションは <strong>BBの左隣（UTG）</strong> から。各プレイヤーは次のいずれかを選びます。</p>
+  <ul>
+    <li><strong>フォールド</strong>：降りる</li>
+    <li><strong>コール</strong>：BBと同じ額を出す</li>
+    <li><strong>レイズ</strong>：ベット額を上げる</li>
+  </ul>
+</section>
 
-この2人は強制的にチップを出してスタートします。</p>
+<section class="step">
+  <h3>4. フロップ（共通カード3枚）</h3>
+  <p>テーブル中央に共通カードが<strong>3枚</strong>公開されます。ボタンの左から順に再びアクション。</p>
+  <div class="figure">
+    <img src="/blog_images/sinkou2.png" alt="フロップが公開された状態" class="progress-img"/>
+  </div>
+</section>
 
-<h2>2. 手札（ホールカード）の配布</h2>
+<section class="step">
+  <h3>5. ターン（4枚目）</h3>
+  <p>4枚目の共通カード（ターン）が公開され、再度ベッティングを行います。</p>
+  <div class="figure">
+    <img src="/blog_images/sinkou3.png" alt="ターンが公開された状態" class="progress-img"/>
+  </div>
+</section>
 
-<p>全員に 裏向きのカードが2枚ずつ 配られます。これを ホールカード と呼びます。
-プレイヤーはこの2枚と、これから公開される共通カードを組み合わせて役を作ります。
+<section class="step">
+  <h3>6. リバー（5枚目）</h3>
+  <p>5枚目の共通カード（リバー）が公開され、最後のベッティングラウンドを行います。</p>
+  <div class="figure">
+    <img src="/blog_images/sinkou4.png" alt="リバーが公開された状態" class="progress-img"/>
+  </div>
+</section>
 
-<h2>3. プリフロップ（最初のアクション）</h2>
+<section class="step">
+  <h3>7. ショーダウン</h3>
+  <p>ベットが終わって複数名が残っていればショーダウン。手札2枚と共通カード5枚を自由に組み合わせ、<strong>最も強い5枚の役</strong>を作ったプレイヤーがポットを獲得します。</p>
+  <div class="figure">
+    <img src="/blog_images/sinkou5.png" alt="ショーダウンのイメージ" class="progress-img"/>
+  </div>
+</section>
 
-<p>BBの左隣のプレイヤー（UTG = アンダー・ザ・ガン）からアクションが始まります。
-選べるアクションは次の通り：
-	•	フォールド（降りる）
-	•	コール（BBと同じ額を出す）
-	•	レイズ（さらに多くのチップを出す）
+<h3 class="cta">役の強さ（ハンドランク）</h3>
+<p class="step" style="text-align:center;">上に行くほど強い役です（覚えるのが不安でも大丈夫）。</p>
 
-順番に回り、全員のベット額が揃うと次のステップに進みます。</p><br>
+<img src="/blog_images/yakuhyo.jpg" class="yakuhyo-img fullsize" />
+<style>
+.yakuhyo-img.fullsize {
+  all: unset;
+  display: block;
+  margin: 2rem auto;
+  max-width: 100%;
+  height: auto;
+}
+/* Override possible .okp-article img rules for this image */
+.okp-article img.yakuhyo-img {
+  all: unset;
+  display: block;
+  margin: 2rem auto;
+  max-width: 100%;
+  height: auto;
+}
+</style>
 
+<p class="step"><strong>まとめ</strong></p>
+<ul class="step">
+  <li>2枚の手札と5枚の共通カードを組み合わせて役を作る</li>
+  <li>SBとBBの強制ベットから毎ハンドがスタート</li>
+  <li>プリフロップ → フロップ → ターン → リバー → ショーダウン の順で進行</li>
+  <li>最後に最も強い5枚の役を作った人が勝ち</li>
+</ul>
 
-<img src="/blog_images/sinkou2.png" />
-
-<h2>4. フロップ</h2>
-
-<p>テーブル中央に 共通カード3枚 が表向きで公開されます。これを フロップ と呼びます。
-ここでも再びベッティングラウンドがあり、ボタンの左隣のプレイヤーから順番にアクションします。</p><br>
-
-<img src="/blog_images/sinkou3.png" />
-
-<h2>5. ターン</h2>
-
-<p>フロップ後のアクションが終わると、4枚目の共通カード（ターン） が公開されます。
-再びベッティングが行われます。</p><br>
-
-<img src="/blog_images/sinkou4.png" />
-
-<h2>6. リバー</h2>
-
-<p>さらに 5枚目の共通カード（リバー） が公開されます。
-ここで最後のベッティングラウンドを行います。</p><br>
-
-<img src="/blog_images/sinkou5.png" />
-
-<h2>7. ショーダウン</h2>
-
-<p>最後のベットが終わり、複数のプレイヤーが残っている場合は ショーダウン に進みます。
-全員が自分のホールカードを公開し、
-	•	手札2枚
-	•	共通カード5枚
-
-を自由に組み合わせ、最も強い5枚の役 を作ったプレイヤーがポットを獲得します。</p>
-
-<p>⸻</p>
-
-<p><p><strong>まとめ</strong></p>
-	•	2枚の手札と5枚の共通カードを組み合わせて役を作る<br><br>
-	•	SBとBBが必ず強制ベットしてゲームが始まる<br><br>
-	•	プリフロップ → フロップ → ターン → リバー → ショーダウンの順で進行<br><br>
-	•	最後に一番強い役を作った人が勝ち</p>
-
-
+<div class="callout">
+  OKIPOKAで紹介しているような<strong>アミューズメントポーカーのお店</strong>では、初心者向けの<strong>ルール講習</strong>を行っているところが多いです。<br>
+  「まずは雰囲気だけ見たい」「実際に触って覚えたい」という方でも、道具はお店に揃っているので、<strong>手ぶらでOK</strong>。気軽に体験しに行ってみるといいかもしれません。
+</div>
 
         </main>
         <!-- ここまで -->
@@ -127,6 +139,20 @@ import AdSection5 from "../../../components/AdSection5.astro";
         <Analytics />
 
         <script src="/js/header.js" type="module"></script>
+
+<style>
+/* ==== このページ専用の軽量スタイル ==== */
+.okp-article .lead{max-width:42rem;margin:0 auto 1rem;color:#475569;font-size:1.05rem;}
+.okp-article h2{margin-top:1.6rem;}
+.okp-article .step{max-width:42rem;margin:0 auto;text-align:left;}
+.okp-article .step ul{padding-left:1.1rem;margin:.4rem 0 .8rem;}
+.okp-article .step li{margin:.25rem 0;}
+.figure{margin:1rem auto;text-align:center;}
+.figure .progress-img{display:block;margin:0 auto;max-width:520px;width:100%;height:auto;}
+.caption{font-size:.85rem;color:#64748b;margin-top:.35rem;}
+.callout{max-width:42rem;margin:1.4rem auto;background:#f8fafc;border-left:4px solid var(--okp-accent);padding:.9rem 1rem;border-radius:8px;}
+.cta{margin:1.8rem 0 .2rem;text-align:center;}
+</style>
     </body>
 
 
