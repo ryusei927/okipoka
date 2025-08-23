@@ -1,20 +1,9 @@
 [
   {
     "id": "icon-spade",
-    "title": "スペード（SVG）",
+    "title": "チップ",
     "cat": "icons",
     "src": "/free_images/chip1.png"
-  },
-  {
-    "id": "icon-heart",
-    "title": "ハート（SVG）",
-    "cat": "icons",
-    "src": "/free/icons/heart.svg"
-  },
-  {
-    "id": "icon-club",
-    "title": "クラブ（SVG）",
-    "cat": "icons",
-    "src": "/free/icons/club.svg"
   }
+
 ]
