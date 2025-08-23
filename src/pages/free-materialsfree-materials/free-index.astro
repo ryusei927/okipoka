@@ -65,8 +65,12 @@ import AdSection5 from "../../components/AdSection5.astro";
             <div class="meta">
               <h3 class="title">{it.title}</h3>
               <div class="actions">
-                <a class="dl" href={it.src} download aria-label={`${it.title} をダウンロード`}>ダウンロード</a>
-                <a class="open" href={it.src} target="_blank" rel="noreferrer" aria-label={`${it.title} を原寸で開く`}>原寸で開く</a>
+                <a class="dl" href={it.src} download aria-label={`${it.title} をダウンロード`}>
+                  <img src="/images/download.png" alt="ダウンロード" class="icon-download" />
+                </a>
+                <a class="open" href={it.src} target="_blank" rel="noreferrer" aria-label={`${it.title} を開く`}>
+                  開く
+                </a>
               </div>
             </div>
           </article>
@@ -300,6 +304,11 @@ import AdSection5 from "../../components/AdSection5.astro";
         border-radius: 10px;
         border: 1px solid #dfe6f2;
         color: #1f2a44;
+      }
+      .icon-download {
+        width: 20px;
+        height: 20px;
+        display: block;
       }
       .actions .dl {
         border-color: #1f2a44;
