@@ -19,7 +19,9 @@ import AdSection5 from "../../components/AdSection5.astro";
     <meta charset="UTF-8" />
     <title>OKIPOKA フリー素材</title>
     <meta name="description" content="ブログ・SNS・配信で使えるポーカー素材を無料配布。商用利用OK／再配布NG。" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
   </head>
 
   <body>
@@ -138,9 +140,27 @@ import AdSection5 from "../../components/AdSection5.astro";
         pickOne('[data-ad="standard"].ad-choice');
         pickOne('[data-ad="vip"].ad-choice');
       })();
+
+      // --- Disable pinch/double-tap zoom for "app-like" feel ---
+      // Prevent iOS pinch zoom gestures
+      ['gesturestart','gesturechange','gestureend'].forEach(evt => {
+        document.addEventListener(evt, function(e){ e.preventDefault(); }, { passive: false });
+      });
+      // Prevent double-tap to zoom
+      (function(){
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(e){
+          const now = Date.now();
+          if (now - lastTouchEnd <= 300) { e.preventDefault(); }
+          lastTouchEnd = now;
+        }, { passive: false });
+      })();
     </script>
 
     <style>
+      html, body {
+        touch-action: manipulation;  /* hint to disable double-tap zoom on supporting browsers */
+      }
       /* ページラッパー */
       .free-wrap {
         max-width: 1080px;
