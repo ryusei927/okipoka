@@ -1,0 +1,58 @@
+[
+  {
+    "id": "icon-spade",
+    "title": "スペード（SVG）",
+    "cat": "icons",
+    "src": "/free/icons/spade.svg",
+    "ext": "svg",
+    "size": "2 KB"
+  },
+  {
+    "id": "icon-heart",
+    "title": "ハート（SVG）",
+    "cat": "icons",
+    "src": "/free/icons/heart.svg",
+    "ext": "svg",
+    "size": "2 KB"
+  },
+  {
+    "id": "icon-club",
+    "title": "クラブ（SVG）",
+    "cat": "icons",
+    "src": "/free/icons/club.svg",
+    "ext": "svg",
+    "size": "2 KB"
+  },
+  {
+    "id": "illu-chip",
+    "title": "ポーカーチップ（PNG）",
+    "cat": "illustrations",
+    "src": "/free/illustrations/chip.png",
+    "ext": "png",
+    "size": "120 KB"
+  },
+  {
+    "id": "illu-table",
+    "title": "テーブル（PNG）",
+    "cat": "illustrations",
+    "src": "/free/illustrations/table.png",
+    "ext": "png",
+    "size": "180 KB"
+  },
+  {
+    "id": "wp-suits",
+    "title": "4マークタイル背景（1920×1080）",
+    "cat": "wallpapers",
+    "src": "/free/wallpapers/suits-tiles-1920x1080.png",
+    "ext": "png",
+    "size": "420 KB"
+  },
+  {
+    "id": "wp-wave",
+    "title": "OKIPOKA波模様（1920×1080）",
+    "cat": "wallpapers",
+    "src": "/free/wallpapers/okipoka-wave-1920x1080.png",
+    "ext": "png",
+    "size": "380 KB"
+  }
+]

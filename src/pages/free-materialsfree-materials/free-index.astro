@@ -1,0 +1,316 @@
+---
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import items from "../../data/free-items.json";
+import categories from "../../data/free-categories.json";
+
+import InterstitialAd from "../../components/InterstitialAd.astro";
+import AdSectionVIP_1 from "../../components/AdSectionVIP_1.astro";
+import AdSectionVIP_2 from "../../components/AdSectionVIP_2.astro";
+import AdSection1 from "../../components/AdSection1.astro";
+import AdSection2 from "../../components/AdSection2.astro";
+import AdSection3 from "../../components/AdSection3.astro";
+import AdSection4 from "../../components/AdSection4.astro";
+import AdSection5 from "../../components/AdSection5.astro";
+---
+
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>OKIPOKA フリー素材</title>
+    <meta name="description" content="ブログ・SNS・配信で使えるポーカー素材を無料配布。商用利用OK／再配布NG。" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+
+  <body>
+    <Header />
+
+     <InterstitialAd />
+
+      <!-- Standard Ads (randomly show one) -->
+      <div class="ad-wrapper" aria-label="スポンサー（スタンダード）">
+        <span class="ad-label left-top">広告</span>
+        <div data-ad="standard" class="ad-choice" style="display:none"><AdSection1 /></div>
+        <div data-ad="standard" class="ad-choice" style="display:none"><AdSection2 /></div>
+        <div data-ad="standard" class="ad-choice" style="display:none"><AdSection3 /></div>
+        <div data-ad="standard" class="ad-choice" style="display:none"><AdSection4 /></div>
+        <div data-ad="standard" class="ad-choice" style="display:none"><AdSection5 /></div>
+      </div>
+
+
+
+    <main class="free-wrap">
+      <section class="hero-intro">
+        <h1>フリー素材(準備中)</h1>
+        <p class="lead">
+          色々な用途で使える、シンプルで使い回しやすいポーカー素材。<br />
+          商用利用OK／再配布NG。<a href="/free-materials/terms">利用規約</a>をご確認ください。
+        </p>
+      </section>
+
+      <div class="filters" id="filters" role="tablist" aria-label="素材カテゴリの切替">
+        {categories.map((c) => (
+          <button class="filter-btn" role="tab" data-filter={c.key} aria-selected="false">
+            {c.label}
+          </button>
+        ))}
+      </div>
+
+      <section class="grid" id="grid" aria-live="polite">
+        {items.map((it) => (
+          <article class="card" data-cat={it.cat} id={it.id}>
+            <a class="thumb" href={it.src} download aria-label={`${it.title} をダウンロード`}>
+              <img src={it.src} alt={it.title} loading="lazy" decoding="async" />
+            </a>
+            <div class="meta">
+              <h3 class="title">{it.title}</h3>
+              <div class="actions">
+                <a class="dl" href={it.src} download aria-label={`${it.title} をダウンロード`}>ダウンロード</a>
+                <a class="open" href={it.src} target="_blank" rel="noreferrer" aria-label={`${it.title} を原寸で開く`}>原寸で開く</a>
+              </div>
+            </div>
+          </article>
+        ))}
+      </section>
+
+      <details>
+        <summary>利用上の注意</summary>
+        <ul>
+          <li>商用利用OK／クレジット表記不要</li>
+          <li>素材そのものの再配布・販売は禁止</li>
+          <li>OKIPOKAのロゴを含む素材は大きな改変不可（色変更など軽微な加工は可）</li>
+        </ul>
+      </details>
+    </main>
+
+    <!-- VIP Ads (randomly show one) -->
+    <div class="ad-wrapper vip-ad" aria-label="スポンサー（VIP）">
+      <span class="ad-label center-top">広告</span>
+      <div data-ad="vip" class="ad-choice" style="display:none"><AdSectionVIP_1 /></div>
+      <div data-ad="vip" class="ad-choice" style="display:none"><AdSectionVIP_2 /></div>
+    </div>
+
+    <Footer />
+
+    <!-- 既存ヘッダー用のJSがある場合 -->
+    <script src="/js/header.js" type="module"></script>
+
+    <!-- カテゴリフィルタ -->
+    <script is:raw>
+      const buttons = document.querySelectorAll('.filter-btn');
+      const cards = document.querySelectorAll('.card');
+
+      const setActive = (key) => {
+        buttons.forEach(b => {
+          const active = b.dataset.filter === key;
+          b.classList.toggle('active', active);
+          b.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+      };
+
+      const filter = (key) => {
+        cards.forEach(c => {
+          c.style.display = (key === 'all' || c.dataset.cat === key) ? '' : 'none';
+        });
+        setActive(key);
+      };
+
+      // 初期表示
+      filter('all');
+      setActive('all');
+
+      buttons.forEach(b => {
+        b.addEventListener('click', () => filter(b.dataset.filter));
+      });
+
+      // --- Random Ads (Standard & VIP) ---
+      (function(){
+        const pickOne = (selector) => {
+          const nodes = Array.from(document.querySelectorAll(selector));
+          if (!nodes.length) return;
+          const idx = Math.floor(Math.random() * nodes.length);
+          nodes[idx].style.display = '';
+        };
+        pickOne('[data-ad="standard"].ad-choice');
+        pickOne('[data-ad="vip"].ad-choice');
+      })();
+    </script>
+
+    <style>
+      /* ページラッパー */
+      .free-wrap {
+        max-width: 1080px;
+        margin-inline: auto;
+        padding-inline: clamp(16px, 3vw, 24px);
+        padding-block: clamp(20px, 3vw, 40px);
+      }
+
+      /* 見出し/リード */
+      h1 { font-size: clamp(22px, 3.2vw, 36px); margin: 0 0 8px; }
+      .lead { color: #555; margin: 0 0 16px; line-height: 1.8; }
+
+      /* ---- Responsive Ads (match top page) ---- */
+      .ad-wrapper {
+        position: relative;
+        margin: 12px auto 16px; /* center align horizontally */
+        max-width: 800px;       /* constrain width similar to VIP ads */
+        padding-left: 8px;      /* add horizontal padding */
+        padding-right: 8px;
+        box-sizing: border-box; /* ensure padding does not increase width */
+      }
+      .ad-label {
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        z-index: 2;
+        padding: 2px 6px;
+        font-size: 0.72rem;
+        font-weight: 700;
+        border-radius: 6px;
+        background: rgba(226,232,240,.8);
+        color: rgba(71,85,105,.75);
+        letter-spacing: .02em;
+        pointer-events: none;
+      }
+      .ad-label.center-top {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .ad-label.right-top {
+        right: 6px;
+        left: auto;
+        transform: none;
+      }
+      .ad-label.left-top {
+        left: 6px;
+        right: auto;
+        transform: none;
+      }
+      @media (max-width: 480px){
+        .ad-label { font-size: .68rem; top: 5px; }
+      }
+      /* make any images inside ad components responsive */
+      .ad-wrapper img, .ad-wrapper picture img, .ad-wrapper a img {
+        max-width: 100%; width: 100%; height: auto; display: block; border-radius: 8px;
+      }
+      /* PC-wide sizing for VIP to align with store layout */
+      @media (min-width: 1024px){
+        .vip-ad{
+          width: 100%;
+          max-width: 800px;
+          margin: 36px auto 56px;
+          border-radius: 16px;
+        }
+      }
+      @media (min-width: 1440px){
+        .vip-ad{ width: 100%; max-width: 800px; }
+      }
+
+      /* 小さなヒーローブロック */
+      .hero-intro {
+        padding: clamp(16px, 2.5vw, 28px);
+        border: 1px solid #eef1f6;
+        border-radius: 16px;
+        background: linear-gradient(180deg, #f7f9fc 0%, transparent 100%);
+        margin-bottom: clamp(12px, 2vw, 20px);
+      }
+      .hero-intro h1 {
+        margin: 0 0 10px;
+        font-weight: 800;
+        letter-spacing: .02em;
+      }
+      .hero-intro h1::after {
+        content: "";
+        display: block;
+        width: 64px;
+        height: 4px;
+        border-radius: 999px;
+        background: #ff7a00; /* OKIPOKAオレンジ */
+        margin-top: 8px;
+      }
+      .hero-intro h1 > span {
+        color: #1f2a44; /* 紺 */
+      }
+      .hero-intro .lead {
+        max-width: 60ch;
+        color: #4a5568;
+        margin: 6px 0 0;
+      }
+      .hero-intro .lead a {
+        text-decoration: underline;
+        text-decoration-thickness: 2px;
+        text-underline-offset: 3px;
+      }
+
+      /* フィルタボタン */
+      .filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 12px 0 16px;
+      }
+      .filter-btn {
+        appearance: none;
+        border: 1px solid #ccd3e1;
+        background: #fff;
+        padding: 8px 12px;
+        border-radius: 999px;
+        font-size: 14px;
+        cursor: pointer;
+      }
+      .filter-btn.active {
+        border-color: #1f2a44; /* 紺 */
+        background: #1f2a44;
+        color: #fff;
+      }
+
+      /* グリッド */
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: clamp(12px, 2vw, 20px);
+        margin-top: clamp(16px, 2vw, 24px);
+      }
+      @media (min-width: 900px) {
+        .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      }
+
+      /* カード（フラット） */
+      .card {
+        border: 1px solid #eef1f6;
+        border-radius: 12px;
+        overflow: clip;
+        background: #fff;
+      }
+      .thumb img {
+        width: 100%;
+        aspect-ratio: 4/3;
+        object-fit: contain;
+        background: #f7f9fc;
+        display: block;
+      }
+      .meta { padding: 10px 12px 12px; }
+      .title { font-size: 14px; margin: 0 0 10px; }
+
+      .actions { display: flex; gap: 8px; }
+      .actions a {
+        text-decoration: none;
+        font-size: 13px;
+        padding: 8px 10px;
+        border-radius: 10px;
+        border: 1px solid #dfe6f2;
+        color: #1f2a44;
+      }
+      .actions .dl {
+        border-color: #1f2a44;
+        background: #1f2a44;
+        color: #fff;
+        font-weight: 600;
+      }
+
+      /* ページ内リンク */
+      a { color: #1f2a44; }
+      a:hover { opacity: .9; }
+    </style>
+  </body>
+</html>
