@@ -12,6 +12,22 @@ import AdSection2 from "../../components/AdSection2.astro";
 import AdSection3 from "../../components/AdSection3.astro";
 import AdSection4 from "../../components/AdSection4.astro";
 import AdSection5 from "../../components/AdSection5.astro";
+// Type for items loaded from JSON (id is optional in JSON)
+type FreeItem = { id?: string; title: string; cat: string; src: string };
+
+// Fallback id generator from title when id is missing
+const slugify = (s: string) => s
+  .toLowerCase()
+  .replace(/[^a-z0-9]+/g, '-')
+  .replace(/(^-|-$)+/g, '');
+
+// Normalize items so every entry has an id
+const list: Array<Required<FreeItem>> = (items as FreeItem[]).map((it) => ({
+  id: it.id && it.id.trim() ? it.id : slugify(it.title),
+  title: it.title,
+  cat: it.cat,
+  src: it.src,
+}));
 ---
 
 <html lang="ja">
@@ -59,7 +75,7 @@ import AdSection5 from "../../components/AdSection5.astro";
       </div>
 
       <section class="grid" id="grid" aria-live="polite">
-        {items.map((it) => (
+        {list.map((it) => (
           <article class="card" data-cat={it.cat} id={it.id}>
             <a class="thumb" href={it.src} download aria-label={`${it.title} をダウンロード`}>
               <img src={it.src} alt={it.title} loading="lazy" decoding="async" />
@@ -102,7 +118,7 @@ import AdSection5 from "../../components/AdSection5.astro";
     <script src="/js/header.js" type="module"></script>
 
     <!-- カテゴリフィルタ -->
-    <script is:raw>
+    <script is:inline>
       const buttons = document.querySelectorAll('.filter-btn');
       const cards = document.querySelectorAll('.card');
 

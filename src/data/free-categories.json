@@ -1,6 +1,6 @@
 [
   { "key": "all", "label": "すべて" },
-  { "key": "icons", "label": "アイコン" },
+  { "key": "item", "label": "アイテム" },
   { "key": "illustrations", "label": "イラスト" },
   { "key": "wallpapers", "label": "背景・壁紙" }
 ]

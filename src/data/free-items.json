@@ -1,9 +1,17 @@
 [
-  {
-    "id": "icon-spade",
-    "title": "チップ",
-    "cat": "icons",
-    "src": "/free_images/chip1.png"
-  }
-
+    {
+        "title": "チップ",
+        "cat": "item",
+        "src": "/free_images/chip1.png"
+    },
+    {
+        "title": "オールインマーカー",
+        "cat": "item",
+        "src": "/free_images/all-in-marker1.png"
+    },
+    {
+        "title": "オールインマーカー",
+        "cat": "item",
+        "src": "/free_images/all-in-marker2.png"
+    }
 ]
