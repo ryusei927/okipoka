@@ -42,6 +42,20 @@ const docRef = doc(db, "tournaments", id as string);
 const snap = await getDoc(docRef);
 const data = snap.exists() ? snap.data() : null; // 存在しない場合は null
 
+// ...existing code...
+
+// プライズ文字列からURL抽出＆整形（画像URL対応）
+// - matchAll を使わずに .match で取得
+// - TypeScript の型を明示
+const prizeText: string = String(data?.prize ?? "");
+const prizeUrls: string[] = prizeText.match(/https?:\/\/\S+/g) ?? [];
+const prizeTextWithoutUrls: string = prizeText.replace(/https?:\/\/\S+/g, "").trim();
+const isPrizeImageUrl = (u: string): boolean =>
+  /\.(png|jpe?g|gif|webp|svg)(\?|$)/i.test(u) ||
+  (u.includes("firebasestorage.googleapis.com") && u.includes("alt=media"));
+
+// ...existing code...
+
 // 追加情報: 投稿者のinstagramリンク（usersコレクションの同メール/IDから取得）
 let instagramUrl = "";
 if (data?.postedBy) {
@@ -256,6 +270,21 @@ if (data?.postedBy) {
 
       /* ボタンの可読性を少しだけUP（安全な微調整） */
       .tournament-item a.button-link { padding: 6px 12px; font-size: 1rem; }
+
+      /* ========== Prize (image/link rendering) ========== */
+      .prize-block { margin-top: .25rem; }
+      .prize-text { margin: 0.25rem 0 0.5rem; color:#333; }
+      .prize-media { display:block; }
+      .prize-media img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 10px;
+        margin: 8px auto;
+        max-height: 480px; /* 画像の縦サイズを制御 */
+        object-fit: contain; /* 縦横比を維持して縮小 */
+      }
+      .prize-link a { word-break: break-all; }
     </style>
   </head>
   
@@ -295,7 +324,29 @@ if (data?.postedBy) {
             <p><strong>リエントリー：</strong>{data.reentryFee ? `${data.reentryFee} 円` : "—"}</p>
             <p><strong>アドオン：</strong>{data.addon}</p>
             <p><strong>スタック：</strong>{data.stack}</p>
-            <p><strong>プライズ：</strong>{data.prize}</p>
+            <p><strong>プライズ：</strong></p>
+            {(prizeTextWithoutUrls || prizeUrls.length > 0) ? (
+              <div class="prize-block">
+                {prizeTextWithoutUrls && <p class="prize-text">{prizeTextWithoutUrls}</p>}
+                {prizeUrls.length > 0 && (
+                  <div class="prize-media">
+                    {prizeUrls.map(u =>
+                      isPrizeImageUrl(u)
+                        ? (
+                          <a href={u} target="_blank" rel="noopener">
+                            <img src={u} alt="Prize image" loading="lazy" decoding="async" />
+                          </a>
+                        )
+                        : (
+                          <p class="prize-link"><a href={u} target="_blank" rel="noopener">{u}</a></p>
+                        )
+                    )}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <p class="prize-text">—</p>
+            )}
           </div>
 
           <!-- その他（外部URLや備考） -->
