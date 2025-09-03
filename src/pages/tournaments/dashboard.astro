@@ -1,0 +1,188 @@
+---
+import Header from "../../components/Header.astro";
+import "../../styles/header_footer.css";
+---
+
+<html lang="ja">
+  <head>
+    <link rel="stylesheet" href="/styles/dashboard.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>店舗ダッシュボード | OKIPOKA</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  </head>
+  <body>
+    <Header />
+    <main class="dashboard-card-mode">
+      <h2>トーナメント登録</h2>
+      <form id="tournament-form" enctype="multipart/form-data">
+        <section class="card-box">
+          <h3>基本情報</h3>
+          <div class="card-row">
+            <label>イベント名：</label>
+            <input type="text" id="event-name" required />
+          </div>
+          <div class="card-row">
+            <label>開催日：</label>
+            <input type="text" id="multi-date" placeholder="日付を選択" />
+          </div>
+          <div class="card-row">
+            <label>開始時間：</label>
+            <input type="time" id="start-time" required />
+          </div>
+          <div class="card-row">
+            <label>レイトレジスト：</label>
+            <input type="time" id="late-reg" />
+          </div>
+          <div class="card-row">
+            <label>イベント種類：</label>
+            <select id="eventType">
+              <option value="">選択してください</option>
+              <option value="トーナメント">トーナメント</option>
+              <option value="サテライト">サテライト</option>
+            </select>
+          </div>
+        </section>
+
+        <section class="card-box">
+          <h3>参加情報</h3>
+          <div class="card-row">
+            <label>参加費：</label>
+            <input type="text" id="buy-in" required />
+          </div>
+          <div class="card-row">
+            <label>リエントリー料金：</label>
+            <input type="number" id="reentry-fee" placeholder="例：3000" min="0" step="100" />
+          </div>
+          <div class="card-row">
+            <label>アドオン：</label>
+            <input type="text" id="addon" placeholder="なし" />
+          </div>
+          <div class="card-row">
+            <label>スタック数：</label>
+            <input type="text" id="stack" required />
+          </div>
+          <div class="card-row">
+            <label>プライズ：</label>
+            <textarea id="prize" rows="2"></textarea>
+          </div>
+        </section>
+
+        <section class="card-box">
+          <h3>その他</h3>
+          <div class="card-row">
+            <label>外部リンク：</label>
+            <input type="url" id="structureUrl" placeholder="https://..." />
+          </div>
+          <div class="card-row">
+            <label>備考：</label>
+            <textarea id="note" rows="2"></textarea>
+          </div>
+        </section>
+
+        <div style="text-align: center; margin-top: 2em;">
+          <button type="submit">登録する</button>
+        </div>
+      </form>
+
+      <div class="bottom-links">
+        <a href="/tournaments/my-posts">トーナメント情報管理</a>
+        <button id="logout-btn">ログアウト</button>
+      </div>
+    </main>
+    <script src="/js/dashboard.js" type="module"></script>
+    <script src="/js/header.js" type="module"></script>
+
+    <style>
+      body {
+        background-color: #f4f4f4;
+        font-family: 'Helvetica Neue', sans-serif;
+      }
+
+      .dashboard-card-mode {
+        max-width: 700px;
+        margin: 2em auto;
+        background: #fff;
+        padding: 2em;
+        border-radius: 10px;
+        font-family: 'Helvetica Neue', sans-serif;
+      }
+
+      .dashboard-card-mode h2 {
+        text-align: center;
+        font-size: 1.6em;
+        margin-bottom: 1.5em;
+      }
+
+      .card-box {
+        border: 1px solid #ddd;
+        padding: 1.5em;
+        margin-bottom: 1.5em;
+        border-radius: 8px;
+        background: #fafafa;
+      }
+
+      .card-box h3 {
+        font-size: 1.2em;
+        margin-bottom: 1em;
+        color: #333;
+      }
+
+      .card-row {
+        margin-bottom: 1em;
+      }
+
+      .card-row label {
+        display: block;
+        margin-bottom: 0.3em;
+        font-weight: bold;
+        color: #555;
+      }
+
+      .card-row input,
+      .card-row select,
+      .card-row textarea {
+        width: 100%;
+        padding: 0.5em;
+        font-size: 1em;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+
+      .bottom-links {
+        text-align: center;
+        margin-top: 2em;
+      }
+
+      .bottom-links a {
+        margin-right: 1em;
+        color: #ff7f00;
+      }
+
+      .bottom-links button {
+        background-color: #ff7f00;
+        color: white;
+        border: none;
+        padding: 0.6em 1.2em;
+        font-size: 1em;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+    </style>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // @ts-ignore
+        flatpickr("#multi-date", {
+          mode: "multiple",
+          dateFormat: "Y-m-d",
+        });
+      });
+    </script>
+  </body>
+</html>

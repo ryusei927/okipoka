@@ -1,0 +1,188 @@
+---
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import "../../styles/tournaments.css";
+---
+
+<!--
+  ページ: 自分の投稿一覧 (/tournaments/my-posts)
+  目的: ログイン中ユーザーが自分で投稿したトーナメント一覧を表示・削除できる画面。
+  注意:
+   - スタイルは最小限。将来的にはCSSファイルへ移行推奨（いまは簡易に<style>で記述）。
+   - Firestore からリアルタイムで自分の投稿だけを購読して表示。
+   - 削除はFirestoreの該当ドキュメントをdeleteDocで物理削除。
+-->
+
+<!doctype html>
+<html lang="ja">
+    <head>
+        <!-- 文字コード（日本語向け基本設定） -->
+        <meta charset="UTF-8" />
+        <!-- スマホ対応（ビューポート） -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>自分の投稿一覧 | OKIPOKA</title>
+        <!-- タブ/ブックマーク用アイコン -->
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+        <!--
+          共通CSSの読み込み（パスは環境により変更の可能性あり）。
+          ここは将来的に layout 側で一括読み込みしてもOK。
+        -->
+        <link rel="stylesheet" href="../css/mainstyle.css" />
+        <style>
+          /* テーブル全体：横幅いっぱい＆罫線を重ねてスッキリ表示 */
+          table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2em;
+            background-color: #fff;      /* 白背景で読みやすく */
+            border-radius: 6px;           /* 角丸 */
+            overflow: hidden;             /* 角丸を活かすためのはみ出し抑制 */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* うっすら影 */
+          }
+
+          /* 見出しセル・通常セルの共通：枠線/余白/左寄せ */
+          th, td {
+            border: 1px solid #ddd;
+            padding: 0.5em;
+            text-align: left;
+          }
+
+          /* 見出しセル：背景を薄グレーにして区切りを強調 */
+          th {
+            background-color: #f2f2f2;
+            font-size: 0.95rem;
+          }
+
+          /* 行ごとの下罫線（細め） */
+          tr { border-bottom: 1px solid #ccc; }
+
+          /* 通常セルの文字サイズと余白を少し広めに */
+          td {
+            font-size: 0.95rem;
+            padding: 0.75em 0.5em;
+          }
+
+          /* 削除ボタン：注意喚起の赤、白文字、クリック可能に */
+          .delete-btn {
+            background-color: crimson;
+            color: white;
+            border: none;
+            padding: 0.4em 0.8em;
+            cursor: pointer;
+          }
+
+          /* 主要コンテンツの左右余白 */
+          main { padding: 1.5em; }
+        </style>
+    </head>
+
+    <body>
+        <Header />
+
+        <main>
+            <!--
+              一覧テーブル：
+               - タイトル：投稿したイベント名
+               - 開催日：開始日（startDate）
+               - 開始：開始時間（startTime）
+               - 削除：各行の「削除」ボタンでFirestoreから物理削除
+            -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>タイトル</th>
+                        <th>開催日</th>
+                        <th>開始</th>
+                        <th>削除</th>
+                    </tr>
+                </thead>
+                <tbody id="my-posts-body"></tbody>
+            </table>
+        </main>
+
+        <script src="/js/header.js" type="module"></script>
+
+        <script type="module">
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+            import {
+                getFirestore,
+                collection,
+                query,
+                where,
+                onSnapshot,
+                deleteDoc,
+                doc as firestoreDoc,
+            } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+            import {
+                getAuth,
+                onAuthStateChanged,
+            } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+            // Firebaseの接続情報（公開前提のクライアント用設定）
+            // ※APIキーは秘密情報ではなく、セキュリティはルール（Firestore/Storageのセキュリティルール）で担保します。
+            const firebaseConfig = {
+                apiKey: "AIzaSyBhItIbOxR6rXdClsDidrcB1iB1714paAs",
+                authDomain: "okipoka-68419.firebaseapp.com",
+                projectId: "okipoka-68419",
+                storageBucket: "okipoka-68419.firebasestorage.app",
+                messagingSenderId: "749122576664",
+                appId: "1:749122576664:web:20b93253162b185d993e6d",
+            };
+
+            const app = initializeApp(firebaseConfig);
+            // SDKを初期化
+            const db = getFirestore(app);
+            // Firestoreインスタンス
+            const auth = getAuth(app);
+            // 認証インスタンス
+
+            // 認証状態の監視（未ログインならログイン画面へ）
+            onAuthStateChanged(auth, (user) => {
+                if (!user) {
+                    alert("ログインが必要です");
+                    window.location.href = "login.html";
+                    return;
+                }
+
+                // テーブル本体（tbody）を取得
+                const postsBody = document.getElementById("my-posts-body");
+                // 自分の投稿だけを取得するクエリ（tournamentsコレクションの postedBy == 自分のメール）
+                const q = query(
+                    collection(db, "tournaments"),
+                    where("postedBy", "==", user.email),
+                );
+
+                // クエリ結果をリアルタイム購読。変更がある度にテーブルを描画し直す。
+                onSnapshot(q, (snapshot) => {
+                    // 一旦テーブルを空にする（全件描画し直し）
+                    postsBody.innerHTML = "";
+                    // 1件ずつ行（tr）を組み立ててtbodyへ追加
+                    snapshot.forEach((doc) => {
+                        const data = doc.data();
+                        const row = document.createElement("tr");
+                        row.innerHTML = `
+            <td>${data.eventName || "未定"}</td>
+            <td>${data.startDate || ""}</td>
+            <td>${data.startTime || ""}</td>
+            <td><button class="delete-btn" data-id="${doc.id}">削除</button></td>
+          `;
+                        postsBody.appendChild(row);
+                    });
+                });
+
+                // クリックイベント委譲：削除ボタンが押されたら該当ドキュメントを削除
+                document.addEventListener("click", async (e) => {
+                    if (e.target.classList.contains("delete-btn")) {
+                        const id = e.target.getAttribute("data-id");
+                        // ダイアログで再確認してから削除を実行
+                        if (confirm("本当に削除しますか？")) {
+                            await deleteDoc(
+                                firestoreDoc(db, "tournaments", id),
+                            );
+                        }
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

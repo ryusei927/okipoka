@@ -1,0 +1,326 @@
+---
+import "../styles/mainstyle.css"; // 必要ならあなたのCSSに合わせて
+---
+
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>OKIPOKA Master</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  </head>
+  <body>
+    <!-- 🔑 運営ログイン（パスワードだけ） -->
+    <section id="auth-section" class="section">
+      <div class="container">
+        <h2>運営専用ログイン</h2>
+        <form id="auth-form" class="form">
+          <input type="password" id="admin-pass" placeholder="パスワードを入力" required />
+          <button type="submit">ログイン</button>
+        </form>
+      </div>
+    </section>
+
+       <main id="admin-section" class="dashboard-card-mode" style="display:none;">
+      <h2>トーナメント登録</h2>
+      <form id="tournament-form" enctype="multipart/form-data">
+        <section class="card-box">
+          <h3>基本情報</h3>
+          <div class="card-row">
+            <label>店舗：</label>
+            <select id="store-select" required>
+              <!-- master.js が Firestoreのusersから自動で埋めます -->
+            </select>
+          </div>
+          <div class="card-row">
+            <label>イベント名：</label>
+            <input type="text" id="event-name" required />
+          </div>
+          <div class="card-row">
+            <label>開催日：</label>
+            <input type="text" id="multi-date" placeholder="日付を選択" />
+          </div>
+          <div class="card-row">
+            <label>開始時間：</label>
+            <input type="time" id="start-time" required />
+          </div>
+          <div class="card-row">
+            <label>レイトレジスト：</label>
+            <input type="time" id="late-reg" />
+          </div>
+          <div class="card-row">
+            <label>イベント種類：</label>
+            <select id="eventType">
+              <option value="">選択してください</option>
+              <option value="トーナメント">トーナメント</option>
+              <option value="サテライト">サテライト</option>
+            </select>
+          </div>
+        </section>
+
+        <section class="card-box">
+          <h3>参加情報</h3>
+          <div class="card-row">
+            <label>参加費：</label>
+            <input type="text" id="buy-in" required />
+          </div>
+          <div class="card-row">
+            <label>リエントリー料金：</label>
+            <input type="number" id="reentry-fee" placeholder="例：3000" min="0" step="100" />
+          </div>
+          <div class="card-row">
+            <label>アドオン：</label>
+            <input type="text" id="addon" placeholder="なし" />
+          </div>
+          <div class="card-row">
+            <label>スタック数：</label>
+            <input type="text" id="stack" required />
+          </div>
+          <div class="card-row">
+            <label>プライズ：</label>
+            <textarea id="prize" rows="2"></textarea>
+          </div>
+        </section>
+
+        <section class="card-box">
+          <h3>その他</h3>
+          <div class="card-row">
+            <label>外部リンク：</label>
+            <input type="url" id="structureUrl" placeholder="https://..." />
+          </div>
+          <div class="card-row">
+            <label>備考：</label>
+            <textarea id="note" rows="2"></textarea>
+          </div>
+        </section>
+
+        <div style="text-align: center; margin-top: 2em;">
+          <button type="submit">登録する</button>
+        </div>
+      </form>
+
+      <!-- ================= 管理：投稿一覧（削除/フィルタ） ================= -->
+      <section class="card-box" style="margin-top:2rem;">
+        <h3>投稿一覧（管理）</h3>
+
+        <!-- フィルタ -->
+        <div class="card-row" style="display:flex; gap: 8px; flex-wrap: wrap;">
+          <div>
+            <label>店舗フィルタ：</label>
+            <select id="admin-filter-store">
+              <option value="">すべて</option>
+              <!-- master.js がログイン後に stores を注入 -->
+            </select>
+          </div>
+          <div>
+            <label>日付フィルタ：</label>
+            <input type="date" id="admin-filter-date" />
+          </div>
+          <div>
+            <label>
+              <input type="checkbox" id="admin-filter-include-archived" />
+              非表示も含める
+            </label>
+          </div>
+          <div style="align-self: flex-end;">
+            <button type="button" id="admin-filter-apply">絞り込み</button>
+            <button type="button" id="admin-filter-clear">クリア</button>
+          </div>
+        </div>
+
+        <!-- 一覧 -->
+        <div class="card-row admin-table-wrap">
+          <table class="admin-table" style="width:100%; border-collapse: collapse;">
+            <thead>
+              <tr>
+                <th style="text-align:left; padding:.5em; border-bottom:1px solid #eee;">作成日</th>
+                <th style="text-align:left; padding:.5em; border-bottom:1px solid #eee;">店舗</th>
+                <th style="text-align:left; padding:.5em; border-bottom:1px solid #eee;">イベント名</th>
+                <th style="text-align:left; padding:.5em; border-bottom:1px solid #eee;">日付</th>
+                <th style="text-align:left; padding:.5em; border-bottom:1px solid #eee;">開始</th>
+                <th style="text-align:left; padding:.5em; border-bottom:1px solid #eee;">状態</th>
+                <th style="text-align:left; padding:.5em; border-bottom:1px solid #eee;">リンク</th>
+                <th style="padding:.5em; border-bottom:1px solid #eee;">操作</th>
+              </tr>
+            </thead>
+            <tbody id="admin-tbody"></tbody>
+          </table>
+        </div>
+        <div class="card-row" style="text-align:center;">
+          <button type="button" id="admin-load-more">さらに読み込む</button>
+        </div>
+      </section>
+
+    </main>
+
+    <style>
+      body {
+        background-color: #f4f4f4;
+        font-family: 'Helvetica Neue', sans-serif;
+      }
+
+      .dashboard-card-mode {
+        max-width: 700px;
+        margin: 2em auto;
+        background: #fff;
+        padding: 2em;
+        border-radius: 10px;
+        font-family: 'Helvetica Neue', sans-serif;
+      }
+
+      .dashboard-card-mode h2 {
+        text-align: center;
+        font-size: 1.6em;
+        margin-bottom: 1.5em;
+      }
+
+      .card-box {
+        border: 1px solid #ddd;
+        padding: 1.5em;
+        margin-bottom: 1.5em;
+        border-radius: 8px;
+        background: #fafafa;
+      }
+
+      .card-box h3 {
+        font-size: 1.2em;
+        margin-bottom: 1em;
+        color: #333;
+      }
+
+      .card-row {
+        margin-bottom: 1em;
+      }
+
+      .card-row label {
+        display: block;
+        margin-bottom: 0.3em;
+        font-weight: bold;
+        color: #555;
+      }
+
+      .card-row input,
+      .card-row select,
+      .card-row textarea {
+        width: 100%;
+        padding: 0.5em;
+        font-size: 1em;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+
+      .bottom-links {
+        text-align: center;
+        margin-top: 2em;
+      }
+
+      .bottom-links a {
+        margin-right: 1em;
+        color: #ff7f00;
+      }
+
+      .bottom-links button {
+        background-color: #ff7f00;
+        color: white;
+        border: none;
+        padding: 0.6em 1.2em;
+        font-size: 1em;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      /* ===== Admin table polish ===== */
+      .admin-table-wrap {
+        overflow-x: auto;
+      }
+      .admin-table {
+        min-width: 760px;      /* 横スクロールで崩れ防止（SP幅で潰さない） */
+        table-layout: fixed;   /* 各列の幅を固定配分 */
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+      .admin-table th,
+      .admin-table td {
+        padding: .6em .7em;
+        border-bottom: 1px solid #eee;
+        vertical-align: middle;
+        color: #333;
+      }
+      /* 列幅（順番に対応） */
+      .admin-table th:nth-child(1), .admin-table td:nth-child(1) { width: 132px; white-space: nowrap; }
+      .admin-table th:nth-child(2), .admin-table td:nth-child(2) { width: 110px; white-space: nowrap; }
+      .admin-table th:nth-child(3), .admin-table td:nth-child(3) { width: 260px; } /* イベント名は広めに */
+      .admin-table th:nth-child(4), .admin-table td:nth-child(4) { width: 110px; white-space: nowrap; }
+      .admin-table th:nth-child(5), .admin-table td:nth-child(5) { width: 72px;  white-space: nowrap; text-align: right; }
+      .admin-table th:nth-child(6), .admin-table td:nth-child(6) { width: 80px;  white-space: nowrap; text-align: center; }
+      .admin-table th:nth-child(7), .admin-table td:nth-child(7) { width: 70px;  white-space: nowrap; text-align: center; }
+      .admin-table th:nth-child(8), .admin-table td:nth-child(8) { width: 90px;  white-space: nowrap; text-align: center; }
+
+      /* バッジとボタン */
+      .badge {
+        display: inline-block;
+        padding: .15em .55em;
+        border-radius: 9999px;
+        font-size: 12px;
+        line-height: 1.4;
+        border: 1px solid #cbd5e1;
+        background: #f8fafc;
+        color: #334155;
+      }
+      .badge.is-public {
+        border-color: #86efac;
+        background: #ecfdf5;
+        color: #16a34a;
+      }
+      .badge.is-archived {
+        border-color: #cbd5e1;
+        background: #f1f5f9;
+        color: #475569;
+      }
+      .btn-mini, .admin-table button {
+        appearance: none;
+        border: 1px solid #cbd5e1;
+        background: #fff;
+        color: #334155;
+        padding: .35em .6em;
+        border-radius: 6px;
+        font-size: 12px;
+        cursor: pointer;
+      }
+      .admin-table button:hover {
+        background: #f8fafc;
+      }
+      .admin-table a {
+        color: #2563eb;
+        text-decoration: none;
+        font-size: 12px;
+      }
+      .admin-table a:hover {
+        text-decoration: underline;
+      }
+
+      /* スマホ向け微調整 */
+      @media (max-width: 480px) {
+        .dashboard-card-mode { padding: 1.2em; }
+        .admin-table { font-size: 13px; }
+        .admin-table th:nth-child(3), .admin-table td:nth-child(3) { width: 220px; }
+      }
+    </style>
+
+    <!-- ✅ JSパス -->
+    <script type="module" src="/js/master.js"></script>
+        <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // @ts-ignore
+        flatpickr("#multi-date", {
+          mode: "multiple",
+          dateFormat: "Y-m-d",
+        });
+      });
+    </script>
+  </body>
+</html>

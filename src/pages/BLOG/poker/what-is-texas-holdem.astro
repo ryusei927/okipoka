@@ -1,0 +1,289 @@
+---
+import Analytics from "@vercel/analytics/astro";
+import Header from "../../../components/Header.astro";
+import Footer from "../../../components/Footer.astro";
+import "../../../styles/article.css";
+
+import InterstitialAd from "../../../components/InterstitialAd.astro";
+import AdSection1 from "../../../components/AdSection1.astro";
+import AdSection2 from "../../../components/AdSection2.astro";
+import AdSection3 from "../../../components/AdSection3.astro";
+import AdSection4 from "../../../components/AdSection4.astro";
+import AdSection5 from "../../../components/AdSection5.astro";
+---
+
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>テキサスホールデムとは？</title>
+    </head>
+    <Header />
+
+    <div class="ad-wrapper okp-article__ad">
+        <span class="ad-label center-top">広告</span>
+        <AdSection2 />
+    </div>
+
+    <body>
+        <!-- 本文 -->
+        <main class="okp-article">
+            <h1>テキサスホールデムとは？</h1>
+
+            <p class="lead">2枚の手札とテーブルに開かれる5枚の共通カードを使い、最強の5枚を作って勝負するのがテキサスホールデムです。この記事は“流れだけ”を短時間でつかめるようにまとめています。</p>
+
+            <p>テキサスホールデムは、世界で最も人気のあるポーカーのルールです。ラスベガスのカジノや世界大会「WSOP」でも採用され、初心者からプロまで幅広く遊ばれています。</p>
+            <p>OKIPOKAで紹介しているアミューズメントポーカーのお店でも、基本的にテキサスホールデムがメインゲームです。ポーカーを学ぶなら、まずこのルールを覚えれば大丈夫です。</p>
+            <p>以下では、ゲームの進行をわかりやすく順番に説明します。</p>
+
+<section class="step">
+  <h3>1. ゲーム開始とブラインド</h3>
+  <p>テーブルにはディーラーボタン（D）が置かれ、この位置を基準に進行します。ボタンの左から <strong>SB（スモールブラインド）</strong>、その左に <strong>BB（ビッグブラインド）</strong> を強制的に置いてスタートします。</p>
+  <div class="figure">
+    <img src="/blog_images/sinkou1.png" alt="ボタン・SB・BBの配置" class="progress-img"/>
+    <p class="caption">ボタンの左にSB、その左にBBが座ります。</p>
+  </div>
+</section>
+
+<section class="step">
+  <h3>2. 手札（ホールカード）を配る</h3>
+  <p>全員に裏向きのカードを<strong>2枚</strong>ずつ配ります（これがホールカード）。以降はこの2枚と共通カードを組み合わせて役を作ります。</p>
+</section>
+
+<section class="step">
+  <h3>3. プリフロップ（最初のアクション）</h3>
+  <p>アクションは <strong>BBの左隣（UTG）</strong> から。各プレイヤーは次のいずれかを選びます。</p>
+  <ul>
+    <li><strong>フォールド</strong>：降りる</li>
+    <li><strong>コール</strong>：BBと同じ額を出す</li>
+    <li><strong>レイズ</strong>：ベット額を上げる</li>
+  </ul>
+</section>
+
+<section class="step">
+  <h3>4. フロップ（共通カード3枚）</h3>
+  <p>テーブル中央に共通カードが<strong>3枚</strong>公開されます。ボタンの左から順に再びアクション。</p>
+  <div class="figure">
+    <img src="/blog_images/sinkou2.png" alt="フロップが公開された状態" class="progress-img"/>
+  </div>
+</section>
+
+<section class="step">
+  <h3>5. ターン（4枚目）</h3>
+  <p>4枚目の共通カード（ターン）が公開され、再度ベッティングを行います。</p>
+  <div class="figure">
+    <img src="/blog_images/sinkou3.png" alt="ターンが公開された状態" class="progress-img"/>
+  </div>
+</section>
+
+<section class="step">
+  <h3>6. リバー（5枚目）</h3>
+  <p>5枚目の共通カード（リバー）が公開され、最後のベッティングラウンドを行います。</p>
+  <div class="figure">
+    <img src="/blog_images/sinkou4.png" alt="リバーが公開された状態" class="progress-img"/>
+  </div>
+</section>
+
+<section class="step">
+  <h3>7. ショーダウン</h3>
+  <p>ベットが終わって複数名が残っていればショーダウン。手札2枚と共通カード5枚を自由に組み合わせ、<strong>最も強い5枚の役</strong>を作ったプレイヤーがポットを獲得します。</p>
+  <div class="figure">
+    <img src="/blog_images/sinkou5.png" alt="ショーダウンのイメージ" class="progress-img"/>
+  </div>
+</section>
+
+<h3 class="cta">役の強さ（ハンドランク）</h3>
+<p class="step" style="text-align:center;">上に行くほど強い役です（覚えるのが不安でも大丈夫）。</p>
+
+<img src="/blog_images/yakuhyo.jpg" class="yakuhyo-img fullsize" />
+<style>
+.yakuhyo-img.fullsize {
+  all: unset;
+  display: block;
+  margin: 2rem auto;
+  max-width: 100%;
+  height: auto;
+}
+/* Override possible .okp-article img rules for this image */
+.okp-article img.yakuhyo-img {
+  all: unset;
+  display: block;
+  margin: 2rem auto;
+  max-width: 100%;
+  height: auto;
+}
+</style>
+
+<p class="step"><strong>まとめ</strong></p>
+<ul class="step">
+  <li>2枚の手札と5枚の共通カードを組み合わせて役を作る</li>
+  <li>SBとBBの強制ベットから毎ハンドがスタート</li>
+  <li>プリフロップ → フロップ → ターン → リバー → ショーダウン の順で進行</li>
+  <li>最後に最も強い5枚の役を作った人が勝ち</li>
+</ul>
+
+<div class="callout">
+  OKIPOKAで紹介しているような<strong>アミューズメントポーカーのお店</strong>では、初心者向けの<strong>ルール講習</strong>を行っているところが多いです。<br>
+  「まずは雰囲気だけ見たい」「実際に触って覚えたい」という方でも、道具はお店に揃っているので、<strong>手ぶらでOK</strong>。気軽に体験しに行ってみるといいかもしれません。
+</div>
+
+<p class="step">
+  ポーカーの魅力はその自由度にもあります。<br>
+  仲間とワイワイ楽しむライトな遊び方もあれば、<strong>心理戦</strong>として駆け引きを味わうこともできます。<br>
+  さらに、<strong>ゲーム理論</strong>を応用して戦略を突き詰めれば、知的な競技としての奥深さも体験できるでしょう。<br>
+  自分に合ったスタイルで楽しめるのが、ポーカーの大きな魅力です。
+</p>
+
+<h2>基本用語（はじめに覚えるところ）</h2>
+<div class="table-wrap">
+<table class="term-table">
+  <thead>
+    <tr>
+      <th>カテゴリ</th>
+      <th>用語</th>
+      <th>意味</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>アクション</strong></td>
+      <td>フォールド</td>
+      <td>手札を捨ててゲームから降りる</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>コール</td>
+      <td>直前のプレイヤーと同じ額を出して参加する</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>レイズ</td>
+      <td>直前の額より多くベットして上乗せする</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>チェック</td>
+      <td>誰もベットしていないときに、お金を出さずに回す</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>オールイン</td>
+      <td>持っているチップをすべて賭ける</td>
+    </tr>
+    <tr>
+      <td><strong>ルール</strong></td>
+      <td>ディーラーボタン</td>
+      <td>親を示す位置。進行の基準</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>スモールブラインド (SB)</td>
+      <td>ボタン左隣が強制的に出す小さいベット</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>ビッグブラインド (BB)</td>
+      <td>SBの左隣が強制的に出す大きいベット</td>
+    </tr>
+    <tr>
+      <td><strong>シチュエーション</strong></td>
+      <td>プリフロップ</td>
+      <td>手札2枚が配られた直後のターン</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>フロップ </td>
+      <td>共通カードが3枚公開されるターン</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>ターン</td>
+      <td>共通カード4枚目が公開されるターン</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>リバー</td>
+      <td>共通カード5枚目が公開される最後のターン</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>ショーダウン</td>
+      <td>残ったプレイヤーが手札を公開して勝敗を決める</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+        </main>
+        <!-- ここまで -->
+
+        <div class="ad-wrapper okp-article__ad">
+            <span class="ad-label center-top">広告</span>
+            <AdSection1 />
+        </div>
+
+        <Footer />
+        <Analytics />
+
+        <script src="/js/header.js" type="module"></script>
+
+<style>
+/* ==== このページ専用の軽量スタイル ==== */
+.okp-article .lead{max-width:42rem;margin:0 auto 1rem;color:#475569;font-size:1.05rem;}
+.okp-article h2{margin-top:1.6rem;}
+.okp-article .step{max-width:42rem;margin:0 auto;text-align:left;}
+.okp-article .step ul{padding-left:1.1rem;margin:.4rem 0 .8rem;}
+.okp-article .step li{margin:.25rem 0;}
+.figure{margin:1rem auto;text-align:center;}
+.figure .progress-img{display:block;margin:0 auto;max-width:520px;width:100%;height:auto;}
+.caption{font-size:.85rem;color:#64748b;margin-top:.35rem;}
+.callout{max-width:42rem;margin:1.4rem auto;background:#f8fafc;border-left:4px solid var(--okp-accent);padding:.9rem 1rem;border-radius:8px;}
+.cta{margin:1.8rem 0 .2rem;text-align:center;}
+.term-table {
+  width:100%;
+  max-width:42rem;
+  margin:1rem auto 1.6rem;
+  border-collapse: collapse;
+  font-size:.95rem;
+  border: 1px solid #cbd5e1;
+}
+.term-table th,
+.term-table td {
+  border:1px solid #cbd5e1;
+  padding:.6rem .7rem;
+  vertical-align:top;
+  background:#fff;
+  text-align: left;
+}
+.term-table thead th {
+  background:#f1f5f9;
+  text-align:left;
+  border-bottom:2px solid #94a3b8;
+}
+.term-table tbody tr:nth-child(odd) td{/* background:#fcfdff; */}
+.term-table td:first-child{white-space:nowrap;width:8.5rem;color:#475569;}
+.term-table td:nth-child(2){white-space:nowrap;width:14rem;font-weight:600;}
+.term-table tbody td {
+  border-top:1px solid #e2e8f0;
+  background:#fff;
+}
+.table-wrap{max-width:100%;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;margin:0 auto;}
+/* 最小幅を確保して横スクロール可能に */
+.term-table{min-width: 560px;}
+</style>
+<style>
+/* ===== モバイルで表を画面内に収める ===== */
+@media (max-width: 430px){
+  .table-wrap{overflow-x:visible;} /* 横スクロールを基本オフ */
+  .term-table{min-width:auto; width:100%; table-layout: fixed;}
+  .term-table th,.term-table td{padding:.45rem .5rem; font-size:.88rem; box-sizing:border-box; word-break: break-word; white-space: normal;}
+  /* 列幅の比率を固定して折り返しで対応 */
+  .term-table th:nth-child(1), .term-table td:nth-child(1){width:22%;}
+  .term-table th:nth-child(2), .term-table td:nth-child(2){width:30%;}
+  .term-table th:nth-child(3), .term-table td:nth-child(3){width:48%;}
+}
+</style>
+    </body>
+
+
+</html>

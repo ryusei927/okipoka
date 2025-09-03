@@ -1,0 +1,408 @@
+---
+/**
+ * トップページ（/）
+ * このファイルは OKIPOKA のホーム画面を描画します。
+ * ▼CSS 読み込み順について
+ *   - index.css  : トップページ専用の微調整（局所的な見た目）
+ *   - mainstyle.css : 全ページ共通スタイル（テーマ/レイアウト基盤）
+ *   ※ いまは index → main の順で読み込み。両方に同じセレクタがあると後勝ち（mainが優先）になります。
+ *      ページ固有で main を上書きしたい時は、index.css 側のセレクタを強める（親を噛ませる）方針で統一。
+ */
+import "../styles/index.css";
+import "../styles/mainstyle.css";
+
+/** Vercel アナリティクス（PV などの集計）*/
+import Analytics from "@vercel/analytics/astro";
+
+/** サイト共通のヘッダー/フッター */
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+/**
+ * 広告関連の表示コンポーネント
+ *  - InterstitialAd  : ページ読み込み時などに差し込むタイプ
+ *  - AdSectionVIP_*  : 正方形のVIP広告（PCでは大きめ、SPでは最大320px）
+ *  - AdSection1..5   : 横長バナー等
+ */
+import InterstitialAd from "../components/InterstitialAd.astro";
+import AdSectionVIP_1 from "../components/AdSectionVIP_1.astro";
+import AdSectionVIP_2 from "../components/AdSectionVIP_2.astro";
+import AdSection1 from "../components/AdSection1.astro";
+import AdSection2 from "../components/AdSection2.astro";
+import AdSection3 from "../components/AdSection3.astro";
+import AdSection4 from "../components/AdSection4.astro";
+import AdSection5 from "../components/AdSection5.astro";
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <!-- 文字コードの指定。日本語を正しく扱うための基本設定 -->
+    <meta charset="UTF-8" />
+
+    <!-- スマホ対応。初期ズーム倍率などの設定（ユーザー拡大を無効化） -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no"
+    />
+
+    <!-- フォント読み込み（見出し等で和文セリフ体を使いたい場合） -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- SEO 用の説明文。検索結果やSNSプレビューに使われます -->
+    <meta
+      name="description"
+      content="沖縄でポーカーができるアミューズメント店舗やトーナメント情報を毎日更新。初心者や旅行者にも安心のポータルサイトOKIPOKA（おきぽか）は、沖縄のアミューズメントポーカー大会・店舗情報・ブログを発信する総合サイトです。"
+    />
+
+    <!-- 検索で拾ってほしいキーワード。過剰登録はNG → 重要ワードのみ -->
+    <meta
+      name="keywords"
+      content="おきぽか,おきぽ,オキポ,オキポカ,OKIPOKA,沖縄ポーカー,アミューズメントポーカー,ポーカー店舗,沖縄トーナメント,沖縄ポーカー大会"
+    />
+
+    <title>OKIPOKA（おきぽか）| 沖縄ポーカー情報ポータル</title>
+    <!-- タブのアイコン（ブラウザの左上などに表示） -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  </head>
+
+  <body>
+    <!-- サイト全体のナビやロゴを含む共通ヘッダー。中身は components/Header.astro で管理 -->
+    <Header />
+
+    <!--
+      ヒーロー（ページ先頭の大きなビジュアル）
+      - 画像は /images/okipoka_image.png
+      - PC: object-fit: cover（迫力重視）。SP: 16:9 + contain（全体を見せる）
+      - 高さや比率の制御は CSS（mainstyle.css / index.css）側にまとめています。
+    -->
+    <section class="video-hero">
+      <img
+        src="/images/okipoka_image.png"
+        alt="OKIPOKA hero"
+        class="video-background"
+        loading="eager"
+        decoding="async"
+      />
+    </section>
+
+    <!-- 電光掲示板（CSSのみで流れるテキスト） -->
+    <div class="ticker">
+      <div
+        class="ticker__track"
+        data-text="OKIPOKAは沖縄のポーカースポット/トーナメント情報を毎日更新するポータルサイトです。最新の大会スケジュールを一目でチェックできます。"
+      >
+        OKIPOKAは沖縄のポーカースポット/トーナメント情報を毎日更新するポータルサイトです。最新の大会スケジュールを一目でチェックできます。
+      </div>
+    </div>
+
+    <!-- 中央寄せの共通ラッパ。ページの横幅を制御し、可読性を上げます -->
+    <div class="store-page-wrapper">
+      <!-- 画面遷移の合間に挟むタイプの広告（必要に応じてON/OFF） -->
+      <InterstitialAd />
+
+      <main>
+        <!-- セクション間に少しだけ余白を入れる（短い spacer） -->
+        <div style="height: 0.5rem;"></div>
+
+        <!--
+          VIP広告（1つ目）。
+          - .ad-wrapper は広告用の共通ラッパ。
+          - .ad-label は「広告」のバッジ。SPでは小さく、PCでは大きく表示。
+        -->
+        <div class="ad-wrapper">
+          <span class="ad-label center-top" style="font-size:0.68rem; top:6px;"
+            >広告</span
+          >
+          <AdSectionVIP_1 />
+        </div>
+
+        <div style="height: 0.5rem;"></div>
+
+        <!--
+          沖縄のアミューズメントポーカースポット一覧
+          - .store-list は正方形の丸アイコングリッド。
+          - 店舗を増やす方法：<li> ... </li> をコピペして画像/リンク/店名を差し替えるだけ。
+          - 画像（.store-icon）は CSS で常に真円（border-radius:50%）に統一しています。
+        -->
+        <section class="store-directory">
+          <img
+            src="/images/pokerspot.png"
+            alt="沖縄ポーカースポット"
+            class="section-title"
+          />
+
+          <ul class="store-list">
+            <!--
+              ▼店舗カード（1件分の雛形）
+              href : 店舗の詳細ページへの相対リンク
+              img  : 店舗ロゴ画像（/images 以下）
+              div  : 店舗名の表示
+              ※ 以下は同じ形式で繰り返し。追加・削除は li 単位でOK
+            -->
+            <li>
+              <a href="stores/Jack9">
+                <img src="images/j9logo.jpg" alt="Jack9" class="store-icon" />
+                <div>Jack9</div>
+              </a>
+            </li>
+            <li>
+              <a href="stores/UnderTheGun">
+                <img
+                  src="images/underthegun.jpg"
+                  alt="UnderTheGun"
+                  class="store-icon"
+                />
+                <div>UnderTheGun</div>
+              </a>
+            </li>
+            <li>
+              <a href="stores/Rebarta">
+                <img
+                  src="images/rebarta.jpg"
+                  alt="Rebarta"
+                  class="store-icon"
+                />
+                <div>Rebarta</div>
+              </a>
+            </li>
+            <li>
+              <a href="stores/BACKDOOR">
+                <img
+                  src="images/backdoor.jpg"
+                  alt="BACKDOOR"
+                  class="store-icon"
+                />
+                <div>BACKDOOR</div>
+              </a>
+            </li>
+            <li>
+              <a href="stores/JACKS">
+                <img src="images/jacks.png" alt="JACKS" class="store-icon" />
+                <div>JACKS</div>
+              </a>
+            </li>
+            <li>
+              <a href="stores/TOKISHIRAZU">
+                <img
+                  src="images/tokishirazu.png"
+                  alt="TOKISHIRAZU"
+                  class="store-icon"
+                />
+                <div>TOKISHIRAZU</div>
+              </a>
+            </li>
+            <li>
+              <a href="stores/TheHand">
+                <img src="images/hand.png" alt="TheHand" class="store-icon" />
+                <div>TheHand</div>
+              </a>
+            </li>
+            <li>
+              <a href="stores/GUTSHOT">
+                <img
+                  src="images/gutshot.png"
+                  alt="GUTSHOT"
+                  class="store-icon"
+                />
+                <div>GUTSHOT</div>
+              </a>
+            </li>
+            <li>
+              <a href="stores/Donk">
+                <img src="images/donk.png" alt="Donk" class="store-icon" />
+                <div>Donk</div>
+              </a>
+            </li>
+            <li>
+              <a href="stores/Re.raise">
+                <img
+                  src="images/Re.raise.png"
+                  alt="Re.raise"
+                  class="store-icon"
+                />
+                <div>Re.raise</div>
+              </a>
+            </li>
+            <li>
+              <a href="stores/nuts">
+                <img src="images/Nuts.png" alt="nuts" class="store-icon" />
+                <div>nuts</div>
+              </a>
+            </li>
+            <li>
+              <a href="stores/WBERRY">
+                <img src="images/WBERRY.webp" alt="wberry" class="store-icon" />
+                <div>WBERRY</div>
+              </a>
+            </li>
+            <li>
+              <a href="stores/bigslick">
+                <img
+                  src="images/bigslick.png"
+                  alt="bigslick"
+                  class="store-icon"
+                />
+                <div>BIG SLICK</div>
+              </a>
+            </li>
+          </ul>
+        </section>
+
+        <!-- 通常バナー（その1）。画像やリンク先は AdSection1 側で管理 -->
+        <div class="ad-wrapper">
+          <span class="ad-label">広告</span>
+          <AdSection1 />
+        </div>
+
+        <!-- 少しだけ余白を追加（上下の見切れ防止） -->
+        <div style="height: 0.3rem;"></div>
+
+        <!-- 通常バナー（その2） -->
+        <div class="ad-wrapper">
+          <span class="ad-label">広告</span>
+          <AdSection2 />
+        </div>
+
+        <div style="height: 0.3rem;"></div>
+
+        <!--
+          「本日のトーナメント」
+          - 空の <div id="today-all-card"> に JS でカードを差し込みます。
+          - データ取得・描画は /js/todayAll.js（モジュール）側で実装。
+          - 「詳細を見る」リンクは一覧ページへ遷移。
+        -->
+        <section class="top-section">
+          <img
+            src="/images/honzitsunotoname.png"
+            alt="本日のトーナメント"
+            class="section-title"
+          />
+          <div id="today-all-card" class="card-list"></div>
+          <a href="/tournaments/tournaments" class="top-link">詳細を見る</a>
+        </section>
+
+        <!-- VIP広告（2つ目）。PCでは大きく、SPでは最大320pxに収まるようCSSで制御 -->
+        <div class="ad-wrapper">
+          <span class="ad-label center-top" style="font-size:0.68rem; top:6px;"
+            >広告</span
+          >
+          <AdSectionVIP_2 />
+        </div>
+
+        <!-- ブログバナー -->
+        <section class="top-section blog">
+          <a href="/BLOG/Blog-index">
+            <img
+              src="/images/blog_banner.png"
+              alt="OKIPOKA ブログ"
+              class="section-title"
+            />
+          </a>
+          <div style="text-align:center; margin-top:0.5rem;">
+            <a href="/BLOG/Blog-index" class="top-link">ブログを開く</a>
+          </div>
+        </section>
+
+  
+        <div class="ad-wrapper">
+          <span class="ad-label">広告</span>
+          <AdSection4 />
+        </div>
+
+        <!--
+          SHOP紹介（外部サイトへのリンク）
+          - .shop-card は見出し/ロゴ/ボタン/注記で構成
+          - ボタンは別タブ（target="_blank"）で開きます
+        -->
+        <section class="top-section shop">
+          <div class="shop-card">
+            <div class="shop-heading">SHOP</div>
+            <a
+              href="https://shop.poker-showdown.net/?srsltid=AfmBOopMDhVP41GahXgxsuOecempuTorU3Cem0gIlGabR2U6D73NlkN0"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="shop-logo-wrap"
+            >
+              <img
+                src="/images/showdown.png"
+                alt="Showdown Poker Apparel"
+                class="shop-logo"
+                loading="lazy"
+                width="600"
+                height="160"
+              />
+            </a>
+            <div>
+              <a
+                href="https://shop.poker-showdown.net/?srsltid=AfmBOopMDhVP41GahXgxsuOecempuTorU3Cem0gIlGabR2U6D73NlkN0"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="shop-cta"
+              >
+                ショップを開く
+              </a>
+            </div>
+            <div class="shop-meta">※ 外部サイト（showdown）に移動します</div>
+          </div>
+        </section>
+
+        <!-- 追加バナー（4,5）。順番に縦積み -->
+        <div class="ad-wrapper">
+          <span class="ad-label">広告</span>
+          <AdSection4 />
+        </div>
+        <div style="height: 0.3rem;"></div>
+        <div class="ad-wrapper">
+          <span class="ad-label">広告</span>
+          <AdSection5 />
+        </div>
+      </main>
+    </div>
+
+    <!-- サイト共通のフッター。著作権表記や補助リンクなど -->
+    <Footer />
+
+    <!-- Vercel アナリティクス（PVや滞在時間の計測）-->
+    <Analytics />
+
+    <!--
+      画面右下の「上へ戻る」ボタン。
+      ・スクロール量が 0 より大きいと表示
+      ・クリックするとスムーススクロールで最上部へ
+    -->
+    <button
+      id="scrollToTopBtn"
+      class="scroll-to-top"
+      aria-label="ページ上部に戻る">♠️</button
+    >
+    <script>
+      // ボタン要素を取得
+      const scrollBtn = document.getElementById("scrollToTopBtn");
+      if (scrollBtn) {
+        // ページのスクロール量に応じて表示/非表示を切り替え
+        window.addEventListener("scroll", () => {
+          scrollBtn.style.display = window.scrollY > 0 ? "block" : "none";
+        });
+        // クリックで一番上までスムースに戻る
+        scrollBtn.addEventListener("click", () => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      }
+    </script>
+
+    <!--
+      追加のJSモジュール
+      - /js/script.js   : 汎用スクリプト（必要に応じて機能をここに集約）
+      - /js/header.js   : ヘッダーの動作（スクロール固定/開閉など）
+      - /js/todayAll.js : 「本日のトーナメント」へカードを挿入する処理
+      ※ それぞれの役割を分けておくと保守しやすい
+    -->
+    <script src="/js/script.js" type="module"></script>
+    <script src="/js/header.js" type="module"></script>
+    <script src="/js/todayAll.js" type="module"></script>
+  </body>
+</html>
