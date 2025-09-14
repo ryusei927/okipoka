@@ -32,7 +32,7 @@ const STORE_EMAIL_MAP = {
   "jj@gmail.com": "ジャックス",
   "donk@gmail.com": "ドンク",
   "wb@gmail.com": "ダブルベリー",
-  "bigs@gmail.com": "ビッグスリック"
+  "bigs@gmail.com": "那覇 BIG SLICK"
 };
 
 // ==== “パスだけ”ログインの中身：管理用メールで正規ログイン ====
