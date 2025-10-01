@@ -27,40 +27,72 @@ function shuffleArray(array: Ad[]): Ad[] {
   return array;
 }
 
-// 正方形広告の中から1つだけランダムで選ぶ
+// 正方形広告の中から2つだけランダムで選ぶ
 const shuffledAds = shuffleArray(squareAds);
-const selectedAd = shuffledAds.length > 0 ? shuffledAds[0] : null;
+const selectedAds = shuffledAds.slice(0, 2);
 ---
 
 {/* 広告が1つでも存在する場合のみ表示する */}
-{selectedAd && (
+{selectedAds.length > 0 && (
   <section class="ad-section">
-    <h2 class="section-title">広告</h2>
-    <div class="ad-container">
-      <a href={selectedAd.url} target="_blank" rel="noopener noreferrer" class="ad-item ad-item--square">
-        <img src={selectedAd.images.square} alt={selectedAd.name} loading="lazy" />
-      </a>
+    <div class="ad-container-wrapper" role="region" aria-labelledby="ad-label">
+      <div id="ad-label" class="ad-label">広告</div>
+      <div class="ad-container">
+        {selectedAds.map(ad => (
+          <a href={ad.url} target="_blank" rel="noopener noreferrer" class="ad-item ad-item--square">
+            <img src={ad.images.square} alt={ad.name} loading="lazy" />
+          </a>
+        ))}
+      </div>
     </div>
   </section>
 )}
 
 <style>
-  .ad-section { margin: 4rem 0; }
-  .section-title { text-align: center; margin-bottom: 2rem; font-size: 2.2rem; color: #333; }
-  .ad-container { display: flex; justify-content: center; align-items: center; }
+  .ad-section { margin: 3.2rem 0; }
+  .ad-container-wrapper {
+    position: relative;
+    padding-top: 1.6rem;
+    border-top: 1px solid #efefef;
+  }
+  .ad-label {
+    position: absolute;
+    top: -0.9rem;
+    left: 0.5rem;
+    right: auto;
+    text-align: left;
+    font-size: 1.1rem;
+    color: #888;
+    background: var(--color-background, #fafafa);
+    border: 1px solid #e5e5e5;
+    padding: 2px 6px;
+    line-height: 1.2;
+  }
+  .ad-container { 
+    display: grid; 
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 12px; 
+  }
+  @media (max-width: 360px) {
+    .ad-container {
+      grid-template-columns: 1fr;
+    }
+  }
   .ad-item {
     display: block;
-    border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid #e5e5e5;
+    background: #fff;
+    transition: transform 0.2s ease;
     max-width: 100%;
   }
   /* 正方形用のスタイル */
   .ad-item--square {
-    width: 300px; /* 正方形の最大幅を固定 */
-    height: 300px;
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    height: auto;
   }
-  .ad-item:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+  .ad-item:hover { transform: translateY(-2px); }
+  .ad-item:focus-visible { outline: 2px dotted #bbb; outline-offset: 2px; }
   .ad-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
 </style>

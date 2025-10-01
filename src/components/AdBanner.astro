@@ -35,27 +35,44 @@ const selectedAd = shuffledAds.length > 0 ? shuffledAds[0] : null;
 {/* 広告が1つでも存在する場合のみ表示する */}
 {selectedAd && (
   <section class="ad-section">
-    <h2 class="section-title">広告</h2>
-    <div class="ad-container">
-      <a href={selectedAd.url} target="_blank" rel="noopener noreferrer" class="ad-item">
-        <img src={selectedAd.images.banner} alt={selectedAd.name} loading="lazy" />
-      </a>
+    <div class="ad-container-wrapper" role="region" aria-labelledby="ad-banner-label">
+      <div id="ad-banner-label" class="ad-label">広告</div>
+      <div class="ad-container">
+        <a href={selectedAd.url} target="_blank" rel="noopener noreferrer" class="ad-item">
+          <img src={selectedAd.images.banner} alt={selectedAd.name} loading="lazy" />
+        </a>
+      </div>
     </div>
   </section>
 )}
 
 <style>
-  .ad-section { margin: 4rem 0; }
-  .section-title { text-align: center; margin-bottom: 2rem; font-size: 2.2rem; color: #333; }
-  .ad-container { display: flex; justify-content: center; align-items: center; }
+  .ad-section { margin: 3.2rem 0; }
+  .ad-container-wrapper { position: relative; padding-top: 1.6rem; border-top: 1px solid #efefef; }
+  .ad-label {
+    position: absolute;
+    top: -0.9rem;
+    left: 0.5rem;
+    font-size: 1.1rem;
+    color: #888;
+    background: var(--color-background,#fafafa);
+    border: 1px solid #e5e5e5;
+    padding: 2px 6px;
+    line-height: 1.2;
+  }
+  .ad-container { display: block; text-align: center; }
   .ad-item {
     display: block;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    max-width: 100%;
+    border: 1px solid #e5e5e5;
+    background: #fff;
+    transition: transform 0.2s ease;
+    max-width: 90%;
+    margin: 0 auto;
   }
-  .ad-item:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+  .ad-item:hover { transform: translateY(-2px); }
+  .ad-item:focus-visible { outline: 2px dotted #bbb; outline-offset: 2px; }
   .ad-item img { width: 100%; height: auto; display: block; }
+  @media (min-width: 768px) {
+    .ad-item { max-width: 720px; }
+  }
 </style>
