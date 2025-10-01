@@ -83,9 +83,7 @@ document.getElementById("tournament-form").addEventListener("submit", async (e) 
   const addon = document.getElementById("addon").value || "なし";
   const prize = document.getElementById("prize").value || "店舗にてご確認ください";
   const stack = document.getElementById("stack").value;
-  const note = document.getElementById("note").value;
   const lateReg = document.getElementById("late-reg").value;
-  const structureUrl = document.getElementById("structureUrl").value;
   const eventType = document.getElementById("eventType").value;
   const reentryFeeRaw = document.getElementById("reentry-fee").value ?? "";
   const reentryFee = String(reentryFeeRaw).trim() === "" ? null : Number(reentryFeeRaw);
@@ -106,7 +104,7 @@ document.getElementById("tournament-form").addEventListener("submit", async (e) 
       const startDate = new Date(raw).toISOString().slice(0, 10);
       const payload = {
         eventName, storeName, startTime, startDate, buyIn, addon, prize,
-        stack, note, lateReg, structureUrl, eventType, reentryFee,
+        stack, lateReg, eventType, reentryFee,
         postedBy: "運営", // 投稿者を「運営」に固定
         timestamp: serverTimestamp()
       };

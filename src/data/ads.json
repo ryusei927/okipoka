@@ -1,52 +1,47 @@
 [
-  {
-    "id": "ad001",
-    "name": "サンプル広告主A (バナー)",
-    "url": "#",
-    "displayType": "banner",
-    "images": {
-      "square": "/images/ads/sample_sq_1.png",
-      "banner": "/images/ads/sample_banner_1.png"
+    {
+        "id": "ad001",
+        "name": "j9",
+        "url": "https://www.instagram.com/jack9_amusement?utm_source=ig_web_button_share_sheet&igsh=MW4wbjh4b2Jjb2Y2NA==",
+        "images": {
+            "square": "/images/ads/j9_ad.jpg",
+            "banner": ""
+        }
+    },
+    {
+        "id": "ad002",
+        "name": "Architecture",
+        "url": "https://architecture-tech.jp/about",
+        "images": {
+            "square": "",
+            "banner": "/images/ads/Architecture.png"
+        }
+    },
+    {
+        "id": "ad003",
+        "name": "はなうし",
+        "url": "https://www.instagram.com/okinawa_hanaushi?utm_source=ig_web_button_share_sheet&igsh=a3Z6aXUyamcwN2Rt",
+        "images": {
+            "square": "/images/ads/hanausi_ad.png",
+            "banner": ""
+        }
+    },
+    {
+        "id": "ad004",
+        "name": "ラジオ",
+        "url": "https://www.instagram.com/okinawa_hanaushi/",
+        "images": {
+            "square": "",
+            "banner": "/images/ads/radio_ad.jpg"
+        }
+    },
+    {
+        "id": "ad005",
+        "name": "cave",
+        "url": "https://www.instagram.com/luxuryspace_cave_0922?utm_source=ig_web_button_share_sheet&igsh=aGVzc3FwZWRwNmht",
+        "images": {
+            "square": "",
+            "banner": "/images/ads/cave2_ad.png"
+        }
     }
-  },
-  {
-    "id": "ad002",
-    "name": "サンプル広告主B (正方形)",
-    "url": "#",
-    "displayType": "square",
-    "images": {
-      "square": "/images/ads/sample_sq_2.png",
-      "banner": "/images/ads/sample_banner_2.png"
-    }
-  },
-  {
-    "id": "ad003",
-    "name": "サンプル広告主C (正方形)",
-    "url": "#",
-    "displayType": "square",
-    "images": {
-      "square": "/images/ads/sample_sq_3.png",
-      "banner": "/images/ads/sample_banner_3.png"
-    }
-  },
-  {
-    "id": "ad004",
-    "name": "サンプル広告主D (正方形)",
-    "url": "#",
-    "displayType": "square",
-    "images": {
-      "square": "/images/ads/sample_sq_4.png",
-      "banner": "/images/ads/sample_banner_4.png"
-    }
-  },
-  {
-    "id": "ad005",
-    "name": "サンプル広告主E (バナー)",
-    "url": "#",
-    "displayType": "banner",
-    "images": {
-      "square": "/images/ads/sample_sq_5.png",
-      "banner": "/images/ads/sample_banner_5.png"
-    }
-  }
 ]

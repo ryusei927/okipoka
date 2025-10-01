@@ -1,0 +1,66 @@
+---
+// src/components/AdSquare.astro
+import adsData from '../data/ads.json';
+
+// 型定義
+interface Ad {
+  id: string;
+  name: string;
+  url: string;
+  images: {
+    square: string;
+    banner: string;
+  };
+}
+
+// ★★★ 正方形画像のみを持つ広告を抽出（バナーがないもの） ★★★
+const squareAds = adsData.filter((ad: Ad) => !ad.images.banner || ad.images.banner.trim() === '');
+
+function shuffleArray(array: Ad[]): Ad[] {
+  let currentIndex = array.length, randomIndex;
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+  return array;
+}
+
+// 正方形広告の中から1つだけランダムで選ぶ
+const shuffledAds = shuffleArray(squareAds);
+const selectedAd = shuffledAds.length > 0 ? shuffledAds[0] : null;
+---
+
+{/* 広告が1つでも存在する場合のみ表示する */}
+{selectedAd && (
+  <section class="ad-section">
+    <h2 class="section-title">広告</h2>
+    <div class="ad-container">
+      <a href={selectedAd.url} target="_blank" rel="noopener noreferrer" class="ad-item ad-item--square">
+        <img src={selectedAd.images.square} alt={selectedAd.name} loading="lazy" />
+      </a>
+    </div>
+  </section>
+)}
+
+<style>
+  .ad-section { margin: 4rem 0; }
+  .section-title { text-align: center; margin-bottom: 2rem; font-size: 2.2rem; color: #333; }
+  .ad-container { display: flex; justify-content: center; align-items: center; }
+  .ad-item {
+    display: block;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    max-width: 100%;
+  }
+  /* 正方形用のスタイル */
+  .ad-item--square {
+    width: 300px; /* 正方形の最大幅を固定 */
+    height: 300px;
+  }
+  .ad-item:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+  .ad-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+</style>
