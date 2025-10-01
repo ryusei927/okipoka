@@ -14,21 +14,16 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const list = document.getElementById("today-all-card");
+list.innerHTML = `<p>本日のトーナメントを読み込み中...</p>`;
 
-const now = new Date(); // assume local JST environment
-const yyyy = now.getFullYear();
-const mm = String(now.getMonth() + 1).padStart(2, "0");
-const dd = String(now.getDate()).padStart(2, "0");
-const today = `${yyyy}-${mm}-${dd}`;
+const now = new Date();
+const today = now.toISOString().slice(0, 10);
 
 function getNextDateStr(yyyy_mm_dd) {
   const [y,m,d] = yyyy_mm_dd.split("-").map(Number);
   const dt = new Date(y, m-1, d);
   dt.setDate(dt.getDate() + 1);
-  const yy = dt.getFullYear();
-  const mm = String(dt.getMonth()+1).padStart(2,"0");
-  const dd = String(dt.getDate()).padStart(2,"0");
-  return `${yy}-${mm}-${dd}`;
+  return `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,"0")}-${String(dt.getDate()).padStart(2,"0")}`;
 }
 function parseTimeToMinutes(hhmm) {
   if (!hhmm || typeof hhmm !== "string") return 0;
@@ -52,11 +47,10 @@ Promise.all([getDocs(qMain), getDocs(qNext)]).then(([snapMain, snapNext]) => {
   ];
 
   if (rows.length === 0) {
-    list.innerHTML = "<p style='color:#666;'>本日のトーナメントはまだ登録されていません。</p>";
+    list.innerHTML = "<p style='color:#666; text-align:center;'>本日のトーナメントはまだ登録されていません。</p>";
     return;
   }
 
-  // sort by 6am boundary
   rows.sort((a, b) => {
     const minA = parseTimeToMinutes(a.startTime || "");
     const minB = parseTimeToMinutes(b.startTime || "");
@@ -65,12 +59,18 @@ Promise.all([getDocs(qMain), getDocs(qNext)]).then(([snapMain, snapNext]) => {
     return adjA - adjB;
   });
 
+  list.innerHTML = ''; // リストをクリア
   rows.forEach(data => {
-    const div = document.createElement("div");
+    const div = document.createElement("a");
+    div.href = `/tournaments/${data.id}`;
     div.classList.add("info-card");
     div.innerHTML = `
-      <strong>${data.storeName}</strong> - ${data.eventName}<br>
-      ${data.startTime}〜 / Buy-in: ¥${data.buyIn}
+      <div style="display:flex; justify-content:space-between; align-items: baseline;">
+        <strong style="font-size: 1.1rem;">${data.storeName}</strong>
+        <span style="font-weight: bold; color: var(--color-primary);">${data.startTime}〜</span>
+      </div>
+      <p style="margin: 0.5rem 0 0; color: #555;">${data.eventName}</p>
+      <small style="color: #777;">Buy-in: ¥${data.buyIn}</small>
     `;
     list.appendChild(div);
   });

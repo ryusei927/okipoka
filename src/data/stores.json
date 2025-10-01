@@ -1,0 +1,80 @@
+[
+  {
+    "id": "Jack9",
+    "name": "Jack9",
+    "area": "那覇",
+    "logo": "/images/j9logo.jpg"
+  },
+  {
+    "id": "UnderTheGun",
+    "name": "UnderTheGun",
+    "area": "那覇",
+    "logo": "/images/underthegun.jpg"
+  },
+  {
+    "id": "Rebarta",
+    "name": "Re:Barta",
+    "area": "那覇",
+    "logo": "/images/rebarta.jpg"
+  },
+  {
+    "id": "BACKDOOR",
+    "name": "BACKDOOR",
+    "area": "那覇",
+    "logo": "/images/backdoor.jpg"
+  },
+  {
+    "id": "JACKS",
+    "name": "JACKS",
+    "area": "南部",
+    "logo": "/images/jacks.png"
+  },
+  {
+    "id": "TOKISHIRAZU",
+    "name": "TOKISHIRAZU",
+    "area": "那覇",
+    "logo": "/images/tokishirazu.png"
+  },
+  {
+    "id": "TheHand",
+    "name": "TheHand",
+    "area": "南部",
+    "logo": "/images/hand.png"
+  },
+  {
+    "id": "GUTSHOT",
+    "name": "GUTSHOT",
+    "area": "北部",
+    "logo": "/images/gutshot.png"
+  },
+  {
+    "id": "Donk",
+    "name": "Donk",
+    "area": "那覇",
+    "logo": "/images/donk.png"
+  },
+  {
+    "id": "Re.raise",
+    "name": "Re:raise",
+    "area": "中部",
+    "logo": "/images/Re.raise.png"
+  },
+  {
+    "id": "nuts",
+    "name": "NUTS",
+    "area": "那覇",
+    "logo": "/images/Nuts.png"
+  },
+  {
+    "id": "WBERRY",
+    "name": "WBERRY",
+    "area": "那覇",
+    "logo": "/images/WBERRY.webp"
+  },
+  {
+    "id": "bigslick",
+    "name": "那覇 BIG SLICK",
+    "area": "那覇",
+    "logo": "/images/bigslick.png"
+  }
+]

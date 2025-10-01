@@ -1,38 +1,26 @@
-/* OKIPOKA ヘッダー＆フッター専用CSS（整理済） */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Helvetica Neue', sans-serif;
-  background-color: #f0f2f5;
-  color: #333;
-  line-height: 1.6;
-}
-
 /* ヘッダー */
 header {
-  background-color: black;
-  color: #fff;
-  padding: 0 20px;
-  height: 100px;
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  padding: 0 5%;
+  height: 70px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  overflow: hidden;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
 .logo {
-  height: 50px;
+  height: 40px;
 }
 
-/* ハンバーガー */
+/* ハンバーガーメニュー */
 .hamburger {
   width: 30px;
   height: 24px;
-  position: relative;
   cursor: pointer;
   z-index: 1001;
   display: flex;
@@ -42,47 +30,41 @@ header {
 
 .hamburger span {
   display: block;
-  height: 4px;
-  background: #fff;
+  height: 3px;
+  background: var(--color-text);
   border-radius: 2px;
-  transition: 0.4s;
+  transition: all 0.3s ease-in-out;
 }
 
-/* 開閉アニメーション */
 .hamburger.active span:nth-child(1) {
-  transform: rotate(45deg) translate(5px, 5px);
+  transform: rotate(45deg) translate(7px, 7px);
 }
 .hamburger.active span:nth-child(2) {
   opacity: 0;
 }
 .hamburger.active span:nth-child(3) {
-  transform: rotate(-45deg) translate(6px, -6px);
+  transform: rotate(-45deg) translate(7px, -7px);
 }
 
-/* ナビメニュー（ポップアップ） */
+/* ナビメニュー */
 .nav-menu {
   position: fixed;
-  top: 0;
+  top: 70px;
   right: -100%;
-  width: 80%;
-  max-width: 320px;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.9);
+  width: 100%;
+  height: calc(100vh - 70px);
+  background-color: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
-  padding: 60px 20px;
+  padding-top: 2rem;
   z-index: 999;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  opacity: 1;
-  pointer-events: none;
-  transition: right 0.3s ease;
+  transition: right 0.3s ease-in-out;
 }
 
 .nav-menu.show {
   right: 0;
-  pointer-events: auto;
 }
 
 .nav-list {
@@ -90,48 +72,24 @@ header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
-  padding: 0;
-  margin: 0;
+  gap: 1.5rem;
 }
 
 .nav-menu a {
-  color: #fff;
-  text-decoration: none;
+  color: var(--color-text);
   font-weight: bold;
-}
-.nav-menu a:hover {
-  text-decoration: underline;
+  font-size: 1.2rem;
 }
 
 /* フッター */
 footer {
-  background-color: black;
-  color: #fff;
+  background-color: #343a40;
+  color: var(--color-background);
   text-align: center;
-  padding: 10px;
+  padding: 2rem 1rem;
+  margin-top: 4rem;
 }
 
-.footer-contact {
-  font-size: 0.8rem;
-  margin-top: 4px;
-}
-.footer-contact a {
+.footer-contact a, .footer-instagram a {
   color: #fff;
-  text-decoration: underline;
-}
-
-/* モバイル用調整 */
-@media screen and (max-width: 768px) {
-  header {
-    height: 60px;
-  }
-
-  .logo {
-    max-height: 200px;
-  }
-
-  .hamburger {
-    font-size: 40px;
-  }
 }

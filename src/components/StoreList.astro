@@ -1,0 +1,128 @@
+---
+import stores from "../data/stores.json";
+
+const areas = ["すべて", ...new Set(stores.map(store => store.area))];
+---
+
+<div class="store-list-container">
+    <div class="filter-buttons">
+        {areas.map(area => (
+            <button class:list={["filter-btn", { active: area === 'すべて' }]} data-area={area}>
+                {area}
+            </button>
+        ))}
+    </div>
+
+    <div class="store-grid">
+        {stores.map(store => (
+            <a href={`/stores/${store.id}`} class="store-card" data-store-area={store.area}>
+                <img src={store.logo} alt={`${store.name} Logo`} 
+                     onerror="this.onerror=null; this.src='/images/sample.png';" />
+                <h3>{store.name}</h3>
+            </a>
+        ))}
+    </div>
+</div>
+
+<style>
+    .filter-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 3rem;
+        flex-wrap: wrap;
+    }
+    .filter-btn {
+        padding: 0.5rem 1.2rem;
+        border: 1px solid var(--color-border);
+        background-color: var(--color-surface);
+        color: var(--color-text);
+        border-radius: 999px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.2s ease;
+    }
+    .filter-btn:hover {
+        background-color: #e9ecef;
+        border-color: #adb5bd;
+    }
+    .filter-btn.active {
+        background-color: var(--color-primary);
+        color: #fff;
+        border-color: var(--color-primary);
+    }
+    .store-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1.5rem;
+    }
+    @media (min-width: 768px) {
+        .store-grid {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+    }
+    .store-card {
+        background: var(--color-surface);
+        border-radius: 12px;
+        transition: transform 0.2s, box-shadow 0.2s;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 1.5rem;
+        border: 1px solid var(--color-border);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    .store-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    .store-card img {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: contain;
+        background-color: white;
+        margin-bottom: 1rem;
+        border: 1px solid var(--color-border);
+    }
+    .store-card h3 {
+        font-size: 1.1rem;
+        color: var(--color-text);
+        text-align: center;
+    }
+    .store-card.hidden {
+        display: none;
+    }
+</style>
+
+<script>
+    // このスクリプトは、このコンポーネントがページに配置されたときに常に機能します。
+    document.addEventListener('DOMContentLoaded', () => {
+        const containers = document.querySelectorAll('.store-list-container');
+        
+        containers.forEach(container => {
+            const filterButtons = container.querySelectorAll('.filter-btn');
+            const storeCards = container.querySelectorAll('.store-card');
+
+            if (filterButtons.length > 0) {
+                filterButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        filterButtons.forEach(btn => btn.classList.remove('active'));
+                        button.classList.add('active');
+
+                        const selectedArea = button.getAttribute('data-area');
+
+                        storeCards.forEach(card => {
+                            const cardArea = card.getAttribute('data-store-area');
+                            if (selectedArea === 'すべて' || selectedArea === cardArea) {
+                                card.classList.remove('hidden');
+                            } else {
+                                card.classList.add('hidden');
+                            }
+                        });
+                    });
+                });
+            }
+        });
+    });
+</script>

@@ -22,3 +22,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# Firebaseの秘密鍵なので、Gitの管理対象から除外する
+okipoka-68419-firebase-adminsdk-fbsvc-59020c326e.json
