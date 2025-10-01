@@ -1,0 +1,52 @@
+[
+  {
+    "id": "ad001",
+    "name": "サンプル広告主A (バナー)",
+    "url": "#",
+    "displayType": "banner",
+    "images": {
+      "square": "/images/ads/sample_sq_1.png",
+      "banner": "/images/ads/sample_banner_1.png"
+    }
+  },
+  {
+    "id": "ad002",
+    "name": "サンプル広告主B (正方形)",
+    "url": "#",
+    "displayType": "square",
+    "images": {
+      "square": "/images/ads/sample_sq_2.png",
+      "banner": "/images/ads/sample_banner_2.png"
+    }
+  },
+  {
+    "id": "ad003",
+    "name": "サンプル広告主C (正方形)",
+    "url": "#",
+    "displayType": "square",
+    "images": {
+      "square": "/images/ads/sample_sq_3.png",
+      "banner": "/images/ads/sample_banner_3.png"
+    }
+  },
+  {
+    "id": "ad004",
+    "name": "サンプル広告主D (正方形)",
+    "url": "#",
+    "displayType": "square",
+    "images": {
+      "square": "/images/ads/sample_sq_4.png",
+      "banner": "/images/ads/sample_banner_4.png"
+    }
+  },
+  {
+    "id": "ad005",
+    "name": "サンプル広告主E (バナー)",
+    "url": "#",
+    "displayType": "banner",
+    "images": {
+      "square": "/images/ads/sample_sq_5.png",
+      "banner": "/images/ads/sample_banner_5.png"
+    }
+  }
+]
