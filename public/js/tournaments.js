@@ -14,9 +14,84 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+// 対応するHTML要素を探す。存在しない場合は何もしない。
 const list = document.getElementById("tournament-list");
 const dateInput = document.getElementById("datePicker");
 
+// ページに必要な要素がなければ、ここで処理を終了
+if (list && dateInput) {
+    initialize();
+}
+
+function initialize() {
+    // 1. URLから 'date' パラメータを取得
+    const urlParams = new URLSearchParams(window.location.search);
+    const dateFromUrl = urlParams.get('date');
+
+    // 2. URLの日付が 'YYYY-MM-DD' 形式かチェック
+    const isValidDate = dateFromUrl && /^\d{4}-\d{2}-\d{2}$/.test(dateFromUrl);
+
+    // 3. 有効な日付があればそれを使い、なければ今日の日付を使う
+    const initialDate = isValidDate ? dateFromUrl : new Date().toISOString().slice(0, 10);
+
+    // 4. ページ読み込み時の処理
+    dateInput.value = initialDate;
+    loadTournaments(initialDate);
+
+    // 5. 日付ピッカーが変更された時の処理
+    dateInput.addEventListener("change", () => {
+        loadTournaments(dateInput.value);
+    });
+}
+
+async function loadTournaments(dateStr) {
+  list.innerHTML = `<p style="text-align:center;">${dateStr}のトーナメントを読み込み中...</p>`;
+
+  const qMain = query(collection(db, "tournaments"), where("startDate", "==", dateStr));
+  const qNext = query(collection(db, "tournaments"), where("startDate", "==", getNextDateStr(dateStr)));
+
+  const [snapMain, snapNext] = await Promise.all([getDocs(qMain), getDocs(qNext)]);
+
+  const rows = [
+    ...snapMain.docs.map(d => ({ id: d.id, ...d.data() })).filter(x => !isEarlyMorningHHMM(x.startTime)),
+    ...snapNext.docs.map(d => ({ id: d.id, ...d.data() })).filter(x => isEarlyMorningHHMM(x.startTime))
+  ];
+
+  if (rows.length === 0) {
+    list.innerHTML = `<p style='text-align: center; padding: 2rem; background: var(--color-surface); border-radius: 8px;'>${dateStr}のトーナメント情報はありません。</p>`;
+    return;
+  }
+
+  rows.sort((a, b) => sortKeyWith06Boundary(dateStr, a) - sortKeyWith06Boundary(dateStr, b));
+
+  list.innerHTML = rows.map(data => createTournamentCard(data, dateStr)).join('');
+}
+
+function createTournamentCard(data, dateStr) {
+    const isNextDay = data.startDate !== dateStr && isEarlyMorningHHMM(data.startTime);
+    const startTimeLabel = `${isNextDay ? "翌 " : ""}${data.startTime}`;
+    const eventType = data.eventType || 'トーナメント';
+
+    return `
+    <a href="/tournaments/${data.id}" class="tournament-card">
+        <div class="time-info">
+            <span class="start-time">${startTimeLabel}</span>
+            <span class="event-type">${eventType}</span>
+        </div>
+        <div class="main-info">
+            <h3>${data.eventName || "イベント名未設定"}</h3>
+            <p class="store-name">${data.storeName || "店舗未設定"}</p>
+        </div>
+        <div class="entry-info">
+            <p><strong>Buy-in:</strong> ${data.buyIn ? `¥${data.buyIn}` : '未定'}</p>
+            <p><strong>Re-entry:</strong> ${data.reentryFee ? `¥${data.reentryFee}` : 'なし'}</p>
+        </div>
+        <div class="details-arrow">→</div>
+    </a>
+  `;
+}
+
+// ヘルパー関数
 function getNextDateStr(yyyy_mm_dd) {
   const [y,m,d] = yyyy_mm_dd.split("-").map(Number);
   const dt = new Date(y, m-1, d);
@@ -35,58 +110,7 @@ function sortKeyWith06Boundary(dateStr, data) {
   return (data.startDate !== dateStr && isEarlyMorningHHMM(t)) ? base + 24*60 : base;
 }
 
-const today = new Date().toISOString().slice(0, 10);
-dateInput.value = today;
-loadTournaments(today);
-
-dateInput.addEventListener("change", () => loadTournaments(dateInput.value));
-
-async function loadTournaments(dateStr) {
-  list.innerHTML = `<p style="text-align:center;">読み込み中...</p>`;
-
-  const qMain = query(collection(db, "tournaments"), where("startDate", "==", dateStr));
-  const qNext = query(collection(db, "tournaments"), where("startDate", "==", getNextDateStr(dateStr)));
-
-  const [snapMain, snapNext] = await Promise.all([getDocs(qMain), getDocs(qNext)]);
-
-  const rows = [
-    ...snapMain.docs.map(d => ({ id: d.id, ...d.data() })).filter(x => !isEarlyMorningHHMM(x.startTime)),
-    ...snapNext.docs.map(d => ({ id: d.id, ...d.data() })).filter(x => isEarlyMorningHHMM(x.startTime))
-  ];
-
-  if (rows.length === 0) {
-    list.innerHTML = "<p style='text-align: center; padding: 2rem; background: var(--color-surface); border-radius: 8px;'>この日のトーナメント情報はありません。</p>";
-    return;
-  }
-
-  rows.sort((a, b) => sortKeyWith06Boundary(dateStr, a) - sortKeyWith06Boundary(dateStr, b));
-
-  list.innerHTML = rows.map(data => createTournamentCard(data, dateStr)).join('');
-}
-
-function createTournamentCard(data, dateStr) {
-    const isNextDay = data.startDate !== dateStr && isEarlyMorningHHMM(data.startTime);
-    const startTimeLabel = `${isNextDay ? "翌 " : ""}${data.startTime}`;
-
-    return `
-    <a href="/tournaments/${data.id}" class="tournament-card">
-        <div class="time-info">
-            <span class="start-time">${startTimeLabel}</span>
-            <span class="event-type">${data.eventType || 'トーナメント'}</span>
-        </div>
-        <div class="main-info">
-            <h3>${data.eventName || "イベント名未設定"}</h3>
-            <p class="store-name">${data.storeName || "店舗未設定"}</p>
-        </div>
-        <div class="entry-info">
-            <p><strong>Buy-in:</strong> ¥${data.buyIn || '未定'}</p>
-            <p><strong>Re-entry:</strong> ${data.reentryFee ? `¥${data.reentryFee}` : 'なし'}</p>
-        </div>
-        <div class="details-arrow">→</div>
-    </a>
-  `;
-}
-
+// CSSの注入
 const styles = `
 .tournament-card {
     display: grid;

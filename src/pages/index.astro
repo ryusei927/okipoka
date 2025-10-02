@@ -1,6 +1,5 @@
 ---
 import "../styles/global.css";
-import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import Analytics from "@vercel/analytics/astro";
 import StoreList from "../components/StoreList.astro";
@@ -22,7 +21,7 @@ import AdSquare from "../components/AdSquare.astro";
         text-align: center;
         padding: 6rem 1rem;
         color: #fff;
-        background-image: url("/images/hero-background.jpg"); /* お好みの背景画像を指定してください */
+        background-image: url("/images/hero-background.jpg");
         background-size: cover;
         background-position: center;
         border-bottom: 1px solid var(--color-border);
@@ -57,107 +56,28 @@ import AdSquare from "../components/AdSquare.astro";
         font-weight: 800;
         color: #333;
       }
-      #today-all-card-wrapper {
-        padding: 0;
-        background: transparent;
-        border: none;
-        box-shadow: none;
-      }
-      
-      /* ===== ここから下が新しいトーナメントカードのスタイルです ===== */
-      #today-all-card {
-        display: flex;
-        flex-direction: column;
-        gap: 1.2rem;
-      }
 
-      .tournament-card {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 1rem 1.2rem;
-        background: var(--color-surface, #fff);
-        border: 1px solid var(--color-border, #e0e0e0);
-        border-radius: 10px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.04);
-        transition: transform 0.2s, box-shadow 0.2s;
-        text-decoration: none;
-        color: inherit;
+      /* 日付選択UIのスタイル */
+      .date-picker-wrapper {
+        text-align: center;
+        margin: 0 auto 1.5rem auto;
+        padding: 1rem;
+        background-color: var(--color-surface);
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        max-width: 400px;
       }
-      
-      .tournament-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      }
-
-      .tournament-left {
-        display: flex;
-        align-items: center;
-        gap: 1.2rem;
-      }
-
-      .tournament-time {
-        font-size: 1.2rem;
-        font-weight: 700;
-        color: var(--color-text, #333);
-        width: 5em;
-        text-align: left;
-      }
-
-      .tournament-details {
-        display: flex;
-        flex-direction: column;
-        gap: 0.2rem;
-      }
-
-      .tournament-title {
-        font-size: 1.1rem;
-        font-weight: 600;
-        color: var(--color-text, #333);
-      }
-      
-      .tournament-store {
-          font-size: 0.9rem;
-          color: var(--color-text-muted, #777);
-          font-weight: 500;
-      }
-
-      .tournament-type {
-        display: inline-block;
-        padding: 0.15em 0.6em;
-        font-size: 0.75rem;
-        font-weight: 700;
-        border-radius: 999px;
-        margin-top: 0.4rem;
-        color: #fff;
-        background-color: #888; /* デフォルト */
-      }
-      
-      .tournament-type[data-type="トーナメント"] {
-        background-color: var(--color-primary, #ff7f00);
-      }
-
-      .tournament-type[data-type="サテライト"] {
-        background-color: #007bff;
-      }
-
-      .tournament-right {
-        text-align: right;
-        font-size: 0.9rem;
-        color: var(--color-text-muted, #777);
-        white-space: nowrap;
-      }
-
-      .tournament-arrow {
-        margin-left: 1.5rem;
-        color: var(--color-primary, #ff7f00);
-        font-size: 1.5rem;
-        font-weight: bold;
+      #datePicker { /* IDをtournaments.jsに合わせる */
+        padding: 0.5rem;
+        border-radius: 4px;
+        border: 1px solid var(--color-border);
+        background-color: #fff;
+        color: var(--color-text);
+        font-size: 1rem;
       }
     </style>
   </head>
   <body>
-    <Header />
     <main>
       <section class="hero">
         <h1>沖縄のポーカー情報を、すべてここに。</h1>
@@ -168,10 +88,15 @@ import AdSquare from "../components/AdSquare.astro";
 
       <div class="container">
         <section id="tournaments-today">
-          <h2 class="section-title">本日のトーナメント</h2>
-          <div id="today-all-card-wrapper">
-             <div id="today-all-card"></div>
+          <h2 class="section-title">トーナメント情報</h2>
+          
+          <div class="date-picker-wrapper">
+            <label for="datePicker" style="font-weight: bold; margin-right: 0.5em;">表示日を選択：</label>
+            <input type="date" id="datePicker" />
           </div>
+
+          <div id="tournament-list"></div>
+
           <div style="text-align: center; margin-top: 2rem;">
             <a href="/tournaments/tournaments" class="button"
               >全てのトーナメントを見る</a
@@ -191,6 +116,6 @@ import AdSquare from "../components/AdSquare.astro";
     <Footer />
     <Analytics />
     <script src="/js/header.js" type="module"></script>
-    <script src="/js/todayAll.js" type="module"></script>
+    <script src="/js/tournaments.js" type="module"></script>
   </body>
 </html>
