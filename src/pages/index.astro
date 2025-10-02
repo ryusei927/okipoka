@@ -17,37 +17,29 @@ import AdSquare from "../components/AdSquare.astro";
     <style>
       .hero {
         position: relative;
-        text-align: center;
-        padding: 6rem 1rem;
-        color: #fff;
-        background-image: url("/images/hero-background.jpg");
+        background-image: url("/images/image1.png");
         background-size: cover;
         background-position: center;
         border-bottom: 1px solid var(--color-border);
+        /* スマホサイズ: ロゴが見える高さ */
+        height: 180px;
       }
-      .hero::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 1;
+
+      /* PC表示時はより高く */
+      @media (min-width: 768px) {
+        .hero {
+          height: 460px;
+        }
       }
-      .hero h1,
-      .hero p {
-        position: relative;
-        z-index: 2;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+
+      /* より大きなPC画面では更に高く */
+      @media (min-width: 1024px) {
+        .hero {
+          height: 520px;
+        }
       }
-      .hero h1 {
-        font-size: 3rem;
-      }
-      .hero p {
-        font-size: 1.2rem;
-        color: #f0f0f0;
-      }
+
+
       .section-title {
         text-align: center;
         margin-bottom: 1rem;
@@ -79,8 +71,6 @@ import AdSquare from "../components/AdSquare.astro";
   <body>
     <main>
       <section class="hero">
-        <h1>沖縄のポーカー情報を、すべてここに。</h1>
-        <p>トーナメントや店舗の最新情報をリアルタイムでお届けします。</p>
       </section>
 
       <AdBanner />
