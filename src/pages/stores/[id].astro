@@ -1,6 +1,4 @@
 ---
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
 import Analytics from '@vercel/analytics/astro';
 import '../../styles/stores.css';
 
@@ -24,13 +22,12 @@ const { id } = Astro.params;
 </head>
 
 <body>
-  <Header />
+
 
   <section id="store-detail-section" class="store-detail loading">
     {/* データが読み込まれたら、JSによってこの中身が生成されます */}
   </section>
 
-  <Footer />
   <Analytics />
 
   <script type="module">
