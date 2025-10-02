@@ -73,6 +73,14 @@ const selectedAds = shuffledAds.slice(0, 2);
     grid-template-columns: repeat(2, 1fr); 
     gap: 12px; 
   }
+  /* PC表示時は広告を小さく */
+  @media (min-width: 768px) {
+    .ad-container {
+      max-width: 850px;
+      margin: 0 auto;
+      gap: 10px;
+    }
+  }
   @media (max-width: 360px) {
     .ad-container {
       grid-template-columns: 1fr;
