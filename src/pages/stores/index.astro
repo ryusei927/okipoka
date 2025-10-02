@@ -1,6 +1,4 @@
 ---
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
 import '../../styles/global.css';
 ---
 
@@ -25,7 +23,7 @@ import '../../styles/global.css';
     </style>
 </head>
 <body>
-    <Header />
+
     <main class="container">
         <h1 style="text-align: center; margin-bottom: 3rem;">沖縄のポーカースポット一覧</h1>
         <div id="filter-buttons" class="filter-buttons">
@@ -35,7 +33,7 @@ import '../../styles/global.css';
             <p>読み込み中...</p>
         </div>
     </main>
-    <Footer />
+
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
