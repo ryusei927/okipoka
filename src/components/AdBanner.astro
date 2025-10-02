@@ -47,7 +47,7 @@ const selectedAd = shuffledAds.length > 0 ? shuffledAds[0] : null;
 )}
 
 <style>
-  .ad-section { margin: 3.2rem 0; }
+  .ad-section { margin: 2rem 0 1.5rem; }
   .ad-container-wrapper { position: relative; padding-top: 1.6rem; border-top: 1px solid #efefef; }
   .ad-label {
     position: absolute;
@@ -68,6 +68,7 @@ const selectedAd = shuffledAds.length > 0 ? shuffledAds[0] : null;
     transition: transform 0.2s ease;
     max-width: 90%;
     margin: 0 auto;
+    margin-bottom: 0;
   }
   .ad-item:hover { transform: translateY(-2px); }
   .ad-item:focus-visible { outline: 2px dotted #bbb; outline-offset: 2px; }
