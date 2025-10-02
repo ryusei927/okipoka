@@ -1,6 +1,5 @@
 ---
 import "../styles/global.css";
-import Footer from "../components/Footer.astro";
 import Analytics from "@vercel/analytics/astro";
 import StoreList from "../components/StoreList.astro";
 import AdBanner from "../components/AdBanner.astro"; 
@@ -97,11 +96,7 @@ import AdSquare from "../components/AdSquare.astro";
 
           <div id="tournament-list"></div>
 
-          <div style="text-align: center; margin-top: 2rem;">
-            <a href="/tournaments/tournaments" class="button"
-              >全てのトーナメントを見る</a
-            >
-          </div>
+
         </section>
 
         <AdSquare />
@@ -113,9 +108,7 @@ import AdSquare from "../components/AdSquare.astro";
       </div>
       <AdBanner />
     </main>
-    <Footer />
     <Analytics />
-    <script src="/js/header.js" type="module"></script>
     <script src="/js/tournaments.js" type="module"></script>
   </body>
 </html>

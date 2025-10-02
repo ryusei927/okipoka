@@ -1,7 +1,5 @@
 ---
 import "../../styles/global.css";
-import Header from "../../components/Header.astro";
-import Footer from "../../components/Footer.astro";
 import Analytics from '@vercel/analytics/astro';
 ---
 
@@ -36,7 +34,7 @@ import Analytics from '@vercel/analytics/astro';
     </style>
   </head>
   <body>
-    <Header />
+
     <main class="container">
       <h1 style="text-align: center; margin-bottom: 1rem;">トーナメント情報</h1>
       <div class="date-picker-wrapper">
@@ -45,9 +43,8 @@ import Analytics from '@vercel/analytics/astro';
       </div>
       <div id="tournament-list"></div>
     </main>
-    <Footer />
+
     <Analytics />
     <script src="/js/tournaments.js" type="module"></script>
-    <script src="/js/header.js" type="module"></script>
   </body>
 </html>

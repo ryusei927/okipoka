@@ -5,10 +5,10 @@
 //  - prerender=false なので、各アクセス時にサーバー側でデータを取得（SSRandering）。
 //  - Firebaseのクライアント設定は公開前提（セキュリティはFirestoreルールで担保）。
 import Analytics from '@vercel/analytics/astro';
-import Header from "../../components/Header.astro";
-import Footer from "../../components/Footer.astro";
 import "../../styles/mainstyle.css";
 import "../../styles/header_footer.css";
+import AdBanner from "../../components/AdBanner.astro"; 
+import AdSquare from "../../components/AdSquare.astro";
 
 export const prerender = false; // 静的化しない（毎回サーバーでデータを読む）
 
@@ -95,7 +95,7 @@ const pageDesc = data
         --ok-border:#e5e7eb;
         --ok-bg:#f9fafb;
       }
-      .card{ background:#fff; border:1px solid var(--ok-border); border-radius:14px; padding:1.25rem 1.25rem 1rem; box-shadow:0 6px 16px rgba(0,0,0,.06); }
+      .card{ background:#fff; border:1px solid var(--ok-border); padding:1.5rem 1.5rem 1.25rem; box-shadow:0 6px 16px rgba(0,0,0,.06); }
       .card h2.section-label{ color:var(--ok-ink); border:0; margin: .25rem 0 .25rem; font-size:1.15rem; font-weight:800; letter-spacing:.02em; display:flex; align-items:center; gap:.6rem; }
       .card h2.section-label::before{ content:""; width:10px; height:10px; background:var(--ok-orange); border-radius:3px; display:inline-block; }
       .kv{ display:flex; flex-direction:column; gap:.15rem; }
@@ -103,17 +103,40 @@ const pageDesc = data
       .kv-row:last-child{ border-bottom:none; }
       .kv-label{ color:var(--ok-muted); font-weight:700; font-size: .98rem; }
       .kv-value{ color:var(--ok-ink); font-weight:700; font-size:1.05rem; }
+      
+      /* 重要な情報も統一した黒文字スタイル */
+      .kv-row.important .kv-value { 
+        color: var(--ok-ink); 
+        font-size: 1.05rem; 
+        font-weight: 700; 
+      }
+      .kv-row.important .kv-label { 
+        color: var(--ok-muted); 
+        font-weight: 700; 
+      }
+      
+      /* プライズ行の特別なスタイリング */
+      .kv-row.prize-row { 
+        align-items: flex-start; 
+        padding: 1rem 0; 
+      }
+      .kv-row.prize-row .kv-label { 
+        padding-top: 0.25rem; 
+      }
       .currency::before{ content:'¥'; margin-right:.1em; }
       .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
-      @media (max-width: 860px){ .kv-row{ grid-template-columns: 6.5em 1fr; } }
+      @media (max-width: 860px){ 
+        .kv-row{ grid-template-columns: 6.5em 1fr; } 
+        .kv-row.important .kv-value { font-size: 1.05rem; }
+        .unified-info { margin: 1rem auto 1.5rem; }
+      }
 
       /* ーーーーー レイアウトの器 ーーーーー */
       .main-container {
-        padding: 3rem 1.5rem;
+        padding: 2rem 1.5rem 2.5rem;
         max-width: 900px;
         margin: 0 auto;
         background-color: #fff;
-        border-radius: 12px;
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
           Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
@@ -122,7 +145,7 @@ const pageDesc = data
       /* ーーーーー ページタイトル ーーーーー */
       h1.title {
         font-size: 2.4rem;
-        margin-bottom: 2rem;
+        margin-bottom: 1.5rem;
         border-bottom: 3px solid #ff7f00; /* オレンジの下線で強調 */
         padding-bottom: 0.75rem;
         color: #222;
@@ -192,7 +215,6 @@ const pageDesc = data
         padding: 6px 12px;
         background-color: #eee;
         color: #333;
-        border-radius: 6px;
         text-decoration: none;
         font-weight: 500;
         font-size: 1rem;
@@ -213,7 +235,6 @@ const pageDesc = data
         text-decoration: none;
         background-color: #ff7f00;
         padding: 0.8rem 1.5rem;
-        border-radius: 8px;
         transition: all 0.3s ease;
         width: fit-content;
       }
@@ -225,49 +246,67 @@ const pageDesc = data
 
       /* イベント名の目立たせ */
       .event-name-highlight {
-        background-color: #f9f9f9;
-        padding: 1.2rem 2rem;
-        border-left: 5px solid #999;
-        border-radius: 8px;
-        font-size: 1.8rem;
-        font-weight: 700;
+        background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+        padding: 1.25rem 1.5rem;
+        border: none;
+        border-left: 4px solid var(--ok-orange);
         color: #333;
-        margin-bottom: 2.5rem;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         text-align: center;
+        position: relative;
       }
 
       /* スマホでのタイポと余白最適化 */
       @media (max-width: 600px) {
-        .main-container { padding: 2rem 1rem; }
-        .tournament-item p strong { flex-basis: 6.5em; font-size: 1rem; }
-        .tournament-item p { font-size: 1.2rem; }
-        h1.title { font-size: 1.8rem; margin-bottom: 1.5rem; }
-        .section-label { font-size: 1.1rem; margin-top: 2rem; margin-bottom: 0.8rem; padding-left: 0.6rem; border-left-width: 4px; }
-        .event-name-highlight { font-size: 1.5rem; padding: 1rem; }
+        .main-container { padding: 1.5rem 1rem 2rem; }
+        h1.title { font-size: 1.8rem; margin-bottom: 1.25rem; }
+        .event-name-highlight { 
+          padding: 1rem 1.25rem; 
+          margin-bottom: 0.75rem; 
+          border-left-width: 3px;
+        }
+        .event-name-highlight h2 { 
+          font-size: clamp(1.1rem, 4.2vw, 1.6rem);
+          letter-spacing: .03em; 
+          max-width: 90vw;
+        }
+        .event-name-highlight h2::before { 
+          margin-right: 0.4rem; 
+        }
+        .card{ padding: 1.25rem 1rem 1rem; }
+        .card h2.section-label{ font-size: 1.1rem; margin: .2rem 0 .5rem; }
+        .kv-row{ padding: .6rem 0; }
+        .unified-info { margin: 0.75rem auto 1.25rem; }
       }
 
       .event-name-highlight h2 {
         position: relative;
         display: inline-block;
-        font-size: 2rem;
-        padding-bottom: 0.5rem;
-        margin-bottom: 0;
-        font-weight: 700;
-        color: #333;
-        background: none;
-        -webkit-text-fill-color: initial;
-        -webkit-background-clip: initial;
+        font-size: clamp(1.2rem, 4.5vw, 1.8rem);
+        font-weight: 800;
+        margin: 0;
+        letter-spacing: .05em;
+        color: #1a1a1a;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 85vw;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.1);
       }
-      .event-name-highlight h2::after {
+      .event-name-highlight h2::before {
+        margin-right: 0.5rem;
+        font-size: 0.9em;
+      }
+      .event-name-highlight::after {
         content: "";
         position: absolute;
-        bottom: 0;
-        left: 25%;
-        width: 50%;
-        height: 3px;
-        background-color: #999;
-        border-radius: 2px;
+        top: 0;
+        right: 0;
+        width: 3px;
+        height: 100%;
+        background: linear-gradient(180deg, var(--ok-orange), #cc6600);
+        opacity: 0.8;
       }
 
       /* 備考（折りたたみ）の行 */
@@ -309,7 +348,6 @@ const pageDesc = data
         max-width: 100%;
         height: auto;
         display: block;
-        border-radius: 10px;
         margin: 8px auto;
         max-height: 480px; /* 画像の縦サイズを制御 */
         object-fit: contain; /* 縦横比を維持して縮小 */
@@ -323,16 +361,16 @@ const pageDesc = data
         align-items: center;
         justify-content: center;
         gap: .5rem .75rem;
-        margin: 0 0 1rem;
+        margin: 0 0 0.75rem;
       }
       .pill {
         display: inline-flex;
         align-items: center;
-        padding: .25rem .6rem;
+        padding: .22rem .5rem;
         border-radius: 999px;
         background: #fff1e6;
         border: 1px solid #ffd6b0;
-        font-size: .95rem;
+        font-size: .85rem;
         color: #7a3e00;
         font-weight: 600;
       }
@@ -342,16 +380,20 @@ const pageDesc = data
         border: 1px solid #ddd;
         background:#fafafa;
         padding:.35rem .6rem;
-        border-radius:8px;
         font-size:.95rem;
         text-decoration:none;
         color:#333;
       }
       .meta-actions .btn-sm:hover { background:#eee; }
 
-      /* 2-col grid for info blocks on wider screens */
-      .info-grid { display:grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
-      @media (max-width: 860px) { .info-grid { grid-template-columns: 1fr; } }
+      /* 統合されたトーナメント情報カード */
+      .unified-info { max-width: 100%; margin: 1.5rem auto 2rem; }
+      .kv-divider { 
+        height: 1px; 
+        background: linear-gradient(90deg, transparent, var(--ok-border), transparent); 
+        margin: 1rem 0; 
+        grid-column: 1 / -1; 
+      }
 
       /* Improve key values readability */
       .tournament-item p code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size:.98rem; }
@@ -378,17 +420,14 @@ const pageDesc = data
       .prize-media a { display:block; }
     </style>
   </head>
+
+  <AdBanner />
   
   <body>
-
-       <!-- サイト共通ヘッダー（ロゴ/ナビ） -->
-    <Header  />
- 
-
     <main class="main-container">
       <div class="topbar" role="navigation" aria-label="ページ上部の操作">
         <div class="topbar-inner">
-          <a href="/tournaments/tournaments" class="back-mini">← 一覧へ戻る</a>
+          <a href="/" class="back-mini">← TOP</a>
           <div class="meta-actions">
             <a id="shareBtn" href="#" class="btn-sm" aria-label="このページを共有">共有</a>
             <a id="copyLinkBtn" href="#" class="btn-sm" aria-label="リンクをコピー">リンクコピー</a>
@@ -410,34 +449,37 @@ const pageDesc = data
             <h2>{data.eventName}</h2>
           </div>
 
-          <div class="info-grid">
-            <section class="card">
-              <h2 class="section-label">基本情報</h2>
-              <div class="kv">
-                <div class="kv-row"><div class="kv-label">場所：</div>
-                  <div class="kv-value">
-                    {instagramUrl
-                      ? <a href={instagramUrl} target="_blank" rel="noopener noreferrer">{data.storeName}</a>
-                      : (data.storeName || data.postedBy || "未登録")}
-                  </div>
+          <!-- 統合されたトーナメント情報セクション -->
+          <section class="card unified-info">
+            <h2 class="section-label">トーナメント情報</h2>
+            <div class="kv">
+              <!-- 基本的な開催情報 -->
+              <div class="kv-row important"><div class="kv-label">場所：</div>
+                <div class="kv-value">
+                  {instagramUrl
+                    ? <a href={instagramUrl} target="_blank" rel="noopener noreferrer">{data.storeName}</a>
+                    : (data.storeName || data.postedBy || "未登録")}
                 </div>
-                <div class="kv-row"><div class="kv-label">日付：</div><div class="kv-value">{data.startDate}</div></div>
-                <div class="kv-row"><div class="kv-label">開始：</div><div class="kv-value">{data.startTime}</div></div>
-                <div class="kv-row"><div class="kv-label">締切：</div><div class="kv-value">{data.lateReg || "未設定"}</div></div>
-                <div class="kv-row"><div class="kv-label">種類：</div><div class="kv-value">{data.eventType || "不明"}</div></div>
               </div>
-            </section>
-
-            <section class="card">
-              <h2 class="section-label">参加情報</h2>
-              <div class="kv">
-                <div class="kv-row"><div class="kv-label">参加費：</div><div class="kv-value"><span class="currency"></span>{data.buyIn} 円</div></div>
-                <div class="kv-row"><div class="kv-label">リエントリー：</div><div class="kv-value">{data.reentryFee ? `${data.reentryFee} 円` : "—"}</div></div>
-                <div class="kv-row"><div class="kv-label">アドオン：</div><div class="kv-value">{data.addon}</div></div>
-                <div class="kv-row"><div class="kv-label">スタック：</div><div class="kv-value mono">{data.stack}</div></div>
-                <div class="kv-row"><div class="kv-label">プライズ：</div>
-                  <div class="kv-value">
-                    {(prizeTextWithoutUrls || prizeUrls.length > 0) ? (
+              <div class="kv-row important"><div class="kv-label">日付：</div><div class="kv-value">{data.startDate}</div></div>
+              <div class="kv-row important"><div class="kv-label">開始：</div><div class="kv-value">{data.startTime}</div></div>
+              <div class="kv-row"><div class="kv-label">締切：</div><div class="kv-value">{data.lateReg || "未設定"}</div></div>
+              <div class="kv-row"><div class="kv-label">種類：</div><div class="kv-value">{data.eventType || "不明"}</div></div>
+              
+              <!-- 参加関連情報 -->
+              <div class="kv-divider" aria-hidden="true"></div>
+              <div class="kv-row important"><div class="kv-label">参加費：</div><div class="kv-value"><span class="currency"></span>{data.buyIn} 円</div></div>
+              {data.reentryFee && <div class="kv-row"><div class="kv-label">リエントリー：</div><div class="kv-value">{data.reentryFee} 円</div></div>}
+              {data.addon && <div class="kv-row"><div class="kv-label">アドオン：</div><div class="kv-value">{data.addon}</div></div>}
+              {data.stack && <div class="kv-row"><div class="kv-label">スタック：</div><div class="kv-value mono">{data.stack}</div></div>}
+              
+              <!-- プライズ情報（ある場合のみ表示） -->
+              {(prizeTextWithoutUrls || prizeUrls.length > 0) && (
+                <>
+                  <div class="kv-divider" aria-hidden="true"></div>
+                  <div class="kv-row prize-row">
+                    <div class="kv-label">プライズ：</div>
+                    <div class="kv-value">
                       <div class="prize-block">
                         {prizeTextWithoutUrls && <p class="prize-text">{prizeTextWithoutUrls}</p>}
                         {prizeUrls.length > 0 && (
@@ -456,29 +498,27 @@ const pageDesc = data
                           </div>
                         )}
                       </div>
-                    ) : (
-                      <span>—</span>
-                    )}
+                    </div>
                   </div>
-                </div>
-              </div>
-            </section>
-          </div>
+                </>
+              )}
+            </div>
+          </section>
 
 
-          <!-- 案内文＆戻るボタン -->
-          <p style="text-align: center; font-size: 0.95rem; color: #555; margin-top: 1.5rem;">
+          <!-- 案内文 -->
+          <p style="text-align: center; font-size: 0.95rem; color: #555; margin-top: 1rem;">
             その他ご不明な点は、開催店舗へ直接ご確認ください。
           </p>
-          <a href="/tournaments/tournaments" class="back-link">← 一覧へ戻る</a>
+
         </>
       ) : (
         <p>データが見つかりませんでした。</p>
       )}
     </main>
 
-    <!-- サイト共通フッター＆アナリティクス -->
-    <Footer  />
+     <AdSquare />
+
     <Analytics />
 
     <script type="module">
@@ -529,8 +569,5 @@ const pageDesc = data
       }
 
     </script>
-
-    <!-- ヘッダーの動作（固定/開閉など） -->
-    <script src="/js/header.js" type="module"></script>
   </body>
 </html>
