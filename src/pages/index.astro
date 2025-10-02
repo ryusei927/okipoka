@@ -1,10 +1,11 @@
 ---
 import "../styles/global.css";
+import "../styles/footer.css"; // フッターのCSSを読み込み
 import Analytics from "@vercel/analytics/astro";
 import StoreList from "../components/StoreList.astro";
 import AdBanner from "../components/AdBanner.astro"; 
 import AdSquare from "../components/AdSquare.astro";
-
+import Footer from "../components/Footer.astro";
 ---
 
 <!doctype html>
@@ -17,80 +18,34 @@ import AdSquare from "../components/AdSquare.astro";
     <style>
       .hero {
         position: relative;
-        background-image: url("/images/image1.png");
+        background-image: url("/images/image1.png"); /* */
         background-size: cover;
         background-position: center;
         border-bottom: 1px solid var(--color-border);
-        /* スマホサイズ: ロゴが見える高さ */
-        height: 180px;
+        height: 180px; /* */
       }
+      @media (min-width: 768px) { .hero { height: 460px; } } /* */
+      @media (min-width: 1024px) { .hero { height: 590px; } } /* */
 
-      /* PC表示時はより高く */
-      @media (min-width: 768px) {
-        .hero {
-          height: 460px;
-        }
-      }
-
-      /* より大きなPC画面では更に高く */
-      @media (min-width: 1024px) {
-        .hero {
-          height: 590px;
-        }
-      }
-
-
-      .section-title {
-        text-align: center;
-        margin-bottom: 1rem;
-        font-size: 1.35rem;
-        font-weight: 800;
-        color: #333;
-      }
-
-      /* 日付選択UIのスタイル */
-      .date-picker-wrapper {
-        text-align: center;
-        margin: 0 auto 1.5rem auto;
-        padding: 1rem;
-        background-color: var(--color-surface);
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        max-width: 400px;
-      }
-      #datePicker { /* IDをtournaments.jsに合わせる */
-        padding: 0.5rem;
-        border-radius: 4px;
-        border: 1px solid var(--color-border);
-        background-color: #fff;
-        color: var(--color-text);
-        font-size: 1rem;
-      }
+      .section-title { text-align: center; margin-bottom: 1rem; font-size: 1.35rem; font-weight: 800; color: #333; } /* */
+      .date-picker-wrapper { text-align: center; margin: 0 auto 1.5rem auto; padding: 1rem; background-color: var(--color-surface); border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); max-width: 400px; } /* */
+      #datePicker { padding: 0.5rem; border-radius: 4px; border: 1px solid var(--color-border); background-color: #fff; color: var(--color-text); font-size: 1rem; } /* */
     </style>
   </head>
   <body>
     <main>
-      <section class="hero">
-      </section>
-
+      <section class="hero"></section>
       <AdBanner />
-
       <div class="container">
         <section id="tournaments-today">
           <h2 class="section-title">トーナメント情報</h2>
-          
           <div class="date-picker-wrapper">
             <label for="datePicker" style="font-weight: bold; margin-right: 0.5em;">表示日を選択：</label>
             <input type="date" id="datePicker" />
           </div>
-
           <div id="tournament-list"></div>
-
-
         </section>
-
         <AdSquare />
-       
         <section id="stores-list" style="margin-top: 4rem;">
           <h2 class="section-title">店舗一覧</h2>
           <StoreList />
@@ -98,6 +53,8 @@ import AdSquare from "../components/AdSquare.astro";
       </div>
       <AdBanner />
     </main>
+
+    <Footer />
     <Analytics />
     <script src="/js/tournaments.js" type="module"></script>
   </body>
