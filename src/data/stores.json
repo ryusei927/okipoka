@@ -76,5 +76,11 @@
     "name": "那覇 BIG SLICK",
     "area": "那覇",
     "logo": "/images/bigslick.png"
+  },
+    {
+    "id": "BAROTHREE",
+    "name": "BAR オースリー",
+    "area": "那覇",
+    "logo": "/images/o3.jpg"
   }
 ]
