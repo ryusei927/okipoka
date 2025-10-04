@@ -4,18 +4,119 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>新規アカウント登録 | OKIPOKA</title>
   <link rel="stylesheet" href="/styles/global.css">
   <style>
-    /* ログインページと共通のスタイル */
-    .auth-container { max-width: 400px; margin: 4rem auto; padding: 2rem; background: #fff; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-    h1 { text-align: center; margin-bottom: 1.5rem; }
-    form { display: flex; flex-direction: column; gap: 1rem; }
-    input { padding: 0.8rem; border-radius: 4px; border: 1px solid var(--color-border); }
-    button { padding: 0.8rem; background-color: var(--color-primary); color: #fff; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
-    .message { text-align: center; margin-top: 1rem; }
-    .message.error { color: red; }
-    .message a { text-decoration: underline; }
+    /* レスポンシブ対応のスタイル */
+    .auth-container {
+      max-width: 520px;
+      margin: 6rem auto;
+      padding: 4rem 3rem;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 12px 36px rgba(0,0,0,0.1);
+    }
+    
+    h1 {
+      text-align: center;
+      margin-bottom: 3rem;
+      font-size: 2.2rem;
+      color: #222;
+      font-weight: 800;
+    }
+    
+    form { 
+      display: flex; 
+      flex-direction: column; 
+      gap: 1.5rem; 
+    }
+    
+    input {
+      padding: 1.4rem 1.4rem;
+      border-radius: 14px;
+      border: 2px solid #e1e5e9;
+      font-size: 20px;
+      transition: border-color 0.3s ease;
+      min-height: 64px;
+    }
+    
+    input:focus {
+      outline: none;
+      border-color: var(--color-primary);
+    }
+    
+    button {
+      padding: 1.4rem;
+      background: linear-gradient(135deg, #ff7f00, #e66f00);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      font-weight: 900;
+      font-size: 20px;
+      transition: transform 0.15s ease, filter 0.15s ease;
+      box-shadow: 0 8px 20px rgba(255,127,0,0.3);
+    }
+    button:hover { filter: brightness(1.05); transform: translateY(-2px); }
+    
+    .message { 
+      text-align: center; 
+      margin-top: 1rem; 
+      font-size: 14px;
+    }
+    
+    .message.error { 
+      color: #dc3545; 
+      background-color: #f8d7da;
+      padding: 0.75rem;
+      border-radius: 4px;
+      border: 1px solid #f5c6cb;
+    }
+    
+    .message a { 
+      text-decoration: underline; 
+      cursor: pointer;
+      color: var(--color-primary);
+    }
+    
+    .message a:hover {
+      color: #0056b3;
+    }
+
+    /* スマホ対応 */
+    @media (max-width: 480px) {
+      .auth-container {
+        margin: 2rem 1rem;
+        padding: 3rem 2rem;
+        border-radius: 16px;
+      }
+      h1 { font-size: 2.4rem; margin-bottom: 2.4rem; }
+      input, button { font-size: 20px; min-height: 66px; }
+      button { font-size: 22px; padding: 1.8rem; }
+    }
+    
+    /* より小さい画面用 */
+    @media (max-width: 360px) {
+      .auth-container {
+        margin: 0.3rem;
+        padding: 1.5rem;
+      }
+      
+      h1 {
+        font-size: 1.6rem;
+      }
+      
+      input, button {
+        padding: 1.4rem;
+        font-size: 17px;
+      }
+      
+      button {
+        font-size: 19px;
+        padding: 1.5rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -26,8 +127,8 @@
       <input type="password" id="password" placeholder="パスワード (6文字以上)" required />
       <button type="submit">登録する</button>
     </form>
-    <p id="message" class="message" style="display:none;"></p>
-    <p class="message">アカウントをお持ちですか？ <a href="/login">ログインはこちら</a></p>
+    <p id="message" class="message error" style="display:none;"></p>
+    <p class="message">すでにアカウントをお持ちの方は <a href="/login">ログインはこちら</a></p>
   </main>
 
   <script type="module">

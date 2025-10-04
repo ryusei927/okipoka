@@ -7,20 +7,147 @@
   <title>店舗様ログイン | OKIPOKA</title>
   <link rel="stylesheet" href="/styles/global.css">
   <style>
-    /* 登録ページと共通のスタイル */
-    .auth-container { max-width: 400px; margin: 4rem auto; padding: 2rem; background: #fff; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-    h1 { text-align: center; margin-bottom: 1.5rem; }
-    form { display: flex; flex-direction: column; gap: 1rem; }
-    input { padding: 0.8rem; border-radius: 4px; border: 1px solid var(--color-border); }
-    button { padding: 0.8rem; background-color: var(--color-primary); color: #fff; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
-    .message { text-align: center; margin-top: 1rem; }
-    .message.error { color: red; }
-    .message a { text-decoration: underline; cursor: pointer; }
+    /* レスポンシブ対応のスタイル */
+    .auth-container {
+      max-width: 600px;
+      margin: 4rem auto;
+      padding: 5rem 4rem;
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.12);
+    }
+    
+    h1 {
+      text-align: center;
+      margin-bottom: 4rem;
+      font-size: 3rem;
+      color: #222;
+      font-weight: 900;
+    }
+    
+    form { 
+      display: flex; 
+      flex-direction: column; 
+      gap: 2rem; 
+    }
+    
+    input {
+      padding: 2rem 2rem;
+      border-radius: 16px;
+      border: 3px solid #e1e5e9;
+      font-size: 24px;
+      transition: border-color 0.3s ease;
+      min-height: 80px;
+    }
+    
+    input:focus {
+      outline: none;
+      border-color: var(--color-primary);
+    }
+    
+    button {
+      padding: 2rem;
+      background: linear-gradient(135deg, #ff7f00, #e66f00);
+      color: #fff;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      font-weight: 900;
+      font-size: 24px;
+      transition: transform 0.15s ease, filter 0.15s ease;
+      box-shadow: 0 12px 28px rgba(255,127,0,0.4);
+      min-height: 80px;
+    }
+    button:hover { filter: brightness(1.05); transform: translateY(-2px); }
+    
+    .message { 
+      text-align: center; 
+      margin-top: 1.5rem; 
+      font-size: 18px;
+    }
+    
+    .message.error { 
+      color: #dc3545; 
+      background-color: #f8d7da;
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 2px solid #f5c6cb;
+      font-size: 18px;
+    }
+    
+    .message a { 
+      text-decoration: underline; 
+      cursor: pointer;
+      color: var(--color-primary);
+    }
+    
+    .message a:hover {
+      color: #0056b3;
+    }
+
+    /* スマホ対応 */
+    @media (max-width: 480px) {
+      .auth-container {
+        margin: 1rem;
+        padding: 4rem 2.5rem;
+        border-radius: 20px;
+      }
+      h1 { 
+        font-size: 2.8rem; 
+        margin-bottom: 3rem; 
+        font-weight: 900;
+      }
+      input { 
+        font-size: 22px; 
+        min-height: 76px; 
+        padding: 1.8rem;
+      }
+      button { 
+        font-size: 24px; 
+        padding: 2rem; 
+        min-height: 80px;
+      }
+      form {
+        gap: 1.8rem;
+      }
+      .message {
+        font-size: 17px;
+      }
+      .message.error {
+        font-size: 17px;
+        padding: 1.2rem;
+      }
+    }
+    
+    /* より小さい画面用 */
+    @media (max-width: 360px) {
+      .auth-container {
+        margin: 0.5rem;
+        padding: 3rem 2rem;
+      }
+      
+      h1 {
+        font-size: 2.4rem;
+        margin-bottom: 2.5rem;
+      }
+      
+      input {
+        padding: 1.6rem;
+        font-size: 20px;
+        min-height: 72px;
+      }
+      
+      button {
+        font-size: 22px;
+        padding: 1.8rem;
+        min-height: 76px;
+      }
+    }
   </style>
 </head>
 <body>
   <main class="auth-container">
-    <h1>店舗様 ログイン</h1>
+    <h1>OKIPOKA ログイン</h1>
     <form id="login-form">
       <input type="email" id="email" placeholder="メールアドレス" required />
       <input type="password" id="password" placeholder="パスワード" required />
@@ -28,7 +155,6 @@
     </form>
     <p id="message" class="message error" style="display:none;"></p>
     <p class="message"><a id="forgot-password-link">パスワードをお忘れですか？</a></p>
-    <p class="message">アカウントが未登録ですか？ <a href="/signup">新規登録はこちら</a></p>
   </main>
 
   <script type="module">
