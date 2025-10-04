@@ -1,5 +1,7 @@
 ---
 import Analytics from '@vercel/analytics/astro';
+import Footer from '../../components/Footer.astro';
+import "../../styles/footer.css";
 import '../../styles/stores.css';
 
 const { id } = Astro.params;
@@ -93,5 +95,6 @@ const { id } = Astro.params;
       section.classList.remove('loading');
     }
   </script>
+  <Footer>
 </body>
 </html>
