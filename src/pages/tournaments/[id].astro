@@ -1,49 +1,42 @@
 ---
-// ページ: トーナメント詳細 (/tournaments/[id])
-// 目的: Firestore から該当IDのトーナメント情報を取得して詳細を表示する。
-// 注意:
-//  - prerender=false なので、各アクセス時にサーバー側でデータを取得（SSRandering）。
-//  - Firebaseのクライアント設定は公開前提（セキュリティはFirestoreルールで担保）。
+// src/pages/tournaments/[id].astro
+export const prerender = false;
+
 import Analytics from '@vercel/analytics/astro';
 import "../../styles/mainstyle.css";
 import AdBanner from "../../components/AdBanner.astro"; 
 import AdSquare from "../../components/AdSquare.astro";
 
-export const prerender = false; // 静的化しない（毎回サーバーでデータを読む）
-
-// Firebase SDK（アプリ初期化 & Firestore 読み取り）
-import { initializeApp } from "firebase/app";
+import { initializeApp, getApps, getApp } from "firebase/app";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 
-// Firebaseの接続情報（クライアント用）
-// ※APIキー自体は秘匿情報ではなく、権限制御は Firestore のセキュリティルールで行う
 const firebaseConfig = {
-  apiKey: "AIzaSyBhItIbOxR6rXdClsDidrcB1iB1714paAs",
-  authDomain: "okipoka-68419.firebaseapp.com",
-  projectId: "okipoka-68419",
-  storageBucket: "okipoka-68419.appspot.com",
-  messagingSenderId: "749122576664",
-  appId: "1:749122576664:web:20b93253162b185d993e6d",
-  measurementId: "G-GN4PCM7BZB"
+  apiKey: "AIzaSyB8q6HLBGi_DWmrvkGCaWK_B6EeP7D--wo",
+  authDomain: "okipoka-v2.firebaseapp.com",
+  projectId: "okipoka-v2",
+  storageBucket: "okipoka-v2.firebasestorage.app",
+  messagingSenderId: "6256473895",
+  appId: "1:6256473895:web:df644eaac108a218d59b02",
+  measurementId: "G-JLC2569WN3"
 };
 
-// Firebaseアプリ & Firestore を初期化
-const app = initializeApp(firebaseConfig);
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// URLパラメータからドキュメントIDを取得
 const { id } = Astro.params;
-
-// 該当トーナメントのドキュメントを取得
 const docRef = doc(db, "tournaments", id as string);
 const snap = await getDoc(docRef);
-const data = snap.exists() ? snap.data() : null; // 存在しない場合は null
+const data = snap.exists() ? snap.data() : null;
 
-// ...existing code...
+let instagramUrl = "";
+if (data && data.storeId) {
+  const storeRef = doc(db, "stores", data.storeId);
+  const storeSnap = await getDoc(storeRef);
+  if (storeSnap.exists()) {
+    instagramUrl = storeSnap.data().instagramUrl || "";
+  }
+}
 
-// プライズ文字列からURL抽出＆整形（画像URL対応）
-// - matchAll を使わずに .match で取得
-// - TypeScript の型を明示
 const prizeText: string = String(data?.prize ?? "");
 const prizeUrls: string[] = prizeText.match(/https?:\/\/\S+/g) ?? [];
 const prizeTextWithoutUrls: string = prizeText.replace(/https?:\/\/\S+/g, "").trim();
@@ -51,22 +44,8 @@ const isPrizeImageUrl = (u: string): boolean =>
   /\.(png|jpe?g|gif|webp|svg)(\?|$)/i.test(u) ||
   (u.includes("firebasestorage.googleapis.com") && u.includes("alt=media"));
 
-// ...existing code...
-
-// 追加情報: 投稿者のinstagramリンク（usersコレクションの同メール/IDから取得）
-let instagramUrl = "";
-if (data?.postedBy) {
-  const userRef = doc(db, "users", data.postedBy);
-  const userSnap = await getDoc(userRef);
-  if (userSnap.exists()) {
-    const userData = userSnap.data();
-    instagramUrl = userData.instagramUrl || ""; // 未設定なら空文字
-  }
-}
-
-// ===== UI helpers (safe getters + meta) =====
 const safe = (v: any, fallback = "") => (v === undefined || v === null ? fallback : String(v));
-const pageTitle = data ? `${safe(data.eventName, "トーナメント詳細")} | トーナメント詳細 | OKIPOKA` : "トーナメント詳細 | OKIPOKA";
+const pageTitle = data ? `${safe(data.eventName, "トーナメント詳細")} | OKIPOKA` : "トーナメント詳細 | OKIPOKA";
 const pageDesc = data
   ? `${safe(data.storeName)} ${safe(data.startDate)} ${safe(data.startTime)} 開催のトーナメント詳細`
   : "OKIPOKAのトーナメント詳細ページ";
@@ -74,425 +53,104 @@ const pageDesc = data
 
 <html lang="ja">
   <head>
-    <!-- 文字コード（日本語向け基本設定） -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={pageDesc} />
     <meta property="og:title" content={pageTitle} />
-    <meta property="og:description" content={pageDesc} />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="OKIPOKA" />
     <title>{pageTitle}</title>
-
-    <!-- ページ固有のスタイル（見出しやブロックの装飾）。将来的にCSSへ移行してもOK -->
     <style>
-      /* ===== Refined card + key-value rows ===== */
-      :root{
-        --ok-orange:#ff7f00;
-        --ok-ink:#222;
-        --ok-muted:#6b7280;
-        --ok-border:#e5e7eb;
-        --ok-bg:#f9fafb;
-      }
+      /* --- スタイルは変更なし --- */
+      :root{--ok-orange:#ff7f00;--ok-ink:#222;--ok-muted:#6b7280;--ok-border:#e5e7eb;--ok-bg:#f9fafb;}
+      .detail-container { max-width: 800px; margin: 2rem auto; }
       .card{ background:#fff; border:1px solid var(--ok-border); padding:1.5rem 1.5rem 1.25rem; box-shadow:0 6px 16px rgba(0,0,0,.06); }
-      .card h2.section-label{ color:var(--ok-ink); border:0; margin: .25rem 0 .25rem; font-size:1.15rem; font-weight:800; letter-spacing:.02em; display:flex; align-items:center; gap:.6rem; }
-      .card h2.section-label::before{ content:""; width:10px; height:10px; background:var(--ok-orange); border-radius:3px; display:inline-block; }
+      .card h2.section-label{ color:var(--ok-ink); border:0; margin: .25rem 0 .25rem; font-size:1.15rem; font-weight:800; display:flex; align-items:center; gap:.6rem; }
+      .card h2.section-label::before{ content:""; width:10px; height:10px; background:var(--ok-orange); border-radius:3px; }
       .kv{ display:flex; flex-direction:column; gap:.15rem; }
       .kv-row{ display:grid; grid-template-columns: 7.5em 1fr; align-items:baseline; padding:.7rem 0; border-bottom:1px dashed var(--ok-border); }
       .kv-row:last-child{ border-bottom:none; }
       .kv-label{ color:var(--ok-muted); font-weight:700; font-size: .98rem; }
       .kv-value{ color:var(--ok-ink); font-weight:700; font-size:1.05rem; }
-      
-      /* 重要な情報も統一した黒文字スタイル */
-      .kv-row.important .kv-value { 
-        color: var(--ok-ink); 
-        font-size: 1.05rem; 
-        font-weight: 700; 
-      }
-      .kv-row.important .kv-label { 
-        color: var(--ok-muted); 
-        font-weight: 700; 
-      }
-      
-      /* プライズ行の特別なスタイリング */
-      .kv-row.prize-row { 
-        align-items: flex-start; 
-        padding: 1rem 0; 
-      }
-      .kv-row.prize-row .kv-label { 
-        padding-top: 0.25rem; 
-      }
-      .currency::before{ content:'¥'; margin-right:.1em; }
+      .kv-row.important .kv-value { font-weight: 700; }
+      .kv-row.prize-row { align-items: flex-start; padding: 1rem 0; }
+      .kv-row.prize-row .kv-label { padding-top: 0.25rem;}
       .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
-      @media (max-width: 860px){ 
-        .kv-row{ grid-template-columns: 6.5em 1fr; } 
-        .kv-row.important .kv-value { font-size: 1.05rem; }
-        .unified-info { margin: 1rem auto 1.5rem; }
-      }
-
-      /* ーーーーー レイアウトの器 ーーーーー */
-      .main-container {
-        padding: 2rem 1.5rem 2.5rem;
-        max-width: 900px;
-        margin: 0 auto;
-        background-color: #fff;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-          Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-      }
-
-      /* ーーーーー ページタイトル ーーーーー */
-      h1.title {
-        font-size: 2.4rem;
-        margin-bottom: 1.5rem;
-        border-bottom: 3px solid #ff7f00; /* オレンジの下線で強調 */
-        padding-bottom: 0.75rem;
-        color: #222;
-        text-align: center;
-        font-weight: 700;
-        letter-spacing: 0.05em;
-      }
-
-      /* ーーーーー セクション見出し（基本情報/参加情報/その他） ーーーーー */
-      .section-label {
-        font-size: 1.4rem;
-        margin-top: 2.5rem;
-        margin-bottom: 1rem;
-        color: #ff7f00;
-        border-left: 6px solid #ff7f00; /* 左側に太いライン */
-        padding-left: 0.75rem;
-        font-weight: 600;
-      }
-
-      /* ーーーーー 情報ブロックのカード ーーーーー */
-      .tournament-item {
-        background-color: #fafafa;
-        border-radius: 10px;
-        padding: 2rem 2rem;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        margin-bottom: 2.5rem;
-        border-top: 1px solid #ddd;
-      }
-
-      /* 各行（ラベル: 値）を横並びにして読みやすく */
-      .tournament-item p {
-        font-size: 1.4rem;
-        margin: 0.6rem 0;
-        line-height: 1.9;
-        color: #444;
-        border-bottom: 1px solid #eee;
-        padding-bottom: 0.5rem;
-        /* 改行を防ぎつつ可変レイアウトにする */
-        display: flex;
-        align-items: baseline;
-        gap: 0.75rem;
-      }
-
-      /* 左側のラベル幅を一定にして列を揃える */
-      .tournament-item p strong {
-        flex: 0 0 7.5em;
-        white-space: nowrap;
-        color: #333;
-        font-weight: 600;
-      }
-
-      /* リンクの見た目（通常/ホバー） */
-      .tournament-item a {
-        color: #ff7f00;
-        text-decoration: underline;
-        font-weight: 600;
-        transition: color 0.3s ease;
-      }
-      .tournament-item a:hover,
-      .tournament-item a:focus {
-        color: #cc6600;
-      }
-
-      /* ボタン風リンク（外部URLを開く等） */
-      .tournament-item a.button-link {
-        display: inline-block;
-        padding: 6px 12px;
-        background-color: #eee;
-        color: #333;
-        text-decoration: none;
-        font-weight: 500;
-        font-size: 1rem;
-        transition: background-color 0.3s, color 0.3s;
-      }
-      .tournament-item a.button-link:hover {
-        background-color: #ddd;
-        color: #000;
-      }
-
-      /* 一覧へ戻るボタン */
-      .back-link {
-        display: block;
-        margin: 3rem auto 0;
-        font-size: 1.2rem;
-        color: #fff;
-        text-align: center;
-        text-decoration: none;
-        background-color: #ff7f00;
-        padding: 0.8rem 1.5rem;
-        transition: all 0.3s ease;
-        width: fit-content;
-      }
-      .back-link:hover,
-      .back-link:focus {
-        background-color: #cc6600;
-        box-shadow: 0 0 8px rgba(255, 127, 0, 0.5);
-      }
-
-      /* イベント名の目立たせ */
-      .event-name-highlight {
-        background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
-        padding: 1.25rem 1.5rem;
-        border: none;
-        border-left: 4px solid var(--ok-orange);
-        color: #333;
-        margin-bottom: 1rem;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-        text-align: center;
-        position: relative;
-      }
-
-      /* スマホでのタイポと余白最適化 */
-      @media (max-width: 600px) {
-        .main-container { padding: 1.5rem 1rem 2rem; }
-        h1.title { font-size: 1.8rem; margin-bottom: 1.25rem; }
-        .event-name-highlight { 
-          padding: 1rem 1.25rem; 
-          margin-bottom: 0.75rem; 
-          border-left-width: 3px;
-        }
-        .event-name-highlight h2 { 
-          font-size: clamp(1.1rem, 4.2vw, 1.6rem);
-          letter-spacing: .03em; 
-          max-width: 90vw;
-        }
-        .event-name-highlight h2::before { 
-          margin-right: 0.4rem; 
-        }
-        .card{ padding: 1.25rem 1rem 1rem; }
-        .card h2.section-label{ font-size: 1.1rem; margin: .2rem 0 .5rem; }
-        .kv-row{ padding: .6rem 0; }
-        .unified-info { margin: 0.75rem auto 1.25rem; }
-      }
-
-      .event-name-highlight h2 {
-        position: relative;
-        display: inline-block;
-        font-size: clamp(1.2rem, 4.5vw, 1.8rem);
-        font-weight: 800;
-        margin: 0;
-        letter-spacing: .05em;
-        color: #1a1a1a;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 85vw;
-        text-shadow: 0 1px 2px rgba(0,0,0,0.1);
-      }
-      .event-name-highlight h2::before {
-        margin-right: 0.5rem;
-        font-size: 0.9em;
-      }
-      .event-name-highlight::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 3px;
-        height: 100%;
-        background: linear-gradient(180deg, var(--ok-orange), #cc6600);
-        opacity: 0.8;
-      }
-
-      /* 備考（折りたたみ）の行 */
-      .note-row {
-        display: flex;
-        align-items: baseline;
-        gap: 0.75rem;
-        border-bottom: 1px solid #eee;
-        padding-bottom: 0.5rem;
-        margin: 0.6rem 0;
-        font-size: 1.45rem;
-        line-height: 1.9;
-        color: #444;
-      }
-      .note-row > strong { flex: 0 0 7.5em; white-space: nowrap; color: #333; font-weight: 600; }
-      .note-details summary {
-        cursor: pointer;
-        list-style: none; /* デフォルトのマーカーを消す */
-        font-weight: 600;
-        text-decoration: underline;
-        color: #ff7f00;
-      }
-      .note-details summary::-webkit-details-marker { display: none; }
-      .note-details { display: block; }
-      .note-details .note-body { margin-top: 0.4rem; color: #333; font-weight: 400; }
-      @media (max-width: 600px) {
-        .note-row { font-size: 1.35rem; line-height: 1.85; }
-        .note-row > strong { flex-basis: 6.5em; }
-      }
-
-      /* ボタンの可読性を少しだけUP（安全な微調整） */
-      .tournament-item a.button-link { padding: 6px 12px; font-size: 1rem; }
-
-      /* ========== Prize (image/link rendering) ========== */
+      .event-name-highlight { background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%); padding: 1.25rem 1.5rem; border-left: 4px solid var(--ok-orange); margin-bottom: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); text-align: center; }
+      .event-name-highlight h2 { font-size: clamp(1.2rem, 4.5vw, 1.8rem); font-weight: 800; margin: 0; color: #1a1a1a; }
       .prize-block { margin-top: .25rem; }
-      .prize-text { margin: 0.25rem 0 0.5rem; color:#333; }
-      .prize-media { display:block; }
-      .prize-media img {
-        max-width: 100%;
-        height: auto;
-        display: block;
-        margin: 8px auto;
-        max-height: 480px; /* 画像の縦サイズを制御 */
-        object-fit: contain; /* 縦横比を維持して縮小 */
-      }
+      .prize-text { margin: 0.25rem 0 0.5rem; color:#333; white-space: pre-wrap; }
+      .prize-media img { max-width: 100%; height: auto; display: block; margin: 8px auto; max-height: 480px; object-fit: contain; }
       .prize-link a { word-break: break-all; }
-
-      /* ===== Meta bar (badges & quick actions) ===== */
-      .meta-bar {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: center;
-        gap: .5rem .75rem;
-        margin: 0 0 0.75rem;
-      }
-      .pill {
-        display: inline-flex;
-        align-items: center;
-        padding: .22rem .5rem;
-        border-radius: 999px;
-        background: #fff1e6;
-        border: 1px solid #ffd6b0;
-        font-size: .85rem;
-        color: #7a3e00;
-        font-weight: 600;
-      }
-      .meta-actions { display:flex; gap:.5rem; margin-left:.5rem; }
-      .meta-actions .btn-sm {
-        display:inline-flex; align-items:center; gap:.35rem;
-        border: 1px solid #ddd;
-        background:#fafafa;
-        padding:.35rem .6rem;
-        font-size:.95rem;
-        text-decoration:none;
-        color:#333;
-      }
-      .meta-actions .btn-sm:hover { background:#eee; }
-
-      /* 統合されたトーナメント情報カード */
+      .meta-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .5rem .75rem; margin: 1rem 0; }
+      .pill { display: inline-flex; align-items: center; padding: .22rem .5rem; border-radius: 999px; background: #fff1e6; border: 1px solid #ffd6b0; font-size: .85rem; color: #7a3e00; font-weight: 600; }
       .unified-info { max-width: 100%; margin: 1.5rem auto 2rem; }
-      .kv-divider { 
-        height: 1px; 
-        background: linear-gradient(90deg, transparent, var(--ok-border), transparent); 
-        margin: 1rem 0; 
-        grid-column: 1 / -1; 
-      }
-
-      /* Improve key values readability */
-      .tournament-item p code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size:.98rem; }
-
-      /* Sticky top back link */
-      .topbar {
-        position: sticky;
-        top: 0;
-        z-index: 10;
-        background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.92));
-        backdrop-filter: saturate(1.1) blur(4px);
-        padding: .6rem 0 .3rem;
-        margin-bottom: .5rem;
-        border-bottom: 1px solid #eee;
-      }
-      .topbar-inner { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; display:flex; align-items:center; justify-content: space-between; gap:.75rem; }
+      .kv-divider { height: 1px; background: linear-gradient(90deg, transparent, var(--ok-border), transparent); margin: 1rem 0; grid-column: 1 / -1; }
+      .topbar { position: sticky; top: 0; z-index: 10; background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.92)); backdrop-filter: saturate(1.1) blur(4px); padding: .6rem 0 .3rem; margin-bottom: .5rem; border-bottom: 1px solid #eee; }
+      .topbar-inner { max-width: 800px; margin: 0 auto; padding: 0 1rem; display:flex; align-items:center; justify-content: space-between; gap:.75rem; }
       .topbar a.back-mini { text-decoration:none; font-size:.95rem; color:#ff7f00; font-weight:700; }
-      .topbar a.back-mini:hover { color:#cc6600; }
-
-      /* Visually separate 'その他' links */
-      .tournament-item .hostname { font-size:.85rem; color:#888; margin-left:.5rem; }
-
-      /* Better images spacing in prize section */
-      .prize-media a { display:block; }
+      .meta-actions { display:flex; gap:.5rem; }
+      .meta-actions .btn-sm { display:inline-flex; align-items:center; gap:.35rem; border: 1px solid #ddd; background:#fafafa; padding:.35rem .6rem; font-size:.95rem; text-decoration:none; color:#333; cursor: pointer; }
     </style>
   </head>
-
-  <AdBanner />
-  
   <body>
-    <main class="main-container">
-      <div class="topbar" role="navigation" aria-label="ページ上部の操作">
+    <AdBanner />
+    <main class="detail-container">
+      <div class="topbar">
         <div class="topbar-inner">
-          <a href="/" class="back-mini">← TOP</a>
+          <a href="/" class="back-mini">← 一覧へ戻る</a>
           <div class="meta-actions">
-            <a id="shareBtn" href="#" class="btn-sm" aria-label="このページを共有">共有</a>
-            <a id="copyLinkBtn" href="#" class="btn-sm" aria-label="リンクをコピー">リンクコピー</a>
+            <button id="shareBtn" class="btn-sm">共有</button>
+            <button id="copyLinkBtn" class="btn-sm">リンクコピー</button>
           </div>
         </div>
       </div>
+      
       {data ? (
         <>
-          <!-- タイトル＆イベント名強調 -->
-          <h1 class="title">トーナメント詳細</h1>
-          <div class="meta-bar" aria-label="トーナメント概要">
-            {data.eventType && <span class="pill" title="種類">{data.eventType}</span>}
-            {data.startDate && <span class="pill" title="日付">{data.startDate}</span>}
-            {data.startTime && <span class="pill" title="開始">{data.startTime} 開始</span>}
-            {data.lateReg && <span class="pill" title="締切">LR {data.lateReg}</span>}
-            {data.buyIn && <span class="pill" title="参加費">¥{data.buyIn}</span>}
+          <div class="meta-bar">
+            {data.eventType && <span class="pill">{data.eventType}</span>}
+            {data.startDate && <span class="pill">{data.startDate}</span>}
+            {data.startTime && <span class="pill">{data.startTime} 開始</span>}
+            {data.lateReg && <span class="pill">LR {data.lateReg}</span>}
+            {data.buyIn && <span class="pill">¥{data.buyIn}</span>}
           </div>
           <div class="event-name-highlight">
             <h2>{data.eventName}</h2>
           </div>
 
-          <!-- 統合されたトーナメント情報セクション -->
           <section class="card unified-info">
             <h2 class="section-label">トーナメント情報</h2>
             <div class="kv">
-              <!-- 基本的な開催情報 -->
-              <div class="kv-row important"><div class="kv-label">場所：</div>
+              <div class="kv-row important"><div class="kv-label">場所</div>
                 <div class="kv-value">
                   {instagramUrl
                     ? <a href={instagramUrl} target="_blank" rel="noopener noreferrer">{data.storeName}</a>
-                    : (data.storeName || data.postedBy || "未登録")}
+                    : (data.storeName || "未登録")}
                 </div>
               </div>
-              <div class="kv-row important"><div class="kv-label">日付：</div><div class="kv-value">{data.startDate}</div></div>
-              <div class="kv-row important"><div class="kv-label">開始：</div><div class="kv-value">{data.startTime}</div></div>
-              <div class="kv-row"><div class="kv-label">締切：</div><div class="kv-value">{data.lateReg || "未設定"}</div></div>
-              <div class="kv-row"><div class="kv-label">種類：</div><div class="kv-value">{data.eventType || "不明"}</div></div>
+              <div class="kv-row important"><div class="kv-label">日付</div><div class="kv-value">{safe(data.startDate)}</div></div>
+              <div class="kv-row important"><div class="kv-label">開始</div><div class="kv-value">{safe(data.startTime)}</div></div>
+              <div class="kv-row"><div class="kv-label">締切</div><div class="kv-value">{safe(data.lateReg, "未設定")}</div></div>
+              <div class="kv-row"><div class="kv-label">種類</div><div class="kv-value">{safe(data.eventType, "トーナメント")}</div></div>
               
-              <!-- 参加関連情報 -->
-              <div class="kv-divider" aria-hidden="true"></div>
-              <div class="kv-row important"><div class="kv-label">参加費：</div><div class="kv-value"><span class="currency"></span>{data.buyIn} 円</div></div>
-              {data.reentryFee && <div class="kv-row"><div class="kv-label">リエントリー：</div><div class="kv-value">{data.reentryFee} 円</div></div>}
-              {data.addon && <div class="kv-row"><div class="kv-label">アドオン：</div><div class="kv-value">{data.addon}</div></div>}
-              {data.stack && <div class="kv-row"><div class="kv-label">スタック：</div><div class="kv-value mono">{data.stack}</div></div>}
+              <div class="kv-divider"></div>
+              <div class="kv-row important"><div class="kv-label">参加費</div><div class="kv-value">{data.buyIn ? `${safe(data.buyIn)}円` : "-"}</div></div>
+              <div class="kv-row"><div class="kv-label">リエントリー</div><div class="kv-value">{data.reentryFee ? `${safe(data.reentryFee)}円` : "なし"}</div></div>
+              <div class="kv-row"><div class="kv-label">アドオン</div><div class="kv-value">{data.addon ? `${safe(data.addon)}円` : "なし"}</div></div>
+              <div class="kv-row"><div class="kv-label">スタック</div><div class="kv-value mono">{data.stack ? `${safe(data.stack)}点` : "-"}</div></div>
               
-              <!-- プライズ情報（ある場合のみ表示） -->
               {(prizeTextWithoutUrls || prizeUrls.length > 0) && (
                 <>
-                  <div class="kv-divider" aria-hidden="true"></div>
+                  <div class="kv-divider"></div>
                   <div class="kv-row prize-row">
-                    <div class="kv-label">プライズ：</div>
+                    <div class="kv-label">プライズ</div>
                     <div class="kv-value">
                       <div class="prize-block">
                         {prizeTextWithoutUrls && <p class="prize-text">{prizeTextWithoutUrls}</p>}
                         {prizeUrls.length > 0 && (
                           <div class="prize-media">
-                            {prizeUrls.map(u =>
-                              isPrizeImageUrl(u)
-                                ? (
-                                  <a href={u} target="_blank" rel="noopener">
-                                    <img src={u} alt="Prize image" loading="lazy" decoding="async" />
-                                  </a>
-                                )
-                                : (
-                                  <p class="prize-link"><a href={u} target="_blank" rel="noopener">{u}</a></p>
-                                )
+                            {prizeUrls.map(u => isPrizeImageUrl(u)
+                                ? <a href={u} target="_blank" rel="noopener"><img src={u} alt="Prize image" loading="lazy"/></a>
+                                : <p class="prize-link"><a href={u} target="_blank" rel="noopener">{u}</a></p>
                             )}
                           </div>
                         )}
@@ -503,70 +161,47 @@ const pageDesc = data
               )}
             </div>
           </section>
-
-
-          <!-- 案内文 -->
-          <p style="text-align: center; font-size: 0.95rem; color: #555; margin-top: 1rem;">
-            その他ご不明な点は、開催店舗へ直接ご確認ください。
-          </p>
-
         </>
       ) : (
         <p>データが見つかりませんでした。</p>
       )}
     </main>
-
-     <AdSquare />
-
+    <AdSquare />
     <Analytics />
 
-    <script type="module">
-      const data = {
-        eventName: "__EVENT_NAME__",
-        storeName: "__STORE_NAME__",
-        startDate: "__START_DATE__",
-        startTime: "__START_TIME__",
-        lateReg: "__LATE_REG__",
-        eventType: "__EVENT_TYPE__",
-        url: typeof window !== 'undefined' ? window.location.href : ''
-      };
+    {/* ★★★ 修正点: define:vars を使ってサーバー側のデータを渡す ★★★ */}
+    <script define:vars={{ eventData: data }}>
+      // サーバー側から渡された eventData を受け取る
+      const data = eventData;
 
-      const byId = (id) => document.getElementById(id);
-
-      // Link copy
-      const copyBtn = byId('copyLinkBtn');
+      const copyBtn = document.getElementById('copyLinkBtn');
       if (copyBtn) {
         copyBtn.addEventListener('click', (e) => {
           e.preventDefault();
-          const href = data.url || window.location.href;
-          navigator.clipboard?.writeText(href).then(() => {
+          navigator.clipboard?.writeText(window.location.href).then(() => {
             copyBtn.textContent = 'コピーしました';
-            setTimeout(() => (copyBtn.textContent = 'リンクコピー'), 2000);
-          }).catch(() => {
-            alert('コピーできませんでした');
-          });
+            setTimeout(() => { copyBtn.textContent = 'リンクコピー' }, 2000);
+          }).catch(() => alert('コピーできませんでした'));
         });
       }
 
-      // Web Share API
-      const shareBtn = byId('shareBtn');
-      if (shareBtn) {
+      const shareBtn = document.getElementById('shareBtn');
+      if (shareBtn && data) {
         const shareData = {
           title: data.eventName || 'OKIPOKA トーナメント',
           text: `${data.storeName} ${data.startDate} ${data.startTime}`.trim(),
-          url: data.url || window.location.href
+          url: window.location.href
         };
         shareBtn.addEventListener('click', (e) => {
           e.preventDefault();
           if (navigator.share) {
-            navigator.share(shareData).catch(() => {/* user cancelled */});
+            navigator.share(shareData).catch(() => {});
           } else {
-            // fallback to link copy
+            // navigator.shareが使えないブラウザではコピー機能を呼び出す
             copyBtn?.click();
           }
         });
       }
-
     </script>
   </body>
 </html>

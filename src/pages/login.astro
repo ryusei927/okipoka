@@ -1,0 +1,100 @@
+---
+// src/pages/login.astro
+---
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>店舗様ログイン | OKIPOKA</title>
+  <link rel="stylesheet" href="/styles/global.css">
+  <style>
+    /* 登録ページと共通のスタイル */
+    .auth-container { max-width: 400px; margin: 4rem auto; padding: 2rem; background: #fff; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    h1 { text-align: center; margin-bottom: 1.5rem; }
+    form { display: flex; flex-direction: column; gap: 1rem; }
+    input { padding: 0.8rem; border-radius: 4px; border: 1px solid var(--color-border); }
+    button { padding: 0.8rem; background-color: var(--color-primary); color: #fff; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
+    .message { text-align: center; margin-top: 1rem; }
+    .message.error { color: red; }
+    .message a { text-decoration: underline; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <main class="auth-container">
+    <h1>店舗様 ログイン</h1>
+    <form id="login-form">
+      <input type="email" id="email" placeholder="メールアドレス" required />
+      <input type="password" id="password" placeholder="パスワード" required />
+      <button type="submit">ログイン</button>
+    </form>
+    <p id="message" class="message error" style="display:none;"></p>
+    <p class="message"><a id="forgot-password-link">パスワードをお忘れですか？</a></p>
+    <p class="message">アカウントが未登録ですか？ <a href="/signup">新規登録はこちら</a></p>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    // sendPasswordResetEmail を追加でインポート
+    import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyB8q6HLBGi_DWmrvkGCaWK_B6EeP7D--wo",
+      authDomain: "okipoka-v2.firebaseapp.com",
+      projectId: "okipoka-v2",
+      storageBucket: "okipoka-v2.firebasestorage.app",
+      messagingSenderId: "6256473895",
+      appId: "1:6256473895:web:df644eaac108a218d59b02",
+      measurementId: "G-JLC2569WN3"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const form = document.getElementById('login-form');
+    const messageEl = document.getElementById('message');
+
+    // ログインフォームの処理
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      messageEl.style.display = 'none';
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        window.location.href = '/dashboard';
+      } catch (error) {
+        console.error("ログイン失敗:", error);
+        messageEl.textContent = 'メールアドレスまたはパスワードが違います。';
+        messageEl.style.display = 'block';
+      }
+    });
+
+    // ★★★ ここから追加 ★★★
+    // パスワードリセットの処理
+    const forgotPasswordLink = document.getElementById('forgot-password-link');
+    forgotPasswordLink.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+
+        if (!email) {
+            messageEl.textContent = 'パスワードをリセットするには、まずメールアドレスを入力してください。';
+            messageEl.style.display = 'block';
+            return;
+        }
+
+        try {
+            await sendPasswordResetEmail(auth, email);
+            alert('パスワードリセット用のメールを送信しました。受信トレイをご確認ください。');
+            messageEl.style.display = 'none';
+        } catch (error) {
+            console.error("リセットメール送信失敗:", error);
+            messageEl.textContent = 'メールの送信に失敗しました。メールアドレスが正しいかご確認ください。';
+            messageEl.style.display = 'block';
+        }
+    });
+    // ★★★ ここまで追加 ★★★
+
+  </script>
+</body>
+</html>

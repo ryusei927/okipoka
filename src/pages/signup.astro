@@ -1,0 +1,77 @@
+---
+// src/pages/signup.astro
+---
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>新規アカウント登録 | OKIPOKA</title>
+  <link rel="stylesheet" href="/styles/global.css">
+  <style>
+    /* ログインページと共通のスタイル */
+    .auth-container { max-width: 400px; margin: 4rem auto; padding: 2rem; background: #fff; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    h1 { text-align: center; margin-bottom: 1.5rem; }
+    form { display: flex; flex-direction: column; gap: 1rem; }
+    input { padding: 0.8rem; border-radius: 4px; border: 1px solid var(--color-border); }
+    button { padding: 0.8rem; background-color: var(--color-primary); color: #fff; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
+    .message { text-align: center; margin-top: 1rem; }
+    .message.error { color: red; }
+    .message a { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <main class="auth-container">
+    <h1>新規アカウント登録</h1>
+    <form id="signup-form">
+      <input type="email" id="email" placeholder="メールアドレス" required />
+      <input type="password" id="password" placeholder="パスワード (6文字以上)" required />
+      <button type="submit">登録する</button>
+    </form>
+    <p id="message" class="message" style="display:none;"></p>
+    <p class="message">アカウントをお持ちですか？ <a href="/login">ログインはこちら</a></p>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyB8q6HLBGi_DWmrvkGCaWK_B6EeP7D--wo",
+      authDomain: "okipoka-v2.firebaseapp.com",
+      projectId: "okipoka-v2",
+      storageBucket: "okipoka-v2.firebasestorage.app",
+      messagingSenderId: "6256473895",
+      appId: "1:6256473895:web:df644eaac108a218d59b02",
+      measurementId: "G-JLC2569WN3"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const form = document.getElementById('signup-form');
+    const messageEl = document.getElementById('message');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      messageEl.style.display = 'none';
+
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        window.location.href = '/dashboard';
+      } catch (error) {
+        console.error("登録失敗:", error);
+        if (error.code === 'auth/email-already-in-use') {
+            messageEl.textContent = 'このメールアドレスは既に使用されています。';
+        } else {
+            messageEl.textContent = '登録に失敗しました。パスワードは6文字以上ですか？';
+        }
+        messageEl.classList.add('error');
+        messageEl.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>

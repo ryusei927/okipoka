@@ -1,0 +1,919 @@
+---
+// src/pages/dashboard.astro
+---
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>ダッシュボード | OKIPOKA</title>
+  <link rel="stylesheet" href="/styles/global.css">
+  <style>
+    :root {
+      --primary-color: #ff7f00;
+      --primary-hover: #e66f00;
+      --surface: #ffffff;
+      --background: #f8fafc;
+      --border: #e2e8f0;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --danger: #ef4444;
+      --danger-hover: #dc2626;
+      --success: #10b981;
+      --radius: 12px;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      background: var(--background);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      font-size: 18px; /* ベースフォントサイズを大きく */
+      height: 100%;
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    main { 
+      max-width: 900px; 
+      margin: 0 auto; 
+      padding: 1rem;
+      min-height: 100vh;
+    }
+
+    #user-info { 
+      background: var(--surface);
+      padding: 1rem 1.5rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    #user-info p {
+      margin: 0;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    #master-badge {
+      background: linear-gradient(135deg, #ff6b6b, #ff8787);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-left: 0.5rem;
+    }
+
+    #logout-btn {
+      background: var(--text-muted);
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: var(--radius);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.9rem;
+    }
+
+    #logout-btn:hover {
+      background: #475569;
+      transform: translateY(-1px);
+    }
+
+    .dashboard-section { 
+      background: var(--surface);
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 1.5rem;
+    }
+
+    h1, h2 { 
+      color: var(--text);
+      margin: 0 0 1.5rem 0;
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      border-bottom: 3px solid var(--primary-color);
+      padding-bottom: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    /* シンプルフォームスタイル */
+    form { 
+      display: block;
+    }
+
+    .simple-form {
+      margin-bottom: 2rem;
+    }
+
+    .form-group { 
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .form-group {
+        display: grid;
+        grid-template-columns: 150px 1fr;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+    }
+
+    label { 
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: var(--text);
+      font-size: 1.1rem;
+    }
+
+    select, input, textarea { 
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      border: 2px solid var(--border);
+      font-size: 1.2rem;
+      background: var(--surface);
+      color: var(--text);
+      transition: all 0.2s;
+      -webkit-appearance: none;
+      appearance: none;
+      min-height: 60px;
+      box-sizing: border-box;
+    }
+
+    select:focus, input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(255, 127, 0, 0.1);
+      transform: translateY(-1px);
+    }
+
+    select {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+      background-position: right 0.75rem center;
+      background-repeat: no-repeat;
+      background-size: 1.5em 1.5em;
+      padding-right: 3rem;
+    }
+
+    button[type="submit"] { 
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+      color: white;
+      border: none;
+      padding: 2rem 2.5rem;
+      border-radius: var(--radius);
+      font-size: 1.4rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: var(--shadow);
+      margin-top: 2rem;
+      width: 100%;
+      min-height: 72px;
+    }
+
+    button[type="submit"]:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    button[type="submit"]:active {
+      transform: translateY(0);
+    }
+
+    /* テーブルの劇的改善 */
+    .tournaments-container {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    table { 
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      background: var(--surface);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    th {
+      background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+      color: var(--text);
+      font-weight: 700;
+      padding: 1rem;
+      text-align: left;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    td { 
+      padding: 1rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover {
+      background: #f8fafc;
+    }
+
+    .delete-btn { 
+      background: var(--danger);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius);
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+
+    .delete-btn:hover {
+      background: var(--danger-hover);
+      transform: translateY(-1px);
+    }
+
+    /* 店舗選択の改善 */
+    #unclaimed-stores-list { 
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    #unclaimed-stores-list li { 
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem;
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 1rem;
+      background: var(--surface);
+      transition: all 0.2s;
+    }
+
+    #unclaimed-stores-list li:hover {
+      border-color: var(--primary-color);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow);
+    }
+
+    .claim-btn { 
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .claim-btn:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    /* スマホ最適化 - 超大型UI */
+    @media (max-width: 768px) {
+      body {
+        font-size: 20px;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      main {
+        padding: 0;
+        height: 100vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        max-width: 100%;
+      }
+
+      .dashboard-section {
+        padding: 2.5rem 2rem;
+        margin-bottom: 0;
+        border-radius: 0;
+        min-height: 100vh;
+        box-shadow: none;
+        border: none;
+      }
+
+      h1 {
+        font-size: 3rem;
+        margin-bottom: 2.5rem;
+        text-align: center;
+        font-weight: 800;
+      }
+
+      h2 {
+        font-size: 2.5rem;
+        margin-bottom: 2.5rem;
+        padding-bottom: 1.5rem;
+        font-weight: 800;
+        border-bottom: 4px solid var(--primary-color);
+      }
+
+      .form-section h3 {
+        font-size: 1.4rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .form-section h3::before {
+        width: 6px;
+        height: 20px;
+      }
+
+      #user-info {
+        padding: 1.5rem;
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+        gap: 1.5rem;
+      }
+
+      #user-info p {
+        font-size: 1.2rem;
+      }
+
+      #logout-btn {
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+        border-radius: 16px;
+      }
+
+      #master-badge {
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+        margin-left: 0;
+        margin-top: 0.5rem;
+        display: block;
+      }
+
+      .simple-form {
+        margin-bottom: 2rem;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 1.5rem;
+        gap: 0.5rem;
+      }
+
+      /* 超大型フォーム要素 */
+      label {
+        font-size: 1.6rem;
+        margin-bottom: 1rem;
+        font-weight: 800;
+        color: var(--text);
+      }
+
+      select, input, textarea {
+        padding: 2.5rem 2rem;
+        font-size: 1.6rem;
+        border-radius: 20px;
+        border-width: 4px;
+        min-height: 80px;
+        font-weight: 500;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      }
+
+      select:focus, input:focus, textarea:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 4px rgba(255, 127, 0, 0.15);
+        transform: translateY(-2px);
+      }
+
+      select {
+        padding-right: 5rem;
+        background-size: 2.5rem 2.5rem;
+        background-position: right 2rem center;
+      }
+
+      textarea {
+        min-height: 160px;
+        line-height: 1.8;
+        resize: vertical;
+      }
+
+      button[type="submit"] {
+        padding: 2.5rem 3rem;
+        font-size: 1.8rem;
+        font-weight: 900;
+        border-radius: 20px;
+        margin-top: 3rem;
+        min-height: 88px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        box-shadow: 0 8px 20px rgba(255, 127, 0, 0.3);
+      }
+
+      button[type="submit"]:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 25px rgba(255, 127, 0, 0.4);
+      }
+
+      .form-section {
+        padding: 2rem;
+        margin-bottom: 2rem;
+        border-radius: 16px;
+      }
+
+      .form-row {
+        gap: 2rem;
+      }
+
+      .form-group {
+        margin-bottom: 0.5rem;
+      }
+
+      /* テーブルの改善 */
+      table {
+        font-size: 1.1rem;
+        border-radius: 16px;
+      }
+
+      th {
+        padding: 1.5rem 1rem;
+        font-size: 1rem;
+      }
+
+      td {
+        padding: 1.5rem 1rem;
+        font-size: 1.1rem;
+      }
+
+      .delete-btn {
+        padding: 0.8rem 1.2rem;
+        font-size: 1rem;
+        border-radius: 12px;
+        min-height: 44px;
+        min-width: 80px;
+      }
+
+      /* 店舗選択リストの改善 */
+      #unclaimed-stores-list li {
+        flex-direction: column;
+        gap: 1.5rem;
+        text-align: center;
+        padding: 2rem;
+        font-size: 1.2rem;
+        border-radius: 16px;
+        border-width: 3px;
+      }
+
+      .claim-btn {
+        padding: 1.2rem 2rem;
+        font-size: 1.2rem;
+        border-radius: 16px;
+        min-height: 56px;
+        font-weight: 700;
+      }
+
+      /* 空状態・ローディング状態の改善 */
+      .loading, .empty-state {
+        padding: 4rem 2rem;
+        font-size: 1.2rem;
+        line-height: 1.6;
+      }
+
+      .tournaments-container {
+        border-radius: 16px;
+        overflow: hidden;
+      }
+    }
+
+    /* ローディング・空状態の改善 */
+    .loading {
+      text-align: center;
+      padding: 3rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      color: var(--text-muted);
+      background: #f8fafc;
+      border-radius: var(--radius);
+      border: 2px dashed var(--border);
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div id="user-info">
+      <p><span id="user-email"></span>でログイン中 <span id="master-badge" style="display:none; color:red; font-weight:bold;">[マスター]</span></p>
+      <button id="logout-btn">ログアウト</button>
+    </div>
+
+    <div id="dashboard-container"><p style="text-align:center;">読み込み中...</p></div>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getFirestore, collection, query, where, getDocs, doc, updateDoc, addDoc, serverTimestamp, deleteDoc, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB8q6HLBGi_DWmrvkGCaWK_B6EeP7D--wo",
+      authDomain: "okipoka-v2.firebaseapp.com",
+      projectId: "okipoka-v2",
+      storageBucket: "okipoka-v2.firebasestorage.app",
+      messagingSenderId: "6256473895",
+      appId: "1:6256473895:web:df644eaac108a218d59b02",
+      measurementId: "G-JLC2569WN3"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const container = document.getElementById('dashboard-container');
+    
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        document.getElementById('user-email').textContent = user.email;
+        const roleDocSnap = await getDocs(query(collection(db, "roles"), where("__name__", "==", user.uid)));
+        const isMaster = !roleDocSnap.empty && roleDocSnap.docs[0].data().isMaster === true;
+
+        if (isMaster) {
+            document.getElementById('master-badge').style.display = 'inline';
+            renderMasterView();
+        } else {
+            renderStoreView(user);
+        }
+      } else {
+        window.location.href = '/login';
+      }
+    });
+
+    document.getElementById('logout-btn').addEventListener('click', () => signOut(auth));
+
+    // ★★★ マスター専用 ★★★
+    async function renderMasterView() {
+      const storesSnapshot = await getDocs(collection(db, "stores"));
+      const storeOptions = storesSnapshot.docs.map(d => `<option value="${d.id}">${d.data().name}</option>`).join('');
+
+      container.innerHTML = `
+        <section class="dashboard-section">
+          <h2>基本情報</h2>
+          <form id="master-tournament-form">
+            <div class="simple-form">
+              <div class="form-group">
+                <label for="store-select">店舗：</label>
+                <select id="store-select" required>${storeOptions}</select>
+              </div>
+              
+              <div class="form-group">
+                <label for="event-name">イベント名：</label>
+                <input type="text" id="event-name" required />
+              </div>
+              
+              <div class="form-group">
+                <label for="start-date">開催日：</label>
+                <input type="date" id="start-date" required />
+              </div>
+              
+              <div class="form-group">
+                <label for="start-time">開始時間：</label>
+                <input type="time" id="start-time" required />
+              </div>
+              
+              <div class="form-group">
+                <label for="late-reg">レイトレジスト：</label>
+                <input type="time" id="late-reg" />
+              </div>
+              
+              <div class="form-group">
+                <label for="event-type">イベント種類：</label>
+                <select id="event-type">
+                  <option value="">選択してください</option>
+                  <option value="トーナメント">トーナメント</option>
+                  <option value="サテライト">サテライト</option>
+                  <option value="その他">その他</option>
+                </select>
+              </div>
+            </div>
+
+            <h2>参加情報</h2>
+            <div class="simple-form">
+              <div class="form-group">
+                <label for="buy-in">参加費：</label>
+                <input type="text" id="buy-in" required />
+              </div>
+              
+              <div class="form-group">
+                <label for="reentry-fee">リエントリー：</label>
+                <input type="text" id="reentry-fee" />
+              </div>
+              
+              <div class="form-group">
+                <label for="addon">アドオン：</label>
+                <input type="text" id="addon" />
+              </div>
+              
+              <div class="form-group">
+                <label for="stack">スタック：</label>
+                <input type="text" id="stack" required />
+              </div>
+              
+              <div class="form-group">
+                <label for="prize">プライズ：</label>
+                <textarea id="prize" rows="3"></textarea>
+              </div>
+            </div>
+
+            <button type="submit">代理で登録する</button>
+          </form>
+        </section>
+        <section class="dashboard-section">
+          <h2>登録済みトーナメント一覧</h2>
+          <div class="tournaments-container">
+            <table id="all-tournaments-table">
+              <thead>
+                <tr>
+                  <th>店舗</th>
+                  <th>日付</th>
+                  <th>イベント名</th>
+                  <th>参加費</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+      `;
+      loadAllTournaments();
+
+      document.getElementById('master-tournament-form').addEventListener('submit', async e => {
+        e.preventDefault();
+        const selectedStoreId = document.getElementById('store-select').value;
+        const selectedStoreDoc = storesSnapshot.docs.find(d => d.id === selectedStoreId);
+        
+        const payload = {
+          eventName: document.getElementById('event-name').value,
+          startDate: document.getElementById('start-date').value,
+          startTime: document.getElementById('start-time').value,
+          lateReg: document.getElementById('late-reg').value,
+          eventType: document.getElementById('event-type').value,
+          buyIn: document.getElementById('buy-in').value,
+          reentryFee: document.getElementById('reentry-fee').value,
+          addon: document.getElementById('addon').value,
+          stack: document.getElementById('stack').value,
+          prize: document.getElementById('prize').value,
+          storeId: selectedStoreId,
+          storeName: selectedStoreDoc.data().name,
+          ownerUid: selectedStoreDoc.data().ownerUid || null,
+          createdAt: serverTimestamp()
+        };
+        await addDoc(collection(db, "tournaments"), payload);
+        alert('代理登録しました！');
+        e.target.reset();
+        loadAllTournaments();
+      });
+    }
+
+    async function loadAllTournaments() {
+        const tableBody = document.querySelector('#all-tournaments-table tbody');
+        tableBody.innerHTML = '<tr><td colspan="5" class="loading">📡 読み込み中...</td></tr>';
+        const q = query(collection(db, "tournaments"), orderBy("createdAt", "desc"));
+        const snapshot = await getDocs(q);
+        if(snapshot.empty){
+          tableBody.innerHTML = '<tr><td colspan="5" class="empty-state">📋 登録されたトーナメントはまだありません</td></tr>';
+          return;
+        }
+        tableBody.innerHTML = snapshot.docs.map(d => {
+            const data = d.data();
+            const buyInText = data.buyIn ? `${data.buyIn}円` : '無料';
+            return `<tr><td><strong>${data.storeName}</strong></td><td>${data.startDate}</td><td>${data.eventName}</td><td><strong>${buyInText}</strong></td><td><button class="delete-btn" data-id="${d.id}">🗑️ 削除</button></td></tr>`;
+        }).join('');
+        
+        tableBody.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                if(confirm('⚠️ このトーナメントを削除しますか？\n削除すると復元できません。')){
+                    await deleteDoc(doc(db, "tournaments", btn.dataset.id));
+                    loadAllTournaments();
+                }
+            });
+        });
+    }
+
+    // ★★★ 一般店舗専用 ★★★
+    async function renderStoreView(user) {
+        const qOwned = query(collection(db, "stores"), where("ownerUid", "==", user.uid));
+        const ownedSnapshot = await getDocs(qOwned);
+        if (!ownedSnapshot.empty) {
+          const storeDoc = ownedSnapshot.docs[0];
+          renderManagementView(storeDoc);
+        } else {
+          const qUnclaimed = query(collection(db, "stores"), where("ownerUid", "==", null));
+          const unclaimedSnapshot = await getDocs(qUnclaimed);
+          renderClaimView(unclaimedSnapshot.docs, user.uid);
+        }
+    }
+
+    function renderManagementView(storeDoc) {
+      const storeData = storeDoc.data();
+      const userId = storeDoc.data().ownerUid;
+      container.innerHTML = `
+        <section class="dashboard-section">
+          <h1>${storeData.name} ダッシュボード</h1>
+          <form id="store-tournament-form">
+            <h2>基本情報</h2>
+            <div class="simple-form">
+              <div class="form-group">
+                <label for="event-name">イベント名：</label>
+                <input type="text" id="event-name" required />
+              </div>
+              
+              <div class="form-group">
+                <label for="start-date">開催日：</label>
+                <input type="date" id="start-date" required />
+              </div>
+              
+              <div class="form-group">
+                <label for="start-time">開始時間：</label>
+                <input type="time" id="start-time" required />
+              </div>
+              
+              <div class="form-group">
+                <label for="late-reg">レイトレジスト：</label>
+                <input type="time" id="late-reg" />
+              </div>
+              
+              <div class="form-group">
+                <label for="event-type">イベント種類：</label>
+                <select id="event-type">
+                  <option value="">選択してください</option>
+                  <option value="トーナメント">トーナメント</option>
+                  <option value="サテライト">サテライト</option>
+                  <option value="その他">その他</option>
+                </select>
+              </div>
+            </div>
+
+            <h2>参加情報</h2>
+            <div class="simple-form">
+              <div class="form-group">
+                <label for="buy-in">参加費：</label>
+                <input type="text" id="buy-in" required />
+              </div>
+              
+              <div class="form-group">
+                <label for="reentry-fee">リエントリー：</label>
+                <input type="text" id="reentry-fee" />
+              </div>
+              
+              <div class="form-group">
+                <label for="addon">アドオン：</label>
+                <input type="text" id="addon" />
+              </div>
+              
+              <div class="form-group">
+                <label for="stack">スタック：</label>
+                <input type="text" id="stack" required />
+              </div>
+              
+              <div class="form-group">
+                <label for="prize">プライズ：</label>
+                <textarea id="prize" rows="3"></textarea>
+              </div>
+            </div>
+
+            <button type="submit">登録する</button>
+          </form>
+        </section>
+        <section class="dashboard-section">
+          <h2>登録済みトーナメント</h2>
+          <div class="tournaments-container">
+            <table id="store-tournaments-table">
+              <thead>
+                <tr>
+                  <th>日付</th>
+                  <th>イベント名</th>
+                  <th>参加費</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+      `;
+      loadStoreTournaments(userId);
+
+      document.getElementById('store-tournament-form').addEventListener('submit', async e => {
+        e.preventDefault();
+        const payload = {
+          eventName: document.getElementById('event-name').value,
+          startDate: document.getElementById('start-date').value,
+          startTime: document.getElementById('start-time').value,
+          lateReg: document.getElementById('late-reg').value,
+          eventType: document.getElementById('event-type').value,
+          buyIn: document.getElementById('buy-in').value,
+          reentryFee: document.getElementById('reentry-fee').value,
+          addon: document.getElementById('addon').value,
+          stack: document.getElementById('stack').value,
+          prize: document.getElementById('prize').value,
+          storeId: storeDoc.id,
+          storeName: storeData.name,
+          ownerUid: userId,
+          createdAt: serverTimestamp()
+        };
+        await addDoc(collection(db, "tournaments"), payload);
+        alert('登録しました！');
+        e.target.reset();
+        loadStoreTournaments(userId);
+      });
+    }
+
+    async function loadStoreTournaments(userId) {
+        const tableBody = document.querySelector('#store-tournaments-table tbody');
+        tableBody.innerHTML = '<tr><td colspan="4" class="loading">📡 読み込み中...</td></tr>';
+        const q = query(collection(db, "tournaments"), where("ownerUid", "==", userId), orderBy("createdAt", "desc"));
+        const snapshot = await getDocs(q);
+        if (snapshot.empty){
+            tableBody.innerHTML = '<tr><td colspan="4" class="empty-state">📋 まだトーナメントを登録していません<br><small>上のフォームから新しいトーナメントを登録してみましょう！</small></td></tr>';
+            return;
+        }
+        tableBody.innerHTML = snapshot.docs.map(d => {
+            const data = d.data();
+            const buyInText = data.buyIn ? `${data.buyIn}円` : '無料';
+            return `<tr><td><strong>${data.startDate}</strong></td><td>${data.eventName}</td><td><strong>${buyInText}</strong></td><td><button class="delete-btn" data-id="${d.id}">🗑️ 削除</button></td></tr>`;
+        }).join('');
+
+        tableBody.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                if(confirm('⚠️ このトーナメントを削除しますか？\n削除すると復元できません。')){
+                    await deleteDoc(doc(db, "tournaments", btn.dataset.id));
+                    loadStoreTournaments(userId);
+                }
+            });
+        });
+    }
+
+    function renderClaimView(unclaimedDocs, userId) {
+      if (unclaimedDocs.length === 0) {
+          container.innerHTML = `<section class="dashboard-section"><h2>店舗の選択</h2><p>現在、担当者が未設定の店舗はありません。運営者に連絡してください。</p></section>`;
+          return;
+      }
+      const storeListHtml = unclaimedDocs.map(doc => `<li><span>${doc.data().name}</span><button class="claim-btn" data-store-id="${doc.id}">この店舗を担当する</button></li>`).join('');
+      container.innerHTML = `
+        <section class="dashboard-section">
+          <h2>店舗の選択</h2><p>あなたが担当する店舗を選択してください。</p>
+          <ul id="unclaimed-stores-list">${storeListHtml}</ul>
+        </section>
+      `;
+      container.querySelectorAll('.claim-btn').forEach(button => {
+        button.addEventListener('click', async (e) => {
+          if (confirm('この店舗の担当者として登録します。よろしいですか？')) {
+            await updateDoc(doc(db, "stores", e.target.dataset.storeId), { ownerUid: userId });
+            alert('店舗の担当者として登録されました！');
+            window.location.reload();
+          }
+        });
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-import "../styles/footer.css"; // フッターのCSSを読み込み
+import "../styles/footer.css";
 import Analytics from "@vercel/analytics/astro";
 import StoreList from "../components/StoreList.astro";
 import AdBanner from "../components/AdBanner.astro"; 
@@ -16,20 +16,15 @@ import Footer from "../components/Footer.astro";
     <title>OKIPOKA | 沖縄ポーカー情報ポータル</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     <style>
-      .hero {
-        position: relative;
-        background-image: url("/images/image1.png"); /* */
-        background-size: cover;
-        background-position: center;
-        border-bottom: 1px solid var(--color-border);
-        height: 180px; /* */
-      }
-      @media (min-width: 768px) { .hero { height: 460px; } } /* */
-      @media (min-width: 1024px) { .hero { height: 590px; } } /* */
-
-      .section-title { text-align: center; margin-bottom: 1rem; font-size: 1.35rem; font-weight: 800; color: #333; } /* */
-      .date-picker-wrapper { text-align: center; margin: 0 auto 1.5rem auto; padding: 1rem; background-color: var(--color-surface); border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); max-width: 400px; } /* */
-      #datePicker { padding: 0.5rem; border-radius: 4px; border: 1px solid var(--color-border); background-color: #fff; color: var(--color-text); font-size: 1rem; } /* */
+      /* このページ固有の、トーナメントカード以外のスタイルのみ残します */
+      .hero { position: relative; background-image: url("/images/image1.png"); background-size: cover; background-position: center; border-bottom: 1px solid var(--color-border); height: 180px; }
+      @media (min-width: 768px) { .hero { height: 460px; } }
+      @media (min-width: 1024px) { .hero { height: 590px; } }
+      .section-title { text-align: center; margin-bottom: 1.5rem; font-size: 1.5rem; font-weight: 800; color: #333; }
+      .date-picker-wrapper { text-align: center; margin: 2rem auto 1.5rem auto; padding: 1rem; background-color: var(--color-surface); border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); max-width: 400px; }
+      #datePicker { padding: 0.5rem; border-radius: 4px; border: 1px solid var(--color-border); background-color: #fff; color: var(--color-text); font-size: 1rem; }
+      .container { max-width: 900px; }
+      #tournament-list { display: grid; gap: 0.8rem; }
     </style>
   </head>
   <body>
@@ -43,7 +38,9 @@ import Footer from "../components/Footer.astro";
             <label for="datePicker" style="font-weight: bold; margin-right: 0.5em;">表示日を選択：</label>
             <input type="date" id="datePicker" />
           </div>
-          <div id="tournament-list"></div>
+          <div id="tournament-list">
+            <p style="text-align:center;">トーナメント情報を読み込んでいます...</p>
+          </div>
         </section>
         <AdSquare />
         <section id="stores-list" style="margin-top: 4rem;">
@@ -53,9 +50,9 @@ import Footer from "../components/Footer.astro";
       </div>
       <AdBanner />
     </main>
-
     <Footer />
     <Analytics />
-    <script src="/js/tournaments.js" type="module"></script>
+
+    <script type="module" src="/js/tournaments.js"></script>
   </body>
 </html>
