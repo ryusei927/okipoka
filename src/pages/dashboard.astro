@@ -165,396 +165,124 @@ tbody tr:hover{ background:#fafbff; }
   </main>
 
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    import { getFirestore, collection, query, where, getDocs, doc, updateDoc, addDoc, serverTimestamp, deleteDoc, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+   // ↓↓↓ この下のコードを <script type="module"> の中身に丸ごと貼り付けてください ↓↓↓
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyB8q6HLBGi_DWmrvkGCaWK_B6EeP7D--wo",
-      authDomain: "okipoka-v2.firebaseapp.com",
-      projectId: "okipoka-v2",
-      storageBucket: "okipoka-v2.firebasestorage.app",
-      messagingSenderId: "6256473895",
-      appId: "1:6256473895:web:df644eaac108a218d59b02",
-      measurementId: "G-JLC2569WN3"
-    };
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, collection, query, where, getDocs, doc, addDoc, serverTimestamp, deleteDoc, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    const container = document.getElementById('dashboard-container');
+const firebaseConfig = {
+  apiKey: "AIzaSyB8q6HLBGi_DWmrvkGCaWK_B6EeP7D--wo",
+  authDomain: "okipoka-v2.firebaseapp.com",
+  projectId: "okipoka-v2",
+  storageBucket: "okipoka-v2.firebasestorage.app",
+  messagingSenderId: "6256473895",
+  appId: "1:6256473895:web:df644eaac108a218d59b02",
+  measurementId: "G-JLC2569WN3"
+};
 
-    // Helper: get today's date as YYYY-MM-DD in local time
-    function getTodayStr(){
-      const d = new Date();
-      const y = d.getFullYear();
-      const m = String(d.getMonth()+1).padStart(2,'0');
-      const day = String(d.getDate()).padStart(2,'0');
-      return `${y}-${m}-${day}`;
-    }
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const container = document.getElementById('dashboard-container');
+
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    document.getElementById('user-email').textContent = user.email;
     
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        document.getElementById('user-email').textContent = user.email;
-        const roleDocSnap = await getDocs(query(collection(db, "roles"), where("__name__", "==", user.uid)));
-        const isMaster = !roleDocSnap.empty && roleDocSnap.docs[0].data().isMaster === true;
+    const roleDocSnap = await getDocs(query(collection(db, "roles"), where("__name__", "==", user.uid)));
+    const isMaster = !roleDocSnap.empty && roleDocSnap.docs[0].data().isMaster === true;
 
-        if (isMaster) {
-            document.getElementById('master-badge').style.display = 'inline';
-            renderMasterView();
-        } else {
-            renderStoreView(user);
-        }
-      } else {
+    if (isMaster) {
+        document.getElementById('master-badge').style.display = 'inline';
+        renderMasterView();
+    } else {
+        alert('アクセス権限がありません。');
         window.location.href = '/login';
+    }
+  } else {
+    window.location.href = '/login';
+  }
+});
+
+document.getElementById('logout-btn').addEventListener('click', () => signOut(auth));
+
+function getTodayStr(){
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth()+1).padStart(2,'0');
+  const day = String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
+}
+
+async function renderMasterView() {
+  const storesSnapshot = await getDocs(collection(db, "stores"));
+  const storeOptions = storesSnapshot.docs.map(d => `<option value="${d.id}">${d.data().name}</option>`).join('');
+
+  container.innerHTML = `
+    <section class="dashboard-section">
+      <h2>トーナメント新規登録</h2>
+      <form id="master-tournament-form">
+        <div class="form-group"><label for="store-select">店舗</label><select id="store-select" required>${storeOptions}</select></div>
+        <div class="form-group"><label for="event-name">イベント名</label><input type="text" id="event-name" required /></div>
+        <div class="form-group"><label for="start-date">開催日</label><input type="date" id="start-date" required /></div>
+        <div class="form-group"><label for="start-time">開始時間</label><input type="time" id="start-time" required /></div>
+        <div class="form-group"><label for="late-reg">締切</label><input type="time" id="late-reg" /></div>
+        <div class="form-group"><label for="event-type">種類</label><select id="event-type"><option value="トーナメント">トーナメント</option><option value="サテライト">サテライト</option><option value="その他">その他</option></select></div>
+        <div class="form-group"><label for="buy-in">参加費</label><input type="text" id="buy-in" required /></div>
+        <div class="form-group"><label for="reentry-fee">リエントリー</label><input type="text" id="reentry-fee" /></div>
+        <div class="form-group"><label for="addon">アドオン</label><input type="text" id="addon" /></div>
+        <div class="form-group"><label for="stack">スタック</label><input type="text" id="stack" required /></div>
+        <div class="form-group"><label for="prize">プライズ</label><textarea id="prize" rows="3"></textarea></div>
+        <button type="submit">登録する</button>
+      </form>
+    </section>
+    
+    <section class="dashboard-section">
+        <h2>全トーナメント一覧</h2>
+        <div class="tournaments-container"><div id="all-tournaments-list"></div></div>
+    </section>
+  `;
+
+  document.getElementById('start-date').value = getTodayStr();
+  loadAllTournaments();
+
+  document.getElementById('master-tournament-form').addEventListener('submit', async e => {
+    e.preventDefault();
+    const selectedStoreId = document.getElementById('store-select').value;
+    const selectedStoreDoc = storesSnapshot.docs.find(d => d.id === selectedStoreId);
+    const payload = {
+      eventName: document.getElementById('event-name').value, startDate: document.getElementById('start-date').value, startTime: document.getElementById('start-time').value, lateReg: document.getElementById('late-reg').value, eventType: document.getElementById('event-type').value, buyIn: document.getElementById('buy-in').value, reentryFee: document.getElementById('reentry-fee').value, addon: document.getElementById('addon').value, stack: document.getElementById('stack').value, prize: document.getElementById('prize').value,
+      storeId: selectedStoreId, storeName: selectedStoreDoc.data().name, 
+      createdAt: serverTimestamp()
+    };
+    await addDoc(collection(db, "tournaments"), payload);
+    alert('登録しました！');
+    e.target.reset();
+    document.getElementById('start-date').value = getTodayStr();
+    loadAllTournaments();
+  });
+}
+
+async function loadAllTournaments() {
+  const list = document.getElementById('all-tournaments-list');
+  list.innerHTML = '<div class="loading">読み込み中...</div>';
+  const qAll = query(collection(db, "tournaments"), orderBy("createdAt", "desc"));
+  const snapshot = await getDocs(qAll);
+  if (snapshot.empty){ list.innerHTML = '<div class="empty-state">登録されたトーナメントはまだありません</div>'; return; }
+  list.innerHTML = snapshot.docs.map(d => {
+    const t = d.data();
+    return `<div class="tournament-card"><div class="tournament-header"><h3>${t.eventName}</h3><span class="fee">${t.buyIn}円</span></div><div class="tournament-meta"><div><strong>店舗</strong> ${t.storeName}</div><div><strong>日付</strong> ${t.startDate}</div></div><button class="delete-btn" data-id="${d.id}">削除</button></div>`;
+  }).join('');
+  list.querySelectorAll('.delete-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      if(confirm('このトーナメントを削除しますか？')){
+        await deleteDoc(doc(db, "tournaments", btn.dataset.id));
+        loadAllTournaments();
       }
     });
-
-    document.getElementById('logout-btn').addEventListener('click', () => signOut(auth));
-
-    // ★★★ マスター専用 ★★★
-    async function renderMasterView() {
-      const storesSnapshot = await getDocs(collection(db, "stores"));
-      const storeOptions = storesSnapshot.docs.map(d => `<option value="${d.id}">${d.data().name}</option>`).join('');
-
-      container.innerHTML = `
-        <section class="dashboard-section">
-          <h2>基本情報</h2>
-          <form id="master-tournament-form">
-            <div class="simple-form">
-              <div class="form-group">
-                <label for="store-select">店舗：</label>
-                <select id="store-select" required>${storeOptions}</select>
-              </div>
-              
-              <div class="form-group">
-                <label for="event-name">イベント名：</label>
-                <input type="text" id="event-name" required />
-              </div>
-              
-              <div class="form-group">
-                <label for="start-date">開催日：</label>
-                <input type="date" id="start-date" required />
-              </div>
-              
-              <div class="form-group">
-                <label for="start-time">開始時間：</label>
-                <input type="time" id="start-time" required />
-              </div>
-              
-              <div class="form-group">
-                <label for="late-reg">レイトレジスト：</label>
-                <input type="time" id="late-reg" />
-              </div>
-              
-              <div class="form-group">
-                <label for="event-type">イベント種類：</label>
-                <select id="event-type">
-                  <option value="">選択してください</option>
-                  <option value="トーナメント">トーナメント</option>
-                  <option value="サテライト">サテライト</option>
-                  <option value="その他">その他</option>
-                </select>
-              </div>
-            </div>
-
-            <h2>参加情報</h2>
-            <div class="simple-form">
-              <div class="form-group">
-                <label for="buy-in">参加費：</label>
-                <input type="text" id="buy-in" required />
-              </div>
-              
-              <div class="form-group">
-                <label for="reentry-fee">リエントリー：</label>
-                <input type="text" id="reentry-fee" />
-              </div>
-              
-              <div class="form-group">
-                <label for="addon">アドオン：</label>
-                <input type="text" id="addon" />
-              </div>
-              
-              <div class="form-group">
-                <label for="stack">スタック：</label>
-                <input type="text" id="stack" required />
-              </div>
-              
-              <div class="form-group">
-                <label for="prize">プライズ：</label>
-                <textarea id="prize" rows="3"></textarea>
-              </div>
-            </div>
-
-            <button type="submit">登録する</button>
-          </form>
-        </section>
-        <section class="dashboard-section">
-          <h2>登録済みトーナメント一覧</h2>
-          <div class="tournaments-container">
-            <div id="all-tournaments-list"></div>
-          </div>
-        </section>
-      `;
-      // Set default date to today for master form
-      const startDateElMaster = document.getElementById('start-date');
-      if (startDateElMaster && !startDateElMaster.value) {
-        startDateElMaster.value = getTodayStr();
-      }
-      loadAllTournaments();
-
-      document.getElementById('master-tournament-form').addEventListener('submit', async e => {
-        e.preventDefault();
-        const selectedStoreId = document.getElementById('store-select').value;
-        const selectedStoreDoc = storesSnapshot.docs.find(d => d.id === selectedStoreId);
-        
-        const payload = {
-          eventName: document.getElementById('event-name').value,
-          startDate: document.getElementById('start-date').value,
-          startTime: document.getElementById('start-time').value,
-          lateReg: document.getElementById('late-reg').value,
-          eventType: document.getElementById('event-type').value,
-          buyIn: document.getElementById('buy-in').value,
-          reentryFee: document.getElementById('reentry-fee').value,
-          addon: document.getElementById('addon').value,
-          stack: document.getElementById('stack').value,
-          prize: document.getElementById('prize').value,
-          storeId: selectedStoreId,
-          storeName: selectedStoreDoc.data().name,
-          ownerUid: selectedStoreDoc.data().ownerUid || null,
-          createdAt: serverTimestamp()
-        };
-        await addDoc(collection(db, "tournaments"), payload);
-        alert('登録しました！');
-        e.target.reset();
-        loadAllTournaments();
-      });
-    }
-
-    async function loadAllTournaments() {
-      const list = document.getElementById('all-tournaments-list');
-      list.innerHTML = '<div class="loading">📡 読み込み中...</div>';
-      const qAll = query(collection(db, "tournaments"), orderBy("createdAt", "desc"));
-      const snapshot = await getDocs(qAll);
-      if (snapshot.empty){
-        list.innerHTML = '<div class="empty-state">📋 登録されたトーナメントはまだありません</div>';
-        return;
-      }
-      list.innerHTML = snapshot.docs.map(d => {
-        const t = d.data();
-        const fee = t.buyIn ? `${t.buyIn}円` : '無料';
-        const title = t.eventName || 'イベント';
-        return `
-          <div class="tournament-card">
-            <div class="tournament-header">
-              <h3>${title}</h3>
-              <span class="fee">${fee}</span>
-            </div>
-            <div class="tournament-meta">
-              <div><strong>店舗</strong>${t.storeName ?? ''}</div>
-              <div><strong>日付</strong>${t.startDate ?? ''}</div>
-            </div>
-            <button class="delete-btn" data-id="${d.id}">🗑️ 削除</button>
-          </div>`;
-      }).join('');
-
-      list.querySelectorAll('.delete-btn').forEach(btn => {
-        btn.addEventListener('click', async () => {
-          if(confirm('⚠️ このトーナメントを削除しますか？\n削除すると復元できません。')){
-            await deleteDoc(doc(db, "tournaments", btn.dataset.id));
-            loadAllTournaments();
-          }
-        });
-      });
-    }
-
-    // ★★★ 一般店舗専用 ★★★
-    async function renderStoreView(user) {
-        const qOwned = query(collection(db, "stores"), where("ownerUid", "==", user.uid));
-        const ownedSnapshot = await getDocs(qOwned);
-        if (!ownedSnapshot.empty) {
-          const storeDoc = ownedSnapshot.docs[0];
-          renderManagementView(storeDoc);
-        } else {
-          const qUnclaimed = query(collection(db, "stores"), where("ownerUid", "==", null));
-          const unclaimedSnapshot = await getDocs(qUnclaimed);
-          renderClaimView(unclaimedSnapshot.docs, user.uid);
-        }
-    }
-
-    function renderManagementView(storeDoc) {
-      const storeData = storeDoc.data();
-      const userId = storeDoc.data().ownerUid;
-      container.innerHTML = `
-        <section class="dashboard-section">
-          <h1>${storeData.name} ダッシュボード</h1>
-          <form id="store-tournament-form">
-            <h2>基本情報</h2>
-            <div class="simple-form">
-              <div class="form-group">
-                <label for="event-name">イベント名：</label>
-                <input type="text" id="event-name" required />
-              </div>
-              
-              <div class="form-group">
-                <label for="start-date">開催日：</label>
-                <input type="date" id="start-date" required />
-              </div>
-              
-              <div class="form-group">
-                <label for="start-time">開始時間：</label>
-                <input type="time" id="start-time" required />
-              </div>
-              
-              <div class="form-group">
-                <label for="late-reg">レイトレジスト：</label>
-                <input type="time" id="late-reg" />
-              </div>
-              
-              <div class="form-group">
-                <label for="event-type">イベント種類：</label>
-                <select id="event-type">
-                  <option value="">選択してください</option>
-                  <option value="トーナメント">トーナメント</option>
-                  <option value="サテライト">サテライト</option>
-                  <option value="その他">その他</option>
-                </select>
-              </div>
-            </div>
-
-            <h2>参加情報</h2>
-            <div class="simple-form">
-              <div class="form-group">
-                <label for="buy-in">参加費：</label>
-                <input type="text" id="buy-in" required />
-              </div>
-              
-              <div class="form-group">
-                <label for="reentry-fee">リエントリー：</label>
-                <input type="text" id="reentry-fee" />
-              </div>
-              
-              <div class="form-group">
-                <label for="addon">アドオン：</label>
-                <input type="text" id="addon" />
-              </div>
-              
-              <div class="form-group">
-                <label for="stack">スタック：</label>
-                <input type="text" id="stack" required />
-              </div>
-              
-              <div class="form-group">
-                <label for="prize">プライズ：</label>
-                <textarea id="prize" rows="3"></textarea>
-              </div>
-            </div>
-
-            <button type="submit">登録する</button>
-          </form>
-        </section>
-        <section class="dashboard-section">
-          <h2>登録済みトーナメント</h2>
-          <div class="tournaments-container">
-            <div id="store-tournaments-list"></div>
-          </div>
-        </section>
-      `;
-      // Set default date to today for store form
-      const startDateElStore = document.getElementById('start-date');
-      if (startDateElStore && !startDateElStore.value) {
-        startDateElStore.value = getTodayStr();
-      }
-      loadStoreTournaments(userId);
-
-      document.getElementById('store-tournament-form').addEventListener('submit', async e => {
-        e.preventDefault();
-        const payload = {
-          eventName: document.getElementById('event-name').value,
-          startDate: document.getElementById('start-date').value,
-          startTime: document.getElementById('start-time').value,
-          lateReg: document.getElementById('late-reg').value,
-          eventType: document.getElementById('event-type').value,
-          buyIn: document.getElementById('buy-in').value,
-          reentryFee: document.getElementById('reentry-fee').value,
-          addon: document.getElementById('addon').value,
-          stack: document.getElementById('stack').value,
-          prize: document.getElementById('prize').value,
-          storeId: storeDoc.id,
-          storeName: storeData.name,
-          ownerUid: userId,
-          createdAt: serverTimestamp()
-        };
-        await addDoc(collection(db, "tournaments"), payload);
-        alert('登録しました！');
-        e.target.reset();
-        loadStoreTournaments(userId);
-      });
-    }
-
-    async function loadStoreTournaments(userId) {
-      const list = document.getElementById('store-tournaments-list');
-      list.innerHTML = '<div class="loading">📡 読み込み中...</div>';
-      const qOwned = query(
-        collection(db, "tournaments"),
-        where("ownerUid", "==", userId),
-        orderBy("createdAt", "desc")
-      );
-      const snapshot = await getDocs(qOwned);
-      if (snapshot.empty){
-        list.innerHTML = '<div class="empty-state">📋 まだトーナメントを登録していません</div>';
-        return;
-      }
-      list.innerHTML = snapshot.docs.map(d => {
-        const t = d.data();
-        const fee = t.buyIn ? `${t.buyIn}円` : '無料';
-        const title = t.eventName || 'イベント';
-        return `
-          <div class="tournament-card">
-            <div class="tournament-header">
-              <h3>${title}</h3>
-              <span class="fee">${fee}</span>
-            </div>
-            <div class="tournament-meta">
-              <div><strong>日付</strong>${t.startDate ?? ''}</div>
-              <div><strong>開始</strong>${t.startTime ?? ''}</div>
-            </div>
-            <button class="delete-btn" data-id="${d.id}">🗑️ 削除</button>
-          </div>`;
-      }).join('');
-
-      list.querySelectorAll('.delete-btn').forEach(btn => {
-        btn.addEventListener('click', async () => {
-          if(confirm('⚠️ このトーナメントを削除しますか？\n削除すると復元できません。')){
-            await deleteDoc(doc(db, "tournaments", btn.dataset.id));
-            loadStoreTournaments(userId);
-          }
-        });
-      });
-    }
-
-    function renderClaimView(unclaimedDocs, userId) {
-      if (unclaimedDocs.length === 0) {
-          container.innerHTML = `<section class="dashboard-section"><h2>店舗の選択</h2><p>現在、担当者が未設定の店舗はありません。運営者に連絡してください。</p></section>`;
-          return;
-      }
-      const storeListHtml = unclaimedDocs.map(doc => `<li><span>${doc.data().name}</span><button class="claim-btn" data-store-id="${doc.id}">この店舗を担当する</button></li>`).join('');
-      container.innerHTML = `
-        <section class="dashboard-section">
-          <h2>店舗の選択</h2><p>あなたが担当する店舗を選択してください。</p>
-          <ul id="unclaimed-stores-list">${storeListHtml}</ul>
-        </section>
-      `;
-      container.querySelectorAll('.claim-btn').forEach(button => {
-        button.addEventListener('click', async (e) => {
-          if (confirm('この店舗の担当者として登録します。よろしいですか？')) {
-            await updateDoc(doc(db, "stores", e.target.dataset.storeId), { ownerUid: userId });
-            alert('店舗の担当者として登録されました！');
-            window.location.reload();
-          }
-        });
-      });
-    }
+  });
+}
   </script>
 </body>
 </html>
