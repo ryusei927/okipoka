@@ -252,12 +252,25 @@ async function renderMasterView() {
     
     <section class="dashboard-section">
         <h2>全トーナメント一覧</h2>
+        <div class="form-group" style="margin-bottom: 20px;">
+          <label for="filter-date">開催日で絞り込み</label>
+          <input type="date" id="filter-date" />
+          <button type="button" id="clear-filter-btn" style="margin-top: 8px; background: #6c757d; color: #fff; padding: 8px 16px; border: 0; border-radius: 8px; font-size: 14px; cursor: pointer;">全て表示</button>
+        </div>
         <div class="tournaments-container"><div id="all-tournaments-list"></div></div>
     </section>
   `;
 
   document.getElementById('start-date').value = getTodayStr();
+  document.getElementById('filter-date').value = getTodayStr(); // デフォルトは今日
   loadAllTournaments();
+
+  // ★★★ 日付フィルターの処理を追加 ★★★
+  document.getElementById('filter-date').addEventListener('change', loadAllTournaments);
+  document.getElementById('clear-filter-btn').addEventListener('click', () => {
+    document.getElementById('filter-date').value = '';
+    loadAllTournaments();
+  });
 
   // ★★★ フォームの送信処理を、新規登録と更新の両方に対応させる ★★★
   const form = document.getElementById('master-tournament-form');
@@ -318,10 +331,26 @@ function resetForm() {
 async function loadAllTournaments() {
   const list = document.getElementById('all-tournaments-list');
   list.innerHTML = '<div class="loading">読み込み中...</div>';
+  
+  // ★★★ 日付フィルターを取得 ★★★
+  const filterDate = document.getElementById('filter-date')?.value || '';
+  
   const qAll = query(collection(db, "tournaments"), orderBy("createdAt", "desc"));
   const snapshot = await getDocs(qAll);
-  if (snapshot.empty){ list.innerHTML = '<div class="empty-state">登録されたトーナメントはまだありません</div>'; return; }
-  list.innerHTML = snapshot.docs.map(d => {
+  
+  // ★★★ 日付でフィルタリング ★★★
+  let filteredDocs = snapshot.docs;
+  if (filterDate) {
+    filteredDocs = snapshot.docs.filter(d => d.data().startDate === filterDate);
+  }
+  
+  if (filteredDocs.length === 0){ 
+    const message = filterDate ? `${filterDate}のトーナメントはありません` : '登録されたトーナメントはまだありません';
+    list.innerHTML = `<div class="empty-state">${message}</div>`; 
+    return; 
+  }
+  
+  list.innerHTML = filteredDocs.map(d => {
     const t = d.data();
     return `
       <div class="tournament-card">
