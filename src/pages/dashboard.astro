@@ -4,7 +4,10 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="mobile-web-app-capable" content="yes">
   <title>ダッシュボード | OKIPOKA</title>
 
   <style is:global>
@@ -25,15 +28,32 @@
 *{ box-sizing:border-box; }
 
 /* ===== モバイル最適化（デフォルトをスマホ基準に） ===== */
-html,body{ height:100%; }
+html,body{ 
+  height:100%; 
+  width:100%;
+  overflow-x:hidden; /* 横スクロール防止 */
+  position:fixed; /* 画面固定 */
+  -webkit-overflow-scrolling:touch;
+}
 body{
   margin:0; background:var(--bg); color:var(--ink);
   font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans JP',Helvetica,Arial,sans-serif;
   line-height:1.6;
   font-size:16px;
+  -webkit-user-select:none; /* テキスト選択禁止 */
+  -webkit-tap-highlight-color:transparent; /* タップハイライト除去 */
+  -webkit-touch-callout:none; /* 長押しメニュー禁止 */
 }
 
-main{ max-width:640px; margin:0 auto; padding:24px 16px 64px; }
+main{ 
+  max-width:640px; 
+  margin:0 auto; 
+  padding:24px 16px 64px; 
+  height:100vh; 
+  overflow-y:auto; 
+  position:relative;
+  -webkit-overflow-scrolling:touch;
+}
 
 /* 上部のログイン表示カード */
 #user-info{
@@ -82,6 +102,7 @@ select,input,textarea{
   border-radius:16px; padding:18px 18px; font-size:18px; line-height:1.35;
   min-height:58px; /* bigger tap target */
   transition:border-color .15s, box-shadow .15s, transform .1s;
+  -webkit-user-select:auto; /* 入力フィールドではテキスト選択を有効 */
 }
 input[type="time"], input[type="date"]{ min-height:58px; }
 textarea{ min-height:140px; }
@@ -110,6 +131,8 @@ button[type="submit"]:active{ transform:translateY(0); }
   display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
   padding:14px 16px; border-radius:12px; border:0; font-weight:900; cursor:pointer;
   box-shadow:var(--shadow-sm); font-size:16px;
+  -webkit-user-select:none; /* ボタンのテキスト選択禁止 */
+  user-select:none;
 }
 #home-btn{ background:#10b981; color:#fff; }
 #home-btn:hover{ filter:brightness(1.05); }
