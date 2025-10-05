@@ -1,10 +1,36 @@
 ---
+// src/pages/stores/[id].astro
+
+// ★★★ 修正点: サーバーサイドでFirebaseからデータを取得 ★★★
+import { initializeApp, getApp, getApps } from "firebase/app";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
+
 import Analytics from '@vercel/analytics/astro';
 import Footer from '../../components/Footer.astro';
 import "../../styles/footer.css";
 import '../../styles/stores.css';
 
 const { id } = Astro.params;
+
+// Firebaseプロジェクト設定をv2に更新
+const firebaseConfig = {
+  apiKey: "AIzaSyB8q6HLBGi_DWmrvkGCaWK_B6EeP7D--wo",
+  authDomain: "okipoka-v2.firebaseapp.com",
+  projectId: "okipoka-v2",
+  storageBucket: "okipoka-v2.firebasestorage.app",
+  messagingSenderId: "6256473895",
+  appId: "1:6256473895:web:df644eaac108a218d59b02",
+  measurementId: "G-JLC2569WN3"
+};
+
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const docRef = doc(db, "stores", id as string);
+const docSnap = await getDoc(docRef);
+const store = docSnap.exists() ? docSnap.data() : null;
+
+const pageTitle = store ? `OKIPOKA | ${store.name}` : "OKIPOKA | 店舗情報";
 ---
 
 <!doctype html>
@@ -12,11 +38,9 @@ const { id } = Astro.params;
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OKIPOKA | 店舗情報</title>
+  <title>{pageTitle}</title>
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
   <style>
-    /* このページ専用のスタイル */
-    .store-detail.loading { display: none; }
     .store-name { font-size: 2.2rem; margin-top: 1.5rem; }
     .store-catchphrase { font-size: 1.1rem; color: #666; margin-top: -1rem; }
     .store-intro { margin: 2rem 0; padding: 1.5rem; background: #f9f9f9; border-radius: 8px; }
@@ -24,77 +48,45 @@ const { id } = Astro.params;
 </head>
 
 <body>
-
-
-  <section id="store-detail-section" class="store-detail loading">
-    {/* データが読み込まれたら、JSによってこの中身が生成されます */}
-  </section>
-
-  <Analytics />
-
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyBhItIbOxR6rXdClsDidrcB1iB1714paAs",
-      authDomain: "okipoka-68419.firebaseapp.com",
-      projectId: "okipoka-68419",
-      storageBucket: "okipoka-68419.appspot.com",
-      messagingSenderId: "749122576664",
-      appId: "1:749122576664:web:20b93253162b185d993e6d"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    const storeId = "{id}"; // Astroから渡されたID
-    const docRef = doc(db, "stores", storeId);
-    const docSnap = await getDoc(docRef);
-
-    const section = document.getElementById('store-detail-section');
-
-    if (docSnap.exists()) {
-      const store = docSnap.data();
-      document.title = `OKIPOKA | ${store.name}`; // ページのタイトルを更新
-
-      section.innerHTML = `
+  <main>
+    {store ? (
+      <section class="store-detail">
         <div class="store-header">
-          ${store.logoUrl ? `<img src="${store.logoUrl}" alt="${store.name} Logo" class="store-image" />` : ''}
-          <h2 class="store-name">${store.name || ''}</h2>
-          ${store.catchphrase ? `<p class="store-catchphrase">${store.catchphrase}</p>` : ''}
+          {store.logoUrl && <img src={store.logoUrl} alt={`${store.name} Logo`} class="store-image" />}
+          <h2 class="store-name">{store.name || ''}</h2>
+          {store.catchphrase && <p class="store-catchphrase">{store.catchphrase}</p>}
         </div>
 
-        ${store.description ? `
-          <div class="store-intro">
-            <p>${store.description.replace(/\\n/g, '<br>')}</p>
-          </div>` : ''}
+        {store.description && (
+          <div class="store-intro" set:html={store.description.replace(/\\n/g, '<br>')} />
+        )}
 
         <div class="store-section">
           <h2>店舗情報</h2>
           <dl>
-            ${store.name ? `<dt>店舗名</dt><dd>${store.name}</dd>` : ''}
-            ${store.address ? `<dt>所在地</dt><dd>${store.address}</dd>` : ''}
-            ${store.hours ? `<dt>営業時間</dt><dd>${store.hours}</dd>` : ''}
+            {store.name && <><dt>店舗名</dt><dd>{store.name}</dd></>}
+            {store.address && <><dt>所在地</dt><dd>{store.address}</dd></>}
+            {store.hours && <><dt>営業時間</dt><dd>{store.hours}</dd></>}
           </dl>
         </div>
 
         <div class="store-section">
           <h2>関連リンク</h2>
           <ul>
-            ${store.instagramUrl ? `<li><a href="${store.instagramUrl}" target="_blank" rel="noopener noreferrer"><img src="/images/insta.png" class="icon" alt="Instagram" /> 公式Instagram</a></li>` : ''}
-            ${store.x_twitterUrl ? `<li><a href="${store.x_twitterUrl}" target="_blank" rel="noopener noreferrer">公式 X (Twitter)</a></li>` : ''}
-            ${store.googleMapUrl ? `<li><a href="${store.googleMapUrl}" target="_blank" rel="noopener noreferrer">Googleマップで見る</a></li>` : ''}
-            ${store.websiteUrl ? `<li><a href="${store.websiteUrl}" target="_blank" rel="noopener noreferrer">公式サイト</a></li>` : ''}
+            {store.instagramUrl && <li><a href={store.instagramUrl} target="_blank" rel="noopener noreferrer"><img src="/images/insta.png" class="icon" alt="Instagram" /> 公式Instagram</a></li>}
+            {store.x_twitterUrl && <li><a href={store.x_twitterUrl} target="_blank" rel="noopener noreferrer">公式 X (Twitter)</a></li>}
+            {store.googleMapUrl && <li><a href={store.googleMapUrl} target="_blank" rel="noopener noreferrer">Googleマップで見る</a></li>}
+            {store.websiteUrl && <li><a href={store.websiteUrl} target="_blank" rel="noopener noreferrer">公式サイト</a></li>}
           </ul>
         </div>
-      `;
-      section.classList.remove('loading');
-    } else {
-      section.innerHTML = '<h2>店舗情報が見つかりませんでした。</h2>';
-      section.classList.remove('loading');
-    }
-  </script>
-  <Footer>
+      </section>
+    ) : (
+      <section class="store-detail">
+        <h2>店舗情報が見つかりませんでした。</h2>
+      </section>
+    )}
+  </main>
+  <Footer />
+  <Analytics />
 </body>
 </html>

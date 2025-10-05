@@ -1,4 +1,5 @@
 ---
+// src/pages/stores/index.astro
 import '../../styles/global.css';
 ---
 
@@ -38,16 +39,17 @@ import '../../styles/global.css';
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
         import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
+        
+        // ★★★ 修正点: Firebaseプロジェクト設定をv2に更新 ★★★
         const firebaseConfig = {
-            apiKey: "AIzaSyBhItIbOxR6rXdClsDidrcB1iB1714paAs",
-            authDomain: "okipoka-68419.firebaseapp.com",
-            projectId: "okipoka-68419",
-            storageBucket: "okipoka-68419.appspot.com",
-            messagingSenderId: "749122576664",
-            appId: "1:749122576664:web:20b93253162b185d993e6d"
+          apiKey: "AIzaSyB8q6HLBGi_DWmrvkGCaWK_B6EeP7D--wo",
+          authDomain: "okipoka-v2.firebaseapp.com",
+          projectId: "okipoka-v2",
+          storageBucket: "okipoka-v2.firebasestorage.app",
+          messagingSenderId: "6256473895",
+          appId: "1:6256473895:web:df644eaac108a218d59b02",
+          measurementId: "G-JLC2569WN3"
         };
-
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
@@ -55,7 +57,6 @@ import '../../styles/global.css';
             const snapshot = await getDocs(collection(db, "stores"));
             const stores = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
                 .sort((a, b) => a.name.localeCompare(b.name, 'ja'));
-
             const areas = ["すべて", ...new Set(stores.map(store => store.area))];
             
             const filterContainer = document.getElementById('filter-buttons');
@@ -64,7 +65,7 @@ import '../../styles/global.css';
             filterContainer.innerHTML = areas.map(area => 
                 `<button class="filter-btn ${area === 'すべて' ? 'active' : ''}" data-area="${area}">${area}</button>`
             ).join('');
-            
+
             gridContainer.innerHTML = stores.map(store => `
                 <a href="/stores/${store.id}" class="store-card" data-store-area="${store.area}">
                     <img src="${store.logoUrl || '/images/sample.png'}" alt="${store.name} Logo" 
@@ -83,6 +84,7 @@ import '../../styles/global.css';
                     button.classList.add('active');
 
                     const selectedArea = button.getAttribute('data-area');
+          
                     storeCards.forEach(card => {
                         const cardArea = card.getAttribute('data-store-area');
                         if (selectedArea === 'すべて' || selectedArea === cardArea) {
