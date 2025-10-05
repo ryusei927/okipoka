@@ -105,12 +105,14 @@ button[type="submit"]{
 button[type="submit"]:hover{ transform:translateY(-1px); }
 button[type="submit"]:active{ transform:translateY(0); }
 
-/* 汎用ボタン（ログアウト/編集/削除） */
-#logout-btn, .edit-btn, .delete-btn{
+/* 汎用ボタン（ホーム/ログアウト/編集/削除） */
+#home-btn, #logout-btn, .edit-btn, .delete-btn{
   display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
   padding:14px 16px; border-radius:12px; border:0; font-weight:900; cursor:pointer;
   box-shadow:var(--shadow-sm); font-size:16px;
 }
+#home-btn{ background:#10b981; color:#fff; }
+#home-btn:hover{ filter:brightness(1.05); }
 #logout-btn{ background:#6b7280; color:#fff; }
 #logout-btn:hover{ filter:brightness(1.05); }
 .edit-btn{ background:#1e90ff; color:#fff; min-width:92px; }
@@ -167,7 +169,10 @@ tbody tr:hover{ background:#fafbff; }
   <main>
     <div id="user-info">
       <p><span id="user-email"></span>でログイン中 <span id="master-badge" class="badge-master" style="display:none">管理者</span></p>
-      <button id="logout-btn">ログアウト</button>
+      <div style="display: flex; gap: 8px;">
+        <button id="home-btn" style="background: #10b981; color: #fff;">TOP</button>
+        <button id="logout-btn">ログアウト</button>
+      </div>
     </div>
 
     <div id="dashboard-container"><p style="text-align:center;">読み込み中...</p></div>
@@ -214,6 +219,7 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 
+document.getElementById('home-btn').addEventListener('click', () => window.location.href = '/');
 document.getElementById('logout-btn').addEventListener('click', () => signOut(auth));
 
 function getTodayStr(){
