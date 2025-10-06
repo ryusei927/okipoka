@@ -12,11 +12,13 @@
   /* Brand & surfaces */
   --pri:#ff7f00; --pri2:#e66f00;
   --bg:#f5f7fb;                /* 外側の濃い背景 */
-  --surface:#ffffff;           /* カード */
+  --surface:#ffffff;
+  /* カード */
   --border:#e5e7eb;            /* 枠線 */
   --ink:#111827;               /* 本文 */
   --muted:#64748b;             /* 補助テキスト */
-  --danger:#ef4444; --danger2:#dc2626;
+  --danger:#ef4444;
+  --danger2:#dc2626;
   --radius:16px;               /* 角丸は大きめ */
   --shadow:0 6px 16px rgba(17,24,39,.08);
   --shadow-sm:0 4px 10px rgba(17,24,39,.06);
@@ -45,7 +47,8 @@ main{ max-width:640px; margin:0 auto; padding:24px 16px 64px; }
 }
 #user-info p{
   margin:0; font-weight:700; font-size:16px;
-  display:flex; align-items:center; gap:8px; flex-wrap:wrap;  /* バッジとテキストの整列 */
+  display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+  /* バッジとテキストの整列 */
 }
 #master-badge{
   background:#ff6b6b;
@@ -54,7 +57,8 @@ main{ max-width:640px; margin:0 auto; padding:24px 16px 64px; }
   border-radius:999px;
   font-size:13px;
   font-weight:800;
-  line-height:1;                  /* クリップ防止 */
+  line-height:1;
+  /* クリップ防止 */
   display:inline-flex;            /* 高さが途切れないように */
   align-items:center;
   white-space:nowrap;             /* 改行で欠けない */
@@ -62,7 +66,8 @@ main{ max-width:640px; margin:0 auto; padding:24px 16px 64px; }
 
 /* セクションカード */
 .dashboard-section{
-  background:var(--surface); border:1.5px solid var(--border);
+  background:var(--surface);
+  border:1.5px solid var(--border);
   border-radius:var(--radius); box-shadow:var(--shadow);
   margin:16px auto; padding:18px 16px;
   max-width:640px;
@@ -77,17 +82,20 @@ label{ display:block; color:var(--muted); font-weight:700; font-size:16px; margi
 
 /* ===== 入力UI（大きく・押しやすく） ===== */
 select,input,textarea{
-  width:100%; appearance:none; -webkit-appearance:none; outline:0;
+  width:100%;
+  appearance:none; -webkit-appearance:none; outline:0;
   border:2px solid var(--border); background:#fff; color:var(--ink);
   border-radius:16px; padding:18px 18px; font-size:18px; line-height:1.35;
-  min-height:58px; /* bigger tap target */
+  min-height:58px;
+  /* bigger tap target */
   transition:border-color .15s, box-shadow .15s, transform .1s;
 }
 input[type="time"], input[type="date"]{ min-height:58px; }
 textarea{ min-height:140px; }
 select{
   background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath d='M6 8l4 4 4-4' stroke='%2364748b' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3e%3c/svg%3e");
-  background-repeat:no-repeat; background-position:right 14px center; background-size:20px 20px; padding-right:52px;
+  background-repeat:no-repeat;
+  background-position:right 14px center; background-size:20px 20px; padding-right:52px;
 }
 select:focus,input:focus,textarea:focus{
   border-color:var(--pri);
@@ -105,14 +113,12 @@ button[type="submit"]{
 button[type="submit"]:hover{ transform:translateY(-1px); }
 button[type="submit"]:active{ transform:translateY(0); }
 
-/* 汎用ボタン（ホーム/ログアウト/編集/削除） */
-#home-btn, #logout-btn, .edit-btn, .delete-btn{
+/* 汎用ボタン（ログアウト/編集/削除） */
+#logout-btn, .edit-btn, .delete-btn{
   display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
   padding:14px 16px; border-radius:12px; border:0; font-weight:900; cursor:pointer;
   box-shadow:var(--shadow-sm); font-size:16px;
 }
-#home-btn{ background:#10b981; color:#fff; }
-#home-btn:hover{ filter:brightness(1.05); }
 #logout-btn{ background:#6b7280; color:#fff; }
 #logout-btn:hover{ filter:brightness(1.05); }
 .edit-btn{ background:#1e90ff; color:#fff; min-width:92px; }
@@ -145,7 +151,8 @@ tbody tr:hover{ background:#fafbff; }
 .tournament-meta div strong{ color:#111827; font-weight:800; margin-right:4px; }
 .tournament-card .edit-btn, .tournament-card .delete-btn{ 
   margin-top:12px; border:0; border-radius:10px; padding:10px 14px; 
-  font-weight:800; font-size:15px; color:#fff; cursor:pointer;
+  font-weight:800; font-size:15px; color:#fff;
+  cursor:pointer;
   display:inline-flex; align-items:center; justify-content:center;
 }
 .tournament-card .edit-btn{ background:#1e90ff; }
@@ -169,23 +176,15 @@ tbody tr:hover{ background:#fafbff; }
   <main>
     <div id="user-info">
       <p><span id="user-email"></span>でログイン中 <span id="master-badge" class="badge-master" style="display:none">管理者</span></p>
-      <div style="display: flex; gap: 8px;">
-        <button id="home-btn" style="background: #10b981; color: #fff;">TOP</button>
-        <button id="logout-btn">ログアウト</button>
-      </div>
+      <button id="logout-btn">ログアウト</button>
     </div>
-
     <div id="dashboard-container"><p style="text-align:center;">読み込み中...</p></div>
   </main>
-
   <script type="module">
- // src/pages/dashboard.astro の <script> の中身
-
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-// ★ getDoc と updateDoc を追加
-import { getFirestore, collection, query, where, getDocs, doc, addDoc, serverTimestamp, deleteDoc, orderBy, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getFirestore, collection, query, where, getDocs, doc, addDoc, serverTimestamp, deleteDoc, orderBy, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    
 const firebaseConfig = {
   apiKey: "AIzaSyB8q6HLBGi_DWmrvkGCaWK_B6EeP7D--wo",
   authDomain: "okipoka-v2.firebaseapp.com",
@@ -196,224 +195,195 @@ const firebaseConfig = {
   measurementId: "G-JLC2569WN3"
 };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-const container = document.getElementById('dashboard-container');
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const container = document.getElementById('dashboard-container');
 
-onAuthStateChanged(auth, async (user) => {
-  if (user) {
-    document.getElementById('user-email').textContent = user.email;
-    const roleDocSnap = await getDocs(query(collection(db, "roles"), where("__name__", "==", user.uid)));
-    const isMaster = !roleDocSnap.empty && roleDocSnap.docs[0].data().isMaster === true;
-
-    if (isMaster) {
-        document.getElementById('master-badge').style.display = 'inline';
-        renderMasterView();
-    } else {
-        alert('アクセス権限がありません。');
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        document.getElementById('user-email').textContent = user.email;
+        const roleDocSnap = await getDocs(query(collection(db, "roles"), where("__name__", "==", user.uid)));
+        const isMaster = !roleDocSnap.empty && roleDocSnap.docs[0].data().isMaster === true;
+        if (isMaster) {
+            document.getElementById('master-badge').style.display = 'inline';
+            renderMasterView();
+        } else {
+            alert('アクセス権限がありません。');
+            window.location.href = '/login';
+        }
+      } else {
         window.location.href = '/login';
+      }
+    });
+
+    document.getElementById('logout-btn').addEventListener('click', () => signOut(auth));
+
+    function getTodayStr(){
+      const d = new Date();
+      const y = d.getFullYear();
+      const m = String(d.getMonth()+1).padStart(2,'0');
+      const day = String(d.getDate()).padStart(2,'0');
+      return `${y}-${m}-${day}`;
     }
-  } else {
-    window.location.href = '/login';
-  }
-});
 
-document.getElementById('home-btn').addEventListener('click', () => window.location.href = '/');
-document.getElementById('logout-btn').addEventListener('click', () => signOut(auth));
+    async function renderMasterView() {
+      const storesSnapshot = await getDocs(collection(db, "stores"));
+      const storeOptions = storesSnapshot.docs.map(d => `<option value="${d.id}">${d.data().name}</option>`).join('');
+      
+      container.innerHTML = `
+        <section class="dashboard-section">
+          <h2 id="form-title">トーナメント新規登録</h2>
+          <form id="master-tournament-form">
+            <input type="hidden" id="editing-id" value="">
+            <div class="form-group"><label for="store-select">店舗</label><select id="store-select" required>${storeOptions}</select></div>
+            <div class="form-group"><label for="event-name">イベント名</label><input type="text" id="event-name" required /></div>
+            <div class="form-group"><label for="start-date">開催日</label><input type="date" id="start-date" required /></div>
+            <div class="form-group"><label for="start-time">開始時間</label><input type="time" id="start-time" required /></div>
+            <div class="form-group"><label for="late-reg">締切</label><input type="time" id="late-reg" /></div>
+            <div class="form-group"><label for="event-type">種類</label><select id="event-type"><option value="トーナメント">トーナメント</option><option value="サテライト">サテライト</option><option value="その他">その他</option></select></div>
+            <div class="form-group"><label for="buy-in">参加費</label><input type="text" id="buy-in" required /></div>
+            <div class="form-group"><label for="reentry-fee">リエントリー</label><input type="text" id="reentry-fee" /></div>
+            <div class="form-group"><label for="addon">アドオン</label><input type="text" id="addon" /></div>
+            <div class="form-group"><label for="stack">スタック</label><input type="text" id="stack" /></div>
+            <div class="form-group"><label for="prize">プライズ</label><textarea id="prize" rows="3"></textarea></div>
+            <div class="form-group"><label for="notes">備考・特殊ルール</label><textarea id="notes" rows="4"></textarea></div>
+            <button type="submit" id="submit-btn">登録する</button>
+            <button type="button" id="cancel-edit-btn" style="display:none; background: #6c757d; margin-top: 8px;">キャンセル</button>
+          </form>
+        </section>
+        <section class="dashboard-section">
+            <h2>全トーナメント一覧</h2>
+            <div class="form-group" style="margin-bottom: 20px;">
+              <label for="filter-date">開催日で絞り込み</label>
+              <input type="date" id="filter-date" />
+              <button type="button" id="clear-filter-btn" style="margin-top: 8px; background: #6c757d; color: #fff; padding: 8px 16px; border: 0; border-radius: 8px; font-size: 14px; cursor: pointer;">全て表示</button>
+            </div>
+            <div class="tournaments-container"><div id="all-tournaments-list"></div></div>
+        </section>
+      `;
 
-function getTodayStr(){
-  const d = new Date();
-  const y = d.getFullYear();
-  const m = String(d.getMonth()+1).padStart(2,'0');
-  const day = String(d.getDate()).padStart(2,'0');
-  return `${y}-${m}-${day}`;
-}
+      document.getElementById('start-date').value = getTodayStr();
+      document.getElementById('filter-date').value = getTodayStr();
+      loadAllTournaments();
 
-async function renderMasterView() {
-  const storesSnapshot = await getDocs(collection(db, "stores"));
-  const storeOptions = storesSnapshot.docs.map(d => `<option value="${d.id}">${d.data().name}</option>`).join('');
-
-  container.innerHTML = `
-    <section class="dashboard-section">
-      <h2 id="form-title">トーナメント新規登録</h2>
-      <form id="master-tournament-form">
-        <input type="hidden" id="editing-id" value="">
-
-        <div class="form-group"><label for="store-select">店舗</label><select id="store-select" required>${storeOptions}</select></div>
-        <div class="form-group"><label for="event-name">イベント名</label><input type="text" id="event-name" required /></div>
-        <div class="form-group"><label for="start-date">開催日</label><input type="date" id="start-date" required /></div>
-        <div class="form-group"><label for="start-time">開始時間</label><input type="time" id="start-time" required /></div>
-        <div class="form-group"><label for="late-reg">締切</label><input type="time" id="late-reg" /></div>
-        <div class="form-group"><label for="event-type">種類</label><select id="event-type"><option value="トーナメント">トーナメント</option><option value="サテライト">サテライト</option><option value="その他">その他</option></select></div>
-        <div class="form-group"><label for="buy-in">参加費</label><input type="text" id="buy-in" required /></div>
-        <div class="form-group"><label for="reentry-fee">リエントリー</label><input type="text" id="reentry-fee" /></div>
-        <div class="form-group"><label for="addon">アドオン</label><input type="text" id="addon" /></div>
-        <div class="form-group"><label for="stack">スタック</label><input type="text" id="stack" /></div>
-        <div class="form-group"><label for="prize">プライズ</label><textarea id="prize" rows="3"></textarea></div>
-        <button type="submit" id="submit-btn">登録する</button>
-        <button type="button" id="cancel-edit-btn" style="display:none; background: #6c757d; margin-top: 8px;">キャンセル</button>
-      </form>
-    </section>
-    
-    <section class="dashboard-section">
-        <h2>全トーナメント一覧</h2>
-        <div class="form-group" style="margin-bottom: 20px;">
-          <label for="filter-date">開催日で絞り込み</label>
-          <input type="date" id="filter-date" />
-          <button type="button" id="clear-filter-btn" style="margin-top: 8px; background: #6c757d; color: #fff; padding: 8px 16px; border: 0; border-radius: 8px; font-size: 14px; cursor: pointer;">全て表示</button>
-        </div>
-        <div class="tournaments-container"><div id="all-tournaments-list"></div></div>
-    </section>
-  `;
-
-  document.getElementById('start-date').value = getTodayStr();
-  document.getElementById('filter-date').value = getTodayStr(); // デフォルトは今日
-  loadAllTournaments();
-
-  // ★★★ 日付フィルターの処理を追加 ★★★
-  document.getElementById('filter-date').addEventListener('change', loadAllTournaments);
-  document.getElementById('clear-filter-btn').addEventListener('click', () => {
-    document.getElementById('filter-date').value = '';
-    loadAllTournaments();
-  });
-
-  // ★★★ フォームの送信処理を、新規登録と更新の両方に対応させる ★★★
-  const form = document.getElementById('master-tournament-form');
-  form.addEventListener('submit', async e => {
-    e.preventDefault();
-    const editingId = document.getElementById('editing-id').value;
-
-    const selectedStoreId = document.getElementById('store-select').value;
-    const storeName = document.getElementById('store-select').options[document.getElementById('store-select').selectedIndex].text;
-    
-    const payload = {
-      eventName: document.getElementById('event-name').value,
-      startDate: document.getElementById('start-date').value,
-      startTime: document.getElementById('start-time').value,
-      lateReg: document.getElementById('late-reg').value,
-      eventType: document.getElementById('event-type').value,
-      buyIn: document.getElementById('buy-in').value,
-      reentryFee: document.getElementById('reentry-fee').value,
-      addon: document.getElementById('addon').value,
-      stack: document.getElementById('stack').value,
-      prize: document.getElementById('prize').value,
-      storeId: selectedStoreId,
-      storeName: storeName
-    };
-
-    if (editingId) {
-      // IDがあれば、更新処理
-      const docRef = doc(db, "tournaments", editingId);
-      await updateDoc(docRef, payload);
-      alert('更新しました！');
-    } else {
-      // IDがなければ、新規登録処理
-      payload.createdAt = serverTimestamp();
-      await addDoc(collection(db, "tournaments"), payload);
-      alert('登録しました！');
-    }
-    
-    resetForm();
-    loadAllTournaments();
-  });
-
-  // ★★★ キャンセルボタンの処理を追加 ★★★
-  document.getElementById('cancel-edit-btn').addEventListener('click', () => {
-    resetForm();
-  });
-}
-
-// ★★★ フォームをリセットする関数を新設 ★★★
-function resetForm() {
-    document.getElementById('master-tournament-form').reset();
-    document.getElementById('editing-id').value = '';
-    document.getElementById('form-title').textContent = 'トーナメント新規登録';
-    document.getElementById('submit-btn').textContent = '登録する';
-    document.getElementById('cancel-edit-btn').style.display = 'none';
-    document.getElementById('start-date').value = getTodayStr();
-}
-
-async function loadAllTournaments() {
-  const list = document.getElementById('all-tournaments-list');
-  list.innerHTML = '<div class="loading">読み込み中...</div>';
-  
-  // ★★★ 日付フィルターを取得 ★★★
-  const filterDate = document.getElementById('filter-date')?.value || '';
-  
-  const qAll = query(collection(db, "tournaments"), orderBy("createdAt", "desc"));
-  const snapshot = await getDocs(qAll);
-  
-  // ★★★ 日付でフィルタリング ★★★
-  let filteredDocs = snapshot.docs;
-  if (filterDate) {
-    filteredDocs = snapshot.docs.filter(d => d.data().startDate === filterDate);
-  }
-  
-  if (filteredDocs.length === 0){ 
-    const message = filterDate ? `${filterDate}のトーナメントはありません` : '登録されたトーナメントはまだありません';
-    list.innerHTML = `<div class="empty-state">${message}</div>`; 
-    return; 
-  }
-  
-  list.innerHTML = filteredDocs.map(d => {
-    const t = d.data();
-    return `
-      <div class="tournament-card">
-        <div class="tournament-header"><h3>${t.eventName}</h3><span class="fee">${t.buyIn}円</span></div>
-        <div class="tournament-meta"><div><strong>店舗</strong> ${t.storeName}</div><div><strong>日付</strong> ${t.startDate}</div></div>
-        <div style="display: flex; gap: 8px; margin-top: 12px;">
-          <button class="edit-btn" data-id="${d.id}" style="flex: 1;">編集</button>
-          <button class="delete-btn" data-id="${d.id}" style="flex: 1;">削除</button>
-        </div>
-      </div>
-    `;
-  }).join('');
-
-  // 削除ボタンの処理
-  list.querySelectorAll('.delete-btn').forEach(btn => {
-    btn.addEventListener('click', async () => {
-      if(confirm('このトーナメントを削除しますか？')){
-        await deleteDoc(doc(db, "tournaments", btn.dataset.id));
+      document.getElementById('filter-date').addEventListener('change', loadAllTournaments);
+      document.getElementById('clear-filter-btn').addEventListener('click', () => {
+        document.getElementById('filter-date').value = '';
         loadAllTournaments();
-      }
-    });
-  });
+      });
 
-  // ★★★ 編集ボタンの処理を新設 ★★★
-  list.querySelectorAll('.edit-btn').forEach(btn => {
-    btn.addEventListener('click', async () => {
-      const docId = btn.dataset.id;
-      const docRef = doc(db, "tournaments", docId);
-      const docSnap = await getDoc(docRef);
-
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        // フォームに既存のデータをセット
-        document.getElementById('editing-id').value = docId;
-        document.getElementById('store-select').value = data.storeId || '';
-        document.getElementById('event-name').value = data.eventName || '';
-        document.getElementById('start-date').value = data.startDate || '';
-        document.getElementById('start-time').value = data.startTime || '';
-        document.getElementById('late-reg').value = data.lateReg || '';
-        document.getElementById('event-type').value = data.eventType || 'トーナメント';
-        document.getElementById('buy-in').value = data.buyIn || '';
-        document.getElementById('reentry-fee').value = data.reentryFee || '';
-        document.getElementById('addon').value = data.addon || '';
-        document.getElementById('stack').value = data.stack || '';
-        document.getElementById('prize').value = data.prize || '';
-
-        // UIを編集モードに変更
-        document.getElementById('form-title').textContent = 'トーナメント情報修正';
-        document.getElementById('submit-btn').textContent = '更新する';
-        document.getElementById('cancel-edit-btn').style.display = 'block';
+      const form = document.getElementById('master-tournament-form');
+      form.addEventListener('submit', async e => {
+        e.preventDefault();
+        const editingId = document.getElementById('editing-id').value;
+        const selectedStoreId = document.getElementById('store-select').value;
+        const storeName = document.getElementById('store-select').options[document.getElementById('store-select').selectedIndex].text;
         
-        // フォームが表示されている場所にスクロール
-        document.getElementById('form-title').scrollIntoView({ behavior: 'smooth' });
+        const payload = {
+          eventName: document.getElementById('event-name').value,
+          startDate: document.getElementById('start-date').value,
+          startTime: document.getElementById('start-time').value,
+          lateReg: document.getElementById('late-reg').value,
+          eventType: document.getElementById('event-type').value,
+          buyIn: document.getElementById('buy-in').value,
+          reentryFee: document.getElementById('reentry-fee').value,
+          addon: document.getElementById('addon').value,
+          stack: document.getElementById('stack').value,
+          prize: document.getElementById('prize').value,
+          notes: document.getElementById('notes').value,
+          storeId: selectedStoreId,
+          storeName: storeName
+        };
+
+        if (editingId) {
+          await updateDoc(doc(db, "tournaments", editingId), payload);
+          alert('更新しました！');
+        } else {
+          payload.createdAt = serverTimestamp();
+          await addDoc(collection(db, "tournaments"), payload);
+          alert('登録しました！');
+        }
+        resetForm();
+        loadAllTournaments();
+      });
+      document.getElementById('cancel-edit-btn').addEventListener('click', () => {
+        resetForm();
+      });
+    }
+
+    function resetForm() {
+        document.getElementById('master-tournament-form').reset();
+        document.getElementById('editing-id').value = '';
+        document.getElementById('form-title').textContent = 'トーナメント新規登録';
+        document.getElementById('submit-btn').textContent = '登録する';
+        document.getElementById('cancel-edit-btn').style.display = 'none';
+        document.getElementById('start-date').value = getTodayStr();
+    }
+
+    async function loadAllTournaments() {
+      const list = document.getElementById('all-tournaments-list');
+      list.innerHTML = '<div class="loading">読み込み中...</div>';
+      const filterDate = document.getElementById('filter-date')?.value || '';
+      const qAll = query(collection(db, "tournaments"), orderBy("createdAt", "desc"));
+      const snapshot = await getDocs(qAll);
+      let filteredDocs = snapshot.docs;
+      if (filterDate) {
+        filteredDocs = snapshot.docs.filter(d => d.data().startDate === filterDate);
       }
-    });
-  });
-}
+      if (filteredDocs.length === 0){ 
+        const message = filterDate ? `${filterDate}のトーナメントはありません` : '登録されたトーナメントはまだありません';
+        list.innerHTML = `<div class="empty-state">${message}</div>`; 
+        return; 
+      }
+      list.innerHTML = filteredDocs.map(d => {
+        const t = d.data();
+        return `<div class="tournament-card">
+            <div class="tournament-header"><h3>${t.eventName}</h3><span class="fee">${t.buyIn}円</span></div>
+            <div class="tournament-meta"><div><strong>店舗</strong> ${t.storeName}</div><div><strong>日付</strong> ${t.startDate}</div></div>
+            <div style="display: flex; gap: 8px; margin-top: 12px;">
+              <button class="edit-btn" data-id="${d.id}" style="flex: 1;">編集</button>
+              <button class="delete-btn" data-id="${d.id}" style="flex: 1;">削除</button>
+            </div>
+          </div>`;
+      }).join('');
+      list.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          if(confirm('このトーナメントを削除しますか？')){
+            await deleteDoc(doc(db, "tournaments", btn.dataset.id));
+            loadAllTournaments();
+          }
+        });
+      });
+      list.querySelectorAll('.edit-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const docId = btn.dataset.id;
+          const docRef = doc(db, "tournaments", docId);
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            document.getElementById('editing-id').value = docId;
+            document.getElementById('store-select').value = data.storeId || '';
+            document.getElementById('event-name').value = data.eventName || '';
+            document.getElementById('start-date').value = data.startDate || '';
+            document.getElementById('start-time').value = data.startTime || '';
+            document.getElementById('late-reg').value = data.lateReg || '';
+            document.getElementById('event-type').value = data.eventType || 'トーナメント';
+            document.getElementById('buy-in').value = data.buyIn || '';
+            document.getElementById('reentry-fee').value = data.reentryFee || '';
+            document.getElementById('addon').value = data.addon || '';
+            document.getElementById('stack').value = data.stack || '';
+            document.getElementById('prize').value = data.prize || '';
+            document.getElementById('notes').value = data.notes || '';
+            
+            document.getElementById('form-title').textContent = 'トーナメント情報修正';
+            document.getElementById('submit-btn').textContent = '更新する';
+            document.getElementById('cancel-edit-btn').style.display = 'block';
+            document.getElementById('form-title').scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+    }
   </script>
 </body>
 </html>
