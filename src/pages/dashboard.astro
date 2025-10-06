@@ -113,12 +113,14 @@ button[type="submit"]{
 button[type="submit"]:hover{ transform:translateY(-1px); }
 button[type="submit"]:active{ transform:translateY(0); }
 
-/* 汎用ボタン（ログアウト/編集/削除） */
-#logout-btn, .edit-btn, .delete-btn{
+/* 汎用ボタン（ホーム/ログアウト/編集/削除） */
+#home-btn, #logout-btn, .edit-btn, .delete-btn{
   display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
   padding:14px 16px; border-radius:12px; border:0; font-weight:900; cursor:pointer;
   box-shadow:var(--shadow-sm); font-size:16px;
 }
+#home-btn{ background:#10b981; color:#fff; }
+#home-btn:hover{ filter:brightness(1.05); }
 #logout-btn{ background:#6b7280; color:#fff; }
 #logout-btn:hover{ filter:brightness(1.05); }
 .edit-btn{ background:#1e90ff; color:#fff; min-width:92px; }
@@ -176,7 +178,10 @@ tbody tr:hover{ background:#fafbff; }
   <main>
     <div id="user-info">
       <p><span id="user-email"></span>でログイン中 <span id="master-badge" class="badge-master" style="display:none">管理者</span></p>
-      <button id="logout-btn">ログアウト</button>
+      <div style="display: flex; gap: 8px;">
+        <button id="home-btn" style="background: #10b981; color: #fff;">TOP</button>
+        <button id="logout-btn">ログアウト</button>
+      </div>
     </div>
     <div id="dashboard-container"><p style="text-align:center;">読み込み中...</p></div>
   </main>
@@ -217,6 +222,7 @@ const firebaseConfig = {
       }
     });
 
+    document.getElementById('home-btn').addEventListener('click', () => window.location.href = '/');
     document.getElementById('logout-btn').addEventListener('click', () => signOut(auth));
 
     function getTodayStr(){
@@ -247,7 +253,7 @@ const firebaseConfig = {
             <div class="form-group"><label for="addon">アドオン</label><input type="text" id="addon" /></div>
             <div class="form-group"><label for="stack">スタック</label><input type="text" id="stack" /></div>
             <div class="form-group"><label for="prize">プライズ</label><textarea id="prize" rows="3"></textarea></div>
-            <div class="form-group"><label for="notes">備考・特殊ルール</label><textarea id="notes" rows="4"></textarea></div>
+            <div class="form-group"><label for="notes">備考</label><textarea id="notes" rows="4"></textarea></div>
             <button type="submit" id="submit-btn">登録する</button>
             <button type="button" id="cancel-edit-btn" style="display:none; background: #6c757d; margin-top: 8px;">キャンセル</button>
           </form>
