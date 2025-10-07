@@ -1,18 +1,14 @@
 ---
-// src/pages/stores/[id].astro
-
-// ★★★ 修正点: サーバーサイドでFirebaseからデータを取得 ★★★
+// --- フロントマター部分は変更なし ---
 import { initializeApp, getApp, getApps } from "firebase/app";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
-
 import Analytics from '@vercel/analytics/astro';
 import Footer from '../../components/Footer.astro';
+import AdSquare from '../../components/AdSquare.astro';
 import "../../styles/footer.css";
 import '../../styles/stores.css';
 
 const { id } = Astro.params;
-
-// Firebaseプロジェクト設定をv2に更新
 const firebaseConfig = {
   apiKey: "AIzaSyB8q6HLBGi_DWmrvkGCaWK_B6EeP7D--wo",
   authDomain: "okipoka-v2.firebaseapp.com",
@@ -22,15 +18,14 @@ const firebaseConfig = {
   appId: "1:6256473895:web:df644eaac108a218d59b02",
   measurementId: "G-JLC2569WN3"
 };
-
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
 const docRef = doc(db, "stores", id as string);
 const docSnap = await getDoc(docRef);
 const store = docSnap.exists() ? docSnap.data() : null;
-
+interface ChipPlan { price: number; chips: number; }
 const pageTitle = store ? `OKIPOKA | ${store.name}` : "OKIPOKA | 店舗情報";
+const coverImage = store ? (store.coverImageUrl || store.logoUrl || null) : null;
 ---
 
 <!doctype html>
@@ -40,52 +35,79 @@ const pageTitle = store ? `OKIPOKA | ${store.name}` : "OKIPOKA | 店舗情報";
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{pageTitle}</title>
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-  <style>
-    .store-name { font-size: 2.2rem; margin-top: 1.5rem; }
-    .store-catchphrase { font-size: 1.1rem; color: #666; margin-top: -1rem; }
-    .store-intro { margin: 2rem 0; padding: 1.5rem; background: #f9f9f9; border-radius: 8px; }
-  </style>
 </head>
 
 <body>
-  <main>
-    {store ? (
-      <section class="store-detail">
-        <div class="store-header">
-          {store.logoUrl && <img src={store.logoUrl} alt={`${store.name} Logo`} class="store-image" />}
-          <h2 class="store-name">{store.name || ''}</h2>
-          {store.catchphrase && <p class="store-catchphrase">{store.catchphrase}</p>}
-        </div>
+  {store ? (
+    <>
+      <div class="store-cover-container">
+        {coverImage && <img src={coverImage} alt={`${store.name} cover image`} class="store-cover-image" />}
+      </div>
+      <main>
+        <section class="store-detail">
+          <div class="store-header">
+            {store.logoUrl && <img src={store.logoUrl} alt={`${store.name} Logo`} class="store-logo-pc" />}
+            <h2 class="store-name">{store.name || ''}</h2>
+            {store.catchphrase && <p class="store-catchphrase">{store.catchphrase}</p>}
+            {store.features && store.features.length > 0 && (
+              <ul class="features-list">
+                {store.features.map((feature: string) => ( <li class="feature-tag">{feature}</li> ))}
+              </ul>
+            )}
+          </div>
 
-        {store.description && (
-          <div class="store-intro" set:html={store.description.replace(/\\n/g, '<br>')} />
-        )}
+          <div class="store-content-grid">
+            <div class="main-content">
+              {store.description && (
+                <div class="store-intro" set:html={store.description.replace(/\\n/g, '<br>')} />
+              )}
+              {store.chipPlans && store.chipPlans.length > 0 && (
+                <div class="store-section">
+                  <h2>料金プラン</h2>
+                  <div class="chip-plan-grid">
+                    {(store.chipPlans as ChipPlan[]).map(plan => (
+                      <div class="chip-card">
+                        <h3>{plan.chips.toLocaleString()}点</h3>
+                        <p>{plan.price.toLocaleString()}円</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {/* ▼▼▼ ここにあったAdSquareを下に移動 ▼▼▼ */}
+            </div>
 
-        <div class="store-section">
-          <h2>店舗情報</h2>
-          <dl>
-            {store.name && <><dt>店舗名</dt><dd>{store.name}</dd></>}
-            {store.address && <><dt>所在地</dt><dd>{store.address}</dd></>}
-            {store.hours && <><dt>営業時間</dt><dd>{store.hours}</dd></>}
-          </dl>
-        </div>
+            <aside class="sidebar-content">
+              <div class="store-section">
+                <h2>店舗情報</h2>
+                <dl>
+                  {store.name && <><dt>店舗名</dt><dd>{store.name}</dd></>}
+                  {store.address && <><dt>所在地</dt><dd>{store.address}</dd></>}
+                  {store.hours && <><dt>営業時間</dt><dd>{store.hours}</dd></>}
+                </dl>
+              </div>
+              <div class="store-section">
+                <h2>関連リンク</h2>
+                <ul>
+                  {store.instagramUrl && <li><a href={store.instagramUrl} target="_blank" rel="noopener noreferrer"><img src="/images/insta.png" class="icon" alt="Instagram" /> 公式Instagram</a></li>}
+                  {store.x_twitterUrl && <li><a href={store.x_twitterUrl} target="_blank" rel="noopener noreferrer">公式 X (Twitter)</a></li>}
+                  {store.googleMapUrl && <li><a href={store.googleMapUrl} target="_blank" rel="noopener noreferrer">Googleマップで見る</a></li>}
+                  {store.websiteUrl && <li><a href={store.websiteUrl} target="_blank" rel="noopener noreferrer">公式サイト</a></li>}
+                </ul>
+              </div>
+            </aside>
+          </div>
+          
+          {/* ▼▼▼ AdSquareをここに移動 ▼▼▼ */}
+          <AdSquare />
 
-        <div class="store-section">
-          <h2>関連リンク</h2>
-          <ul>
-            {store.instagramUrl && <li><a href={store.instagramUrl} target="_blank" rel="noopener noreferrer"><img src="/images/insta.png" class="icon" alt="Instagram" /> 公式Instagram</a></li>}
-            {store.x_twitterUrl && <li><a href={store.x_twitterUrl} target="_blank" rel="noopener noreferrer">公式 X (Twitter)</a></li>}
-            {store.googleMapUrl && <li><a href={store.googleMapUrl} target="_blank" rel="noopener noreferrer">Googleマップで見る</a></li>}
-            {store.websiteUrl && <li><a href={store.websiteUrl} target="_blank" rel="noopener noreferrer">公式サイト</a></li>}
-          </ul>
-        </div>
-      </section>
-    ) : (
-      <section class="store-detail">
-        <h2>店舗情報が見つかりませんでした。</h2>
-      </section>
-    )}
-  </main>
+        </section>
+      </main>
+    </>
+  ) : (
+    <main><section class="store-detail"><h2>店舗情報が見つかりませんでした。</h2></section></main>
+  )}
+  
   <Footer />
   <Analytics />
 </body>

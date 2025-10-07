@@ -1,7 +1,46 @@
 ---
-import stores from "../data/stores.json";
+// src/components/StoreList.astro
 
-type Store = typeof stores[number];
+// ★★★ ここからが修正・追加するコード ★★★
+import { initializeApp, getApp, getApps } from "firebase/app";
+import { getFirestore, collection, getDocs } from "firebase/firestore";
+
+// Firebaseの接続情報（他のファイルからコピー）
+const firebaseConfig = {
+  apiKey: "AIzaSyB8q6HLBGi_DWmrvkGCaWK_B6EeP7D--wo",
+  authDomain: "okipoka-v2.firebaseapp.com",
+  projectId: "okipoka-v2",
+  storageBucket: "okipoka-v2.firebasestorage.app",
+  messagingSenderId: "6256473895",
+  appId: "1:6256473895:web:df644eaac108a218d59b02",
+  measurementId: "G-JLC2569WN3"
+};
+
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// Firestoreの'stores'コレクションから全店舗の情報を取得
+const snapshot = await getDocs(collection(db, "stores"));
+const stores: Store[] = snapshot.docs.map(doc => {
+  const data = doc.data();
+  return {
+    id: doc.id,
+    name: data.name,
+    area: data.area,
+    logoUrl: data.logoUrl,
+    logo: data.logo
+  };
+});
+
+
+type Store = {
+  id: string;
+  name: string;
+  area: string;
+  logoUrl?: string; // logoからlogoUrlに変更
+  logo?: string; // 互換性のために残しても良い
+};
+
 type GroupedStores = { [area: string]: Store[] };
 
 const groupedStores: GroupedStores = stores.reduce((acc, store) => {
@@ -14,13 +53,14 @@ const groupedStores: GroupedStores = stores.reduce((acc, store) => {
 ---
 
 <div class="store-list-container">
-  {Object.entries(groupedStores).map(([area, stores]) => (
+  {Object.entries(groupedStores).map(([area, storesInArea]) => (
     <section class="store-area">
       <h2 class="area-title">{area}</h2>
       <div class="store-list">
-        {stores.map(store => (
+        {storesInArea.map(store => (
           <a href={`/stores/${store.id}`} class="store-card">
-            <img src={store.logo} alt={`${store.name} Logo`} 
+            {/* logoUrlを見るように修正 */}
+            <img src={store.logoUrl || store.logo || '/images/sample.png'} alt={`${store.name} Logo`} 
                  onerror="this.onerror=null; this.src='/images/sample.png';" />
             <h3>{store.name}</h3>
           </a>
@@ -30,6 +70,7 @@ const groupedStores: GroupedStores = stores.reduce((acc, store) => {
   ))}
 </div>
 
+{/* styleタグは変更不要なので、そのまま残してください */}
 <style>
   .area-title {
     font-size: 1rem;
