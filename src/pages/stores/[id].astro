@@ -1,5 +1,4 @@
 ---
-// --- フロントマター部分は変更なし ---
 import { initializeApp, getApp, getApps } from "firebase/app";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import Analytics from '@vercel/analytics/astro';
@@ -9,6 +8,7 @@ import "../../styles/footer.css";
 import '../../styles/stores.css';
 
 const { id } = Astro.params;
+
 const firebaseConfig = {
   apiKey: "AIzaSyB8q6HLBGi_DWmrvkGCaWK_B6EeP7D--wo",
   authDomain: "okipoka-v2.firebaseapp.com",
@@ -18,12 +18,21 @@ const firebaseConfig = {
   appId: "1:6256473895:web:df644eaac108a218d59b02",
   measurementId: "G-JLC2569WN3"
 };
+
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
 const docRef = doc(db, "stores", id as string);
 const docSnap = await getDoc(docRef);
 const store = docSnap.exists() ? docSnap.data() : null;
-interface ChipPlan { price: number; chips: number; }
+
+// ▼▼▼ 型定義に 'name' を追加 ▼▼▼
+interface ChipPlan {
+  name: string;
+  price: number;
+  chips: number;
+}
+
 const pageTitle = store ? `OKIPOKA | ${store.name}` : "OKIPOKA | 店舗情報";
 const coverImage = store ? (store.coverImageUrl || store.logoUrl || null) : null;
 ---
@@ -67,14 +76,14 @@ const coverImage = store ? (store.coverImageUrl || store.logoUrl || null) : null
                   <div class="chip-plan-grid">
                     {(store.chipPlans as ChipPlan[]).map(plan => (
                       <div class="chip-card">
-                        <h3>{plan.chips.toLocaleString()}点</h3>
-                        <p>{plan.price.toLocaleString()}円</p>
+                        {/* ▼▼▼ プラン名を表示するように修正 ▼▼▼ */}
+                        <h3>{plan.name}</h3>
+                        <p>{plan.chips.toLocaleString()}点 / {plan.price.toLocaleString()}円</p>
                       </div>
                     ))}
                   </div>
                 </div>
               )}
-              {/* ▼▼▼ ここにあったAdSquareを下に移動 ▼▼▼ */}
             </div>
 
             <aside class="sidebar-content">
@@ -98,7 +107,6 @@ const coverImage = store ? (store.coverImageUrl || store.logoUrl || null) : null
             </aside>
           </div>
           
-          {/* ▼▼▼ AdSquareをここに移動 ▼▼▼ */}
           <AdSquare />
 
         </section>
