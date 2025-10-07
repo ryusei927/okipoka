@@ -43,5 +43,14 @@
             "square": "",
             "banner": "/images/ads/cave2_ad.png"
         }
+    },
+        {
+        "id": "ad006",
+        "name": "rebarta",
+        "url": "https://www.instagram.com/re.barta?utm_source=ig_web_button_share_sheet&igsh=MTlvc2pwajF0aDJ3dg==",
+        "images": {
+            "square": "/images/ads/rebarta_ad.png",
+            "banner": ""
+        }
     }
 ]
