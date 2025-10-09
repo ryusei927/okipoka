@@ -54,7 +54,11 @@ const activeAnnouncements = announcements.filter(announcement => announcement.ac
         <div class="announcement-content">
           {announcement.type === 'countdown' && (
             <div class="countdown-badge" data-target={announcement.targetDate}>
-              <span class="countdown-text">開催まで<span class="days">--</span>日</span>
+              <span class="countdown-text">
+                <span class="countdown-label">開催まで</span>
+                <span class="days">--</span>
+                <span class="day-label">日</span>
+              </span>
             </div>
           )}
         </div>
@@ -155,6 +159,13 @@ const activeAnnouncements = announcements.filter(announcement => announcement.ac
     color: #ff6b35;
   }
 
+  .countdown-label,
+  .day-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #ffffff;
+  }
+
   /* レスポンシブ対応 */
   @media (max-width: 768px) {
     .announcements-wrapper {
@@ -196,32 +207,51 @@ const activeAnnouncements = announcements.filter(announcement => announcement.ac
 </style>
 
 <script is:inline>
-  // シンプルな「残り日数」カウントダウンの実装
+  // カウントダウンと本日開催表示の実装
   function initCountdownBadges() {
     const countdownElements = document.querySelectorAll('.countdown-badge[data-target]');
     
     countdownElements.forEach(element => {
-      const targetDate = new Date(element.dataset.target).getTime();
+      const targetDate = new Date(element.dataset.target);
+      const today = new Date();
+      
+      // 日付のみで比較するため時刻をリセット
+      const targetDateOnly = new Date(targetDate.getFullYear(), targetDate.getMonth(), targetDate.getDate());
+      const todayOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
       
       function updateCountdown() {
-        const now = new Date().getTime();
-        const distance = targetDate - now;
+        const timeDiff = targetDateOnly.getTime() - todayOnly.getTime();
+        const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
         
-        if (distance < 0) {
-          // 期限切れの場合
-          element.querySelector('.days').textContent = '0';
-          return;
+        const countdownLabel = element.querySelector('.countdown-label');
+        const daysElement = element.querySelector('.days');
+        const dayLabel = element.querySelector('.day-label');
+        
+        if (daysDiff < 0) {
+          // 過ぎた場合
+          countdownLabel.textContent = '終了';
+          daysElement.textContent = '';
+          dayLabel.textContent = '';
+        } else if (daysDiff === 0) {
+          // 当日の場合
+          countdownLabel.textContent = '本日';
+          daysElement.textContent = '開催';
+          dayLabel.textContent = '';
+          daysElement.style.color = '#00ff00'; // 緑色で強調
+        } else {
+          // カウントダウン中
+          countdownLabel.textContent = '開催まで';
+          daysElement.textContent = daysDiff.toString();
+          dayLabel.textContent = '日';
+          daysElement.style.color = '#ff6b35'; // 元の色
         }
-        
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        element.querySelector('.days').textContent = days.toString();
       }
       
       // 初回実行
       updateCountdown();
       
-      // 1日1回更新（24時間ごと）
-      setInterval(updateCountdown, 1000 * 60 * 60 * 24);
+      // 1時間ごとに更新（当日判定のため）
+      setInterval(updateCountdown, 1000 * 60 * 60);
     });
   }
   
