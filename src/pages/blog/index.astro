@@ -1,0 +1,61 @@
+---
+import { getCollection } from 'astro:content';
+import Footer from "../../components/Footer.astro";
+import Analytics from '@vercel/analytics/astro';
+import "../../styles/global.css";
+import "../../styles/footer.css";
+import "../../styles/blog.css";
+
+// src/pages/blog/index.astro
+
+// publishDateが新しい順に記事をソート
+const allPosts = await getCollection('blog');
+const sortedPosts = allPosts.sort(
+  (a: { data: any }, b: { data: any }) =>
+    b.data.publishDate.getTime() - a.data.publishDate.getTime()
+);
+---
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ブログ | OKIPOKA</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+</head>
+<body>
+    <main class="blog-container">
+        <h1>OKIPOKAブログ</h1>
+        <p class="blog-description">ポーカーの戦略・理論や、イベントレポートなどをお届けします。</p>
+        <div class="post-list">
+            {sortedPosts.length > 0 ? (
+                sortedPosts.map((post: { data: any; slug: string }) => (
+                    <a href={`/blog/${post.slug}`} class="post-card">
+                        <article>
+                            <h2>{post.data.title}</h2>
+                            <time datetime={post.data.publishDate.toISOString()}>
+                                {post.data.publishDate.toLocaleDateString('ja-JP', { 
+                                    year: 'numeric', 
+                                    month: 'long', 
+                                    day: 'numeric' 
+                                })}
+                            </time>
+                            <p class="post-card-description">{post.data.description}</p>
+                        </article>
+                    </a>
+                ))
+            ) : (
+                <p>まだ記事がありません。</p>
+            )}
+        </div>
+    </main>
+    <Footer />
+    <Analytics />
+    <style>
+      .post-card-description {
+        margin-top: 0.5rem;
+        font-size: 1rem;
+        color: var(--color-text-muted);
+      }
+    </style>
+</body>
+</html>

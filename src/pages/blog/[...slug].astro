@@ -1,0 +1,59 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content'; // ★ 変更点1
+import Footer from "../../components/Footer.astro";
+import Analytics from '@vercel/analytics/astro';
+import "../../styles/global.css";
+import "../../styles/footer.css";
+import "../../styles/blog.css";
+
+export const prerender = true;
+
+// ★ 変更点2: Propsの型を定義
+interface Props {
+  entry: CollectionEntry<'blog'>;
+}
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection('blog');
+  return allPosts.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+
+if (!entry) {
+  throw new Error('Entry not found');
+}
+
+const { Content } = await entry.render();
+---
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{entry.data.title} | OKIPOKAブログ</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+</head>
+<body>
+    <main class="blog-container">
+        <article class="post-content">
+            <a href="/blog" class="back-link">&larr; ブログ一覧へ戻る</a>
+            <h1>{entry.data.title}</h1>
+            <p class="post-date">
+                公開日: {entry.data.publishDate.toLocaleDateString('ja-JP', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                })}
+            </p>
+            <div class="post-body">
+                <Content />
+            </div>
+        </article>
+    </main>
+    <Footer />
+    <Analytics />
+</body>
+</html>
