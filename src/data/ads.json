@@ -52,5 +52,14 @@
             "square": "/images/ads/rebarta_ad.png",
             "banner": ""
         }
+    },
+        {
+        "id": "ad007",
+        "name": "GTOwizard",
+        "url": "",
+        "images": {
+            "square": "/images/ads/gtowizard2.png",
+            "banner": ""
+        }
     }
 ]
