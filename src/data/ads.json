@@ -29,7 +29,7 @@
     {
         "id": "ad004",
         "name": "ラジオ",
-        "url": "https://www.instagram.com/okinawa_hanaushi/",
+        "url": "https://www.instagram.com/kurikinton_t/?utm_source=ig_web_button_share_sheet",
         "images": {
             "square": "",
             "banner": "/images/ads/radio_ad.jpg"
@@ -44,7 +44,7 @@
             "banner": "/images/ads/cave2_ad.png"
         }
     },
-        {
+    {
         "id": "ad006",
         "name": "rebarta",
         "url": "https://www.instagram.com/re.barta?utm_source=ig_web_button_share_sheet&igsh=MTlvc2pwajF0aDJ3dg==",
@@ -53,7 +53,7 @@
             "banner": ""
         }
     },
-        {
+    {
         "id": "ad007",
         "name": "GTOwizard",
         "url": "https://gtowizard.com/ja/",
@@ -61,6 +61,14 @@
             "square": "/images/ads/gtowizard2.png",
             "banner": ""
         }
+    },
+    {
+        "id": "ad008",
+        "name": "RSOP",
+        "url": "https://www.instagram.com/rsop_okinawa?utm_source=ig_web_button_share_sheet&igsh=cDZoa2ZycTFjemp0",
+        "images": {
+            "square": "/images/ads/rsop.png",
+            "banner": ""
+        }
     }
-    
 ]
