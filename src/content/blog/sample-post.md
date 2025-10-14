@@ -1,5 +1,5 @@
 ---
-title: 'OKIPOKAブログへようこそ！'
+title: 'サンプル'
 description: 'これは最初のサンプル記事です。'
 publishDate: 2024-10-14T00:00:00.000Z
 ---
