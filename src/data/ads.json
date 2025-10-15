@@ -58,8 +58,8 @@
         "name": "GTOwizard",
         "url": "https://gtowizard.com/ja/",
         "images": {
-            "square": "/images/ads/gtowizard2.png",
-            "banner": ""
+            "square": "/images/ads/wizard_10.png",
+            "banner": "/images/ads/wizard_ad.png"
         }
     },
     {
