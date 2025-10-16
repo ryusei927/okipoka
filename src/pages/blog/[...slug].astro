@@ -5,6 +5,7 @@ import Footer from "../../components/Footer.astro";
 import Analytics from '@vercel/analytics/astro';
 import "../../styles/global.css";
 import "../../styles/blog.css";
+import "../../styles/blog-common.css";
 import "../../styles/footer.css";
 
 export const prerender = true;
@@ -65,7 +66,9 @@ const { Content } = await entry.render();
                 })}
             </p>
             <div class="post-body">
-                <Content />
+                <div class="article-content">
+                    <Content />
+                </div>
             </div>
         </article>
          
