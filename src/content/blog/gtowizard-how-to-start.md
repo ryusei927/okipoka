@@ -16,22 +16,6 @@ GTOとは、<ruby>Game Theory Optimal<rt>ゲーム セオリー オプティマ�
 GTOWizardを使ってGTO戦略を学ぶことで、ポーカーの実力向上に大きく貢献してくれるツールであると、自信を持ってお勧めできます。
 <br><br>
 
-GTOの目的については
-
-<div style="display: flex; flex-direction: column; gap: 16px; margin: 20px 0;">
-  <a href="https://japan.gtowizard.com/blog/what-is-gto-in-poker/" target="_blank" style="text-decoration: none; color: inherit;">
-    <div style="border: 1px solid #e1e5e9; border-radius: 8px; padding: 16px; background: #f8f9fa; transition: box-shadow 0.2s; cursor: pointer;">
-      <h4 style="margin: 0; color: #1a73e8; font-size: 16px;">ポーカーにおけるGTOとは？</h4>
-    </div>
-  </a>
-  
-  <a href="https://japan.gtowizard.com/blog/what-does-gto-aim-to-achieve/" target="_blank" style="text-decoration: none; color: inherit;">
-    <div style="border: 1px solid #e1e5e9; border-radius: 8px; padding: 16px; background: #f8f9fa; transition: box-shadow 0.2s; cursor: pointer;">
-      <h4 style="margin: 0; color: #1a73e8; font-size: 16px;">GTOはどこを目指しているのか？</h4>
-    </div>
-  </a>
-</div>
-
 <br>
 
 ### GTOを人間が実践することの困難性
