@@ -23,9 +23,27 @@ const sortedPosts = allPosts.sort(
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 </head>
 <body>
+    <header class="blog-header">
+        <div class="header-container">
+            <a href="/" class="logo-link">
+                <img src="/images/logo3.png" alt="OKIPOKA" class="header-logo" />
+            </a>
+            <div class="header-text">
+                <h1 class="blog-title">OKIPOKA Blog</h1>
+                <p class="blog-tagline">ポーカーの戦略・理論から最新情報まで</p>
+            </div>
+        </div>
+        <nav class="header-nav">
+            <a href="/" class="nav-link">HOME</a>
+            <a href="/blog" class="nav-link active">ブログ</a>
+            <a href="/about" class="nav-link">このサイトについて</a>
+        </nav>
+    </header>
     <main class="blog-container">
-        <h1>OKIPOKAブログ</h1>
-        <p class="blog-description">ポーカーの戦略・理論や、イベントレポートなどをお届けします。</p>
+        <div class="page-header">
+            <h2>記事一覧</h2>
+            <p class="page-description">ポーカーの戦略・理論や、イベントレポートなどをお届けします。</p>
+        </div>
         <div class="post-list">
             {sortedPosts.length > 0 ? (
                 sortedPosts.map((post: { data: any; slug: string }) => (
@@ -51,10 +69,134 @@ const sortedPosts = allPosts.sort(
     <Footer />
     <Analytics />
     <style>
+      /* ヘッダーのスタイル */
+      .blog-header {
+        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        color: white;
+        padding: 1.5rem 0;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      }
+      
+      .header-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+      }
+      
+      .logo-link {
+        display: block;
+        transition: transform 0.3s ease;
+      }
+      
+      .logo-link:hover {
+        transform: scale(1.05);
+      }
+      
+      .header-logo {
+        height: 60px;
+        width: auto;
+        border-radius: 8px;
+      }
+      
+      .header-text {
+        flex: 1;
+      }
+      
+      .blog-title {
+        font-size: 2.2rem;
+        margin: 0;
+        font-weight: 700;
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      }
+      
+      .blog-tagline {
+        margin: 0.5rem 0 0 0;
+        font-size: 1rem;
+        opacity: 0.9;
+        color: #ecf0f1;
+      }
+      
+      .header-nav {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: flex;
+        gap: 2rem;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        padding-top: 1rem;
+      }
+      
+      .nav-link {
+        color: #ecf0f1;
+        text-decoration: none;
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+      }
+      
+      .nav-link:hover {
+        background: rgba(255,255,255,0.1);
+        color: white;
+      }
+      
+      .nav-link.active {
+        background: rgba(255,255,255,0.2);
+        color: white;
+        font-weight: 600;
+      }
+      
+      /* ページヘッダー */
+      .page-header {
+        text-align: center;
+        margin-bottom: 3rem;
+        padding: 2rem 0;
+      }
+      
+      .page-header h2 {
+        font-size: 2rem;
+        color: #2c3e50;
+        margin-bottom: 1rem;
+      }
+      
+      .page-description {
+        font-size: 1.1rem;
+        color: #7f8c8d;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      
       .post-card-description {
         margin-top: 0.5rem;
         font-size: 1rem;
         color: var(--color-text-muted);
+      }
+      
+      /* レスポンシブ対応 */
+      @media (max-width: 768px) {
+        .header-container {
+          flex-direction: column;
+          text-align: center;
+          gap: 1rem;
+        }
+        
+        .blog-title {
+          font-size: 1.8rem;
+        }
+        
+        .header-nav {
+          justify-content: center;
+          flex-wrap: wrap;
+          gap: 1rem;
+        }
+        
+        .header-logo {
+          height: 50px;
+        }
       }
     </style>
 </body>
