@@ -3,6 +3,7 @@ title: 'GTO Wizardの始め方を徹底解説！'
 description: 'ポーカー学習ツール『GTO Wizard』の始め方を初心者向けに徹底解説。登録方法から分析・練習機能といった基本的な使い方まで、画像をたっぷり使って誰でも分かるように紹介します。'
 publishDate: 2024-10-14T00:00:00.000Z
 ---
+<link rel="stylesheet" href="/src/styles/blog-common.css">
 
 <img src="/images/wizard_img.png" alt="GTO Wizard" /><br>
 

@@ -1,10 +1,11 @@
 ---
-import { getCollection, type CollectionEntry } from 'astro:content'; // ★ 変更点1
+import { getCollection, type CollectionEntry } from 'astro:content'; 
+import AdBanner from "../../components/AdBanner.astro"; 
 import Footer from "../../components/Footer.astro";
 import Analytics from '@vercel/analytics/astro';
 import "../../styles/global.css";
-import "../../styles/footer.css";
 import "../../styles/blog.css";
+import "../../styles/footer.css";
 
 export const prerender = true;
 
@@ -52,7 +53,9 @@ const { Content } = await entry.render();
                 <Content />
             </div>
         </article>
+         
     </main>
+    <AdBanner />
     <Footer />
     <Analytics />
 </body>
