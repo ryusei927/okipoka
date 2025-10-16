@@ -1,5 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
+import AdBanner from "../../components/AdBanner.astro"; 
+import AdSquare from "../../components/AdSquare.astro";
 import Footer from "../../components/Footer.astro";
 import Analytics from '@vercel/analytics/astro';
 import "../../styles/global.css";
@@ -39,6 +41,7 @@ const sortedPosts = allPosts.sort(
             <a href="/about" class="nav-link">このサイトについて</a>
         </nav>
     </header>
+    <AdSquare />
     <main class="blog-container">
         <div class="page-header">
             <h2>記事一覧</h2>
@@ -80,7 +83,7 @@ const sortedPosts = allPosts.sort(
       .header-container {
         max-width: 1200px;
         margin: 0 auto;
-        padding: 0 2rem;
+        padding: 0 1rem;
         display: flex;
         align-items: center;
         gap: 1.5rem;
@@ -123,11 +126,10 @@ const sortedPosts = allPosts.sort(
       .header-nav {
         max-width: 1200px;
         margin: 0 auto;
-        padding: 0 2rem;
+        padding: 1rem 1rem 0 1rem;
         display: flex;
         gap: 2rem;
         border-top: 1px solid rgba(255,255,255,0.1);
-        padding-top: 1rem;
       }
       
       .nav-link {
@@ -176,12 +178,20 @@ const sortedPosts = allPosts.sort(
         color: var(--color-text-muted);
       }
       
+      /* メインコンテンツの余白調整 */
+      .blog-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 1rem;
+      }
+      
       /* レスポンシブ対応 */
       @media (max-width: 768px) {
         .header-container {
           flex-direction: column;
           text-align: center;
           gap: 1rem;
+          padding: 0 0.5rem;
         }
         
         .blog-title {
@@ -192,10 +202,15 @@ const sortedPosts = allPosts.sort(
           justify-content: center;
           flex-wrap: wrap;
           gap: 1rem;
+          padding: 1rem 0.5rem 0 0.5rem;
         }
         
         .header-logo {
           height: 50px;
+        }
+        
+        .blog-container {
+          padding: 0 0.5rem;
         }
       }
     </style>

@@ -85,7 +85,7 @@ const { Content } = await entry.render();
       .header-container {
         max-width: 1200px;
         margin: 0 auto;
-        padding: 0 2rem;
+        padding: 0 1rem;
         display: flex;
         align-items: center;
         gap: 1.5rem;
@@ -128,11 +128,10 @@ const { Content } = await entry.render();
       .header-nav {
         max-width: 1200px;
         margin: 0 auto;
-        padding: 0 2rem;
+        padding: 1rem 1rem 0 1rem;
         display: flex;
         gap: 2rem;
         border-top: 1px solid rgba(255,255,255,0.1);
-        padding-top: 1rem;
       }
       
       .nav-link {
@@ -155,12 +154,20 @@ const { Content } = await entry.render();
         font-weight: 600;
       }
       
+      /* メインコンテンツの余白調整 */
+      .blog-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 1rem;
+      }
+      
       /* レスポンシブ対応 */
       @media (max-width: 768px) {
         .header-container {
           flex-direction: column;
           text-align: center;
           gap: 1rem;
+          padding: 0 0.5rem;
         }
         
         .blog-title {
@@ -171,10 +178,15 @@ const { Content } = await entry.render();
           justify-content: center;
           flex-wrap: wrap;
           gap: 1rem;
+          padding: 1rem 0.5rem 0 0.5rem;
         }
         
         .header-logo {
           height: 50px;
+        }
+        
+        .blog-container {
+          padding: 0 0.5rem;
         }
       }
     </style>
