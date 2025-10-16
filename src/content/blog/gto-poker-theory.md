@@ -119,13 +119,13 @@ GTOとの違いは、自身のバランスを一切考えない点にありま�
 <br><br>
 
 ### ポーカーにおけるミスとは
-
+<br><br>
 少しおまけ的な内容になりますが、ポーカーにおけるミスプレイとは何かについて考えてみましょう。
 
 ポーカーにおける「ミス」の定義。それは「ある状況において、最も期待値が高いプレイをしなかったこと」です。
 
 そして、この「ミス」は、2つの種類に大別できると考えます。
-
+<br><br>
 1.GTOからの逸脱によるミス（リーク）<br>
 これは、ポーカーを学び始めたプレイヤーが、まず最初に減らすべき基本的なミスです。<br>
 具体的には、GTOから逸脱した結果、期待値を失ってしまうプレイを指します。
@@ -145,6 +145,104 @@ GTOを忠実に実行し、あなた自身のプレイに一切のリークが�
 GTOをプレイすることは、期待値を失わない±0のラインを保証してくれます。しかし、相手にリークがある状況では、エクスプロイトを実行することでより大きな利益を得られるチャンスが存在します。そのチャンスを逃し、±0のプレイに甘んじることは、見方を変えるとそれもまた「最善策ではなかった」という意味での「ミス」となるのです。
 
 ポーカーの強いプレイヤーとは、自身のリークを少しでもゼロに近づけながら、この「機会損失」のミスを極力犯すことなく、相手のリークを的確に突き続けていけるプレイヤーであると筆者は考えます。
+<br><br>
+### まとめ
+<br>
+この記事では、GTOの基本概念から実践的な意義まで解説してきました。
+<br><br>
+GTOとは「相手からエクスプロイトされない戦略」です。ゲーム理論におけるナッシュ均衡の考え方に基づき、どんな相手と対戦しても長期的に搾取されることのない理論上最適な戦略となります。
+<br><br>
+エクスプロイトとの関係では、GTOが防御的な最適戦略である一方、エクスプロイトは相手の弱点を突く攻撃的な戦略です。理想的には両方を使い分けることが重要ですが、相手を正確に分析する難しさやカウンター攻撃のリスクから、GTOが安全で確実な選択肢となります。
+<br><br>
+学習の意義として、GTOは単なる理論知識ではなく、実践的な価値があります。自身のリークを減らし、相手に搾取されないベースラインを構築した上で、機会があればエクスプロイトを仕掛ける。この両輪が揃ったプレイヤーこそが、真に強いポーカープレイヤーと言えるでしょう。
+<br><br>
+ポーカーは奥深いゲームです。GTOという理論的な土台を理解することで、より戦略的で楽しいポーカーライフを送れることを願っています。
+
+
+---
+
+<br>
+
+そして、こちらの記事はGTO Wizardのアフィリエイトになっています！
+<br><br>
+<center>
+<img src="/images/blog/Crush_V3.png" alt="GTO Wizard" style="width: 300px; height: auto;" />
+</center>
+<br>
+
+<style>
+.gto-button {
+  display: inline-block;
+  padding: 15px 30px;
+  background: linear-gradient(45deg, #AAFBB2 0%, #85E89D 100%);
+  color: #2d5016;
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 18px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(170, 251, 178, 0.4);
+  animation: pulse 2s infinite;
+}
+
+.gto-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(170, 251, 178, 0.6);
+  text-decoration: none;
+  color: #2d5016;
+}
+
+.gto-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.5s;
+}
+
+.gto-button:hover::before {
+  left: 100%;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.gto-button:hover {
+  animation: float 1s ease-in-out infinite;
+}
+</style>
+
+<center>
+<a href="#" class="gto-button">
+  GTO Wizardで学習を始める
+</a>
+</center>
+
+
 
 
 
