@@ -17,15 +17,7 @@
             "banner": "/images/ads/Architecture.png"
         }
     },
-    {
-        "id": "ad003",
-        "name": "はなうし",
-        "url": "https://www.instagram.com/okinawa_hanaushi?utm_source=ig_web_button_share_sheet&igsh=a3Z6aXUyamcwN2Rt",
-        "images": {
-            "square": "/images/ads/hanausi_ad.png",
-            "banner": ""
-        }
-    },
+
     {
         "id": "ad004",
         "name": "ラジオ",

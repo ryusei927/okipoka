@@ -5,7 +5,9 @@ import Analytics from "@vercel/analytics/astro";
 import StoreList from "../components/StoreList.astro";
 import AdBanner from "../components/AdBanner.astro"; 
 import AdSquare from "../components/AdSquare.astro";
+import AnnouncementBanner from "../components/AnnouncementBanner.astro";
 import Footer from "../components/Footer.astro";
+
 ---
 
 <!doctype html>
@@ -28,8 +30,15 @@ import Footer from "../components/Footer.astro";
   </head>
   <body>
     <main>
-    
+
       <section class="hero"></section>
+      <div style="max-width: 900px; margin: 2rem auto; padding: 0 1rem;">
+        <a href="https://www.okipoka.com/tournaments/jp4phggnQftw1TaAnuNW" style="display: block; transition: transform 0.2s ease;">
+          <img src="/images/zaganhai.jpg" alt="お知らせ" style="width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.2s ease;" />
+        </a>
+
+        
+      </div>
       <AdBanner />
       <div class="container">
         <section id="tournaments-today">
