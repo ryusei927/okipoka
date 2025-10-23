@@ -6,7 +6,21 @@ publishDate: 2024-10-23T00:00:00.000Z
 
 <div class="article-content">
 
-<div style="text-align: center; margin: 20px 0;">
+<div style="text-align: cent<div style="background: #e8f4fd; border: 1px solid #bee5eb; border-radius: 8px; padding: 20px; margin: 24px 0;">
+<h4 style="color: #0c5460; margin-top: 0; display: flex; align-items: center;">
+<span style="margin-right: 8px;">📞</span>
+お問い合わせについて
+</h4>
+<p style="color: #0c5460; line-height: 1.6; margin-bottom: 12px;">
+GTO Wizardのご検討に際して、ツールに関してご不明な点やお悩みなどがございましたら、<a href="https://www.instagram.com/okipoka?igsh=MXdwcXc5ZDQ5ODh3OQ%3D%3D" target="_blank" style="color: #0066cc; text-decoration: none; font-weight: bold;">当サイトの公式Instagram</a>までお気軽にお声がけください。
+</p>
+<p style="color: #6c757d; font-size: 14px; margin-bottom: 8px;">
+※ OKIPOKAとして可能な範囲でサポートいたしますが、GTO Wizardの公式サポートではございません。
+</p>
+<p style="color: #6c757d; font-size: 14px; margin-bottom: 0;">
+※ GTO Wizard自体の不具合やシステム障害などについては、対応できない場合がございますのでご了承ください。
+</p>
+</div>20px 0;">
 <img src="/images/blog/gtowizard.png" style="max-width: 100%; height: auto; display: block; margin: 0 auto;" />
 </div>
 
@@ -215,6 +229,15 @@ GTO Wizardには複数のプランが用意されており、自分のポーカ�
 </a>
 </center>
 
+<div style="background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%); border: 2px solid #ffc107; border-radius: 8px; padding: 20px; margin: 20px 0; text-align: center;">
+<h4 style="color: #856404; margin-top: 0; display: flex; align-items: center; justify-content: center;">
+割引のお知らせとお願い
+</h4>
+<p style="color: #856404; font-size: 16px; margin-bottom: 8px; font-weight: 500;">
+当サイトからGTO Wizardにお申し込みいただくと、<strong>初月10%割引</strong>でご利用いただけます！
+</p>
+</div>
+
 <div style="background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 24px; margin: 32px 0;">
 <h3 style="color: #495057; margin-top: 0; font-size: 20px; border-bottom: 2px solid #dee2e6; padding-bottom: 8px;">まとめ</h3>
 <p style="color: #6c757d; line-height: 1.6;">GTO Wizardは、ポーカー学習において非常に強力なツールです。学習機能で疑問を即座に解決し、トレーナー機能で実践的なスキルを身につけることができます。</p>
@@ -222,6 +245,22 @@ GTO Wizardには複数のプランが用意されており、自分のポーカ�
 <p style="color: #6c757d; line-height: 1.6;">プラン選択に迷った場合は、まずはスタータープランから始めて、物足りなくなったらプレミアムにアップグレードするのがおすすめです。どのプランを選んでも、きっとあなたのポーカーライフをより充実したものにしてくれるでしょう。</p>
 
 <p style="color: #6c757d; line-height: 1.6; margin-bottom: 0;">ポーカーで勝てるようになりたい、GTOを学びたいと思っている方は、ぜひGTO Wizardを活用してみてください！</p>
+</div>
+
+<div style="background: #e8f4fd; border: 1px solid #bee5eb; border-radius: 8px; padding: 20px; margin: 24px 0;">
+<h4 style="color: #0c5460; margin-top: 0; display: flex; align-items: center;">
+
+お問い合わせについて
+</h4>
+<p style="color: #0c5460; line-height: 1.6; margin-bottom: 12px;">
+GTO Wizardのご検討に際して、ツールに関してご不明な点やお悩みなどがございましたら、<a href="https://www.instagram.com/okipoka?igsh=MXdwcXc5ZDQ5ODh3OQ%3D%3D" target="_blank" style="color: #0066cc; text-decoration: none; font-weight: bold;">当サイトの公式Instagram</a>までお気軽にお声がけください。
+</p>
+<p style="color: #6c757d; font-size: 14px; margin-bottom: 8px;">
+※ OKIPOKAとして可能な範囲でサポートいたしますが、GTO Wizardの公式サポートではございません。
+</p>
+<p style="color: #6c757d; font-size: 14px; margin-bottom: 0;">
+※ GTO Wizard自体の不具合やシステム障害などについては、対応できない場合がございますのでご了承ください。
+</p>
 </div>
 
 </div>
