@@ -25,19 +25,7 @@ publishDate: 2024-10-23T00:00:00.000Z
   border-radius: 4px;
 }
 
-.term-item {
-  margin-bottom: 15px;
-  line-height: 1.6;
-}
 
-.term-item:last-child {
-  margin-bottom: 0;
-}
-
-.term-item strong {
-  color: #007acc;
-  font-weight: 600;
-}
 </style>
 
 <br>
