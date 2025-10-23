@@ -64,7 +64,7 @@ UTG Call
 
 <img src="/images/blog/wiza_TT.png" /><br>
 
-ターン以降は割愛します！今回はこの例をもとにフロップまでのTTのアクションがどうだったのかを、学習ツールを用いて確認して見たいと思います。<br>
+ターン以降は割愛します！今回はこの例をもとにフロップまでのTTのアクションがどうだったのかを、学習機能を用いた例として動画を用意しています。<br>
 
 <video controls style="width: 100%; max-width: 800px; height: auto; display: block; margin: 20px auto;">
   <source src="/images/blog/wizard.mp4" type="video/mp4">
