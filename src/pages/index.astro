@@ -26,6 +26,80 @@ import Footer from "../components/Footer.astro";
       #datePicker { padding: 0.5rem; border-radius: 4px; border: 1px solid var(--color-border); background-color: #fff; color: var(--color-text); font-size: 1rem; }
       .container { max-width: 900px; }
       #tournament-list { display: grid; gap: 0.8rem; }
+      
+      /* ブログバナーのスタイル */
+      .blog-banner-link {
+        display: block;
+        position: relative;
+        border-radius: 12px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        text-decoration: none;
+        color: inherit;
+      }
+      
+      .blog-banner-link:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+      }
+      
+      .blog-banner {
+        width: 100%;
+        height: auto;
+        display: block;
+        transition: transform 0.3s ease;
+      }
+      
+      .blog-banner-link:hover .blog-banner {
+        transform: scale(1.05);
+      }
+      
+      .blog-banner-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(transparent, rgba(0,0,0,0.7));
+        color: white;
+        padding: 2rem 1.5rem 1.5rem 1.5rem;
+        text-align: left;
+        transition: all 0.3s ease;
+      }
+      
+      .blog-banner-overlay h3 {
+        margin: 0 0 0.5rem 0;
+        font-size: 1.5rem;
+        font-weight: 700;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+      }
+      
+      .blog-banner-overlay p {
+        margin: 0;
+        font-size: 1rem;
+        font-weight: 600;
+        opacity: 0.9;
+        transition: opacity 0.3s ease;
+      }
+      
+      .blog-banner-link:hover .blog-banner-overlay p {
+        opacity: 1;
+      }
+      
+      /* レスポンシブ対応 */
+      @media (max-width: 768px) {
+        .blog-banner-overlay {
+          padding: 1.5rem 1rem 1rem 1rem;
+        }
+        
+        .blog-banner-overlay h3 {
+          font-size: 1.2rem;
+        }
+        
+        .blog-banner-overlay p {
+          font-size: 0.9rem;
+        }
+      }
     </style>
   </head>
   <body>
@@ -46,6 +120,17 @@ import Footer from "../components/Footer.astro";
           </div>
         </section>
         <AdSquare />
+        <section id="blog-section" style="margin-top: 4rem;">
+          <h2 class="section-title">ブログ</h2>
+          <a href="/blog" class="blog-banner-link">
+            <img src="/images/blog_banner.png" alt="OKIPOKA Blog - ポーカー戦略・理論・最新情報" class="blog-banner" />
+            <div class="blog-banner-overlay">
+              <h3>ポーカー戦略・理論・最新情報</h3>
+              <p>記事を読む →</p>
+            </div>
+          </a>
+        </section>
+        
         <section id="stores-list" style="margin-top: 4rem;">
           <h2 class="section-title">店舗一覧</h2>
           <StoreList />
