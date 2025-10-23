@@ -1,7 +1,7 @@
 ---
 title: '【初心者向け】GTOとは？基本をわかりやすく解説'
 description: 'ポーカーGTO戦略を初心者向けに徹底解説。ゲーム理論、ナッシュ均衡、エクスプロイトとの違いから、なぜGTOが重宝されるのか、ポーカーにおけるミスの本質まで、理論的背景をゼロから分かりやすく説明します。'
-publishDate: 2024-10-14T00:00:00.000Z
+publishDate: 2024-10-23T00:00:00.000Z
 ---
 
 <link rel="stylesheet" href="/src/styles/blog-common.css">
@@ -168,7 +168,6 @@ GTOをプレイすることは、期待値を失わない±0のラインを保�
 
 そして、こちらの記事はGTO Wizardのアフィリエイトになっています。当サイトのリンクから飛んでGTO Wizardを契約いただくと、初回10%割引で利用できる事に加えて、筆者に収益としてお金が入って参ります。よろしければ是非当サイトのリンクからGTO wizardをご活用ください！
 
-また、こちらでは[GTO Wizardのツールの使い方・活用方法についてわかりやすく紹介](/blog/gtowizard-how-to-start)していますので、興味のある方は併せてご覧ください。
 <br><br>
 <center>
 <img src="/images/blog/Crush_V3.png" alt="GTO Wizard" style="width: 300px; height: auto;" />
