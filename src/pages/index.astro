@@ -16,7 +16,22 @@ import Footer from "../components/Footer.astro";
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>OKIPOKA | 沖縄ポーカー情報ポータル</title>
+    <meta name="description" content="沖縄のポーカートーナメント情報をリアルタイムでお届け。参加費、開催日時、店舗情報などを一目で確認できます。" />
+    
+    <!-- PWA設定 -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#ff7f00" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="OKIPOKA" />
+    <link rel="apple-touch-icon" href="/images/logo.png" />
+    
+    <!-- その他のメタタグ -->
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <meta property="og:title" content="OKIPOKA | 沖縄ポーカー情報ポータル" />
+    <meta property="og:description" content="沖縄のポーカートーナメント情報をリアルタイムでお届け" />
+    <meta property="og:image" content="/images/logo.png" />
+    <meta property="og:type" content="website" />
     <style>
       .hero { position: relative; background-image: url("/images/image1.png"); background-size: cover; background-position: center; border-bottom: 1px solid var(--color-border); height: 180px; }
       @media (min-width: 768px) { .hero { height: 460px; } }
@@ -142,5 +157,99 @@ import Footer from "../components/Footer.astro";
     <Analytics />
 
     <script type="module" src="/js/tournaments.js"></script>
+    
+    <!-- PWA機能 -->
+    <script>
+      // サービスワーカーの登録
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+              console.log('SW registered: ', registration);
+            })
+            .catch((registrationError) => {
+              console.log('SW registration failed: ', registrationError);
+            });
+        });
+      }
+
+      // インストールプロンプトの処理（右下の小さなボタン）
+      let deferredPrompt: any;
+      const installButton = document.createElement('div');
+      installButton.innerHTML = `
+        <button id="install-floating-btn" style="
+          position: fixed;
+          bottom: 20px;
+          right: 20px;
+          background: #ff7f00;
+          color: white;
+          border: none;
+          padding: 12px 16px;
+          border-radius: 25px;
+          font-size: 14px;
+          font-weight: 600;
+          cursor: pointer;
+          box-shadow: 0 4px 12px rgba(255, 127, 0, 0.3);
+          transition: all 0.3s ease;
+          z-index: 1000;
+          display: none;
+        " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(255, 127, 0, 0.4)'"
+           onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(255, 127, 0, 0.3)'">
+          Install
+        </button>
+      `;
+      document.body.appendChild(installButton);
+
+      // デバッグ用：常にボタンを表示
+      setTimeout(() => {
+        const floatingBtn = document.getElementById('install-floating-btn');
+        if (floatingBtn) {
+          floatingBtn.style.display = 'block';
+        }
+      }, 1000);
+
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        
+        // インストールボタンを表示
+        const floatingBtn = document.getElementById('install-floating-btn');
+        if (floatingBtn) {
+          floatingBtn.style.display = 'block';
+        }
+      });
+
+      document.addEventListener('click', (e) => {
+        if (e.target instanceof HTMLElement && e.target.id === 'install-floating-btn') {
+          if (deferredPrompt) {
+            // PWAインストールプロンプトを表示
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((choiceResult: { outcome: 'accepted' | 'dismissed' | string }) => {
+              if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the install prompt');
+              }
+              deferredPrompt = null;
+              // インストール後はボタンを隠す
+              const floatingBtn = document.getElementById('install-floating-btn');
+              if (floatingBtn) {
+                floatingBtn.style.display = 'none';
+              }
+            });
+          } else {
+            // フォールバック：ブラウザの標準的な「ホーム画面に追加」を案内
+            alert('ブラウザのメニューから「ホーム画面に追加」を選択してください。\n\nSafari: 共有ボタン → ホーム画面に追加\nChrome: メニュー → アプリをインストール');
+          }
+        }
+      });
+
+      // インストール完了時にボタンを非表示
+      window.addEventListener('appinstalled', () => {
+        console.log('PWA was installed');
+        const floatingBtn = document.getElementById('install-floating-btn');
+        if (floatingBtn) {
+          floatingBtn.style.display = 'none';
+        }
+      });
+    </script>
   </body>
 </html>
