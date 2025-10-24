@@ -1,68 +1,26 @@
 {
-  "name": "OKIPOKA - 沖縄ポーカー情報",
+  "name": "OKIPOKA | 沖縄ポーカー情報",
   "short_name": "OKIPOKA",
-  "description": "沖縄のポーカートーナメント情報をお届けするアプリ",
+  "description": "沖縄県内のアミューズメントポーカーに関するトーナメント情報を集約したポータルサイト。",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#f5f7fb",
+  "background_color": "#f8f9fa",
   "theme_color": "#ff7f00",
-  "orientation": "portrait-primary",
-  "scope": "/",
-  "lang": "ja",
-  "dir": "ltr",
   "icons": [
     {
-      "src": "/images/logo.png",
+      "src": "/images/logo-192x192.png",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable any"
+      "type": "image/png"
     },
     {
-      "src": "/images/logo.png",
+      "src": "/images/logo-512x512.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable any"
-    }
-  ],
-  "categories": ["games", "sports", "entertainment"],
-  "screenshots": [
-    {
-      "src": "/images/screenshot-wide.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide"
+      "type": "image/png"
     },
     {
-      "src": "/images/screenshot-narrow.png", 
-      "sizes": "750x1334",
-      "type": "image/png",
-      "form_factor": "narrow"
-    }
-  ],
-  "shortcuts": [
-    {
-      "name": "今日のトーナメント",
-      "short_name": "今日",
-      "description": "今日開催されるトーナメント一覧",
-      "url": "/?filter=today",
-      "icons": [
-        {
-          "src": "/images/logo.png",
-          "sizes": "96x96"
-        }
-      ]
-    },
-    {
-      "name": "店舗一覧",
-      "short_name": "店舗",
-      "description": "沖縄のポーカー店舗一覧",
-      "url": "/stores",
-      "icons": [
-        {
-          "src": "/images/logo.png",
-          "sizes": "96x96"
-        }
-      ]
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
     }
   ]
 }

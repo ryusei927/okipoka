@@ -1,21 +1,37 @@
 ---
 // SeoHead.astro
-const { title, description = "", ogImage = "/default-og.png" } = Astro.props;
+const { 
+    title, 
+    // descriptionのデフォルト値を設定
+    description = "沖縄県内のアミューズメントポーカーに関するトーナメント情報を集約し、プレイヤーとポーカースポットをつなぐためのポータルサイトです。", 
+    ogImage = "/default-og.png" 
+} = Astro.props;
 ---
 <head>
+  {/* ★★★ PWAおよび必須タグを追記/統合 ★★★ */}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title}</title>
   <meta name="description" content={description} />
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 
-  <!-- OGP -->
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:image" content={ogImage} />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="OKIPOKA" />
 
-  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
   <meta name="twitter:image" content={ogImage} />
+  
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ff7f00" />
+  
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="OKIPOKA" />
+  <link rel="apple-touch-icon" href="/images/logo-192x192.png" />
+  
 </head>

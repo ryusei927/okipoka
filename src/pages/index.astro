@@ -16,22 +16,16 @@ import Footer from "../components/Footer.astro";
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>OKIPOKA | 沖縄ポーカー情報ポータル</title>
-    <meta name="description" content="沖縄のポーカートーナメント情報をリアルタイムでお届け。参加費、開催日時、店舗情報などを一目で確認できます。" />
-    
-    <!-- PWA設定 -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+
     <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#ff7f00" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="OKIPOKA" />
-    <link rel="apple-touch-icon" href="/images/logo.png" />
     
-    <!-- その他のメタタグ -->
-    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-    <meta property="og:title" content="OKIPOKA | 沖縄ポーカー情報ポータル" />
-    <meta property="og:description" content="沖縄のポーカートーナメント情報をリアルタイムでお届け" />
-    <meta property="og:image" content="/images/logo.png" />
-    <meta property="og:type" content="website" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="OKIPOKA" />
+    <link rel="apple-touch-icon" href="/images/logo-192x192.png" />
+    
     <style>
       .hero { position: relative; background-image: url("/images/image1.png"); background-size: cover; background-position: center; border-bottom: 1px solid var(--color-border); height: 180px; }
       @media (min-width: 768px) { .hero { height: 460px; } }
@@ -41,6 +35,67 @@ import Footer from "../components/Footer.astro";
       #datePicker { padding: 0.5rem; border-radius: 4px; border: 1px solid var(--color-border); background-color: #fff; color: var(--color-text); font-size: 1rem; }
       .container { max-width: 900px; }
       #tournament-list { display: grid; gap: 0.8rem; }
+      
+      /* PWAプロンプトバナーのスタイル */
+      .pwa-prompt-container {
+        text-align: center;
+        background-color: #e6f7ff; /* 明るい青の背景 */
+        border: 1px solid #91d5ff;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin: 2rem auto;
+        max-width: 900px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: none; /* デフォルトで非表示 */
+      }
+      .pwa-prompt-container:hover {
+        background-color: #d6f7ff;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+      }
+      .pwa-prompt-container.show {
+        display: block;
+      }
+      .pwa-prompt-container p {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #1890ff;
+        margin: 0;
+      }
+      .pwa-prompt-container strong {
+        color: #096dd9;
+      }
+      .install-button {
+        background-color: #1890ff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 1rem;
+      }
+      .install-button:hover {
+        background-color: #096dd9;
+        transform: translateY(-1px);
+      }
+      @media (max-width: 768px) {
+        .pwa-prompt-container {
+          padding: 1rem;
+          margin: 1.5rem 1rem;
+        }
+        .pwa-prompt-container p {
+          font-size: 1rem;
+        }
+        .install-button {
+          padding: 0.6rem 1.2rem;
+          font-size: 0.9rem;
+        }
+      }
       
       /* ブログバナーのスタイル */
       .blog-banner-link {
@@ -123,6 +178,14 @@ import Footer from "../components/Footer.astro";
       <section class="hero"></section>
 
       <AdBanner />
+      
+      <div class="container">
+          <button id="install-button" class="install-button">
+            アプリとしてインストール
+          </button>
+        </section>
+      </div>
+      
       <div class="container">
         <section id="tournaments-today">
           <h2 class="section-title">トーナメント情報</h2>
@@ -158,152 +221,79 @@ import Footer from "../components/Footer.astro";
 
     <script type="module" src="/js/tournaments.js"></script>
     
-    <!-- PWA機能 -->
-    <script>
-      // サービスワーカーの登録
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
-            .then((registration) => {
-              console.log('SW registered: ', registration);
-            })
-            .catch((registrationError) => {
-              console.log('SW registration failed: ', registrationError);
-            });
-        });
-      }
+    <script is:inline>
+      // PWAインストール機能
+      (function() {
+        let deferredPrompt = null;
+        const pwaPrompt = document.getElementById('pwa-prompt');
+        const installButton = document.getElementById('install-button');
 
-      // インストールプロンプトの処理（右下の小さなボタン）
-      let deferredPrompt: any;
-      const installButton = document.createElement('div');
-      installButton.innerHTML = `
-        <button id="install-floating-btn" style="
-          position: fixed;
-          bottom: 20px;
-          right: 20px;
-          background: #ff7f00;
-          color: white;
-          border: none;
-          padding: 12px 16px;
-          border-radius: 25px;
-          font-size: 14px;
-          font-weight: 600;
-          cursor: pointer;
-          box-shadow: 0 4px 12px rgba(255, 127, 0, 0.3);
-          transition: all 0.3s ease;
-          z-index: 1000;
-          display: none;
-        " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(255, 127, 0, 0.4)'"
-           onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(255, 127, 0, 0.3)'">
-          Install
-        </button>
-      `;
-      document.body.appendChild(installButton);
-
-      // デバイス判定とボタン表示
-      setTimeout(() => {
-        const floatingBtn = document.getElementById('install-floating-btn');
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-        const isSafari = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
-        const isChrome = /Chrome/.test(navigator.userAgent);
-        
-        if (floatingBtn) {
-          if (isIOS && (isSafari || isChrome)) {
-            // iPhone（Safari/Chrome）ユーザー向けにテキストを変更
-            floatingBtn.innerHTML = '📱 ホーム画面に追加';
+        // beforeinstallpromptイベントをキャッチ
+        window.addEventListener('beforeinstallprompt', function(e) {
+          // デフォルトのミニインフォバーを非表示
+          e.preventDefault();
+          // イベントを保存
+          deferredPrompt = e;
+          // カスタムプロンプトを表示
+          if (pwaPrompt) {
+            pwaPrompt.classList.add('show');
           }
-          floatingBtn.style.display = 'block';
-        }
-        
-        // iPhoneユーザーにはさらに親切な案内を表示
-        if (isIOS && (isSafari || isChrome)) {
-          // 3秒後に小さな案内を表示
-          setTimeout(() => {
-            const iosHint = document.createElement('div');
-            const browserName = isChrome ? 'Chrome' : 'Safari';
-            iosHint.innerHTML = `
-              <div id="ios-hint" style="
-                position: fixed;
-                bottom: 80px;
-                right: 20px;
-                background: #fff;
-                color: #333;
-                padding: 8px 12px;
-                border-radius: 8px;
-                font-size: 12px;
-                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-                border: 1px solid #e0e0e0;
-                max-width: 200px;
-                z-index: 999;
-              ">
-                ↑ ${browserName}でのインストール手順
-              </div>
-            `;
-            document.body.appendChild(iosHint);
-            
-            // 5秒後に自動で消す
-            setTimeout(() => {
-              const hint = document.getElementById('ios-hint');
-              if (hint) {
-                hint.remove();
-              }
-            }, 5000);
-          }, 3000);
-        }
-      }, 1000);
+        });
 
-      window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        
-        // インストールボタンを表示
-        const floatingBtn = document.getElementById('install-floating-btn');
-        if (floatingBtn) {
-          floatingBtn.style.display = 'block';
-        }
-      });
+        // インストールボタンのクリックイベント
+        if (installButton) {
+          installButton.addEventListener('click', function() {
+            if (!deferredPrompt) {
+              return;
+            }
 
-      document.addEventListener('click', (e) => {
-        if (e.target instanceof HTMLElement && e.target.id === 'install-floating-btn') {
-          if (deferredPrompt) {
-            // PWAインストールプロンプトを表示
+            // インストールプロンプトを表示
             deferredPrompt.prompt();
-            deferredPrompt.userChoice.then((choiceResult: { outcome: 'accepted' | 'dismissed' | string }) => {
+            
+            // ユーザーの選択を取得
+            deferredPrompt.userChoice.then(function(choiceResult) {
               if (choiceResult.outcome === 'accepted') {
-                console.log('User accepted the install prompt');
+                console.log('ユーザーがPWAインストールを承認しました');
+              } else {
+                console.log('ユーザーがPWAインストールを拒否しました');
+              }
+              
+              // プロンプトを非表示
+              if (pwaPrompt) {
+                pwaPrompt.classList.remove('show');
               }
               deferredPrompt = null;
-              // インストール後はボタンを隠す
-              const floatingBtn = document.getElementById('install-floating-btn');
-              if (floatingBtn) {
-                floatingBtn.style.display = 'none';
-              }
             });
-          } else {
-            // iPhone/Safariユーザー向けの詳しい案内
-            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-            const isSafari = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
-            const isChrome = /Chrome/.test(navigator.userAgent);
-            
-            if (isIOS && isSafari) {
-              alert('📱 iPhone Safari でOKIPOKAをアプリとして追加する方法：\n\n1️⃣ 画面下部の「共有」ボタン（□↑）をタップ\n2️⃣ 「ホーム画面に追加」を選択\n3️⃣ 右上の「追加」をタップ\n\n✨ ホーム画面にOKIPOKAアイコンが追加されます！');
-            } else if (isIOS && isChrome) {
-              alert('📱 iPhone Chrome でOKIPOKAをアプリとして追加する方法：\n\n1️⃣ 画面下部の「共有」ボタン（□↑）をタップ\n2️⃣ 「ホーム画面に追加」を選択\n3️⃣ 「追加」をタップ\n\n⚠️ 注意：より良い体験のためにSafariでのご利用をおすすめします！');
-            } else {
-              alert('ブラウザのメニューから「ホーム画面に追加」を選択してください。\n\n📱 Safari: 共有ボタン → ホーム画面に追加\n🌐 Chrome: メニュー → アプリをインストール');
-            }
-          }
+          });
         }
-      });
 
-      // インストール完了時にボタンを非表示
-      window.addEventListener('appinstalled', () => {
-        console.log('PWA was installed');
-        const floatingBtn = document.getElementById('install-floating-btn');
-        if (floatingBtn) {
-          floatingBtn.style.display = 'none';
+        // アプリがインストール済みの場合はプロンプトを非表示
+        window.addEventListener('appinstalled', function() {
+          if (pwaPrompt) {
+            pwaPrompt.classList.remove('show');
+          }
+          deferredPrompt = null;
+        });
+
+        // iOSのSafariの場合の特別処理
+        function isIOS() {
+          return /iPad|iPhone|iPod/.test(navigator.userAgent);
         }
-      });
+
+        function isInStandaloneMode() {
+          return window.matchMedia('(display-mode: standalone)').matches;
+        }
+
+        // iOSでスタンドアロンモードでない場合にカスタムメッセージを表示
+        if (isIOS() && !isInStandaloneMode()) {
+          setTimeout(function() {
+            if (pwaPrompt) {
+              pwaPrompt.classList.add('show');
+              pwaPrompt.innerHTML = '<p>このサイトを<strong>ホーム画面に追加</strong>できます 📲</p><p style="font-size: 0.9rem; margin-top: 0.5rem; color: #666;">Safari の「共有」→「ホーム画面に追加」をタップしてください</p>';
+            }
+          }, 2000);
+        }
+      })();
     </script>
   </body>
 </html>
