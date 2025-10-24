@@ -200,11 +200,55 @@ import Footer from "../components/Footer.astro";
       `;
       document.body.appendChild(installButton);
 
-      // デバッグ用：常にボタンを表示
+      // デバイス判定とボタン表示
       setTimeout(() => {
         const floatingBtn = document.getElementById('install-floating-btn');
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        const isSafari = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
+        const isChrome = /Chrome/.test(navigator.userAgent);
+        
         if (floatingBtn) {
+          if (isIOS && (isSafari || isChrome)) {
+            // iPhone（Safari/Chrome）ユーザー向けにテキストを変更
+            floatingBtn.innerHTML = '📱 ホーム画面に追加';
+          }
           floatingBtn.style.display = 'block';
+        }
+        
+        // iPhoneユーザーにはさらに親切な案内を表示
+        if (isIOS && (isSafari || isChrome)) {
+          // 3秒後に小さな案内を表示
+          setTimeout(() => {
+            const iosHint = document.createElement('div');
+            const browserName = isChrome ? 'Chrome' : 'Safari';
+            iosHint.innerHTML = `
+              <div id="ios-hint" style="
+                position: fixed;
+                bottom: 80px;
+                right: 20px;
+                background: #fff;
+                color: #333;
+                padding: 8px 12px;
+                border-radius: 8px;
+                font-size: 12px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                border: 1px solid #e0e0e0;
+                max-width: 200px;
+                z-index: 999;
+              ">
+                ↑ ${browserName}でのインストール手順
+              </div>
+            `;
+            document.body.appendChild(iosHint);
+            
+            // 5秒後に自動で消す
+            setTimeout(() => {
+              const hint = document.getElementById('ios-hint');
+              if (hint) {
+                hint.remove();
+              }
+            }, 5000);
+          }, 3000);
         }
       }, 1000);
 
@@ -236,8 +280,18 @@ import Footer from "../components/Footer.astro";
               }
             });
           } else {
-            // フォールバック：ブラウザの標準的な「ホーム画面に追加」を案内
-            alert('ブラウザのメニューから「ホーム画面に追加」を選択してください。\n\nSafari: 共有ボタン → ホーム画面に追加\nChrome: メニュー → アプリをインストール');
+            // iPhone/Safariユーザー向けの詳しい案内
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+            const isSafari = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
+            const isChrome = /Chrome/.test(navigator.userAgent);
+            
+            if (isIOS && isSafari) {
+              alert('📱 iPhone Safari でOKIPOKAをアプリとして追加する方法：\n\n1️⃣ 画面下部の「共有」ボタン（□↑）をタップ\n2️⃣ 「ホーム画面に追加」を選択\n3️⃣ 右上の「追加」をタップ\n\n✨ ホーム画面にOKIPOKAアイコンが追加されます！');
+            } else if (isIOS && isChrome) {
+              alert('📱 iPhone Chrome でOKIPOKAをアプリとして追加する方法：\n\n1️⃣ 画面下部の「共有」ボタン（□↑）をタップ\n2️⃣ 「ホーム画面に追加」を選択\n3️⃣ 「追加」をタップ\n\n⚠️ 注意：より良い体験のためにSafariでのご利用をおすすめします！');
+            } else {
+              alert('ブラウザのメニューから「ホーム画面に追加」を選択してください。\n\n📱 Safari: 共有ボタン → ホーム画面に追加\n🌐 Chrome: メニュー → アプリをインストール');
+            }
           }
         }
       });
