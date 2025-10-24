@@ -6,6 +6,77 @@ publishDate: 2024-10-23T00:00:00.000Z
 
 <div class="article-content">
 
+<style>
+/* 専門用語の説明ボックス */
+.terminology-box {
+  background-color: #f8f9fa;
+  border-left: 4px solid #007acc;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 4px;
+}
+
+.term-item {
+  margin: 0;
+}
+
+/* サイドノート */
+.side-note {
+  background-color: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 6px;
+  padding: 20px;
+  margin: 25px 0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.side-note p {
+  margin: 0 0 10px 0;
+}
+
+.side-note p:last-child {
+  margin-bottom: 0;
+}
+
+.side-note strong {
+  color: #856404;
+}
+
+/* まとめボックス */
+.summary-box {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 25px;
+  margin: 25px 0;
+}
+
+.summary-box h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.summary-item {
+  margin-bottom: 20px;
+}
+
+.summary-item:last-child {
+  margin-bottom: 0;
+}
+
+.summary-item h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #555;
+}
+
+.summary-item strong {
+  color: #007acc;
+}
+</style>
+
 # ポットオッズとは何か？
 
 ポーカーにおけるポットオッズ（Pot Odds）とは、相手のベットに対してコールするかどうかを数学的に判断するための指標です。具体的には、「コールするために必要な金額」に対して「獲得できるポット総額」がどの程度の比率になるかを計算し、それをEQ（勝率）に変換したものです。
@@ -16,17 +87,7 @@ publishDate: 2024-10-23T00:00:00.000Z
 <div class="term-item">
 <strong>エクイティ(EQ)</strong>とは、現在の手札とボードカードから計算される勝率のことを指します。ショーダウンまで進むことを前提とし、今後のベッティングアクションは考慮しません。
 </div>
-<style>
-.terminology-box {
-  background-color: #f8f9fa;
-  border-left: 4px solid #007acc;
-  padding: 20px;
-  margin: 20px 0;
-  border-radius: 4px;
-}
-
-
-</style>
+</div>
 
 <br>
 
@@ -171,8 +232,6 @@ UTGが9BBをベット、COとBTNがフォールド。あなたに回ってきま
   margin: 25px 0;
 }
 
-
-
 .quiz-question {
   background-color: white;
   padding: 15px;
@@ -245,8 +304,6 @@ UTGが9BBをベット、COとBTNがフォールド。あなたに回ってきま
 #check-answer:hover, #check-answer-2:hover, #check-answer-3:hover {
   background-color: #357abd;
 }
-
-
 
 .quiz-result {
   padding: 15px;
@@ -434,40 +491,6 @@ document.getElementById('answer-input-3').addEventListener('keypress', function(
 <p>ポットオッズは「コールが数学的に正当化されるかどうか」の判断基準です。計算に基づいた判断ができるようになることで、長期的に収益性の高いプレイが実現できます。</p>
 </div>
 
-
-<style>
-.summary-box {
-  background-color: #f8f9fa;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  padding: 25px;
-  margin: 25px 0;
-}
-
-.summary-box h3 {
-  margin-top: 0;
-  margin-bottom: 20px;
-  color: #333;
-}
-
-.summary-item {
-  margin-bottom: 20px;
-}
-
-.summary-item:last-child {
-  margin-bottom: 0;
-}
-
-.summary-item h4 {
-  margin-top: 0;
-  margin-bottom: 10px;
-  color: #555;
-}
-
-.summary-item strong {
-  color: #007acc;
-}
-</style>
 
 </div>
 
