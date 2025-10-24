@@ -82,5 +82,11 @@
     "name": "BAR オースリー",
     "area": "那覇",
     "logo": "/images/o3.jpg"
+  },
+      {
+    "id": "thenuts",
+    "name": "THE NUTS",
+    "area": "北部",
+    "logo": "/images/thenuts.jpg"
   }
 ]
