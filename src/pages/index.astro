@@ -17,15 +17,6 @@ import Footer from "../components/Footer.astro";
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>OKIPOKA | 沖縄ポーカー情報ポータル</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-
-    <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#ff7f00" />
-    
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="OKIPOKA" />
-    <link rel="apple-touch-icon" href="/images/logo-192x192.png" />
-    
     <style>
       .hero { position: relative; background-image: url("/images/image1.png"); background-size: cover; background-position: center; border-bottom: 1px solid var(--color-border); height: 180px; }
       @media (min-width: 768px) { .hero { height: 460px; } }
@@ -35,67 +26,6 @@ import Footer from "../components/Footer.astro";
       #datePicker { padding: 0.5rem; border-radius: 4px; border: 1px solid var(--color-border); background-color: #fff; color: var(--color-text); font-size: 1rem; }
       .container { max-width: 900px; }
       #tournament-list { display: grid; gap: 0.8rem; }
-      
-      /* PWAプロンプトバナーのスタイル */
-      .pwa-prompt-container {
-        text-align: center;
-        background-color: #e6f7ff; /* 明るい青の背景 */
-        border: 1px solid #91d5ff;
-        border-radius: 8px;
-        padding: 1.5rem;
-        margin: 2rem auto;
-        max-width: 900px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        cursor: pointer;
-        transition: all 0.3s ease;
-        display: none; /* デフォルトで非表示 */
-      }
-      .pwa-prompt-container:hover {
-        background-color: #d6f7ff;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-      }
-      .pwa-prompt-container.show {
-        display: block;
-      }
-      .pwa-prompt-container p {
-        font-size: 1.1rem;
-        font-weight: 600;
-        color: #1890ff;
-        margin: 0;
-      }
-      .pwa-prompt-container strong {
-        color: #096dd9;
-      }
-      .install-button {
-        background-color: #1890ff;
-        color: white;
-        border: none;
-        border-radius: 6px;
-        padding: 0.75rem 1.5rem;
-        font-size: 1rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        margin-top: 1rem;
-      }
-      .install-button:hover {
-        background-color: #096dd9;
-        transform: translateY(-1px);
-      }
-      @media (max-width: 768px) {
-        .pwa-prompt-container {
-          padding: 1rem;
-          margin: 1.5rem 1rem;
-        }
-        .pwa-prompt-container p {
-          font-size: 1rem;
-        }
-        .install-button {
-          padding: 0.6rem 1.2rem;
-          font-size: 0.9rem;
-        }
-      }
       
       /* ブログバナーのスタイル */
       .blog-banner-link {
@@ -178,14 +108,6 @@ import Footer from "../components/Footer.astro";
       <section class="hero"></section>
 
       <AdBanner />
-      
-      <div class="container">
-          <button id="install-button" class="install-button">
-            アプリとしてインストール
-          </button>
-        </section>
-      </div>
-      
       <div class="container">
         <section id="tournaments-today">
           <h2 class="section-title">トーナメント情報</h2>
@@ -220,80 +142,5 @@ import Footer from "../components/Footer.astro";
     <Analytics />
 
     <script type="module" src="/js/tournaments.js"></script>
-    
-    <script is:inline>
-      // PWAインストール機能
-      (function() {
-        let deferredPrompt = null;
-        const pwaPrompt = document.getElementById('pwa-prompt');
-        const installButton = document.getElementById('install-button');
-
-        // beforeinstallpromptイベントをキャッチ
-        window.addEventListener('beforeinstallprompt', function(e) {
-          // デフォルトのミニインフォバーを非表示
-          e.preventDefault();
-          // イベントを保存
-          deferredPrompt = e;
-          // カスタムプロンプトを表示
-          if (pwaPrompt) {
-            pwaPrompt.classList.add('show');
-          }
-        });
-
-        // インストールボタンのクリックイベント
-        if (installButton) {
-          installButton.addEventListener('click', function() {
-            if (!deferredPrompt) {
-              return;
-            }
-
-            // インストールプロンプトを表示
-            deferredPrompt.prompt();
-            
-            // ユーザーの選択を取得
-            deferredPrompt.userChoice.then(function(choiceResult) {
-              if (choiceResult.outcome === 'accepted') {
-                console.log('ユーザーがPWAインストールを承認しました');
-              } else {
-                console.log('ユーザーがPWAインストールを拒否しました');
-              }
-              
-              // プロンプトを非表示
-              if (pwaPrompt) {
-                pwaPrompt.classList.remove('show');
-              }
-              deferredPrompt = null;
-            });
-          });
-        }
-
-        // アプリがインストール済みの場合はプロンプトを非表示
-        window.addEventListener('appinstalled', function() {
-          if (pwaPrompt) {
-            pwaPrompt.classList.remove('show');
-          }
-          deferredPrompt = null;
-        });
-
-        // iOSのSafariの場合の特別処理
-        function isIOS() {
-          return /iPad|iPhone|iPod/.test(navigator.userAgent);
-        }
-
-        function isInStandaloneMode() {
-          return window.matchMedia('(display-mode: standalone)').matches;
-        }
-
-        // iOSでスタンドアロンモードでない場合にカスタムメッセージを表示
-        if (isIOS() && !isInStandaloneMode()) {
-          setTimeout(function() {
-            if (pwaPrompt) {
-              pwaPrompt.classList.add('show');
-              pwaPrompt.innerHTML = '<p>このサイトを<strong>ホーム画面に追加</strong>できます 📲</p><p style="font-size: 0.9rem; margin-top: 0.5rem; color: #666;">Safari の「共有」→「ホーム画面に追加」をタップしてください</p>';
-            }
-          }, 2000);
-        }
-      })();
-    </script>
   </body>
 </html>
