@@ -1,30 +1,30 @@
 [
     {
         "id": "ad001",
-        "name": "j9",
-        "url": "https://www.instagram.com/jack9_amusement?utm_source=ig_web_button_share_sheet&igsh=MW4wbjh4b2Jjb2Y2NA==",
+        "name": "j9コンカフェ",
+        "url": "https://www.instagram.com/jack9.kawaii?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
         "images": {
-            "square": "/images/ads/j9_ad.jpg",
+            "square": "/images/ads/j9concafe.png",
             "banner": ""
         }
     },
     {
         "id": "ad002",
         "name": "Architecture",
-        "url": "https://architecture-tech.jp/about",
+        "url": "https://www.instagram.com/royalhoneyaaahih?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
         "images": {
             "square": "",
-            "banner": "/images/ads/Architecture.png"
+            "banner": "/images/ads/loyal.jpg"
         }
     },
 
     {
         "id": "ad004",
         "name": "ラジオ",
-        "url": "https://www.instagram.com/kurikinton_t/?utm_source=ig_web_button_share_sheet",
+        "url": "https://www.instagram.com/royalhoneyaaahih?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
         "images": {
             "square": "",
-            "banner": "/images/ads/radio_ad.jpg"
+            "banner": "/images/ads/radio.jpg"
         }
     },
     {
