@@ -3,6 +3,7 @@ import "../styles/global.css";
 import "../styles/footer.css";
 import Analytics from "@vercel/analytics/astro";
 import StoreList from "../components/StoreList.astro";
+import DonateTeaser from "../components/DonateTeaser.astro";
 import AdBanner from "../components/AdBanner.astro"; 
 import AdSquare from "../components/AdSquare.astro";
 import AnnouncementBanner from "../components/AnnouncementBanner.astro";
@@ -119,8 +120,9 @@ import Footer from "../components/Footer.astro";
             <p style="text-align:center;">トーナメント情報を読み込んでいます...</p>
           </div>
         </section>
-        <AdSquare />
-        <section id="blog-section" style="margin-top: 4rem;">
+  <AdSquare />
+  <DonateTeaser />
+  <section id="blog-section" style="margin-top: 4rem;">
           <h2 class="section-title">ブログ</h2>
           <a href="/blog" class="blog-banner-link">
             <img src="/images/blog_banner.png" alt="OKIPOKA Blog - ポーカー戦略・理論・最新情報" class="blog-banner" />
@@ -133,7 +135,7 @@ import Footer from "../components/Footer.astro";
 
         <AdSquare />
         
-        <section id="stores-list" style="margin-top: 4rem;">
+  <section id="stores-list" style="margin-top: 4rem;">
           <h2 class="section-title">店舗一覧</h2>
           <StoreList />
         </section>
