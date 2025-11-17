@@ -1,0 +1,24 @@
+---
+import '../styles/global.css';
+import '../styles/footer.css';
+import Footer from '../components/Footer.astro';
+import DonatePanel from '../components/DonatePanel.astro';
+---
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>寄付のお願い | OKIPOKA</title>
+    <meta name="description" content="OKIPOKAの活動継続を支援するための寄付ページ。沖縄ポーカー情報の更新をサポートしてください。" />
+    <link rel="icon" href="/favicon.ico" />
+  </head>
+  <body>
+    <main>
+      <div class="container">
+        <DonatePanel />
+      </div>
+    </main>
+    <Footer />
+  </body>
+</html>
