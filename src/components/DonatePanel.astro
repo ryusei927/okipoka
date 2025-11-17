@@ -1,52 +1,77 @@
 ---
 // Props (将来的に外部化可能)
-const presetAmounts: number[] = [300, 1000, 1500, 2000, 3000, 5000, 10000];
-// Squareペイメントリンクのマッピング（暫定placeholders）
-// 実際には管理画面で生成したURLに差し替え
+const presetAmounts: number[] = [500, 1000, 1500, 2000, 3000, 5000, 10000];
+// Squareペイメントリンクのマッピング（本番運用）
+// 管理画面で生成した決済用URLを直接利用
 const paymentLinks: Record<number,string> = {
-  300: 'https://example.com/square/300',
-  1000: 'https://example.com/square/1000',
-  1500: 'https://example.com/square/1500',
-  2000: 'https://example.com/square/2000',
-  3000: 'https://example.com/square/3000',
-  5000: 'https://example.com/square/5000',
-  10000: 'https://example.com/square/10000'
+  500: 'https://square.link/u/DPZSCbAF',
+  1000: 'https://square.link/u/XWDUhRK6',
+  1500: 'https://square.link/u/ikbb1Dic',
+  2000: 'https://square.link/u/9apzrMV3',
+  3000: 'https://square.link/u/892z7OwU',
+  5000: 'https://square.link/u/s6SB3TiV',
+  10000: 'https://square.link/u/H4EOHbK1'
+};
+// 月額プラン（500 / 1000 / 1500 / 2000 / 3000 / 5000 / 10000）
+const monthlyLinks: Record<number,string> = {
+  500: 'https://square.link/u/VwKJSXM1',
+  1000: 'https://square.link/u/Of5TISqG',
+  1500: 'https://square.link/u/usSVUI2K',
+  2000: 'https://square.link/u/CU05ZOZu',
+  3000: 'https://square.link/u/31tgVvs4',
+  5000: 'https://square.link/u/INkjOgnX',
+  10000: 'https://square.link/u/OGoRS6dB'
 };
 ---
 <div class="donate-wrapper">
   <div class="donate-header">
-    <h1>サイト継続のご支援をお願いします</h1>
-    <p class="lead">OKIPOKAは沖縄のポーカー情報を無料で整理・更新しています。サーバー費・取材/検証工数の一部を寄付でサポートしていただけると、更新頻度と精度をさらに高められます。</p>
+  <h1>OKIPOKAの継続運営をご支援ください</h1>
+  <p class="lead">沖縄エリアのポーカー大会・店舗・戦略情報を、できる限り正確で見やすく保つために毎日更新・検証を行っています。ご支援があると <strong>掲載精度の向上 / 更新スピードアップ / 新規コンテンツ投入</strong> を継続的に実現できます。任意の金額でのご協力をお願いいたします。</p>
   </div>
   <div class="donate-mode-toggle" role="tablist" aria-label="寄付種別">
     <button class="mode-btn active" data-mode="once" aria-selected="true">今回のみ</button>
-    <button class="mode-btn" data-mode="monthly" aria-selected="false">毎月の継続寄付 (β)</button>
+  <button class="mode-btn" data-mode="monthly" aria-selected="false">月額支援</button>
   </div>
   <div class="amount-grid" aria-label="金額を選択">
     {presetAmounts.map(a => (
       <button class="amount-btn" data-amount={a}>¥{a.toLocaleString()}</button>
     ))}
   </div>
+  <div class="monthly-grid" aria-label="月額プラン" style="display:none;">
+    <button class="monthly-btn" data-monthly="500">¥500 / 月</button>
+    <button class="monthly-btn" data-monthly="1000">¥1,000 / 月</button>
+    <button class="monthly-btn" data-monthly="1500">¥1,500 / 月</button>
+    <button class="monthly-btn" data-monthly="2000">¥2,000 / 月</button>
+    <button class="monthly-btn" data-monthly="3000">¥3,000 / 月</button>
+    <button class="monthly-btn" data-monthly="5000">¥5,000 / 月</button>
+    <button class="monthly-btn" data-monthly="10000">¥10,000 / 月</button>
+    <p class="monthly-note">いつでも解約可（Squareの決済ページから）</p>
+  </div>
   <div class="donate-action">
     <button id="donateSubmit" class="donate-submit" disabled>寄付手続きへ進む</button>
-    <p class="note">※ 決済画面へ移動します。現時点ではテストリンクです。</p>
+  <p class="note">※ ボタン押下でSquareの安全な決済ページへ移動します。決済完了後はブラウザの戻る操作で本サイトへ戻れます。支援は任意であり、金額による優先表示や特典の差はありません。</p>
   </div>
   <section class="transparency">
-    <h2>寄付の使途</h2>
+    <h2>ご支援の主な使い道</h2>
     <ul>
-      <li>トーナメント情報の自動取得スクリプト保守</li>
-      <li>新規店舗・イベントの確認作業</li>
-      <li>戦略・ルール記事の執筆/校正</li>
+      <li>トーナメント情報自動取得スクリプトの改良・保守</li>
+      <li>新規店舗/イベントの現地・オンライン確認と重複排除</li>
+      <li>戦略・ルール・確率記事の調査、執筆、校閲</li>
+      <li>不正確データの検証と修正 (ユーザー報告対応含む)</li>
     </ul>
   </section>
 </div>
 <!-- Squareリンク埋め込み用 (後でサーバー側生成に差し替え可) -->
-<script id="paymentLinksData" type="application/json">{ "300": "https://example.com/square/300", "1000": "https://example.com/square/1000", "1500": "https://example.com/square/1500", "2000": "https://example.com/square/2000", "3000": "https://example.com/square/3000", "5000": "https://example.com/square/5000", "10000": "https://example.com/square/10000" }</script>
+<script id="paymentLinksData" type="application/json">{ "500": "https://square.link/u/DPZSCbAF", "1000": "https://square.link/u/XWDUhRK6", "1500": "https://square.link/u/ikbb1Dic", "2000": "https://square.link/u/9apzrMV3", "3000": "https://square.link/u/892z7OwU", "5000": "https://square.link/u/s6SB3TiV", "10000": "https://square.link/u/H4EOHbK1" }</script>
+<script id="monthlyLinksData" type="application/json">{ "500": "https://square.link/u/VwKJSXM1", "1000": "https://square.link/u/Of5TISqG", "1500": "https://square.link/u/usSVUI2K", "2000": "https://square.link/u/CU05ZOZu", "3000": "https://square.link/u/31tgVvs4", "5000": "https://square.link/u/INkjOgnX", "10000": "https://square.link/u/OGoRS6dB" }</script>
 <script>
   // 型安全な取得
   const presetButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('.amount-btn'));
   const submitBtn = document.getElementById('donateSubmit') as HTMLButtonElement | null;
   const modeButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('.mode-btn'));
+  const monthlyGrid = document.querySelector('.monthly-grid') as HTMLElement | null;
+  const oneTimeGrid = document.querySelector('.amount-grid') as HTMLElement | null;
+  const monthlyButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('.monthly-btn'));
   let selectedAmount: number | null = null; let mode: 'once' | 'monthly' = 'once';
   function updateState() { if (submitBtn) submitBtn.disabled = !selectedAmount; }
   presetButtons.forEach(btn => {
@@ -60,17 +85,44 @@ const paymentLinks: Record<number,string> = {
   modeButtons.forEach(mb => {
     mb.addEventListener('click', () => {
       modeButtons.forEach(b=>b.classList.remove('active')); mb.classList.add('active'); mode = (mb.dataset.mode === 'monthly') ? 'monthly' : 'once';
-      // 継続寄付モードのUI拡張は後工程
+      // グリッド表示切り替え
+      if (mode === 'monthly') {
+        if (oneTimeGrid) oneTimeGrid.style.display = 'none';
+        if (monthlyGrid) monthlyGrid.style.display = 'grid';
+        selectedAmount = null; // 月額選択前はnull
+      } else {
+        if (oneTimeGrid) oneTimeGrid.style.display = 'grid';
+        if (monthlyGrid) monthlyGrid.style.display = 'none';
+        selectedAmount = null;
+      }
+      presetButtons.forEach(b=>b.classList.remove('selected'));
+      monthlyButtons.forEach(b=>b.classList.remove('selected'));
+      updateState();
+    });
+  });
+  // 月額ボタン
+  monthlyButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      monthlyButtons.forEach(b=>b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedAmount = parseInt(btn.dataset.monthly || '0');
+      updateState();
     });
   });
   if (submitBtn) {
     submitBtn.addEventListener('click', () => {
       if (!selectedAmount) return;
       console.log('donate_button_click', { amount: selectedAmount, mode });
-      // Squareペイメントリンク遷移（暫定）
-      // paymentLinks は上部Astro変数をHTML展開時に埋め込む
-      const links = JSON.parse(document.getElementById('paymentLinksData')?.textContent || '{}');
-      const url = links[String(selectedAmount)] || links['1000'] || 'https://example.com/square/placeholder';
+  // Squareペイメントリンク遷移（本番）
+  // paymentLinks は上部Astro変数をHTML展開時に埋め込む
+      let url = '';
+      if (mode === 'monthly') {
+        const mLinks = JSON.parse(document.getElementById('monthlyLinksData')?.textContent || '{}');
+        url = mLinks[String(selectedAmount)] || mLinks['500'];
+      } else {
+        const links = JSON.parse(document.getElementById('paymentLinksData')?.textContent || '{}');
+        url = links[String(selectedAmount)] || links['1000'] || 'https://example.com/square/placeholder';
+      }
       window.location.href = url;
     });
   }
@@ -85,6 +137,10 @@ const paymentLinks: Record<number,string> = {
   .amount-grid { display:grid; grid-template-columns: repeat(auto-fill,minmax(110px,1fr)); gap:.75rem; }
   .amount-btn { padding:.85rem .6rem; background:#fff; border:1px solid #ced4da; border-radius:10px; font-weight:600; cursor:pointer; transition:.2s; }
   .amount-btn.selected, .amount-btn:hover { background: var(--color-primary); color:#fff; border-color: var(--color-primary); }
+  .monthly-grid { display:grid; grid-template-columns: repeat(auto-fill,minmax(140px,1fr)); gap:.75rem; margin-top:.5rem; }
+  .monthly-btn { padding:.9rem .7rem; background:#fff; border:1px solid #ced4da; border-radius:10px; font-weight:600; cursor:pointer; transition:.2s; }
+  .monthly-btn.selected, .monthly-btn:hover { background: var(--color-primary); color:#fff; border-color: var(--color-primary); }
+  .monthly-note { grid-column: 1 / -1; font-size:.7rem; color: var(--color-text-muted); margin-top:.2rem; }
   .donate-action { margin-top:1.6rem; text-align:center; }
   .donate-submit { padding:1rem 2.2rem; font-size:1.05rem; font-weight:700; background: var(--color-primary); color:#fff; border:none; border-radius:10px; cursor:pointer; transition:.2s; }
   .donate-submit:disabled { opacity:.4; cursor:not-allowed; }
