@@ -88,5 +88,11 @@
     "name": "THE NUTS",
     "area": "名護",
     "logo": "/images/thenuts.jpg"
+  },
+  {
+    "id": "Tilt",
+    "name": "Chill&Tilt",
+    "area": "中部",
+    "logo": "/images/tilt.png"
   }
 ]
