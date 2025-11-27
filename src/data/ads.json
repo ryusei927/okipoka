@@ -62,5 +62,13 @@
             "square": "/images/ads/rsop.png",
             "banner": ""
         }
+    },    {
+        "id": "ad009",
+        "name": "ACUAS",
+        "url": "https://www.acuas.jp/chatbot",
+        "images": {
+            "square": "/images/ads/acuas_ad.jpg",
+            "banner": ""
+        }
     }
 ]
