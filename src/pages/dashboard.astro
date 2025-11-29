@@ -4,6 +4,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>ダッシュボード | OKIPOKA</title>
 
@@ -174,10 +175,30 @@ tbody tr:hover{ background:#fafbff; }
   select,input,textarea{ font-size:16px; min-height:50px; }
   button[type="submit"]{ width:auto; min-width:200px; padding:14px 18px; }
 }
+
+/* 大吉演出 */
+@keyframes rainbow-flash {
+  0% { background-color: var(--bg); }
+  20% { background-color: #fff0f0; }
+  40% { background-color: #f0fff0; }
+  60% { background-color: #f0f0ff; }
+  80% { background-color: #fff0ff; }
+  100% { background-color: var(--bg); }
+}
+.celebration-mode {
+  animation: rainbow-flash 0.5s infinite;
+}
   </style>
 </head>
 <body>
   <main>
+    <!-- ヤドン占い（イタズラ機能） -->
+    <div id="yadon-uranai" style="text-align:center; margin-bottom:20px; cursor:pointer; background:#fff; padding:16px; border-radius:16px; border:1.5px solid #e5e7eb; box-shadow:0 4px 10px rgba(17,24,39,.06);">
+        <h3 style="margin:0 0 8px; font-size:18px; font-weight:800; color:#ff7f00;">🔮 今日のヤドン占い 🔮</h3>
+        <img src="/images/yadon.jpg" alt="ヤドン" style="width:120px; height:120px; object-fit:cover; border-radius:16px; border:4px solid #ff7f00; margin-bottom:8px;">
+        <p id="yadon-result" style="font-weight:bold; color:#111827; margin:0;">タップして運勢を占うヤァン...</p>
+    </div>
+
     <div id="user-info">
       <p><span id="user-email"></span>でログイン中 <span id="master-badge" class="badge-master" style="display:none">管理者</span></p>
       <div style="display: flex; gap: 8px;">
@@ -226,6 +247,68 @@ const firebaseConfig = {
 
     document.getElementById('home-btn').addEventListener('click', () => window.location.href = '/');
     document.getElementById('logout-btn').addEventListener('click', () => signOut(auth));
+
+    // ヤドン占いロジック
+    const yadonResults = [
+        "大吉ヤァン！今日はAAが配られる予感...",
+        "中吉ヤァン。リバーで捲れるかも？",
+        "小吉ヤァン。ポケットペアには気をつけて。",
+        "吉ヤァン。ブラフキャッチ成功の予感！",
+        "凶ヤァン... バッドビートに注意。",
+        "大凶ヤァン... 今日はティルトしないように寝るのが一番ヤァン。"
+    ];
+    const yadonContainer = document.getElementById('yadon-uranai');
+    const yadonResultText = document.getElementById('yadon-result');
+    
+    if(yadonContainer){
+        yadonContainer.addEventListener('click', () => {
+            const random = Math.floor(Math.random() * yadonResults.length);
+            const result = yadonResults[random];
+            yadonResultText.textContent = result;
+            yadonResultText.style.color = '#ff7f00';
+            
+            // クリックアニメーション
+            yadonContainer.style.transform = "scale(0.98)";
+            setTimeout(() => yadonContainer.style.transform = "scale(1)", 100);
+
+            // 大吉演出
+            if (result.includes("大吉")) {
+                // 紙吹雪
+                if (window.confetti) {
+                    var duration = 3000;
+                    var end = Date.now() + duration;
+
+                    (function frame() {
+                    var timeLeft = end - Date.now();
+
+                    if (timeLeft <= 0) return;
+
+                    window.confetti({
+                        particleCount: 5,
+                        angle: 60,
+                        spread: 55,
+                        origin: { x: 0 },
+                        colors: ['#ff7f00', '#ffd700', '#ff69b4']
+                    });
+                    window.confetti({
+                        particleCount: 5,
+                        angle: 120,
+                        spread: 55,
+                        origin: { x: 1 },
+                        colors: ['#ff7f00', '#ffd700', '#ff69b4']
+                    });
+
+                    requestAnimationFrame(frame);
+                    }());
+                }
+                // 背景キラキラ
+                document.body.classList.add('celebration-mode');
+                setTimeout(() => {
+                    document.body.classList.remove('celebration-mode');
+                }, 5000);
+            }
+        });
+    }
 
     function getTodayStr(){
       const d = new Date();
