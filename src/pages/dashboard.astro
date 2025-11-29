@@ -188,15 +188,68 @@ tbody tr:hover{ background:#fafbff; }
 .celebration-mode {
   animation: rainbow-flash 0.5s infinite;
 }
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* モーダル用スタイル */
+.modal-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.85); z-index: 9999;
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(5px);
+}
+.modal-content {
+  background: #fff; border: 4px solid #ff0000; border-radius: 20px;
+  padding: 30px; max-width: 90%; width: 400px; text-align: center;
+  box-shadow: 0 0 50px rgba(255,0,0,0.5);
+  animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+}
+@keyframes popIn {
+  from { transform: scale(0.5); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.modal-title {
+  color: #d32f2f; font-size: 24px; margin-bottom: 20px;
+  text-shadow: 2px 2px 0 #ffeb3b;
+}
+.modal-result {
+  font-size: 28px; font-weight: 900; margin: 20px 0;
+  line-height: 1.4; color: #111827;
+}
+#modal-close-btn {
+  background: #ff0000; color: #fff; border: none;
+  padding: 15px 30px; font-size: 18px; font-weight: bold;
+  border-radius: 50px; cursor: pointer;
+  box-shadow: 0 4px 0 #b71c1c;
+  transition: transform 0.1s;
+}
+#modal-close-btn:active { transform: translateY(4px); box-shadow: none; }
+
+/* 激しい点滅アニメーション（大吉用など） */
+@keyframes flash-red {
+  0%, 100% { background-color: #fff; }
+  50% { background-color: #ffcccc; }
+}
+.modal-flash { animation: flash-red 0.2s infinite; }
   </style>
 </head>
 <body>
   <main>
     <!-- ヤドン占い（イタズラ機能） -->
-    <div id="yadon-uranai" style="text-align:center; margin-bottom:20px; cursor:pointer; background:#fff; padding:16px; border-radius:16px; border:1.5px solid #e5e7eb; box-shadow:0 4px 10px rgba(17,24,39,.06);">
-        <h3 style="margin:0 0 8px; font-size:18px; font-weight:800; color:#ff7f00;">🔮 今日のヤドン占い 🔮</h3>
-        <img src="/images/yadon.jpg" alt="ヤドン" style="width:120px; height:120px; object-fit:cover; border-radius:16px; border:4px solid #ff7f00; margin-bottom:8px;">
-        <p id="yadon-result" style="font-weight:bold; color:#111827; margin:0;">タップして運勢を占うヤァン...</p>
+    <div id="yadon-uranai" style="text-align:center; margin-bottom:20px; cursor:pointer; background:#fff9c4; padding:16px; border-radius:16px; border:3px dashed #ff0000; box-shadow:0 4px 10px rgba(17,24,39,.06);">
+        <h3 style="margin:0 0 8px; font-size:20px; font-weight:900; color:#d32f2f; background:yellow; display:inline-block; padding:4px 8px; transform:rotate(-2deg);">ヤドン占い</h3>
+        <br>
+        <img src="/images/yadon.jpg" alt="ヤドン" style="width:120px; height:120px; object-fit:cover; border-radius:16px; border:4px solid #ff0000; margin-bottom:12px; margin-top:8px;">
+        <br>
+        <div style="background:#ff0000; color:#fff; font-weight:900; padding:12px 24px; border-radius:999px; display:inline-block; font-size:20px; box-shadow:0 4px 0 #b71c1c; animation: pulse 0.8s infinite;">
+            👉 ここをクリック 👈
+        </div>
+        <p id="yadon-result" style="font-weight:bold; color:#111827; margin:12px 0 0; font-size:12px; opacity:0.7;">※完全無料 ※効果には個人差があります</p>
     </div>
 
     <div id="user-info">
@@ -208,6 +261,16 @@ tbody tr:hover{ background:#fafbff; }
     </div>
     <div id="dashboard-container"><p style="text-align:center;">読み込み中...</p></div>
   </main>
+
+  <!-- 占い結果モーダル -->
+  <div id="yadon-modal" class="modal-overlay" style="display:none;">
+    <div class="modal-content">
+      <h2 class="modal-title">🔮 運命の啓示 🔮</h2>
+      <div id="modal-result-text" class="modal-result"></div>
+      <button id="modal-close-btn">運命を受け入れる</button>
+    </div>
+  </div>
+
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
@@ -258,21 +321,23 @@ const firebaseConfig = {
         "大凶ヤァン... 今日はティルトしないように寝るのが一番ヤァン。"
     ];
     const yadonContainer = document.getElementById('yadon-uranai');
-    const yadonResultText = document.getElementById('yadon-result');
+    // const yadonResultText = document.getElementById('yadon-result');
+    const modal = document.getElementById('yadon-modal');
+    const modalResultText = document.getElementById('modal-result-text');
+    const modalCloseBtn = document.getElementById('modal-close-btn');
+    const modalContent = document.querySelector('.modal-content');
     
-    if(yadonContainer){
+    if(yadonContainer && modal){
         yadonContainer.addEventListener('click', () => {
             const random = Math.floor(Math.random() * yadonResults.length);
             const result = yadonResults[random];
-            yadonResultText.textContent = result;
-            yadonResultText.style.color = '#ff7f00';
             
-            // クリックアニメーション
-            yadonContainer.style.transform = "scale(0.98)";
-            setTimeout(() => yadonContainer.style.transform = "scale(1)", 100);
-
+            modalResultText.textContent = result;
+            modal.style.display = 'flex';
+            
             // 大吉演出
             if (result.includes("大吉")) {
+                modalContent.classList.add('modal-flash');
                 // 紙吹雪
                 if (window.confetti) {
                     var duration = 3000;
@@ -288,14 +353,16 @@ const firebaseConfig = {
                         angle: 60,
                         spread: 55,
                         origin: { x: 0 },
-                        colors: ['#ff7f00', '#ffd700', '#ff69b4']
+                        colors: ['#ff7f00', '#ffd700', '#ff69b4'],
+                        zIndex: 10000 // モーダルより上
                     });
                     window.confetti({
                         particleCount: 5,
                         angle: 120,
                         spread: 55,
                         origin: { x: 1 },
-                        colors: ['#ff7f00', '#ffd700', '#ff69b4']
+                        colors: ['#ff7f00', '#ffd700', '#ff69b4'],
+                        zIndex: 10000
                     });
 
                     requestAnimationFrame(frame);
@@ -303,10 +370,15 @@ const firebaseConfig = {
                 }
                 // 背景キラキラ
                 document.body.classList.add('celebration-mode');
-                setTimeout(() => {
-                    document.body.classList.remove('celebration-mode');
-                }, 5000);
+            } else {
+                modalContent.classList.remove('modal-flash');
+                document.body.classList.remove('celebration-mode');
             }
+        });
+
+        modalCloseBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+            document.body.classList.remove('celebration-mode');
         });
     }
 
