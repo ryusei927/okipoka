@@ -128,7 +128,7 @@ const pageDesc = data
               <div class="kv-divider"></div>
               <div class="kv-row important"><div class="kv-label">参加費</div><div class="kv-value">{data.buyIn ? `${safe(data.buyIn)}円` : "-"}</div></div>
               <div class="kv-row"><div class="kv-label">リエントリー</div><div class="kv-value">{data.reentryFee ? `${safe(data.reentryFee)}円` : "なし"}</div></div>
-              <div class="kv-row"><div class="kv-label">アドオン</div><div class="kv-value">{data.addon ? `${safe(data.addon)}円` : "くりゅうさん"}</div></div>
+              <div class="kv-row"><div class="kv-label">アドオン</div><div class="kv-value">{data.addon ? `${safe(data.addon)}円` : "-"}</div></div>
               <div class="kv-row"><div class="kv-label">スタック</div><div class="kv-value mono">{data.stack ? `${safe(data.stack)}点` : "-"}</div></div>
               
               {data.notes && (
