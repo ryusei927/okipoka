@@ -152,7 +152,7 @@ Donk会場で戦うプレイヤーたちにも、突撃インタビューを行�
       </div>
       <div class="qa-item">
         <div class="question">他チームの煽り動画についてどう思いますか？</div>
-        <p class="answer">「見てるけど、まあ別に…弱い犬ってよく吠えるんだなって思って。こちらは何も言わなくても皆さんは強いと言ってくださるので、弱い方はよくおしゃべりになられるので、ということですね。」</p>
+        <p class="answer">「見てるけど、まあ別に…弱い犬ってよく吠えるんだなって思って。こちらは何も言わなくても皆さんは強いと言ってくださるので。弱い方はよくおしゃべりになられますよね。」</p>
       </div>
     </div>
   </div>
@@ -195,8 +195,8 @@ Donk会場で戦うプレイヤーたちにも、突撃インタビューを行�
         <p class="answer">「ありますね。マキさんのチームです。あそこには勝てると思います。昨日マキさんとヘッズアップしました。」</p>
       </div>
       <div class="qa-item">
-        <div class="question">A-KINGさん対策について</div>
-        <p class="answer">「A-KINGさんに勝つには多分プリフロオールインじゃないと、フロップで戦っちゃダメ。」</p>
+        <div class="question">エイキングさん対策について</div>
+        <p class="answer">「エイキングさんに勝つには多分プリフロオールインじゃないと、フロップで戦っちゃダメ。」</p>
       </div>
       <div class="qa-item">
         <div class="question">最後に意気込みをお願いします</div>
@@ -205,20 +205,20 @@ Donk会場で戦うプレイヤーたちにも、突撃インタビューを行�
     </div>
   </div>
 
-  <!-- A-KINGさん -->
+  <!-- エイキングさん -->
   <div class="interview-card">
     <div class="card-header">
-      <h2>A-KINGさん <span class="team-name">（チーム：僕と舎弟）</span></h2>
+      <h2>エイキングさん <span class="team-name">（チーム：僕と舎弟）</span></h2>
     </div>
     <div class="card-body">
-      <img src="/images/blog/ak.jpg" alt="A-KINGさん" class="card-image">
+      <img src="/images/blog/ak.jpg" alt="エイキングさん" class="card-image">
       <div class="qa-item">
         <div class="question">チーム内のキーマンは誰ですか？</div>
         <p class="answer">「コウちゃんじゃないですかね。あんまり成績が目立ってないみたいで、今回そういう人がいい成績出してくれるんじゃないかって。」</p>
       </div>
       <div class="qa-item">
         <div class="question">負けたくない相手はいますか？</div>
-        <p class="answer">「誰に負けたくない誰に勝つとかじゃなく優勝しか見てない。大会と勝負してる。もしうちのメンバーが一人でも優勝できなかったら俺は名古屋までマラソンする。」</p>
+        <p class="answer">「誰に負けたくない誰に勝つとかじゃなく優勝しか見てない。大会と勝負してる。もしうちのメンバーが一人でも優勝できなかったら俺は名護までマラソンする。」</p>
       </div>
       <div class="qa-item">
         <div class="question">大会への意気込みをお願いします</div>
@@ -262,7 +262,7 @@ Donk会場で戦うプレイヤーたちにも、突撃インタビューを行�
       </div>
       <div class="qa-item">
         <div class="question">負けたくないチームはありますか？</div>
-        <p class="answer">「出身チームには負けたくないですね。まあ、全員に負けたくないです。」</p>
+        <p class="answer">「まあ、全員に負けたくないです。」</p>
       </div>
       <div class="qa-item">
         <div class="question">チーム戦の戦略はありますか？</div>
@@ -416,7 +416,7 @@ Donk会場で戦うプレイヤーたちにも、突撃インタビューを行�
       </div>
       <div class="qa-item">
         <div class="question">他チームからの“倒したい発言”への返答</div>
-        <p class="answer">「基本的には強いチーム集めてます。その中でも僕筆頭にスピリチュアルを教え込んだメンバーなので、効果がうまいプラス、スピれるのか。倒す倒されるではなくスピったもん勝ちです。」</p>
+        <p class="answer">「基本的には強いチーム集めてます。その中でも僕筆頭にスピリチュアルを教え込んだメンバーなので、スピれるのか。倒す倒されるではなくスピったもん勝ちです。」</p>
       </div>
       <div class="qa-item">
         <div class="question">煽り動画について</div>

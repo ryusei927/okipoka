@@ -147,7 +147,7 @@ publishDate: 2025-12-05T00:00:00.000Z
       </div>
       <div class="qa-item">
         <div class="question">負けたくない・意識しているチームはありますか？</div>
-        <p class="answer">「ワンワン（ほぼはじめまして）チームですね。ここに当たりたくて来ましたから。」</p>
+        <p class="answer">「僕と舎弟チームですね。ここに当たりたくて来ましたから。」</p>
       </div>
       <div class="qa-item">
         <div class="question">他チームの煽り動画は見ましたか？どう思いましたか？</div>
@@ -163,7 +163,7 @@ publishDate: 2025-12-05T00:00:00.000Z
   <!-- BP革命さん -->
   <div class="interview-card">
     <div class="card-header">
-      <h2>BP革命さん <span class="team-name">（チーム：Robarta）</span></h2>
+      <h2>BP革命さん <span class="team-name">（チーム：Roberta Reborn）</span></h2>
     </div>
     <div class="card-body">
       <img src="/images/blog/ryutaro.jpg" alt="BP革命さん" class="card-image">
@@ -260,7 +260,7 @@ publishDate: 2025-12-05T00:00:00.000Z
       </div>
       <div class="qa-item">
         <div class="question">負けたくない・意識しているチームはありますか？</div>
-        <p class="answer">「周りは『宮里卍会チーム』を意識してるみたいですね。」</p>
+        <p class="answer">「周りは『宮里卍會チーム』を意識してるみたいですね。」</p>
       </div>
       <div class="qa-item">
         <div class="question">チーム内でキーマンになる選手はいますか？</div>
@@ -348,7 +348,7 @@ publishDate: 2025-12-05T00:00:00.000Z
       </div>
       <div class="qa-item">
         <div class="question">負けたくない、意識しているチームはありますか？</div>
-        <p class="answer">「O3チーム（オスリー）ですね。店長の正一郎さんとかがうちを裏切ってO3に移った経緯があるんで、あそこにだけは負けられないです。」</p>
+        <p class="answer">「O3チーム（オースリー）ですね。店長の正一郎さんとかがうちを裏切ってO3に移った経緯があるんで、あそこにだけは負けられないです。」</p>
       </div>
       <div class="qa-item">
         <div class="question">チーム内でキーマンになる選手は誰ですか？</div>
