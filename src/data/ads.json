@@ -8,15 +8,7 @@
             "banner": ""
         }
     },
-    {
-        "id": "ad002",
-        "name": "Architecture",
-        "url": "https://www.instagram.com/royalhoneyaaahih?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
-        "images": {
-            "square": "",
-            "banner": "/images/ads/loyal.jpg"
-        }
-    },
+
 
     {
         "id": "ad004",
@@ -62,7 +54,8 @@
             "square": "/images/ads/rsop.png",
             "banner": ""
         }
-    },    {
+    },    
+    {
         "id": "ad009",
         "name": "ACUAS",
         "url": "https://www.acuas.jp/chatbot",
