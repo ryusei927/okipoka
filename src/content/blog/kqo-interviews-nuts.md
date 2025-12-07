@@ -354,7 +354,7 @@ Nuts会場で戦うプレイヤーたちにも、突撃インタビューを行�
       <img src="/images/blog/oda.jpg" alt="おださん" class="card-image">
       <div class="qa-item">
         <div class="question">個人的に負けたくないチームは？</div>
-        <p class="answer">「いや、もう全チーム。結構“無所属（むしょう）”なんで。」</p>
+        <p class="answer">「いや、もう全チーム。」</p>
       </div>
       <div class="qa-item">
         <div class="question">チーム内のキーマンは？</div>
@@ -563,7 +563,7 @@ Nuts会場で戦うプレイヤーたちにも、突撃インタビューを行�
       <h2>ジャイアンさん <span class="team-name">（ディーラー / 番外編）</span></h2>
     </div>
     <div class="card-body">
-      <img src="/images/blog/jyaian.jpg" alt="ジャイアンさん" class="card-image">
+      <img src="/images/blog/jyaian.png" alt="ジャイアンさん" class="card-image">
       <div class="qa-item">
         <div class="question">ご自身が出場していた場合どうなっていたと思いますか？</div>
         <p class="answer">「自分が出たら勝っちゃう（笑）。通過枠が1つ減るから、出ない方がいい（笑）。」</p>
