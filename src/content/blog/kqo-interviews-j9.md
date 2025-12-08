@@ -285,8 +285,6 @@ publishDate: 2025-12-08T00:00:00.000Z
   <h2 style="text-align: center; margin-bottom: 2rem; font-size: 1.8rem;">Day 2 - Final Table 進出者インタビュー</h2>
   <p style="text-align: center; margin-bottom: 3rem;">激戦のDay2を勝ち抜き、ファイナルテーブルへ進出したプレイヤーたちの声をお届けします。</p>
   
-  <img src="/images/blog/j9kaijyo.jpg" alt="会場風景" style="width: 100%; border-radius: 12px; margin-bottom: 3rem; box-shadow: 0 4px 20px rgba(0,0,0,0.05);">
-
   <div class="interview-grid">
     <!-- にしずるさん -->
     <div class="interview-card">
