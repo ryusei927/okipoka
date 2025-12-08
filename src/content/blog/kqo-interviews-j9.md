@@ -91,7 +91,7 @@ publishDate: 2025-12-08T00:00:00.000Z
 </style>
 
 <div class="venue-intro">
-  <img src="/images/j9logo.png" alt="J9会場" class="venue-image">
+  <img src="/images/blog/j9kaijyoo.jpg" alt="J9会場" class="venue-image">
   <p>
     KQo Day1、J9会場の様子とプレイヤーたちの意気込みをお届けします。
     熱気あふれる会場から、注目のプレイヤーたちにインタビューを行いました！
