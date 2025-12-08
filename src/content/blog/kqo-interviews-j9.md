@@ -146,7 +146,7 @@ publishDate: 2025-12-08T00:00:00.000Z
   <!-- 西山さん -->
   <div class="interview-card">
     <div class="card-header">
-      <h2>西山さん <span class="team-name">（大会主催 / はなうし）</span></h2>
+      <h2>西山さん <span class="team-name">（チーム：ほぼはじめまして）</span></h2>
     </div>
     <div class="card-body">
       <img src="/images/blog/nishiyamaj9.jpg" alt="西山さん" class="card-image">
@@ -390,7 +390,7 @@ publishDate: 2025-12-08T00:00:00.000Z
 <!-- エイキングさん -->
     <div class="interview-card">
       <div class="card-header">
-        <h2>エイキングさん <span class="team-name">（5位 / チーム：ドンク）</span></h2>
+        <h2>エイキングさん <span class="team-name">（5位 / チーム：僕と舎弟たち）</span></h2>
       </div>
       <div class="card-body">
         <img src="/images/blog/eikingak.jpg" alt="エイキングさん" class="card-image">
