@@ -285,6 +285,8 @@ publishDate: 2025-12-08T00:00:00.000Z
   <h2 style="text-align: center; margin-bottom: 2rem; font-size: 1.8rem;">Day 2 - Final Table 進出者インタビュー</h2>
   <p style="text-align: center; margin-bottom: 3rem;">激戦のDay2を勝ち抜き、ファイナルテーブルへ進出したプレイヤーたちの声をお届けします。</p>
   
+  <img src="/images/blog/j9kaijyo.jpg" alt="会場風景" style="width: 100%; border-radius: 12px; margin-bottom: 3rem; box-shadow: 0 4px 20px rgba(0,0,0,0.05);">
+
   <div class="interview-grid">
     <!-- にしずるさん -->
     <div class="interview-card">
@@ -473,6 +475,24 @@ publishDate: 2025-12-08T00:00:00.000Z
           <div class="question">応援してくれた仲間へ一言お願いします。</div>
           <p class="answer">「次に大会があれば、必ずリベンジして優勝します。」</p>
         </div>
+      </div>
+    </div>
+<!-- はらちんさん (Winner) -->
+    <div class="interview-card" style="grid-column: 1 / -1; border: 2px solid #ffd700; box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);">
+      <div class="card-header" style="background: linear-gradient(135deg, #ffd700 0%, #fdb931 100%);">
+        <h2 style="color: #333 !important; text-align: center; font-size: 1.5rem !important;">🏆 優勝：はらちんさん <span class="team-name" style="color: #444; display: inline;">（チーム：行け！ロロ中ポーカー部）</span></h2>
+      </div>
+      <div class="card-body">
+        <div style="width: 100%; background: #000; border-radius: 8px; overflow: hidden;">
+            <video controls style="width: 100%; display: block;">
+            <source src="/images/blog/hara.mp4" type="video/mp4">
+            お使いのブラウザは動画タグをサポートしていません。
+            </video>
+        </div>
+        <p style="margin-top: 1.5rem; text-align: center; font-weight: bold; font-size: 1.1rem;">
+          見事優勝に輝いたはらちんさんの喜びの声を動画でお届けします！<br>
+          本当におめでとうございます！
+        </p>
       </div>
     </div>
   </div>
