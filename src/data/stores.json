@@ -19,7 +19,7 @@
     "id": "Rebarta",
     "name": "Re:Barta",
     "area": "那覇",
-    "logo": "/images/rebarta.jpg",
+    "logo": "https://firebasestorage.googleapis.com/v0/b/okipoka-v2.firebasestorage.app/o/rebarta.jpg?alt=media&token=164fddb8-aa74-4a9b-8644-d19213ca44a7",
     "lat": 26.2150,
     "lng": 127.6850
   },
@@ -126,5 +126,29 @@
     "logo": "/images/tilt.png",
     "lat": 26.3300,
     "lng": 127.8000
+  },
+  {
+    "id": "BBKING",
+    "name": "BB KING",
+    "area": "那覇",
+    "logo": "https://firebasestorage.googleapis.com/v0/b/okipoka-v2.firebasestorage.app/o/bbking.jpg?alt=media&token=038a1471-ff02-41e1-95e1-f2b487dbd46f",
+    "lat": 26.1845,
+    "lng": 127.6635
+  },
+  {
+    "id": "BBcircus",
+    "name": "BBサーカス",
+    "area": "中部",
+    "logo": "https://firebasestorage.googleapis.com/v0/b/okipoka-v2.firebasestorage.app/o/bbcircus.jpg?alt=media&token=0e53896e-e0db-4827-b055-4b5a52931323",
+    "lat": 26.2645,
+    "lng": 127.7645
+  },
+  {
+    "id": "gajumaru",
+    "name": "ガジュマル",
+    "area": "中部",
+    "logo": "https://firebasestorage.googleapis.com/v0/b/okipoka-v2.firebasestorage.app/o/gajyumaru.jpg?alt=media&token=c0f31099-5e5e-42c0-8adb-b5e6d7274e04",
+    "lat": 26.3335,
+    "lng": 127.7985
   }
 ]
