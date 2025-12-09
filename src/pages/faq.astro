@@ -1,0 +1,101 @@
+---
+import Footer from "../components/Footer.astro";
+import Analytics from '@vercel/analytics/astro';
+import "../styles/global.css";
+import "../styles/footer.css";
+---
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>よくある質問 | OKIPOKA</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <style>
+        .faq-page { max-width: 800px; margin: 2rem auto; padding: 2rem; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); line-height: 1.8; }
+        h1 { font-size: 1.8rem; text-align: center; margin-bottom: 2rem; }
+
+        .faq-details {
+            margin-bottom: 1rem;
+            border: 1px solid var(--color-border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .faq-summary {
+            padding: 1rem;
+            background-color: #f9f9f9;
+            cursor: pointer;
+            font-weight: bold;
+            list-style: none;
+            position: relative;
+            padding-right: 2.5rem;
+        }
+
+        .faq-summary::-webkit-details-marker {
+            display: none;
+        }
+        
+        .faq-summary::after {
+            content: '+';
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: var(--color-primary);
+            transition: transform 0.2s;
+        }
+
+        .faq-details[open] .faq-summary::after {
+            transform: translateY(-50%) rotate(45deg);
+        }
+
+        .faq-answer {
+            padding: 1rem;
+            background-color: #fff;
+            border-top: 1px solid var(--color-border);
+        }
+    </style>
+</head>
+<body>
+    <main class="faq-page">
+        <h1>よくある質問 (FAQ)</h1>
+        
+        <details class="faq-details">
+            <summary class="faq-summary">OKIPOKAとはどのようなサイトですか？</summary>
+            <div class="faq-answer">
+                <p>OKIPOKAは、沖縄県内のアミューズメントポーカーに関するトーナメント情報を集約し、プレイヤーとポーカースポットをつなぐためのポータルサイトです。</p>
+            </div>
+        </details>
+
+        <details class="faq-details">
+            <summary class="faq-summary">掲載されている情報は最新ですか？</summary>
+            <div class="faq-answer">
+                <p>各店舗の公式情報をもとに更新していますが、急な変更がある場合もあります。確実な情報は各店舗のSNSや公式サイトをご確認いただくか、直接お問い合わせください。</p>
+            </div>
+        </details>
+
+        <details class="faq-details">
+            <summary class="faq-summary">広告を出したいのですが。</summary>
+            <div class="faq-answer">
+                <p>店舗情報の掲載や広告出稿については、「<a href="/advertise">広告掲載について</a>」のページをご覧いただくか、フッターのお問い合わせ先よりご連絡ください。</p>
+            </div>
+        </details>
+
+        <details class="faq-details">
+            <summary class="faq-summary">初心者でも参加できるトーナメントはありますか？</summary>
+            <div class="faq-answer">
+                <p>はい、多くの店舗で初心者講習や初心者向けのトーナメントが開催されています。各店舗の詳細ページやスケジュールをご確認ください。</p>
+            </div>
+        </details>
+
+        <details class="faq-details">
+            <summary class="faq-summary">サイトの利用にお金はかかりますか？</summary>
+            <div class="faq-answer">
+                <p>いいえ、OKIPOKAの閲覧・利用は完全に無料です。</p>
+            </div>
+        </details>
+
+    </main>
+</body>
+</html>
