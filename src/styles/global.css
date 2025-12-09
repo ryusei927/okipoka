@@ -20,6 +20,12 @@ body {
   background-color: var(--color-background);
   color: var(--color-text);
   line-height: 1.7;
+  position: relative;
+}
+
+main, footer, header, nav {
+  position: relative;
+  z-index: 1;
 }
 
 a {

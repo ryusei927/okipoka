@@ -2,6 +2,8 @@
 import "../styles/global.css";
 import "../styles/footer.css";
 import Analytics from "@vercel/analytics/astro";
+import { ViewTransitions } from 'astro:transitions';
+import BackgroundParticles from '../components/BackgroundParticles.astro';
 import StoreList from "../components/StoreList.astro";
 import DonateTeaser from "../components/DonateTeaser.astro";
 import AdBanner from "../components/AdBanner.astro"; 
@@ -20,6 +22,7 @@ import StoreMap from "../components/StoreMap.astro";
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>OKIPOKA | 沖縄ポーカー情報ポータル</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <ViewTransitions />
     <style>
       .hero { position: relative; background-image: url("/images/image1.png"); background-size: cover; background-position: center; border-bottom: 1px solid var(--color-border); height: 180px; }
       @media (min-width: 768px) { .hero { height: 460px; } }
@@ -139,6 +142,7 @@ import StoreMap from "../components/StoreMap.astro";
     </style>
   </head>
   <body>
+    <BackgroundParticles />
     <main>
 
       <section class="hero"></section>
