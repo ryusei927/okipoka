@@ -1,6 +1,8 @@
 ---
 import Footer from "../components/Footer.astro";
 import Analytics from '@vercel/analytics/astro';
+import AdBanner from "../components/AdBanner.astro";
+import AdSquare from "../components/AdSquare.astro";
 import "../styles/global.css";
 import "../styles/footer.css";
 ---
@@ -193,6 +195,7 @@ import "../styles/footer.css";
         </header>
 
         <main class="guide-content">
+            <AdBanner />
             
             <!-- セクション1: テキサスホールデムとは -->
             <section class="section-block">
@@ -222,6 +225,8 @@ import "../styles/footer.css";
                     <img src="/images/yakuhyo.jpg" alt="ポーカー役表：ロイヤルストレートフラッシュからハイカードまでの強さ順" style="max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" />
                 </div>
             </section>
+
+            <AdSquare />
 
             <!-- セクション3: リングゲームとトーナメント -->
             <section class="section-block">
@@ -276,6 +281,10 @@ import "../styles/footer.css";
             </section>
 
             <a href="/" class="back-link">← トップページに戻る</a>
+            
+            <div style="margin-top: 3rem;">
+                <AdBanner />
+            </div>
         </main>
 
         <Footer />
