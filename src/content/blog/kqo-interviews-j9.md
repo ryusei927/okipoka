@@ -286,13 +286,13 @@ publishDate: 2025-12-08T00:00:00.000Z
   <p style="text-align: center; margin-bottom: 3rem;">激戦のDay2を勝ち抜き、ファイナルテーブルへ進出したプレイヤーたちの声をお届けします。</p>
   
   <div class="interview-grid">
-    <!-- にしずるさん -->
+    <!-- 西鶴さん -->
     <div class="interview-card">
       <div class="card-header">
-        <h2>にしずるさん <span class="team-name">（チーム：ロバータ）</span></h2>
+        <h2>西鶴さん <span class="team-name">（チーム：ロバータ）</span></h2>
       </div>
       <div class="card-body">
-        <img src="/images/blog/nisizuru.jpg" alt="にしずるさん" class="card-image">
+        <img src="/images/blog/nisizuru.jpg" alt="西鶴さん" class="card-image">
         <div class="qa-item">
           <div class="question">今後の戦いで意識していきたいことは？</div>
           <p class="answer">「プッシュプッシュですね。どこで行くべきか、その見極めが大事かなと。いかに押すか、そこを意識していきます。」</p>
@@ -493,5 +493,96 @@ publishDate: 2025-12-08T00:00:00.000Z
         </p>
       </div>
     </div>
+  </div>
+</div>
+
+<div class="extra-section" style="margin-top: 4rem; padding-top: 2rem; border-top: 2px solid #eee;">
+  <h2 style="text-align: center; margin-bottom: 2rem; font-size: 1.8rem;">🎬 番外編トーク</h2>
+  <p style="text-align: center; margin-bottom: 3rem;">
+    しょういちさん × まきさん × ぴょこさん<br>
+    大会の裏側で繰り広げられた、チーム「僕と舎弟たち」の爆笑トークをお届けします！
+  </p>
+
+  <div class="interview-card" style="max-width: 800px; margin: 0 auto;">
+    <div class="card-body" style="font-size: 0.95rem; line-height: 1.8;">
+       <div class="talk-section">
+        <p><strong>（インタビュアー）</strong><br>「まず皆さんのお名前を伺っても大丈夫ですか？」</p>
+        <p><strong>しょういち</strong><br>「翔一と言います。」</p>
+        <p><strong>インタビュアー</strong><br>「翔一さんですね。チームは？」</p>
+        <p><strong>しょういち</strong><br>「ジャックナインBです。」</p>
+        <p><strong>ぴょこさん</strong><br>「同じくジャックナインBのピョコです」</p>
+        <p><strong>マキさん</strong><br>「そして私は “ジャックナインBのマキです笑」</p>
+        <p><strong>インタビュアー</strong><br>「ジャックナインB！？ではないですよね笑 チーム僕と舎弟たちですよね笑」</p>
+        <p><strong>マキ</strong><br>「いやこれちょっと見てほしいんですけど……証拠があります。私がジャックナインBだという証拠。」</p>
+        <p><strong>インタビュアー</strong><br>「証拠？見せてもらっていいですか？」</p>
+        <p><strong>マキ</strong><br>（画像を見せながら）「ほら、KQo団体戦のグループLINE。黄色の吹き出しは私が返してるところ。」</p>
+        <p><strong>インタビュアー</strong><br>「ほんとだ、しっかり所属してる（笑） じゃあマキさんスパイだったってことですか！？笑笑」<br><span style="font-size: 0.85rem; color: #666;">（※実際にはハンドやプレイヤー情報などの共有はしておりません。応援してたみたいです）</span></p>
+        <p><strong>一同</strong><br>「笑」</p>
+      </div>
+<hr style="margin: 2rem 0; border: 0; border-top: 1px dashed #ccc;">
+      <h3 style="font-size: 1.2rem; margin-bottom: 1rem;">通知地獄の話</h3>
+      <div class="talk-section">
+        <p><strong>しょういち</strong><br>「僕、マキさんのメッセージとかで携帯の通知がピコンピコン鳴りすぎて、寝てても光ってて寝れなかったんですよ笑。大会中もずっと光ってて…」</p>
+        <p><strong>一同</strong><br>「爆笑」</p>
+        <p><strong>しょういち</strong><br>「通知の消し方とかどうすればいいかわからなくて（笑）」</p>
+        <p><strong>マキ</strong><br>「通知の切り方は“りゅうじさん”が丁寧に教えてくれました。」</p>
+      </div>
+<hr style="margin: 2rem 0; border: 0; border-top: 1px dashed #ccc;">
+ <h3 style="font-size: 1.2rem; margin-bottom: 1rem;">チーム内マーク制度</h3>
+      <div class="talk-section">
+        <p><strong>マキ</strong><br>「うちのLINEグループ、実は秘密の“マーク”があるんですよ。」</p>
+        <p><strong>インタビュアー</strong><br>「マーク？」</p>
+        <p><strong>マキ</strong><br>「“ポットを大きく取った時につけるラインの絵文字マーク”、そして“飛んだ時のおかわりマーク”。こういうのが流れてくると盛り上がるのよ（笑）」</p>
+        <p><strong>インタビュアー</strong><br>「そんなマークだけで会話する裏取引みたいなやり取りがあったんですね。」</p>
+      </div>
+<hr style="margin: 2rem 0; border: 0; border-top: 1px dashed #ccc;">
+<h3 style="font-size: 1.2rem; margin-bottom: 1rem;">マキさんの14時間ランの裏側</h3>
+      <div class="talk-section">
+        <p><strong>しょういち</strong><br>「マキさんのラン、本当にすごかったんですよ。マキさんってDAY１今日の昼から14時間戦って、さらにJ9の人ですからスタッフ対応して、お酒も飲んで、ここまでべろべろになって笑　それでもFTまで行ったんですから。」</p>
+        <p><strong>インタビュアー</strong><br>「マキさん超人ですよね。」</p>
+        <p><strong>しょういち</strong><br>「本当に。DAY1から始まって、夜までずっと稼働。休憩中もスタッフから指示を求められる。それでも集中切らさず最後まで行って、最後はAK対AKでフラッシュされて負けたけど、見てて悔しくてテレビ叩きそうになった。」</p>
+        <p><strong>インタビュアー</strong><br>「熱すぎる（笑）」</p>
+      </div>
+ <hr style="margin: 2rem 0; border: 0; border-top: 1px dashed #ccc;">
+ <h3 style="font-size: 1.2rem; margin-bottom: 1rem;">スラムダンク話で号泣</h3>
+      <div class="talk-section">
+        <p><strong>しょういち</strong><br>「昨日、実は誰にも言ってないんですけど…… “スラムダンクの安西先生の名言” 的な瞬間があって……試合中に泣きそうになりました。」</p>
+        <p><strong>インタビュアー</strong><br>「いやほんと青春ですね。年齢とか関係なく青春できるのがポーカーですよね」</p>
+      </div>
+ <hr style="margin: 2rem 0; border: 0; border-top: 1px dashed #ccc;">
+<h3 style="font-size: 1.2rem; margin-bottom: 1rem;">🃏 初心者時代の過酷エピソード</h3>
+      <div class="talk-section">
+        <p><strong>マキ</strong><br>「これ裏話なんだけど、しょういちって最初めちゃくちゃ無口でスタッフもどう対応していいかわからなかったのよ笑 でもここ最近心の突破口見つけてそっからはもう…!」</p>
+        <p><strong>しょういち</strong><br>「昔、全然分からないままポーカー座ってたら、めっちゃ怒られてたんですよ。“チップの置き方見えんわ！” とか（笑）」</p>
+        <p><strong>マキ</strong><br>「そう、最初は本当に何も分からない感じだったよね。でも努力してここまで来た。」</p>
+        <p><strong>しょういち</strong><br>「だからもう、覚えるまでは無心で黙ってやろうって思ってて、でも心を開けたのはマキさんのおかげです。」</p>
+      </div>
+ <hr style="margin: 2rem 0; border: 0; border-top: 1px dashed #ccc;">
+ <h3 style="font-size: 1.2rem; margin-bottom: 1rem;">しょういちさんの成長</h3>
+      <div class="talk-section">
+        <p><strong>マキ</strong><br>「この人（しょういちさん）、地元のトーナメントで入賞してるんですよ。ちゃんと努力してる証拠です。」</p>
+        <p><strong>インタビュアー</strong><br>「すごい！」</p>
+      </div>
+<hr style="margin: 2rem 0; border: 0; border-top: 1px dashed #ccc;">
+ <h3 style="font-size: 1.2rem; margin-bottom: 1rem;">スティール学習の衝撃</h3>
+      <div class="talk-section">
+        <p><strong>しょういち</strong><br>「昨日“スティール”って概念を初めて教えてもらったんですよ。」<br>「ひめのさんたちと勉強しました」</p>
+      </div>
+ <hr style="margin: 2rem 0; border: 0; border-top: 1px dashed #ccc;">
+ <h3 style="font-size: 1.2rem; margin-bottom: 1rem;">チームの熱い応援</h3>
+      <div class="talk-section">
+        <p><strong>しょういち</strong><br>「昨日DAY1のバブルで飛んで悔しかったんですけど、仲間がめちゃくちゃ応援してくれて。なんかプレイしてた時にマキさんいないはずなのに後ろからマキさんの声がして“行くなそのハンド！戻れ！” っていう声が聞こえてきたんですよ！！でも後ろ振り返ったら誰もいなくて！！」</p>
+        <p><strong>一同</strong><br>「爆笑」</p>
+      </div>
+ <hr style="margin: 2rem 0; border: 0; border-top: 1px dashed #ccc;">
+ <h3 style="font-size: 1.2rem; margin-bottom: 1rem;">ラストメッセージ</h3>
+      <div class="talk-section">
+        <p><strong>しょういち</strong><br>「僕目標があって絶対にWSOPに出て一位取ります！！！」</p>
+        <p><strong>インタビュアー</strong><br>「WSOP！？、本当に行くんですか？」</p>
+        <p><strong>しょういち</strong><br>「マキさんの“ゴーサイン”が出たら行きます。」</p>
+        <p><strong>マキ</strong><br>「まずわしをWSOPに出せよ笑笑」</p>
+        <p><strong>しょういち</strong><br>「一緒に出ましょう！！」</p>
+      </div>
+ </div>
   </div>
 </div>
