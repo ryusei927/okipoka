@@ -3,96 +3,128 @@
     "id": "Jack9",
     "name": "Jack9",
     "area": "那覇",
-    "logo": "/images/j9logo.jpg"
+    "logo": "/images/j9logo.jpg",
+    "lat": 26.2183,
+    "lng": 127.6825
   },
   {
     "id": "UnderTheGun",
     "name": "UnderTheGun",
     "area": "那覇",
-    "logo": "/images/underthegun.png"
+    "logo": "/images/underthegun.png",
+    "lat": 26.2124,
+    "lng": 127.6809
   },
   {
     "id": "Rebarta",
     "name": "Re:Barta",
     "area": "那覇",
-    "logo": "/images/rebarta.jpg"
+    "logo": "/images/rebarta.jpg",
+    "lat": 26.2150,
+    "lng": 127.6850
   },
   {
     "id": "BACKDOOR",
     "name": "BACKDOOR",
     "area": "那覇",
-    "logo": "/images/backdoor.jpg"
+    "logo": "/images/backdoor.jpg",
+    "lat": 26.2190,
+    "lng": 127.6880
   },
   {
     "id": "JACKS",
     "name": "JACKS",
     "area": "南部",
-    "logo": "/images/jacks.png"
+    "logo": "/images/jacks.png",
+    "lat": 26.1760,
+    "lng": 127.6600
   },
   {
     "id": "TOKISHIRAZU",
     "name": "TOKISHIRAZU",
     "area": "那覇",
-    "logo": "/images/tokishirazu.png"
+    "logo": "/images/tokishirazu.png",
+    "lat": 26.2160,
+    "lng": 127.6900
   },
   {
     "id": "TheHand",
     "name": "TheHand",
     "area": "南部",
-    "logo": "/images/hand.png"
+    "logo": "/images/hand.png",
+    "lat": 26.1500,
+    "lng": 127.6700
   },
   {
     "id": "GUTSHOT",
     "name": "GUTSHOT",
     "area": "北部",
-    "logo": "/images/gutshot.png"
+    "logo": "/images/gutshot.png",
+    "lat": 26.5915,
+    "lng": 127.9773
   },
   {
     "id": "Donk",
     "name": "Donk",
     "area": "那覇",
-    "logo": "/images/donk.png"
+    "logo": "/images/donk.png",
+    "lat": 26.2140,
+    "lng": 127.6840
   },
   {
     "id": "Re.raise",
     "name": "Re:raise",
     "area": "中部",
-    "logo": "/images/Re.raise.png"
+    "logo": "/images/Re.raise.png",
+    "lat": 26.3250,
+    "lng": 127.7950
   },
   {
     "id": "nuts",
     "name": "NUTS",
     "area": "那覇",
-    "logo": "/images/Nuts.png"
+    "logo": "/images/Nuts.png",
+    "lat": 26.2170,
+    "lng": 127.6830
   },
   {
     "id": "WBERRY",
     "name": "WBERRY",
     "area": "那覇",
-    "logo": "/images/WBERRY.webp"
+    "logo": "/images/WBERRY.webp",
+    "lat": 26.2200,
+    "lng": 127.6950
   },
   {
     "id": "bigslick",
     "name": "那覇 BIG SLICK",
     "area": "那覇",
-    "logo": "/images/bigslick.png"
+    "logo": "/images/bigslick.png",
+    "lat": 26.2130,
+    "lng": 127.6790
   },
     {
     "id": "BAROTHREE",
     "name": "BAR オースリー",
     "area": "那覇",
-    "logo": "/images/o3.jpg"
+    "logo": "/images/o3.jpg",
+    "lat": 26.2155,
+    "lng": 127.6860
   },
       {
     "id": "thenuts",
     "name": "THE NUTS",
     "area": "名護",
-    "logo": "/images/thenuts.jpg"
+    "logo": "/images/thenuts.jpg",
+    "lat": 26.5800,
+    "lng": 127.9700
   },
   {
     "id": "Tilt",
     "name": "Chill&Tilt",
     "area": "中部",
-    "logo": "/images/tilt.png"
+    "logo": "/images/tilt.png",
+    "lat": 26.3300,
+    "lng": 127.8000
   }
 ]

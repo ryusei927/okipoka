@@ -11,23 +11,250 @@ import "../styles/footer.css";
     <title>このサイトについて | OKIPOKA</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     <style>
-        .about-page { max-width: 800px; margin: 2rem auto; padding: 2rem; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); line-height: 1.8; }
-        h1 { font-size: 1.8rem; text-align: center; margin-bottom: 2rem; }
-        h2 { font-size: 1.3rem; margin-top: 2.5rem; border-left: 4px solid var(--color-primary); padding-left: 0.75rem; }
-        p { margin: 1rem 0; }
+        /* 共通設定 */
+        .about-container {
+            width: 100%;
+            overflow-x: hidden;
+        }
+        
+        /* ヒーローセクション */
+        .about-hero {
+            position: relative;
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('/images/image1.png');
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .about-hero-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .about-hero-content p {
+            font-size: 1.2rem;
+            font-weight: bold;
+            opacity: 0.9;
+        }
+
+        /* コンテンツエリア */
+        .about-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 1.5rem 4rem 1.5rem;
+        }
+
+        .section-block {
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #333;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--color-primary);
+            margin: 0.5rem auto 0;
+            border-radius: 2px;
+        }
+
+        .lead-text {
+            font-size: 1.1rem;
+            line-height: 2;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #555;
+        }
+
+        /* 機能紹介カード */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            text-align: center;
+            transition: transform 0.3s ease;
+            border: 1px solid var(--color-border);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--color-primary);
+        }
+
+        .feature-card p {
+            font-size: 0.95rem;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* メッセージセクション */
+        .message-box {
+            background: #f8f9fa;
+            padding: 3rem;
+            border-radius: 16px;
+            border-left: 6px solid var(--color-primary);
+        }
+
+        .message-box h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .message-box p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        /* CTAエリア */
+        .cta-section {
+            text-align: center;
+            background: linear-gradient(135deg, #333 0%, #555 100%);
+            color: white;
+            padding: 3rem 1rem;
+            border-radius: 12px;
+            margin-top: 4rem;
+        }
+
+        .cta-section h2 {
+            color: white;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--color-primary);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: bold;
+            margin-top: 1.5rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(255, 127, 0, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(255, 127, 0, 0.4);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .about-hero { height: 300px; }
+            .about-hero-content h1 { font-size: 1.8rem; }
+            .message-box { padding: 1.5rem; }
+        }
     </style>
 </head>
 <body>
-    <main class="about-page">
-        <h1>このサイトについて</h1>
-        <p>OKIPOKAは、沖縄県内のアミューズメントポーカーに関するトーナメント情報を集約し、プレイヤーとポーカースポットをつなぐためのポータルサイトです。</p>
+    <div class="about-container">
+        <!-- ヒーローセクション -->
+        <section class="about-hero">
+            <div class="about-hero-content">
+                <h1>沖縄のポーカーシーンを、<br>もっと熱く、もっと身近に。</h1>
+                <p>OKINAWA POKER PORTAL - OKIPOKA</p>
+            </div>
+        </section>
 
-        <h2>サイトの目的</h2>
-        <p>「今日はどこでポーカーができるんだろう？」<br>沖縄のポーカープレイヤーなら誰もが思うこの疑問に、一目で答えを出せる場所を作りたい。そんな想いからOKIPOKAは生まれました。県内各地のポーカースポットが発信する最新のトーナメント情報を、分かりやすく、リアルタイムに届けることを目指しています。</p>
+        <main class="about-content">
+            <!-- イントロダクション -->
+            <section class="section-block">
+                <p class="lead-text">
+                    OKIPOKA（オキポカ）は、沖縄県内のアミューズメントポーカー情報を集約した<br class="pc-only">
+                    県内最大級のポーカーポータルサイトです。<br>
+                    <br>
+                    「今日はどこでポーカーができるんだろう？」<br>
+                    そんなプレイヤーの疑問を解消し、<br>
+                    沖縄のポーカーコミュニティをさらに盛り上げるために生まれました。
+                </p>
+            </section>
 
-        <h2>情報掲載・広告について</h2>
-        <p>当サイトは、店舗様からの情報提供および広告掲載によって運営されています。掲載に関するご相談や、広告出稿にご興味のある店舗様・企業様は、フッターのお問い合わせ先よりお気軽にご連絡ください。</p>
-    </main>
+            <!-- OKIPOKAでできること -->
+            <section class="section-block">
+                <h2 class="section-title">OKIPOKAでできること</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <span class="feature-icon">📅</span>
+                        <h3>トーナメント検索</h3>
+                        <p>県内各地で開催されるトーナメント情報を日付ごとに一覧表示。今日参加できるイベントがすぐに見つかります。</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-icon">🗺️</span>
+                        <h3>マップ検索</h3>
+                        <p>現在地周辺やエリアからポーカースポットを検索。観光で訪れた方や、新しいお店を開拓したい方に最適です。</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-icon">📚</span>
+                        <h3>ポーカー情報発信</h3>
+                        <p>初心者向けのガイドから、最新の戦略記事、店舗のイベントレポートまで、ポーカーライフを充実させるコンテンツをお届けします。</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 運営の想い -->
+            <section class="section-block">
+                <div class="message-box">
+                    <h3>運営の想い</h3>
+                    <p>
+                        近年、世界中で爆発的な人気を誇るテキサスホールデムポーカー。ここ沖縄でも、熱心なプレイヤーと魅力的な店舗が増え続けています。
+                    </p>
+                    <p>
+                        しかし、情報が各店舗のSNSに分散しており、「全体像が見えにくい」という課題がありました。
+                        OKIPOKAは、それらの情報を一つの場所に集めることで、プレイヤーにとっては「遊び場の発見」を、店舗様にとっては「新しいファンとの出会い」を創出します。
+                    </p>
+                    <p>
+                        沖縄が、日本一ポーカーが熱い場所になるように。私たちは情報の力でその一翼を担いたいと考えています。
+                    </p>
+                </div>
+            </section>
+
+            <!-- 店舗様・企業様へ -->
+            <section class="section-block cta-section">
+                <h2>店舗様・企業様へ</h2>
+                <p>店舗情報の掲載や、バナー広告の出稿を随時受け付けております。<br>沖縄のポーカープレイヤーにダイレクトに届くPRをしませんか？</p>
+                <a href="/advertise" class="cta-button">広告掲載について見る</a>
+            </section>
+
+        </main>
+    </div>
     <Footer />
     <Analytics />
 </body>
