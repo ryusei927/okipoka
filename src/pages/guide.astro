@@ -1,0 +1,284 @@
+---
+import Footer from "../components/Footer.astro";
+import Analytics from '@vercel/analytics/astro';
+import "../styles/global.css";
+import "../styles/footer.css";
+---
+
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ポーカー初心者ガイド | OKIPOKA</title>
+    <meta name="description" content="テキサスホールデムの基本ルール、役の強さ、リングゲームとトーナメントの違いをわかりやすく解説します。" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <style>
+        /* 共通設定 */
+        .guide-container {
+            width: 100%;
+            overflow-x: hidden;
+            background-color: #f9f9f9;
+        }
+        
+        /* ヒーローセクション */
+        .guide-hero {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d3436 100%);
+            padding: 4rem 1.5rem;
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+        }
+        
+        .guide-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+        
+        .guide-hero p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* コンテンツエリア */
+        .guide-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 1.5rem 4rem 1.5rem;
+        }
+
+        .section-block {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            color: #333;
+            border-left: 6px solid var(--color-primary);
+            padding-left: 1rem;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            margin: 1.5rem 0 1rem;
+            color: #444;
+        }
+
+        p {
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 1.5rem;
+        }
+
+        /* トランプカード風デザイン */
+        .card-example {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .poker-card {
+            width: 60px;
+            height: 84px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-shadow: 1px 1px 4px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            font-size: 1.2rem;
+            position: relative;
+        }
+
+        .poker-card.red { color: #e74c3c; }
+        .poker-card.black { color: #2c3e50; }
+
+        .poker-card .rank { font-size: 1.2rem; line-height: 1; }
+        .poker-card .suit { font-size: 1.5rem; line-height: 1; align-self: center; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        .poker-card .rank-bottom { transform: rotate(180deg); align-self: flex-end; }
+
+        /* 役リスト */
+        .hand-rank-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .hand-rank-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            gap: 1rem;
+        }
+        
+        .hand-rank-item:last-child { border-bottom: none; }
+
+        .hand-name {
+            font-weight: bold;
+            font-size: 1.1rem;
+            min-width: 180px;
+        }
+
+        .hand-desc {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* 比較表 */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            min-width: 600px;
+        }
+
+        .comparison-table th, .comparison-table td {
+            padding: 1rem;
+            border: 1px solid #eee;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: #f0f2f5;
+            font-weight: bold;
+            color: #333;
+            width: 30%;
+        }
+
+        .comparison-table td {
+            background-color: #fff;
+        }
+        
+        .table-scroll-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin-bottom: 1rem;
+        }
+
+        /* スマホ対応 */
+        @media (max-width: 768px) {
+            .guide-hero h1 { font-size: 1.8rem; }
+            .section-block { padding: 1.5rem; }
+            .hand-rank-item { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+        }
+        
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--color-primary);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+    </style>
+</head>
+<body>
+    <div class="guide-container">
+        <header class="guide-hero">
+            <h1>ポーカー初心者ガイド</h1>
+            <p>テキサスホールデムの基本ルールと遊び方をマスターしよう</p>
+        </header>
+
+        <main class="guide-content">
+            
+            <!-- セクション1: テキサスホールデムとは -->
+            <section class="section-block">
+                <h2 class="section-title">テキサスホールデムとは？</h2>
+                <p>
+                    世界で最も人気のあるポーカーゲームです。各プレイヤーに配られる2枚のカード（ホールカード）と、
+                    テーブル中央に開かれる5枚の共通カード（コミュニティカード）の計7枚の中から、
+                    最強の5枚の組み合わせ（役）を作って勝負します。
+                </p>
+                <div class="card-example">
+                    <div class="poker-card red"><span class="rank">A</span><span class="suit">♥</span><span class="rank-bottom">A</span></div>
+                    <div class="poker-card black"><span class="rank">K</span><span class="suit">♠</span><span class="rank-bottom">K</span></div>
+                    <div style="display:flex; align-items:center; margin:0 10px;">+</div>
+                    <div class="poker-card red"><span class="rank">Q</span><span class="suit">♦</span><span class="rank-bottom">Q</span></div>
+                    <div class="poker-card black"><span class="rank">J</span><span class="suit">♣</span><span class="rank-bottom">J</span></div>
+                    <div class="poker-card red"><span class="rank">10</span><span class="suit">♥</span><span class="rank-bottom">10</span></div>
+                </div>
+                <p style="text-align:center; font-size:0.9rem; color:#888;">自分の2枚 + 共通の5枚 = 最強の役を作る！</p>
+            </section>
+
+            <!-- セクション2: 役の強さ -->
+            <section class="section-block">
+                <h2 class="section-title">役（ハンド）の強さ</h2>
+                <p>強い順に並んでいます。同じ役同士の場合は、数字の強さ（A > K > Q ... > 2）で勝敗が決まります。</p>
+                
+                <div style="text-align: center; margin-top: 2rem;">
+                    <img src="/images/yakuhyo.jpg" alt="ポーカー役表：ロイヤルストレートフラッシュからハイカードまでの強さ順" style="max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" />
+                </div>
+            </section>
+
+            <!-- セクション3: リングゲームとトーナメント -->
+            <section class="section-block">
+                <h2 class="section-title">「リングゲーム」と「トーナメント」の違い</h2>
+                <p>ポーカーには大きく分けて2つの遊び方があります。それぞれの特徴を理解して、自分に合ったスタイルで楽しみましょう。</p>
+
+                <h3>💰 リングゲーム (キャッシュゲーム)</h3>
+                <p>
+                    手持ちのチップがそのまま「価値」を持つゲームです。アミューズメントカジノでは、預けているチップを引き出して遊びます。
+                    好きな時に参加し、好きな時にやめることができます。
+                </p>
+
+                <h3>🏆 トーナメント</h3>
+                <p>
+                    参加費を払って全員同じ量のチップを持ってスタートします。チップがなくなったら脱落（敗退）です。
+                    最後の一人（優勝者）が決まるまで続きます。スポーツ競技のような緊張感が楽しめます。
+                </p>
+
+                <div class="table-scroll-wrapper">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>項目</th>
+                                <th>リングゲーム</th>
+                                <th>トーナメント</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>参加・終了</strong></td>
+                                <td>いつでも参加・退席OK</td>
+                                <td>開始時間が決まっている / 負けるか優勝するまで</td>
+                            </tr>
+                            <tr>
+                                <td><strong>チップの価値</strong></td>
+                                <td>チップそのものに価値がある</td>
+                                <td>チップは得点のようなもの（順位を競う）</td>
+                            </tr>
+                            <tr>
+                                <td><strong>ブラインド (強制ベット)</strong></td>
+                                <td>ずっと一定</td>
+                                <td>時間が経つにつれて上がる</td>
+                            </tr>
+                            <tr>
+                                <td><strong>おすすめ</strong></td>
+                                <td>気軽に遊びたい人、短時間で遊びたい人</td>
+                                <td>真剣勝負を楽しみたい人、優勝を目指したい人</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <a href="/" class="back-link">← トップページに戻る</a>
+        </main>
+
+        <Footer />
+    </div>
+</body>
+</html>
