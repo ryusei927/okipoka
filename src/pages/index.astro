@@ -9,6 +9,7 @@ import AdSquare from "../components/AdSquare.astro";
 import AnnouncementBanner from "../components/AnnouncementBanner.astro";
 import Footer from "../components/Footer.astro";
 import Faq from "./faq.astro";
+import StoreMap from "../components/StoreMap.astro";
 
 ---
 
@@ -180,6 +181,14 @@ import Faq from "./faq.astro";
   <section id="stores-list" style="margin-top: 4rem;">
           <h2 class="section-title">店舗一覧</h2>
           <StoreList />
+          
+          <div style="margin-top: 3rem;">
+            <h3 style="text-align:center; margin-bottom:1.5rem; font-size:1.3rem;">マップから探す</h3>
+            <StoreMap />
+            <div style="text-align:center; margin-top:1rem;">
+                <a href="/map" class="nav-link" style="display:inline-flex; background:var(--color-primary); color:white; border:none;">大きな地図で見る</a>
+            </div>
+          </div>
         </section>
       </div>
       <AdBanner />
