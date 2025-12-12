@@ -1,3 +1,4 @@
+// @ts-ignore
 import { Client, Environment } from "square";
 import { randomUUID } from "crypto";
 
