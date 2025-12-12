@@ -45,14 +45,29 @@ export default async function TournamentDetailPage({ params }: { params: Promise
     notFound();
   }
 
-  // 日付フォーマット
+  // 日付フォーマット (JST固定で表示)
   const startDate = new Date(tournament.start_at);
-  const dateStr = format(startDate, "yyyy-MM-dd");
-  const startTimeStr = format(startDate, "HH:mm");
+  
+  // 日本時間でフォーマットするためのフォーマッター
+  const jstDateFormatter = new Intl.DateTimeFormat("ja-JP", {
+    timeZone: "Asia/Tokyo",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+  const jstTimeFormatter = new Intl.DateTimeFormat("ja-JP", {
+    timeZone: "Asia/Tokyo",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  // yyyy/MM/dd -> yyyy-MM-dd に変換
+  const dateStr = jstDateFormatter.format(startDate).replace(/\//g, "-");
+  const startTimeStr = jstTimeFormatter.format(startDate);
   
   let lateRegStr = "-";
   if (tournament.late_reg_at) {
-    lateRegStr = format(new Date(tournament.late_reg_at), "HH:mm");
+    lateRegStr = jstTimeFormatter.format(new Date(tournament.late_reg_at));
   }
 
   return (

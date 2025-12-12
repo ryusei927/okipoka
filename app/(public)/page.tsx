@@ -17,17 +17,36 @@ export default async function HomePage({
   const supabase = await createClient();
   const { date } = await searchParams;
   
-  // 日付の決定（クエリパラメータがあればそれを使用、なければ今日）
-  const targetDate = date ? new Date(date) : new Date();
+  // 1. 基準となる営業日(JST)を決定する
+  let targetDateStr = date;
   
-  // 時間範囲の設定 (00:00:00 - 23:59:59)
-  const startOfDay = new Date(targetDate);
-  startOfDay.setHours(0, 0, 0, 0);
-  
-  const endOfDay = new Date(targetDate);
-  endOfDay.setHours(23, 59, 59, 999);
+  if (!targetDateStr) {
+    const now = new Date();
+    // UTC時間に9時間足してJST時間をシミュレート
+    const jstTime = new Date(now.getTime() + 9 * 60 * 60 * 1000);
+    
+    // JSTで0時〜6時の間なら、営業日は「前日」
+    if (jstTime.getUTCHours() < 6) {
+      jstTime.setUTCDate(jstTime.getUTCDate() - 1);
+    }
+    
+    // YYYY-MM-DD 形式を取得
+    const y = jstTime.getUTCFullYear();
+    const m = String(jstTime.getUTCMonth() + 1).padStart(2, '0');
+    const d = String(jstTime.getUTCDate()).padStart(2, '0');
+    targetDateStr = `${y}-${m}-${d}`;
+  }
 
-  // 前日・翌日の計算
+  // 2. 検索範囲を決定 (JST 06:00 〜 翌 JST 06:00)
+  // ISO文字列でタイムゾーン(+09:00)を指定してDateオブジェクトを作ることで、正確なUTC時刻に変換する
+  const startOfDay = new Date(`${targetDateStr}T06:00:00+09:00`);
+  const endOfDay = new Date(`${targetDateStr}T06:00:00+09:00`);
+  endOfDay.setDate(endOfDay.getDate() + 1); // 翌日の同時刻
+
+  // 前日・翌日のリンク用日付
+  // targetDateStr自体は "YYYY-MM-DD" なので、そのままDateにするとUTC 00:00扱いになるが、
+  // 日付の加減算用としては問題ない
+  const targetDate = new Date(targetDateStr);
   const prevDate = subDays(targetDate, 1);
   const nextDate = addDays(targetDate, 1);
   

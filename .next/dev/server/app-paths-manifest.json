@@ -1,4 +1,9 @@
 {
+  "/(dashboard)/dashboard/page": "app/(dashboard)/dashboard/page.js",
+  "/(dashboard)/dashboard/shops/page": "app/(dashboard)/dashboard/shops/page.js",
+  "/(dashboard)/dashboard/tournaments/[id]/page": "app/(dashboard)/dashboard/tournaments/[id]/page.js",
+  "/(dashboard)/dashboard/tournaments/page": "app/(dashboard)/dashboard/tournaments/page.js",
+  "/(public)/member/page": "app/(public)/member/page.js",
   "/(public)/page": "app/(public)/page.js",
-  "/_not-found/page": "app/_not-found/page.js"
+  "/(public)/tournaments/[id]/page": "app/(public)/tournaments/[id]/page.js"
 }
