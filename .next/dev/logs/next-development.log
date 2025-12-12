@@ -1,0 +1,65 @@
+[00:00:00.522] Server  WARN     ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+[00:00:00.593] Server  LOG      ✓ Ready in 501ms
+[00:00:06.785] Server  ERROR    ⨯ Error: Your project's URL and Key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+[00:00:07.175] Browser ERROR   uncaughtError: Error: Your project's URL and Key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+[00:01:03.461] Server  LOG        Reload env: .env
+[00:01:03.545] Server  ERROR    ⨯ Error: Invalid supabaseUrl: Must be a valid HTTP or HTTPS URL.
+[00:01:03.569] Server  ERROR    ⨯ Error: Invalid supabaseUrl: Must be a valid HTTP or HTTPS URL.
+[00:01:03.634] Server  LOG      ✓ Compiled in 123ms
+[00:01:03.660] Browser ERROR   uncaughtError: Error: Invalid supabaseUrl: Must be a valid HTTP or HTTPS URL.
+[00:01:16.141] Server  LOG        Reload env: .env
+[00:01:26.454] Server  LOG        Reload env: .env
+[00:01:26.495] Server  ERROR   TypeError: Cannot convert argument to a ByteString because the character at index 0 has a value of 12371 which is greater than 255.
+    at webidl.converters.ByteString (node:internal/deps/undici/undici:3889:17)
+    at Object.record<ByteString, ByteString> (node:internal/deps/undici/undici:3796:32)
+    at webidl.converters.HeadersInit (node:internal/deps/undici/undici:9023:67)
+    at new Headers (node:internal/deps/undici/undici:8851:36)
+    at context.fetch (/Users/hayashiryuukiyoshi/Documents/OKIPOKA/node_modules/next/dist/server/web/sandbox/context.js:336:32) {
+  
+}
+[00:01:26.515] Server  ERROR   TypeError: Cannot convert argument to a ByteString because the character at index 0 has a value of 12371 which is greater than 255.
+    at webidl.converters.ByteString (node:internal/deps/undici/undici:3889:17)
+    at Object.record<ByteString, ByteString> (node:internal/deps/undici/undici:3796:32)
+    at webidl.converters.HeadersInit (node:internal/deps/undici/undici:9023:67)
+    at new Headers (node:internal/deps/undici/undici:8851:36)
+    at context.fetch (/Users/hayashiryuukiyoshi/Documents/OKIPOKA/node_modules/next/dist/server/web/sandbox/context.js:336:32) {
+  
+}
+[00:01:26.516] Server  LOG      ✓ Compiled in 18ms
+[00:01:26.977] Server  ERROR   Supabase error: {}
+[00:01:26.982] Server  ERROR   Supabase error: {}
+[00:01:27.454] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:01:32.284] Server  LOG        Reload env: .env
+[00:01:32.354] Server  LOG      ✓ Compiled in 35ms
+[00:01:34.382] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/ads/90g9k2v5iak.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:01:34.382] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.7674430560464816.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:01:34.382] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.7182573599719301.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:01:34.690] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/ads/l95ghgw9qq.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:01:34.690] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/ads/l95ghgw9qq.png" has "fill" and parent element with invalid "position". Provided "static" should be one of absolute,fixed,relative.
+[00:01:34.690] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/ads/bf4b640w6ar.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:01:34.690] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/ads/bf4b640w6ar.png" has "fill" and parent element with invalid "position". Provided "static" should be one of absolute,fixed,relative.
+[00:01:35.078] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.17165788852596298.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:01:35.078] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.056778745941199804.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:01:35.078] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.6039954997118774.jpg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:01:35.078] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.9993804361253611.jpg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:01:35.078] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.5045508567322626.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:01:35.078] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.9132020394586603.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:01:35.310] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.2203148683505899.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:01:35.310] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.03223151330886742.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:01:35.310] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.9058438494435962.jpg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:01:35.441] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.6581583509847941.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:01:35.441] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.504133988865674.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:01:35.564] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.7637051495379074.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:01:35.564] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.2573181626053921.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:01:35.951] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.9665856878100714.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:01:35.951] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.3314706270828687.jpg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:01:35.951] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.6270742804350743.jpg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:01:36.177] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.5562668820916477.jpg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
