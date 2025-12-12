@@ -63,3 +63,82 @@ https://supabase.com/dashboard/project/_/settings/api
 [00:01:35.951] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.3314706270828687.jpg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
 [00:01:35.951] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.6270742804350743.jpg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
 [00:01:36.177] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.5562668820916477.jpg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:03:42.072] Server  LOG        Reload env: .env
+[00:03:42.112] Server  ERROR    ⨯ Error: Your project's URL and Key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+[00:03:42.138] Server  WARN     ⚠ Fast Refresh had to perform a full reload when ./node_modules/next/dist/client/image-component.js changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[00:03:42.184] Server  LOG      ✓ Compiled in 24ms
+[00:03:42.193] Server  ERROR    ⨯ Error: Your project's URL and Key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+[00:03:42.201] Server  ERROR    ⨯ Error: Your project's URL and Key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+[00:03:42.207] Server  ERROR    ⨯ Error: Your project's URL and Key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+[00:03:42.262] Server  ERROR    ⨯ Error: Your project's URL and Key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+[00:03:42.323] Browser ERROR   uncaughtError: Error: Your project's URL and Key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+[00:04:12.296] Server  ERROR    ⨯ Error: Your project's URL and Key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+[00:04:12.367] Browser ERROR   uncaughtError: Error: Your project's URL and Key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+[00:05:20.006] Server  LOG        Reload env: .env
+[00:05:20.054] Server  ERROR    ⨯ Error: Your project's URL and Key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+[00:05:20.084] Server  ERROR    ⨯ Error: Your project's URL and Key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+[00:05:20.089] Server  ERROR    ⨯ Error: Your project's URL and Key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+[00:05:20.143] Server  LOG      ✓ Compiled in 20ms
+[00:05:20.197] Browser ERROR   uncaughtError: Error: Your project's URL and Key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+[00:05:23.843] Server  LOG        Reload env: .env
+[00:05:23.905] Server  LOG      ✓ Compiled in 24ms
+[00:05:27.725] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:05:27.894] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.7182573599719301.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:05:27.894] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.7674430560464816.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:05:27.894] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/ads/l95ghgw9qq.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:05:27.894] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/ads/l95ghgw9qq.png" has "fill" and parent element with invalid "position". Provided "static" should be one of absolute,fixed,relative.
+[00:05:27.894] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.17165788852596298.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:05:27.894] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.6039954997118774.jpg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:05:27.894] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.9993804361253611.jpg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:05:27.894] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.056778745941199804.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:05:28.491] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/ads/s25oyz3nq3.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:05:28.491] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/ads/s25oyz3nq3.png" has "fill" and parent element with invalid "position". Provided "static" should be one of absolute,fixed,relative.
+[00:05:28.797] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/ads/eap8jjrwyzu.jpg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
