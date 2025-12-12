@@ -272,51 +272,6 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
-// Validate ../../../app/member/gacha/page.tsx
-{
-  type __IsExpected<Specific extends AppPageConfig<"/member/gacha">> = Specific
-  const handler = {} as typeof import("../../../app/member/gacha/page.js")
-  type __Check = __IsExpected<typeof handler>
-  // @ts-ignore
-  type __Unused = __Check
-}
-
-// Validate ../../../app/member/items/page.tsx
-{
-  type __IsExpected<Specific extends AppPageConfig<"/member/items">> = Specific
-  const handler = {} as typeof import("../../../app/member/items/page.js")
-  type __Check = __IsExpected<typeof handler>
-  // @ts-ignore
-  type __Unused = __Check
-}
-
-// Validate ../../../app/member/subscription/page.tsx
-{
-  type __IsExpected<Specific extends AppPageConfig<"/member/subscription">> = Specific
-  const handler = {} as typeof import("../../../app/member/subscription/page.js")
-  type __Check = __IsExpected<typeof handler>
-  // @ts-ignore
-  type __Unused = __Check
-}
-
-// Validate ../../../app/api/gacha/spin/route.ts
-{
-  type __IsExpected<Specific extends RouteHandlerConfig<"/api/gacha/spin">> = Specific
-  const handler = {} as typeof import("../../../app/api/gacha/spin/route.js")
-  type __Check = __IsExpected<typeof handler>
-  // @ts-ignore
-  type __Unused = __Check
-}
-
-// Validate ../../../app/api/payment/square/subscribe/route.ts
-{
-  type __IsExpected<Specific extends RouteHandlerConfig<"/api/payment/square/subscribe">> = Specific
-  const handler = {} as typeof import("../../../app/api/payment/square/subscribe/route.js")
-  type __Check = __IsExpected<typeof handler>
-  // @ts-ignore
-  type __Unused = __Check
-}
-
 // Validate ../../../app/auth/callback/route.ts
 {
   type __IsExpected<Specific extends RouteHandlerConfig<"/auth/callback">> = Specific
