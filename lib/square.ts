@@ -1,5 +1,5 @@
 // @ts-ignore
-import { Client, Environment } from "square";
+import { Client } from "square";
 import { randomUUID } from "crypto";
 
 const isProduction = process.env.SQUARE_ENVIRONMENT === "production";
@@ -7,7 +7,7 @@ const isProduction = process.env.SQUARE_ENVIRONMENT === "production";
 // Square SDK v38以降のインポート方法に対応
 export const squareClient = new Client({
   accessToken: process.env.SQUARE_ACCESS_TOKEN,
-  environment: isProduction ? Environment.Production : Environment.Sandbox,
+  environment: (isProduction ? "production" : "sandbox") as any,
 });
 
 export async function getOrCreateSubscriptionPlan() {
