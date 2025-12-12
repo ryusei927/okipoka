@@ -22,6 +22,15 @@ export function TournamentStatus({
     return () => clearInterval(timer);
   }, []);
 
+  // 日本時間で時刻をフォーマットする関数
+  const formatTimeJST = (date: Date) => {
+    return new Intl.DateTimeFormat("ja-JP", {
+      timeZone: "Asia/Tokyo",
+      hour: "2-digit",
+      minute: "2-digit",
+    }).format(date);
+  };
+
   // マウント前（サーバーサイドレンダリング時）は開始時間を表示してハイドレーションエラーを防ぐ
   if (!now) {
     return (
@@ -29,7 +38,7 @@ export function TournamentStatus({
         className={cn("text-2xl font-bold text-orange-500", className)}
         suppressHydrationWarning
       >
-        {format(new Date(startAt), "HH:mm")}
+        {formatTimeJST(new Date(startAt))}
       </span>
     );
   }
@@ -54,7 +63,7 @@ export function TournamentStatus({
 
   return (
     <span className={cn("text-2xl font-bold text-orange-500", className)}>
-      {format(startDate, "HH:mm")}
+      {formatTimeJST(startDate)}
     </span>
   );
 }

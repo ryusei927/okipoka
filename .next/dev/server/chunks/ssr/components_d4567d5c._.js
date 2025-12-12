@@ -8,7 +8,6 @@ __turbopack_context__.s([
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react.js [app-ssr] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$date$2d$fns$2f$format$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i("[project]/node_modules/date-fns/format.js [app-ssr] (ecmascript) <locals>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$date$2d$fns$2f$differenceInMinutes$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/date-fns/differenceInMinutes.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$date$2d$fns$2f$addHours$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/date-fns/addHours.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/utils.ts [app-ssr] (ecmascript)");
@@ -24,15 +23,23 @@ function TournamentStatus({ startAt, lateRegAt, className }) {
         const timer = setInterval(()=>setNow(new Date()), 60000);
         return ()=>clearInterval(timer);
     }, []);
+    // 日本時間で時刻をフォーマットする関数
+    const formatTimeJST = (date)=>{
+        return new Intl.DateTimeFormat("ja-JP", {
+            timeZone: "Asia/Tokyo",
+            hour: "2-digit",
+            minute: "2-digit"
+        }).format(date);
+    };
     // マウント前（サーバーサイドレンダリング時）は開始時間を表示してハイドレーションエラーを防ぐ
     if (!now) {
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
             className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["cn"])("text-2xl font-bold text-orange-500", className),
             suppressHydrationWarning: true,
-            children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$date$2d$fns$2f$format$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$locals$3e$__["format"])(new Date(startAt), "HH:mm")
+            children: formatTimeJST(new Date(startAt))
         }, void 0, false, {
             fileName: "[project]/components/tournament/TournamentStatus.tsx",
-            lineNumber: 28,
+            lineNumber: 37,
             columnNumber: 7
         }, this);
     }
@@ -46,7 +53,7 @@ function TournamentStatus({ startAt, lateRegAt, className }) {
             children: "終了"
         }, void 0, false, {
             fileName: "[project]/components/tournament/TournamentStatus.tsx",
-            lineNumber: 44,
+            lineNumber: 53,
             columnNumber: 12
         }, this);
     }
@@ -56,7 +63,7 @@ function TournamentStatus({ startAt, lateRegAt, className }) {
             children: "開催中"
         }, void 0, false, {
             fileName: "[project]/components/tournament/TournamentStatus.tsx",
-            lineNumber: 48,
+            lineNumber: 57,
             columnNumber: 12
         }, this);
     }
@@ -69,16 +76,16 @@ function TournamentStatus({ startAt, lateRegAt, className }) {
             ]
         }, void 0, true, {
             fileName: "[project]/components/tournament/TournamentStatus.tsx",
-            lineNumber: 52,
+            lineNumber: 61,
             columnNumber: 12
         }, this);
     }
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
         className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["cn"])("text-2xl font-bold text-orange-500", className),
-        children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$date$2d$fns$2f$format$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$locals$3e$__["format"])(startDate, "HH:mm")
+        children: formatTimeJST(startDate)
     }, void 0, false, {
         fileName: "[project]/components/tournament/TournamentStatus.tsx",
-        lineNumber: 56,
+        lineNumber: 65,
         columnNumber: 5
     }, this);
 }

@@ -148,7 +148,14 @@ export default async function HomePage({
             
             <div className="flex items-center gap-2 font-bold text-lg">
               <Calendar className="w-5 h-5 text-orange-500" />
-              <span>{format(targetDate, "yyyy/MM/dd")}</span>
+              <span>
+                {new Intl.DateTimeFormat("ja-JP", {
+                  timeZone: "Asia/Tokyo",
+                  year: "numeric",
+                  month: "2-digit",
+                  day: "2-digit",
+                }).format(targetDate).replace(/\//g, "/")}
+              </span>
             </div>
 
             <Link href={`/?date=${nextDateStr}`} className="p-1 hover:bg-gray-100 rounded-full transition-colors">
