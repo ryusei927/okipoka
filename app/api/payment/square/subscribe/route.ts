@@ -13,22 +13,35 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const body = await request.json();
-  const { sourceId } = body; // Square Web Payments SDKから取得したカードトークン
-
-  if (!sourceId) {
-    return NextResponse.json({ error: "Card token is required" }, { status: 400 });
-  }
+  const body = (await request.json().catch(() => ({}))) as { sourceId?: unknown };
+  const sourceId = typeof body.sourceId === "string" ? body.sourceId : null; // Square Web Payments SDKから取得したカードトークン
 
   try {
     // 1. プロフィールからSquare Customer IDを取得、なければ作成
     const { data: profile } = await supabase
       .from("profiles")
-      .select("square_customer_id, email")
+      .select("square_customer_id, subscription_id, subscription_status")
       .eq("id", user.id)
       .single();
 
     let customerId = profile?.square_customer_id;
+
+    // 既に有効なsubscriptionがDBにあるなら、まずSquareから再取得して二重作成を避ける
+    const existingSubscriptionId = profile?.subscription_id ?? null;
+    const existingStatus = profile?.subscription_status ?? null;
+    if (existingSubscriptionId && (existingStatus === "active" || existingStatus === "canceling")) {
+      try {
+        const { result } = await squareClient.subscriptions.retrieve(existingSubscriptionId);
+        const subscription = (result as { subscription?: unknown }).subscription;
+        return NextResponse.json({
+          success: true,
+          subscription,
+          reused: true,
+        });
+      } catch {
+        // 取得に失敗した場合は通常フローへ（後段でsearchも試す）
+      }
+    }
 
     if (!customerId) {
       const { result: customerResult } = await squareClient.customers.create({
@@ -47,7 +60,67 @@ export async function POST(request: Request) {
         .eq("id", user.id);
     }
 
+    // planVariationId は「既存サブスクがあるか」の照合にも使う
+    const planVariationId = await getSubscriptionPlanVariationId();
+
+    // Square側に既存の有効/解約予約サブスクがあればそれを採用して二重作成を避ける
+    try {
+      const filter: { customer_ids: string[]; location_ids?: string[] } = { customer_ids: [customerId] };
+      if (process.env.SQUARE_LOCATION_ID) {
+        filter.location_ids = [process.env.SQUARE_LOCATION_ID];
+      }
+
+      const { result } = await squareClient.subscriptions.search({
+        query: { filter },
+        sort: { field: "CREATED_AT", order: "DESC" },
+      });
+
+      const subs = (result as { subscriptions?: unknown[] }).subscriptions ?? [];
+      const candidate = subs.find((s) => {
+        const sub = s as { status?: unknown; plan_variation_id?: unknown };
+        const status = typeof sub.status === "string" ? sub.status : null;
+        const pv = typeof sub.plan_variation_id === "string" ? sub.plan_variation_id : null;
+        const statusOk = status === "ACTIVE" || status === "CANCELING" || status === "PAST_DUE";
+        const planOk = pv ? pv === planVariationId : true;
+        return statusOk && planOk;
+      });
+
+      if (candidate) {
+        const sub = candidate as { id?: unknown; status?: unknown };
+        const id = typeof sub.id === "string" ? sub.id : null;
+        const status = typeof sub.status === "string" ? sub.status : null;
+        const dbStatus =
+          status === "ACTIVE"
+            ? "active"
+            : status === "CANCELING"
+              ? "canceling"
+              : status === "CANCELED"
+                ? "canceled"
+                : status === "PAST_DUE"
+                  ? "past_due"
+                  : null;
+
+        if (id) {
+          await supabase
+            .from("profiles")
+            .update({ subscription_id: id, subscription_status: dbStatus })
+            .eq("id", user.id);
+        }
+
+        return NextResponse.json({
+          success: true,
+          subscription: candidate,
+          reused: true,
+        });
+      }
+    } catch {
+      // searchが失敗しても決済は継続する
+    }
+
     // 2. カードを顧客に保存
+    if (!sourceId) {
+      return NextResponse.json({ error: "Card token is required" }, { status: 400 });
+    }
     const { result: cardResult } = await squareClient.cards.create({
       idempotency_key: randomUUID(),
       source_id: sourceId,
@@ -86,15 +159,16 @@ export async function POST(request: Request) {
       // 一時的なネットワーク等で落ちても決済処理は継続する
     }
 
-    const planVariationId = await getSubscriptionPlanVariationId();
+    const today = new Date().toISOString().slice(0, 10);
 
     const { result: subscriptionResult } = await squareClient.subscriptions.create({
-      idempotency_key: randomUUID(),
+      // 同一ユーザーが連打しても同じサブスクが返るようにする（同日に複数作成しない）
+      idempotency_key: `sub:${user.id}:${planVariationId}:${today}`,
       location_id: process.env.SQUARE_LOCATION_ID!, // .envから取得
       plan_variation_id: planVariationId,
       customer_id: customerId,
       card_id: cardId,
-      start_date: new Date().toISOString().slice(0, 10),
+      start_date: today,
     });
 
     const subscription = subscriptionResult.subscription;

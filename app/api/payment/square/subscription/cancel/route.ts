@@ -38,7 +38,7 @@ export async function POST() {
 
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
-    .select("subscription_id, subscription_status")
+    .select("subscription_id, subscription_status, square_customer_id")
     .eq("id", user.id)
     .single();
 
@@ -46,9 +46,43 @@ export async function POST() {
     return NextResponse.json({ error: "Failed to load profile" }, { status: 500 });
   }
 
-  const subscriptionId = profile?.subscription_id;
+  let subscriptionId = profile?.subscription_id ?? null;
   if (!subscriptionId) {
-    return NextResponse.json({ error: "No active subscription" }, { status: 400 });
+    // DBにsubscription_idが無いケースを救済（Square側から再発見）
+    const customerId = profile?.square_customer_id ?? null;
+    if (customerId) {
+      try {
+        const filter: { customer_ids: string[]; location_ids?: string[] } = { customer_ids: [customerId] };
+        if (process.env.SQUARE_LOCATION_ID) filter.location_ids = [process.env.SQUARE_LOCATION_ID];
+
+        const { result } = await squareClient.subscriptions.search({
+          query: { filter },
+          sort: { field: "CREATED_AT", order: "DESC" },
+        });
+
+        const subs = (result as { subscriptions?: unknown[] }).subscriptions ?? [];
+        const candidate = subs.find((s) => {
+          const sub = s as { status?: unknown };
+          const status = typeof sub.status === "string" ? sub.status : null;
+          return status === "ACTIVE" || status === "CANCELING" || status === "PAST_DUE";
+        });
+
+        const id = (candidate as { id?: unknown } | undefined)?.id;
+        subscriptionId = typeof id === "string" ? id : null;
+        if (subscriptionId) {
+          await supabase
+            .from("profiles")
+            .update({ subscription_id: subscriptionId })
+            .eq("id", user.id);
+        }
+      } catch {
+        // 失敗しても通常エラーへ
+      }
+    }
+
+    if (!subscriptionId) {
+      return NextResponse.json({ error: "No active subscription" }, { status: 400 });
+    }
   }
 
   // すでに解約状態の場合はそのまま返す

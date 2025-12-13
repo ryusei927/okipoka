@@ -9,6 +9,14 @@ Create `.env` (or copy from `.env.example`) and set the required values.
 - `SQUARE_SUBSCRIPTION_PLAN_VARIATION_ID` is required to create a subscription.
 	- If you see `plan_variation_id cannot be empty`, this value is missing or not being resolved.
 
+### Square Webhook
+
+This project can receive Square webhook events at `POST /api/payment/square/webhook` and sync the subscription status into `profiles` via `square_customer_id`.
+
+- `SQUARE_WEBHOOK_SIGNATURE_KEY`: Square webhook signature key (for HMAC verification)
+- `SQUARE_WEBHOOK_NOTIFICATION_URL`: the exact notification URL configured in Square (must match exactly, including https and trailing slash)
+- `SUPABASE_SERVICE_ROLE_KEY`: required for server-side syncing in the webhook (service-role key)
+
 ### Gacha
 
 - Production: set `GACHA_UNLIMITED` to `false` (or leave it unset).
