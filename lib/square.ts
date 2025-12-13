@@ -156,7 +156,16 @@ export async function getSubscriptionPlanVariationId() {
       const { result } = await squareClient.catalog.object.retrieve(envVariationId, false);
       const obj = (result as { object?: { type?: unknown } }).object;
       if (obj && obj.type === "SUBSCRIPTION_PLAN_VARIATION") {
-        return envVariationId;
+        type VariationObj = {
+          subscription_plan_variation_data?: {
+            phases?: Array<{ pricing?: { type?: string } }>;
+          };
+        };
+
+        const variationObj = obj as unknown as VariationObj;
+        const phases = variationObj.subscription_plan_variation_data?.phases ?? [];
+        const hasStatic = phases.some((p) => p.pricing?.type === "STATIC");
+        if (hasStatic) return envVariationId;
       }
     } catch {
       // 無効/別マーチャントのIDの場合はフォールバック
@@ -179,8 +188,21 @@ export async function getSubscriptionPlanVariationId() {
     },
   });
 
-  const existingVariation = searchResult.objects?.[0];
-  if (existingVariation?.id) return existingVariation.id;
+  type SearchVariationObj = {
+    id?: string;
+    subscription_plan_variation_data?: {
+      phases?: Array<{ pricing?: { type?: string } }>;
+    };
+  };
+
+  const variations = (searchResult.objects ?? []) as unknown as SearchVariationObj[];
+
+  // Subscription作成で確実に動くのはSTATIC pricingのVariation
+  const staticVariation = variations.find((v) => {
+    const phases = v?.subscription_plan_variation_data?.phases ?? [];
+    return phases.some((p) => p.pricing?.type === "STATIC");
+  });
+  if (staticVariation?.id) return staticVariation.id;
 
   // Variationが無い場合は自動作成（Sandbox初期構築用）
   const tempVariationId = "#okipoka-premium-variation";
