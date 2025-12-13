@@ -9,6 +9,12 @@ Create `.env` (or copy from `.env.example`) and set the required values.
 - `SQUARE_SUBSCRIPTION_PLAN_VARIATION_ID` is required to create a subscription.
 	- If you see `plan_variation_id cannot be empty`, this value is missing or not being resolved.
 
+### Gacha
+
+- Production: set `GACHA_UNLIMITED` to `false` (or leave it unset).
+- Note: `GACHA_UNLIMITED` is not wired in the app yet. The daily limit is enforced inside the DB function `public.spin_gacha()`.
+  - Only the admin email (`okipoka.jp@gmail.com`) is exempt.
+
 ## Getting Started
 
 First, run the development server:
