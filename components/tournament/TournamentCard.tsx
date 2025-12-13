@@ -1,8 +1,12 @@
-import { ArrowRight, MapPin, Coins, Store } from "lucide-react";
+"use client";
+
+import { ArrowRight, Store } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { TournamentStatus } from "./TournamentStatus";
+import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
 
 interface TournamentCardProps {
   id: string;
@@ -27,13 +31,39 @@ export function TournamentCard({
   tags = ["トーナメント"],
   isPremium = false,
 }: TournamentCardProps) {
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+  const [pressed, setPressed] = useState(false);
+  const href = `/tournaments/${id}`;
+
   return (
-    <Link href={`/tournaments/${id}`} className="block group">
+    <Link
+      href={href}
+      className="block group"
+      onPointerDown={() => setPressed(true)}
+      onPointerUp={() => setPressed(false)}
+      onPointerCancel={() => setPressed(false)}
+      onClick={(e) => {
+        // 即時フィードバックを出してから遷移
+        e.preventDefault();
+        startTransition(() => {
+          router.push(href);
+        });
+      }}
+      aria-busy={isPending}
+    >
       <div
         className={cn(
-          "relative bg-white rounded-xl border border-gray-200 shadow-sm p-4 transition-all duration-200 hover:shadow-md hover:border-orange-200"
+          "relative bg-white rounded-xl border border-gray-200 shadow-sm p-4 transition-all duration-200 hover:shadow-md hover:border-orange-200",
+          pressed && "border-orange-200 ring-2 ring-orange-200",
+          isPending && "border-orange-200"
         )}
       >
+        {/* 遷移中は枠全周を均一に点滅 */}
+        {isPending && (
+          <div className="pointer-events-none absolute inset-0 rounded-xl ring-2 ring-orange-200 animate-pulse" />
+        )}
+
         <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4">
           {/* 時間表示 */}
           <div className="flex flex-col items-center justify-center min-w-20 pb-2 md:pb-0 border-b md:border-b-0 border-gray-100 w-full md:w-auto">
@@ -89,7 +119,11 @@ export function TournamentCard({
 
           {/* 矢印 (PCのみ表示) */}
           <div className="hidden md:flex items-center justify-center w-8 h-8 text-gray-300 group-hover:text-orange-500 group-hover:translate-x-1 transition-all shrink-0">
-            <ArrowRight className="w-6 h-6" />
+            {isPending ? (
+              <span className="text-xs font-bold text-orange-600 whitespace-nowrap">読み込み中…</span>
+            ) : (
+              <ArrowRight className="w-6 h-6" />
+            )}
           </div>
         </div>
       </div>
