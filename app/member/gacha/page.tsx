@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AlertCircle } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 
 export default function GachaPage() {
@@ -226,20 +225,18 @@ export default function GachaPage() {
                               result.type === "none" ? (
                                 <span className="text-2xl">😢</span>
                               ) : result.image_url && !revealImageFailed ? (
-                                <div className="relative w-16 h-16">
+                                <div className="relative w-20 h-20">
                                   {!revealImageLoaded ? (
                                     <div className="absolute inset-0 flex items-center justify-center">
                                       <span className="text-2xl">🎁</span>
                                     </div>
                                   ) : null}
-                                  <Image
+                                  <img
                                     src={result.image_url}
                                     alt={result.name || "景品"}
-                                    fill
-                                    sizes="64px"
-                                    className="object-contain"
-                                    priority
-                                    onLoadingComplete={() => setRevealImageLoaded(true)}
+                                    className="absolute inset-0 w-full h-full object-contain"
+                                    loading="eager"
+                                    onLoad={() => setRevealImageLoaded(true)}
                                     onError={() => {
                                       setRevealImageFailed(true);
                                       setRevealImageLoaded(false);

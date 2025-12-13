@@ -16,13 +16,6 @@ export async function POST(request: Request) {
   const body = await request.json();
   const { sourceId } = body; // Square Web Payments SDKから取得したカードトークン
 
-  // デバッグ用ログ
-  console.log("Debug: Square Environment Check");
-  console.log("SQUARE_ENVIRONMENT:", process.env.SQUARE_ENVIRONMENT);
-  console.log("SQUARE_ACCESS_TOKEN (first 10 chars):", process.env.SQUARE_ACCESS_TOKEN?.substring(0, 10));
-  console.log("SQUARE_LOCATION_ID:", process.env.SQUARE_LOCATION_ID);
-  console.log("SQUARE_SUBSCRIPTION_PLAN_VARIATION_ID:", process.env.SQUARE_SUBSCRIPTION_PLAN_VARIATION_ID);
-
   if (!sourceId) {
     return NextResponse.json({ error: "Card token is required" }, { status: 400 });
   }
