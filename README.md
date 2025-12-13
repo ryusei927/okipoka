@@ -17,6 +17,20 @@ This project can receive Square webhook events at `POST /api/payment/square/webh
 - `SQUARE_WEBHOOK_NOTIFICATION_URL`: the exact notification URL configured in Square (must match exactly, including https and trailing slash)
 - `SUPABASE_SERVICE_ROLE_KEY`: required for server-side syncing in the webhook (service-role key)
 
+## Verification (Production)
+
+### Subscription status
+
+- Check current status: `GET /api/member/subscription/status`
+- If status looks wrong (e.g. paid but still inactive), trigger resync: `POST /api/member/subscription/resync`
+
+### Incident quick flow (paid-but-not-active)
+
+1. Confirm Square dashboard shows an active/canceling subscription.
+2. Call `POST /api/member/subscription/resync` (user self-repair).
+3. If still not fixed, call `POST /api/admin/subscription/resync` (admin-only) with `userId` or `squareCustomerId`.
+4. If DB still doesn't update, check webhook settings and env vars (Signature Key / Notification URL / Service Role).
+
 ### Gacha
 
 - Production: set `GACHA_UNLIMITED` to `false` (or leave it unset).

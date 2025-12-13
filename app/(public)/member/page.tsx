@@ -38,7 +38,8 @@ export default async function MemberPage() {
   const isVip = profile?.is_vip || false;
   const isPremiumMember = profile?.subscription_status === "active" || profile?.subscription_status === "canceling";
   const avatarUrl = profile?.avatar_url;
-  const isAdmin = user.email === 'okipoka.jp@gmail.com';
+  const adminEmail = (process.env.OKIPOKA_ADMIN_EMAIL ?? "okipoka.jp@gmail.com").toLowerCase();
+  const isAdmin = (user.email ?? "").toLowerCase() === adminEmail;
   const isSubscriber = profile?.subscription_status === 'active' || profile?.subscription_status === 'canceling';
   const subscriptionStatus = formatSubscriptionStatus(profile?.subscription_status);
 

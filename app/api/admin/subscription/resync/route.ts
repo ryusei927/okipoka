@@ -3,7 +3,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { squareClient } from "@/lib/square";
 import { NextResponse } from "next/server";
 
-const ADMIN_EMAIL = "okipoka.jp@gmail.com";
+const ADMIN_EMAIL = (process.env.OKIPOKA_ADMIN_EMAIL ?? "okipoka.jp@gmail.com").toLowerCase();
 
 function mapSquareStatusToDb(status?: string | null) {
   switch (status) {

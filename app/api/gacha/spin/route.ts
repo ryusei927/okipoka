@@ -44,7 +44,8 @@ export async function POST() {
   }
 
   const email = (user.email ?? "").toLowerCase();
-  const isAdmin = email === "okipoka.jp@gmail.com";
+  const adminEmail = (process.env.OKIPOKA_ADMIN_EMAIL ?? "okipoka.jp@gmail.com").toLowerCase();
+  const isAdmin = email === adminEmail;
 
   // 「支払い済みなのにsubscription_status/subscription_idがDBに反映されていない」ケースを救済する
   try {
