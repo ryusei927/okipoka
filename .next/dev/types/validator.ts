@@ -83,6 +83,51 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
+// Validate ../../../app/(dashboard)/dashboard/gacha/[id]/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/dashboard/gacha/[id]">> = Specific
+  const handler = {} as typeof import("../../../app/(dashboard)/dashboard/gacha/[id]/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../../app/(dashboard)/dashboard/gacha/new/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/dashboard/gacha/new">> = Specific
+  const handler = {} as typeof import("../../../app/(dashboard)/dashboard/gacha/new/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../../app/(dashboard)/dashboard/gacha/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/dashboard/gacha">> = Specific
+  const handler = {} as typeof import("../../../app/(dashboard)/dashboard/gacha/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../../app/(dashboard)/dashboard/gacha/sim/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/dashboard/gacha/sim">> = Specific
+  const handler = {} as typeof import("../../../app/(dashboard)/dashboard/gacha/sim/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../../app/(dashboard)/dashboard/members/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/dashboard/members">> = Specific
+  const handler = {} as typeof import("../../../app/(dashboard)/dashboard/members/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../../app/(dashboard)/dashboard/page.tsx
 {
   type __IsExpected<Specific extends AppPageConfig<"/dashboard">> = Specific
@@ -267,6 +312,78 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
 {
   type __IsExpected<Specific extends AppPageConfig<"/login/verify">> = Specific
   const handler = {} as typeof import("../../../app/login/verify/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../../app/member/gacha/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/member/gacha">> = Specific
+  const handler = {} as typeof import("../../../app/member/gacha/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../../app/member/items/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/member/items">> = Specific
+  const handler = {} as typeof import("../../../app/member/items/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../../app/member/subscription/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/member/subscription">> = Specific
+  const handler = {} as typeof import("../../../app/member/subscription/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../../app/api/gacha/spin/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/gacha/spin">> = Specific
+  const handler = {} as typeof import("../../../app/api/gacha/spin/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../../app/api/member/subscription/status/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/member/subscription/status">> = Specific
+  const handler = {} as typeof import("../../../app/api/member/subscription/status/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../../app/api/payment/square/subscribe/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/payment/square/subscribe">> = Specific
+  const handler = {} as typeof import("../../../app/api/payment/square/subscribe/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../../app/api/payment/square/subscription/cancel/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/payment/square/subscription/cancel">> = Specific
+  const handler = {} as typeof import("../../../app/api/payment/square/subscription/cancel/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../../app/api/payment/square/subscription/resume/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/payment/square/subscription/resume">> = Specific
+  const handler = {} as typeof import("../../../app/api/payment/square/subscription/resume/route.js")
   type __Check = __IsExpected<typeof handler>
   // @ts-ignore
   type __Unused = __Check

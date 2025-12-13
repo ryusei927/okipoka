@@ -1,0 +1,34 @@
+import { createClient } from "@/lib/supabase/server";
+import { NextResponse } from "next/server";
+
+export async function POST(request: Request) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const { data, error } = await supabase.rpc("spin_gacha");
+  if (error) {
+    const msg = error.message || "Failed";
+    if (msg.includes("Unauthorized")) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    if (msg.includes("Subscription required")) {
+      return NextResponse.json({ error: "Subscription required" }, { status: 403 });
+    }
+    if (msg.includes("Already played today")) {
+      return NextResponse.json({ error: "Already played today" }, { status: 400 });
+    }
+    if (msg.includes("No items available")) {
+      return NextResponse.json({ error: "No items available" }, { status: 500 });
+    }
+    console.error("spin_gacha rpc error:", error);
+    return NextResponse.json({ error: "Failed to spin" }, { status: 500 });
+  }
+
+  return NextResponse.json({ success: true, item: data });
+}

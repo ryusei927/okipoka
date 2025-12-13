@@ -1,5 +1,14 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Environment Variables
+
+Create `.env` (or copy from `.env.example`) and set the required values.
+
+### Square Subscription
+
+- `SQUARE_SUBSCRIPTION_PLAN_VARIATION_ID` is required to create a subscription.
+	- If you see `plan_variation_id cannot be empty`, this value is missing or not being resolved.
+
 ## Getting Started
 
 First, run the development server:
