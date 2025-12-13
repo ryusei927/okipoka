@@ -20,6 +20,13 @@ export default async function GachaPage() {
     }
     return true;
   });
+
+  const outOfStockActiveCount = (items || []).filter((it: any) => {
+    if (!it.is_active) return false;
+    if (it.deleted_at) return false;
+    if (typeof it.stock_total !== "number") return false;
+    return (it.stock_used || 0) >= it.stock_total;
+  }).length;
   const totalWeight = activeItems.reduce(
     (sum: number, it: any) => sum + (it.probability || 0),
     0
@@ -70,14 +77,21 @@ export default async function GachaPage() {
       )}
 
       {!error && (items?.length || 0) > 0 && (
-        <GachaRateControls
-          winRate={winRate}
-          winWeight={winWeight}
-          loseWeight={loseWeight}
-          totalWeight={totalWeight}
-          expectedValueYen={expectedValueYen}
-          maxExpectedValueYen={maxExpectedValueYen}
-        />
+        <>
+          {outOfStockActiveCount > 0 && (
+            <div className="bg-amber-50 border border-amber-200 text-amber-800 text-sm rounded-xl p-4">
+              在庫切れの景品が {outOfStockActiveCount} 件あります。抽選/当たり率/期待値の計算は在庫切れを除外します（実際の抽選と同じ挙動）。
+            </div>
+          )}
+          <GachaRateControls
+            winRate={winRate}
+            winWeight={winWeight}
+            loseWeight={loseWeight}
+            totalWeight={totalWeight}
+            expectedValueYen={expectedValueYen}
+            maxExpectedValueYen={maxExpectedValueYen}
+          />
+        </>
       )}
 
       <div className="grid gap-4">

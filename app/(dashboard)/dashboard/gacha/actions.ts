@@ -213,6 +213,8 @@ export async function toggleGachaItemStatus(id: string, isActive: boolean) {
 export async function autoAdjustLoseWeight(targetWinRate: number) {
   const supabase = await createClient();
 
+  const MAX_LOSE_WEIGHT = 1_000_000;
+
   const target = Number(targetWinRate);
   if (!Number.isFinite(target) || target <= 0 || target >= 100) {
     throw new Error("当たり率は1〜99の範囲で指定してください");
@@ -220,7 +222,7 @@ export async function autoAdjustLoseWeight(targetWinRate: number) {
 
   const { data: items, error } = await supabase
     .from("gacha_items")
-    .select("id,type,probability,is_active,deleted_at,created_at")
+    .select("id,type,probability,is_active,deleted_at,created_at,stock_total,stock_used")
     .is("deleted_at", null)
     .eq("is_active", true);
 
@@ -230,11 +232,19 @@ export async function autoAdjustLoseWeight(targetWinRate: number) {
   }
 
   const activeItems = items || [];
-  if (activeItems.length === 0) {
+  const eligibleItems = activeItems.filter((it: any) => {
+    if (!it.is_active) return false;
+    if (typeof it.stock_total === "number") {
+      return (it.stock_used || 0) < it.stock_total;
+    }
+    return true;
+  });
+
+  if (eligibleItems.length === 0) {
     throw new Error("有効な景品がありません");
   }
 
-  const loseItems = activeItems
+  const loseItems = eligibleItems
     .filter((it: any) => it.type === "none")
     .sort((a: any, b: any) => {
       const at = a.created_at ? new Date(a.created_at).getTime() : 0;
@@ -256,7 +266,7 @@ export async function autoAdjustLoseWeight(targetWinRate: number) {
     loseItems.splice(1);
   }
 
-  const winWeight = activeItems
+  const winWeight = eligibleItems
     .filter((it: any) => it.type !== "none")
     .reduce((sum: number, it: any) => sum + (it.probability || 0), 0);
 
@@ -266,6 +276,11 @@ export async function autoAdjustLoseWeight(targetWinRate: number) {
 
   // winWeight / (winWeight + loseWeight) = target/100
   const rawLose = (winWeight * (100 - target)) / target;
+  if (!Number.isFinite(rawLose) || rawLose > MAX_LOSE_WEIGHT) {
+    throw new Error(
+      `調整結果のハズレ重みが大きすぎます（${Math.round(rawLose)}）。目標当たり率を上げるか、当たり景品の重み/原価を見直してください。`
+    );
+  }
   const nextLose = Math.max(1, Math.round(rawLose));
 
   const { error: updateError } = await supabase
@@ -286,6 +301,8 @@ export async function autoAdjustLoseWeight(targetWinRate: number) {
 export async function autoAdjustLoseWeightByExpectedValue(targetExpectedYen: number) {
   const supabase = await createClient();
 
+  const MAX_LOSE_WEIGHT = 1_000_000;
+
   const target = Number(targetExpectedYen);
   if (!Number.isFinite(target) || target <= 0) {
     throw new Error("期待値（円）は1以上の数値で指定してください");
@@ -293,7 +310,7 @@ export async function autoAdjustLoseWeightByExpectedValue(targetExpectedYen: num
 
   const { data: items, error } = await supabase
     .from("gacha_items")
-    .select("id,type,probability,is_active,deleted_at,created_at,cost_yen")
+    .select("id,type,probability,is_active,deleted_at,created_at,cost_yen,stock_total,stock_used")
     .is("deleted_at", null)
     .eq("is_active", true);
 
@@ -303,11 +320,19 @@ export async function autoAdjustLoseWeightByExpectedValue(targetExpectedYen: num
   }
 
   const activeItems = items || [];
-  if (activeItems.length === 0) {
+  const eligibleItems = activeItems.filter((it: any) => {
+    if (!it.is_active) return false;
+    if (typeof it.stock_total === "number") {
+      return (it.stock_used || 0) < it.stock_total;
+    }
+    return true;
+  });
+
+  if (eligibleItems.length === 0) {
     throw new Error("有効な景品がありません");
   }
 
-  const loseItems = activeItems
+  const loseItems = eligibleItems
     .filter((it: any) => it.type === "none")
     .sort((a: any, b: any) => {
       const at = a.created_at ? new Date(a.created_at).getTime() : 0;
@@ -329,7 +354,7 @@ export async function autoAdjustLoseWeightByExpectedValue(targetExpectedYen: num
     loseItems.splice(1);
   }
 
-  const winItems = activeItems.filter((it: any) => it.type !== "none");
+  const winItems = eligibleItems.filter((it: any) => it.type !== "none");
   const winWeight = winItems.reduce((sum: number, it: any) => sum + (it.probability || 0), 0);
   if (winWeight <= 0) {
     throw new Error("当たり景品の重みが0です");
@@ -353,6 +378,11 @@ export async function autoAdjustLoseWeightByExpectedValue(targetExpectedYen: num
   // EV = winCostSum / (winWeight + loseWeight)
   // => loseWeight = winCostSum/EV - winWeight
   const rawLose = winCostSum / target - winWeight;
+  if (!Number.isFinite(rawLose) || rawLose > MAX_LOSE_WEIGHT) {
+    throw new Error(
+      `調整結果のハズレ重みが大きすぎます（${Math.round(rawLose)}）。目標期待値を上げるか、当たり景品の重み/原価を見直してください。`
+    );
+  }
   const nextLose = Math.max(1, Math.round(rawLose));
 
   const { error: updateError } = await supabase

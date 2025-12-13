@@ -1,5 +1,7 @@
 {
+  "/(dashboard)/dashboard/gacha/[id]/page": "app/(dashboard)/dashboard/gacha/[id]/page.js",
   "/(dashboard)/dashboard/gacha/page": "app/(dashboard)/dashboard/gacha/page.js",
+  "/(dashboard)/dashboard/gacha/sim/page": "app/(dashboard)/dashboard/gacha/sim/page.js",
   "/(dashboard)/dashboard/page": "app/(dashboard)/dashboard/page.js",
   "/(public)/member/page": "app/(public)/member/page.js",
   "/(public)/member/profile/page": "app/(public)/member/profile/page.js",
