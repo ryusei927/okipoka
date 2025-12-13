@@ -1,5 +1,6 @@
 'use server'
 
+import { headers } from 'next/headers'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
@@ -40,8 +41,6 @@ export async function login(formData: FormData) {
   redirect('/member')
 }
 
-import { headers } from 'next/headers'
-
 export async function signup(formData: FormData) {
   const supabase = await createClient()
   const origin = (await headers()).get('origin')
@@ -73,7 +72,19 @@ export async function signup(formData: FormData) {
     })
   }
 
-  // メール確認画面へリダイレクト
+  // Confirm email が OFF の場合は session が返り、そのままログイン扱いで遷移できる
+  if (data.session && data.user) {
+    const { data: shop } = await supabase
+      .from('shops')
+      .select('id')
+      .eq('owner_id', data.user.id)
+      .single()
+
+    revalidatePath('/', 'layout')
+    redirect(shop ? '/dashboard' : '/member')
+  }
+
+  // Confirm email が ON の場合はメール確認画面へ
   redirect('/login/verify')
 }
 

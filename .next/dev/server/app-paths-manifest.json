@@ -9,6 +9,7 @@
   "/(dashboard)/dashboard/page": "app/(dashboard)/dashboard/page.js",
   "/(dashboard)/dashboard/shops/page": "app/(dashboard)/dashboard/shops/page.js",
   "/(public)/member/page": "app/(public)/member/page.js",
+  "/(public)/member/profile/page": "app/(public)/member/profile/page.js",
   "/(public)/page": "app/(public)/page.js",
   "/(public)/shops/[id]/page": "app/(public)/shops/[id]/page.js",
   "/(public)/tournaments/[id]/page": "app/(public)/tournaments/[id]/page.js",
@@ -18,6 +19,8 @@
   "/api/payment/square/subscribe/route": "app/api/payment/square/subscribe/route.js",
   "/api/payment/square/subscription/cancel/route": "app/api/payment/square/subscription/cancel/route.js",
   "/api/payment/square/subscription/resume/route": "app/api/payment/square/subscription/resume/route.js",
+  "/login/page": "app/login/page.js",
+  "/login/verify/page": "app/login/verify/page.js",
   "/member/gacha/page": "app/member/gacha/page.js",
   "/member/items/page": "app/member/items/page.js",
   "/member/subscription/page": "app/member/subscription/page.js"

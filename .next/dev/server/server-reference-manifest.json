@@ -37,10 +37,17 @@
           "async": false,
           "exportedName": "signup",
           "filename": "app/login/actions.ts"
+        },
+        "app/login/page": {
+          "moduleId": "[project]/.next-internal/server/app/login/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/login/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "signup",
+          "filename": "app/login/actions.ts"
         }
       },
       "layer": {
-        "app/(public)/member/page": "rsc"
+        "app/(public)/member/page": "rsc",
+        "app/login/page": "action-browser"
       },
       "filename": "app/login/actions.ts",
       "exportedName": "signup"
@@ -52,10 +59,17 @@
           "async": false,
           "exportedName": "login",
           "filename": "app/login/actions.ts"
+        },
+        "app/login/page": {
+          "moduleId": "[project]/.next-internal/server/app/login/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/login/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "login",
+          "filename": "app/login/actions.ts"
         }
       },
       "layer": {
-        "app/(public)/member/page": "rsc"
+        "app/(public)/member/page": "rsc",
+        "app/login/page": "action-browser"
       },
       "filename": "app/login/actions.ts",
       "exportedName": "login"
@@ -201,6 +215,21 @@
       },
       "filename": "app/(dashboard)/dashboard/gacha/actions.ts",
       "exportedName": "upsertGachaItem"
+    },
+    "406863ba23904b19eaa771d53e1a59d86edee85ce1": {
+      "workers": {
+        "app/(public)/member/profile/page": {
+          "moduleId": "[project]/.next-internal/server/app/(public)/member/profile/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/(public)/member/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "updateProfile",
+          "filename": "app/(public)/member/actions.ts"
+        }
+      },
+      "layer": {
+        "app/(public)/member/profile/page": "action-browser"
+      },
+      "filename": "app/(public)/member/actions.ts",
+      "exportedName": "updateProfile"
     }
   },
   "edge": {},

@@ -2,7 +2,7 @@ import { DigitalMemberCard } from "@/components/member/DigitalMemberCard";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { signout } from "@/app/login/actions";
-import { LogOut, User, Settings, Trophy, LayoutDashboard, Crown, Gift, Ticket } from "lucide-react";
+import { LogOut, User, Settings, LayoutDashboard, Crown, Gift, Ticket } from "lucide-react";
 import Link from "next/link";
 
 function formatSubscriptionStatus(status?: string | null) {
@@ -127,15 +127,6 @@ export default async function MemberPage() {
                     <div className="text-xs text-gray-500">表示名やアイコンの変更</div>
                 </div>
             </Link>
-            <button className="w-full flex items-center gap-3 p-4 hover:bg-gray-50 transition-colors text-left">
-                <div className="p-2 bg-yellow-50 text-yellow-600 rounded-lg">
-                    <Trophy className="w-5 h-5" />
-                </div>
-                <div className="flex-1">
-                    <div className="font-medium text-gray-900">参加履歴</div>
-                    <div className="text-xs text-gray-500">過去に参加したトーナメント</div>
-                </div>
-            </button>
             <Link href="/member/settings" className="w-full flex items-center gap-3 p-4 hover:bg-gray-50 transition-colors text-left">
                 <div className="p-2 bg-gray-50 text-gray-600 rounded-lg">
                     <Settings className="w-5 h-5" />
