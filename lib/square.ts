@@ -101,8 +101,17 @@ export const squareClient = {
 
 export async function getOrCreateSubscriptionPlan() {
   // 環境変数にあればそれを使う
-  if (process.env.SQUARE_SUBSCRIPTION_PLAN_ID) {
-    return process.env.SQUARE_SUBSCRIPTION_PLAN_ID;
+  const envPlanId = process.env.SQUARE_SUBSCRIPTION_PLAN_ID;
+  if (envPlanId) {
+    try {
+      const { result } = await squareClient.catalog.object.retrieve(envPlanId, false);
+      const obj = (result as { object?: { type?: unknown } }).object;
+      if (obj && obj.type === "SUBSCRIPTION_PLAN") {
+        return envPlanId;
+      }
+    } catch {
+      // 無効/別マーチャントのIDの場合はフォールバック
+    }
   }
 
   // なければ検索
@@ -141,8 +150,17 @@ export async function getOrCreateSubscriptionPlan() {
 }
 
 export async function getSubscriptionPlanVariationId() {
-  if (process.env.SQUARE_SUBSCRIPTION_PLAN_VARIATION_ID) {
-    return process.env.SQUARE_SUBSCRIPTION_PLAN_VARIATION_ID;
+  const envVariationId = process.env.SQUARE_SUBSCRIPTION_PLAN_VARIATION_ID;
+  if (envVariationId) {
+    try {
+      const { result } = await squareClient.catalog.object.retrieve(envVariationId, false);
+      const obj = (result as { object?: { type?: unknown } }).object;
+      if (obj && obj.type === "SUBSCRIPTION_PLAN_VARIATION") {
+        return envVariationId;
+      }
+    } catch {
+      // 無効/別マーチャントのIDの場合はフォールバック
+    }
   }
 
   const planId = await getOrCreateSubscriptionPlan();
