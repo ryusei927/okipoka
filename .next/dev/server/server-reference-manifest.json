@@ -37,17 +37,10 @@
           "async": false,
           "exportedName": "signup",
           "filename": "app/login/actions.ts"
-        },
-        "app/login/page": {
-          "moduleId": "[project]/.next-internal/server/app/login/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/login/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false,
-          "exportedName": "signup",
-          "filename": "app/login/actions.ts"
         }
       },
       "layer": {
-        "app/(public)/member/page": "rsc",
-        "app/login/page": "action-browser"
+        "app/(public)/member/page": "rsc"
       },
       "filename": "app/login/actions.ts",
       "exportedName": "signup"
@@ -59,140 +52,13 @@
           "async": false,
           "exportedName": "login",
           "filename": "app/login/actions.ts"
-        },
-        "app/login/page": {
-          "moduleId": "[project]/.next-internal/server/app/login/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/login/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false,
-          "exportedName": "login",
-          "filename": "app/login/actions.ts"
         }
       },
       "layer": {
-        "app/(public)/member/page": "rsc",
-        "app/login/page": "action-browser"
+        "app/(public)/member/page": "rsc"
       },
       "filename": "app/login/actions.ts",
       "exportedName": "login"
-    },
-    "406863ba23904b19eaa771d53e1a59d86edee85ce1": {
-      "workers": {
-        "app/(public)/member/profile/page": {
-          "moduleId": "[project]/.next-internal/server/app/(public)/member/profile/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/(public)/member/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false,
-          "exportedName": "updateProfile",
-          "filename": "app/(public)/member/actions.ts"
-        }
-      },
-      "layer": {
-        "app/(public)/member/profile/page": "action-browser"
-      },
-      "filename": "app/(public)/member/actions.ts",
-      "exportedName": "updateProfile"
-    },
-    "6082c6b2fef60015930c87b0837041538282ba430f": {
-      "workers": {
-        "app/(dashboard)/dashboard/gacha/page": {
-          "moduleId": "[project]/.next-internal/server/app/(dashboard)/dashboard/gacha/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/(dashboard)/dashboard/gacha/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false,
-          "exportedName": "toggleGachaItemStatus",
-          "filename": "app/(dashboard)/dashboard/gacha/actions.ts"
-        }
-      },
-      "layer": {
-        "app/(dashboard)/dashboard/gacha/page": "action-browser"
-      },
-      "filename": "app/(dashboard)/dashboard/gacha/actions.ts",
-      "exportedName": "toggleGachaItemStatus"
-    },
-    "40e693e291e1a151b5f46acd23224210f6b44e9e47": {
-      "workers": {
-        "app/(dashboard)/dashboard/gacha/page": {
-          "moduleId": "[project]/.next-internal/server/app/(dashboard)/dashboard/gacha/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/(dashboard)/dashboard/gacha/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false,
-          "exportedName": "autoAdjustLoseWeightByExpectedValue",
-          "filename": "app/(dashboard)/dashboard/gacha/actions.ts"
-        }
-      },
-      "layer": {
-        "app/(dashboard)/dashboard/gacha/page": "action-browser"
-      },
-      "filename": "app/(dashboard)/dashboard/gacha/actions.ts",
-      "exportedName": "autoAdjustLoseWeightByExpectedValue"
-    },
-    "403f03d83b896c23ca7591031960bd9f7c14131f2e": {
-      "workers": {
-        "app/(dashboard)/dashboard/gacha/page": {
-          "moduleId": "[project]/.next-internal/server/app/(dashboard)/dashboard/gacha/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/(dashboard)/dashboard/gacha/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false,
-          "exportedName": "deleteGachaItem",
-          "filename": "app/(dashboard)/dashboard/gacha/actions.ts"
-        }
-      },
-      "layer": {
-        "app/(dashboard)/dashboard/gacha/page": "action-browser"
-      },
-      "filename": "app/(dashboard)/dashboard/gacha/actions.ts",
-      "exportedName": "deleteGachaItem"
-    },
-    "60cf8f267cd31019f46b2a1f5616fd2c161e3b2674": {
-      "workers": {
-        "app/(dashboard)/dashboard/gacha/[id]/page": {
-          "moduleId": "[project]/.next-internal/server/app/(dashboard)/dashboard/gacha/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/(dashboard)/dashboard/gacha/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false,
-          "exportedName": "upsertGachaItem",
-          "filename": "app/(dashboard)/dashboard/gacha/actions.ts"
-        }
-      },
-      "layer": {
-        "app/(dashboard)/dashboard/gacha/[id]/page": "action-browser"
-      },
-      "filename": "app/(dashboard)/dashboard/gacha/actions.ts",
-      "exportedName": "upsertGachaItem"
-    },
-    "40fedde5104c32f1b28077acafedac695d8e203dee": {
-      "workers": {
-        "app/(dashboard)/dashboard/blog/new/page": {
-          "moduleId": "[project]/.next-internal/server/app/(dashboard)/dashboard/blog/new/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/(dashboard)/dashboard/blog/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false,
-          "exportedName": "deleteBlogPost",
-          "filename": "app/(dashboard)/dashboard/blog/actions.ts"
-        }
-      },
-      "layer": {
-        "app/(dashboard)/dashboard/blog/new/page": "action-browser"
-      },
-      "filename": "app/(dashboard)/dashboard/blog/actions.ts",
-      "exportedName": "deleteBlogPost"
-    },
-    "608a5142903d738d75a34cf9b2e0e14f5f9202f287": {
-      "workers": {
-        "app/(dashboard)/dashboard/blog/new/page": {
-          "moduleId": "[project]/.next-internal/server/app/(dashboard)/dashboard/blog/new/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/(dashboard)/dashboard/blog/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false,
-          "exportedName": "upsertBlogPost",
-          "filename": "app/(dashboard)/dashboard/blog/actions.ts"
-        }
-      },
-      "layer": {
-        "app/(dashboard)/dashboard/blog/new/page": "action-browser"
-      },
-      "filename": "app/(dashboard)/dashboard/blog/actions.ts",
-      "exportedName": "upsertBlogPost"
-    },
-    "40423dbb233727ab0c1fcc8ff8798972905a3aedf4": {
-      "workers": {
-        "app/(dashboard)/dashboard/blog/new/page": {
-          "moduleId": "[project]/.next-internal/server/app/(dashboard)/dashboard/blog/new/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/(dashboard)/dashboard/blog/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false,
-          "exportedName": "uploadBlogImage",
-          "filename": "app/(dashboard)/dashboard/blog/actions.ts"
-        }
-      },
-      "layer": {
-        "app/(dashboard)/dashboard/blog/new/page": "action-browser"
-      },
-      "filename": "app/(dashboard)/dashboard/blog/actions.ts",
-      "exportedName": "uploadBlogImage"
     }
   },
   "edge": {},
