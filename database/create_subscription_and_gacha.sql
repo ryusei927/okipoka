@@ -190,7 +190,13 @@ BEGIN
     RAISE EXCEPTION 'Subscription required';
   END IF;
 
-  v_email := auth.jwt() ->> 'email';
+  -- JWTにemailが無いケースがあるため、profiles.emailへフォールバックする
+  v_email := lower(
+    coalesce(
+      auth.jwt() ->> 'email',
+      (SELECT p.email FROM profiles p WHERE p.id = v_user_id)
+    )
+  );
 
   -- 管理者以外は1日1回（JST基準）
   IF v_email IS DISTINCT FROM 'okipoka.jp@gmail.com' THEN
