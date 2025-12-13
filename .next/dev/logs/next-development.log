@@ -972,3 +972,389 @@ Import traces:
 [06:20:49.981] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
 [06:24:37.670] Server  LOG      ✓ Compiled in 32ms
 [06:25:14.924] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[06:28:23.391] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/avatars/56b616b7-02ab-4937-9cd2-7cf3a7a2b380-1765538599069.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[06:43:20.801] Server  LOG      ✓ Compiled in 48ms
+[06:43:21.053] Server  LOG      ✓ Compiled in 58ms
+[06:43:21.158] Browser ERROR   ./app/member/gacha/page.tsx:292:17
+Parsing ecmascript source code failed
+  290 |               <div className="px-4 py-4">
+  291 |                 {result.type === "none" ? (
+> 292 |         {result && revealed ? (
+      |                 ^^
+  293 |           <div className="w-full max-w-sm mt-6">
+  294 |             <div className="rounded-2xl overflow-hidden border border-slate-100 bg-white shadow-lg">
+  295 |               <div className="px-6 py-4 bg-slate-50 border-b border-slate-100">
+
+Expected a semicolon
+
+Import traces:
+  Client Component Browser:
+    ./app/member/gacha/page.tsx [Client Component Browser]
+    ./app/member/gacha/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/member/gacha/page.tsx [Client Component SSR]
+    ./app/member/gacha/page.tsx [Server Component]
+[06:43:21.158] Browser ERROR   ./app/member/gacha/page.tsx:292:17
+Parsing ecmascript source code failed
+  290 |               <div className="px-4 py-4">
+  291 |                 {result.type === "none" ? (
+> 292 |         {result && revealed ? (
+      |                 ^^
+  293 |           <div className="w-full max-w-sm mt-6">
+  294 |             <div className="rounded-2xl overflow-hidden border border-slate-100 bg-white shadow-lg">
+  295 |               <div className="px-6 py-4 bg-slate-50 border-b border-slate-100">
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./app/member/gacha/page.tsx [Client Component Browser]
+    ./app/member/gacha/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/member/gacha/page.tsx [Client Component SSR]
+    ./app/member/gacha/page.tsx [Server Component]
+[06:43:21.377] Browser ERROR   ./app/member/gacha/page.tsx:292:17
+Parsing ecmascript source code failed
+  290 |               <div className="px-4 py-4">
+  291 |                 {result.type === "none" ? (
+> 292 |         {result && revealed ? (
+      |                 ^^
+  293 |           <div className="w-full max-w-sm mt-6">
+  294 |             <div className="rounded-2xl overflow-hidden border border-slate-100 bg-white shadow-lg">
+  295 |               <div className="px-6 py-4 bg-slate-50 border-b border-slate-100">
+
+Expected a semicolon
+
+Import traces:
+  Client Component Browser:
+    ./app/member/gacha/page.tsx [Client Component Browser]
+    ./app/member/gacha/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/member/gacha/page.tsx [Client Component SSR]
+    ./app/member/gacha/page.tsx [Server Component]
+[06:43:21.377] Browser ERROR   ./app/member/gacha/page.tsx:292:17
+Parsing ecmascript source code failed
+  290 |               <div className="px-4 py-4">
+  291 |                 {result.type === "none" ? (
+> 292 |         {result && revealed ? (
+      |                 ^^
+  293 |           <div className="w-full max-w-sm mt-6">
+  294 |             <div className="rounded-2xl overflow-hidden border border-slate-100 bg-white shadow-lg">
+  295 |               <div className="px-6 py-4 bg-slate-50 border-b border-slate-100">
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./app/member/gacha/page.tsx [Client Component Browser]
+    ./app/member/gacha/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/member/gacha/page.tsx [Client Component SSR]
+    ./app/member/gacha/page.tsx [Server Component]
+[06:43:55.230] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[06:43:55.373] Browser ERROR   ./app/member/gacha/page.tsx:292:17
+Parsing ecmascript source code failed
+  290 |               <div className="px-4 py-4">
+  291 |                 {result.type === "none" ? (
+> 292 |         {result && revealed ? (
+      |                 ^^
+  293 |           <div className="w-full max-w-sm mt-6">
+  294 |             <div className="rounded-2xl overflow-hidden border border-slate-100 bg-white shadow-lg">
+  295 |               <div className="px-6 py-4 bg-slate-50 border-b border-slate-100">
+
+Expected a semicolon
+
+Import traces:
+  Client Component Browser:
+    ./app/member/gacha/page.tsx [Client Component Browser]
+    ./app/member/gacha/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/member/gacha/page.tsx [Client Component SSR]
+    ./app/member/gacha/page.tsx [Server Component]
+[06:43:55.373] Browser ERROR   ./app/member/gacha/page.tsx:292:17
+Parsing ecmascript source code failed
+  290 |               <div className="px-4 py-4">
+  291 |                 {result.type === "none" ? (
+> 292 |         {result && revealed ? (
+      |                 ^^
+  293 |           <div className="w-full max-w-sm mt-6">
+  294 |             <div className="rounded-2xl overflow-hidden border border-slate-100 bg-white shadow-lg">
+  295 |               <div className="px-6 py-4 bg-slate-50 border-b border-slate-100">
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./app/member/gacha/page.tsx [Client Component Browser]
+    ./app/member/gacha/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/member/gacha/page.tsx [Client Component SSR]
+    ./app/member/gacha/page.tsx [Server Component]
+[06:43:55.373] Browser ERROR   ./app/member/gacha/page.tsx:292:17
+Parsing ecmascript source code failed
+  290 |               <div className="px-4 py-4">
+  291 |                 {result.type === "none" ? (
+> 292 |         {result && revealed ? (
+      |                 ^^
+  293 |           <div className="w-full max-w-sm mt-6">
+  294 |             <div className="rounded-2xl overflow-hidden border border-slate-100 bg-white shadow-lg">
+  295 |               <div className="px-6 py-4 bg-slate-50 border-b border-slate-100">
+
+Expected a semicolon
+
+Import traces:
+  Client Component Browser:
+    ./app/member/gacha/page.tsx [Client Component Browser]
+    ./app/member/gacha/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/member/gacha/page.tsx [Client Component SSR]
+    ./app/member/gacha/page.tsx [Server Component]
+[06:43:55.373] Browser ERROR   ./app/member/gacha/page.tsx:292:17
+Parsing ecmascript source code failed
+  290 |               <div className="px-4 py-4">
+  291 |                 {result.type === "none" ? (
+> 292 |         {result && revealed ? (
+      |                 ^^
+  293 |           <div className="w-full max-w-sm mt-6">
+  294 |             <div className="rounded-2xl overflow-hidden border border-slate-100 bg-white shadow-lg">
+  295 |               <div className="px-6 py-4 bg-slate-50 border-b border-slate-100">
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./app/member/gacha/page.tsx [Client Component Browser]
+    ./app/member/gacha/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/member/gacha/page.tsx [Client Component SSR]
+    ./app/member/gacha/page.tsx [Server Component]
+[06:43:55.376] Browser ERROR   ./app/member/gacha/page.tsx:292:17
+Parsing ecmascript source code failed
+  290 |               <div className="px-4 py-4">
+  291 |                 {result.type === "none" ? (
+> 292 |         {result && revealed ? (
+      |                 ^^
+  293 |           <div className="w-full max-w-sm mt-6">
+  294 |             <div className="rounded-2xl overflow-hidden border border-slate-100 bg-white shadow-lg">
+  295 |               <div className="px-6 py-4 bg-slate-50 border-b border-slate-100">
+
+Expected a semicolon
+
+Import traces:
+  Client Component Browser:
+    ./app/member/gacha/page.tsx [Client Component Browser]
+    ./app/member/gacha/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/member/gacha/page.tsx [Client Component SSR]
+    ./app/member/gacha/page.tsx [Server Component]
+[06:43:55.376] Browser ERROR   ./app/member/gacha/page.tsx:292:17
+Parsing ecmascript source code failed
+  290 |               <div className="px-4 py-4">
+  291 |                 {result.type === "none" ? (
+> 292 |         {result && revealed ? (
+      |                 ^^
+  293 |           <div className="w-full max-w-sm mt-6">
+  294 |             <div className="rounded-2xl overflow-hidden border border-slate-100 bg-white shadow-lg">
+  295 |               <div className="px-6 py-4 bg-slate-50 border-b border-slate-100">
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./app/member/gacha/page.tsx [Client Component Browser]
+    ./app/member/gacha/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/member/gacha/page.tsx [Client Component SSR]
+    ./app/member/gacha/page.tsx [Server Component]
+[06:43:55.376] Browser ERROR   ./app/member/gacha/page.tsx:292:17
+Parsing ecmascript source code failed
+  290 |               <div className="px-4 py-4">
+  291 |                 {result.type === "none" ? (
+> 292 |         {result && revealed ? (
+      |                 ^^
+  293 |           <div className="w-full max-w-sm mt-6">
+  294 |             <div className="rounded-2xl overflow-hidden border border-slate-100 bg-white shadow-lg">
+  295 |               <div className="px-6 py-4 bg-slate-50 border-b border-slate-100">
+
+Expected a semicolon
+
+Import traces:
+  Client Component Browser:
+    ./app/member/gacha/page.tsx [Client Component Browser]
+    ./app/member/gacha/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/member/gacha/page.tsx [Client Component SSR]
+    ./app/member/gacha/page.tsx [Server Component]
+[06:43:55.376] Browser ERROR   ./app/member/gacha/page.tsx:292:17
+Parsing ecmascript source code failed
+  290 |               <div className="px-4 py-4">
+  291 |                 {result.type === "none" ? (
+> 292 |         {result && revealed ? (
+      |                 ^^
+  293 |           <div className="w-full max-w-sm mt-6">
+  294 |             <div className="rounded-2xl overflow-hidden border border-slate-100 bg-white shadow-lg">
+  295 |               <div className="px-6 py-4 bg-slate-50 border-b border-slate-100">
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./app/member/gacha/page.tsx [Client Component Browser]
+    ./app/member/gacha/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/member/gacha/page.tsx [Client Component SSR]
+    ./app/member/gacha/page.tsx [Server Component]
+[06:44:54.911] Server  LOG      ✓ Compiled in 45ms
+[06:44:55.378] Browser ERROR   ./app/member/gacha/page.tsx:396:19
+Parsing ecmascript source code failed
+  394 |             }
+  395 |           }
+> 396 |         `}</style>
+      |                   ^
+
+Expected '</', got '<eof>'
+
+Import traces:
+  Client Component Browser:
+    ./app/member/gacha/page.tsx [Client Component Browser]
+    ./app/member/gacha/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/member/gacha/page.tsx [Client Component SSR]
+    ./app/member/gacha/page.tsx [Server Component]
+[06:44:55.379] Browser ERROR   ./app/member/gacha/page.tsx:396:19
+Parsing ecmascript source code failed
+  394 |             }
+  395 |           }
+> 396 |         `}</style>
+      |                   ^
+
+Expected '</', got '<eof>'
+
+Import traces:
+  Client Component Browser:
+    ./app/member/gacha/page.tsx [Client Component Browser]
+    ./app/member/gacha/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/member/gacha/page.tsx [Client Component SSR]
+    ./app/member/gacha/page.tsx [Server Component]
+[06:45:40.984] Browser ERROR   ./app/member/gacha/page.tsx:396:19
+Parsing ecmascript source code failed
+  394 |             }
+  395 |           }
+> 396 |         `}</style>
+      |                   ^
+
+Expected '</', got '<eof>'
+
+Import traces:
+  Client Component Browser:
+    ./app/member/gacha/page.tsx [Client Component Browser]
+    ./app/member/gacha/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/member/gacha/page.tsx [Client Component SSR]
+    ./app/member/gacha/page.tsx [Server Component]
+[06:45:41.380] Browser ERROR   ./app/member/gacha/page.tsx:396:19
+Parsing ecmascript source code failed
+  394 |             }
+  395 |           }
+> 396 |         `}</style>
+      |                   ^
+
+Expected '</', got '<eof>'
+
+Import traces:
+  Client Component Browser:
+    ./app/member/gacha/page.tsx [Client Component Browser]
+    ./app/member/gacha/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/member/gacha/page.tsx [Client Component SSR]
+    ./app/member/gacha/page.tsx [Server Component]
+[06:45:43.161] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[06:45:43.298] Browser ERROR   ./app/member/gacha/page.tsx:396:19
+Parsing ecmascript source code failed
+  394 |             }
+  395 |           }
+> 396 |         `}</style>
+      |                   ^
+
+Expected '</', got '<eof>'
+
+Import traces:
+  Client Component Browser:
+    ./app/member/gacha/page.tsx [Client Component Browser]
+    ./app/member/gacha/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/member/gacha/page.tsx [Client Component SSR]
+    ./app/member/gacha/page.tsx [Server Component]
+[06:45:43.298] Browser ERROR   ./app/member/gacha/page.tsx:396:19
+Parsing ecmascript source code failed
+  394 |             }
+  395 |           }
+> 396 |         `}</style>
+      |                   ^
+
+Expected '</', got '<eof>'
+
+Import traces:
+  Client Component Browser:
+    ./app/member/gacha/page.tsx [Client Component Browser]
+    ./app/member/gacha/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/member/gacha/page.tsx [Client Component SSR]
+    ./app/member/gacha/page.tsx [Server Component]
+[06:45:43.377] Browser ERROR   ./app/member/gacha/page.tsx:396:19
+Parsing ecmascript source code failed
+  394 |             }
+  395 |           }
+> 396 |         `}</style>
+      |                   ^
+
+Expected '</', got '<eof>'
+
+Import traces:
+  Client Component Browser:
+    ./app/member/gacha/page.tsx [Client Component Browser]
+    ./app/member/gacha/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/member/gacha/page.tsx [Client Component SSR]
+    ./app/member/gacha/page.tsx [Server Component]
+[06:45:43.377] Browser ERROR   ./app/member/gacha/page.tsx:396:19
+Parsing ecmascript source code failed
+  394 |             }
+  395 |           }
+> 396 |         `}</style>
+      |                   ^
+
+Expected '</', got '<eof>'
+
+Import traces:
+  Client Component Browser:
+    ./app/member/gacha/page.tsx [Client Component Browser]
+    ./app/member/gacha/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/member/gacha/page.tsx [Client Component SSR]
+    ./app/member/gacha/page.tsx [Server Component]
+[06:46:10.813] Server  LOG      ✓ Compiled in 30ms
+[06:46:38.784] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[06:47:43.439] Server  LOG      ✓ Compiled in 40ms
+[06:49:17.351] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/avatars/56b616b7-02ab-4937-9cd2-7cf3a7a2b380-1765538599069.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes

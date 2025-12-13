@@ -33,22 +33,22 @@ export default function GachaPage() {
 
   const capsules = useMemo(
     () => [
-      { className: "bg-orange-200" },
-      { className: "bg-pink-200" },
-      { className: "bg-yellow-200" },
-      { className: "bg-blue-200" },
-      { className: "bg-green-200" },
-      { className: "bg-purple-200" },
-      { className: "bg-red-200" },
-      { className: "bg-teal-200" },
-      { className: "bg-indigo-200" },
-      { className: "bg-amber-200" },
-      { className: "bg-lime-200" },
-      { className: "bg-cyan-200" },
-      { className: "bg-orange-200" },
-      { className: "bg-pink-200" },
-      { className: "bg-yellow-200" },
-      { className: "bg-blue-200" },
+      { className: "bg-orange-300/80" },
+      { className: "bg-rose-300/80" },
+      { className: "bg-amber-300/80" },
+      { className: "bg-blue-300/80" },
+      { className: "bg-emerald-300/80" },
+      { className: "bg-violet-300/80" },
+      { className: "bg-red-300/80" },
+      { className: "bg-cyan-300/80" },
+      { className: "bg-indigo-300/80" },
+      { className: "bg-yellow-300/80" },
+      { className: "bg-lime-300/80" },
+      { className: "bg-sky-300/80" },
+      { className: "bg-orange-300/80" },
+      { className: "bg-rose-300/80" },
+      { className: "bg-amber-300/80" },
+      { className: "bg-blue-300/80" },
     ],
     []
   );
@@ -161,19 +161,19 @@ export default function GachaPage() {
       />
 
       <div className="relative max-w-md mx-auto px-6 py-10 min-h-[calc(100vh-64px)] flex flex-col items-center justify-center">
-        <h1 className="text-2xl font-bold mb-8 text-center">デイリーガチャ</h1>
+        <h1 className="text-xl font-bold mb-8 text-center text-slate-800 tracking-wider">DAILY GACHA</h1>
 
         {/* ガチャ筐体 */}
         <div className="w-full max-w-sm" aria-live="polite">
-          <div className="relative mx-auto w-[360px] max-w-full">
+          <div className="relative mx-auto w-[320px] max-w-full">
             {/* ドーム */}
-            <div className="relative mx-auto w-80 h-80">
-              <div className="absolute inset-0 rounded-full bg-white/40 border border-gray-200 dome-rim" />
-              <div className="absolute inset-2 rounded-full bg-white/25" />
+            <div className="relative mx-auto w-72 h-72">
+              <div className="absolute inset-0 rounded-full bg-white/60 border border-white/50 shadow-inner backdrop-blur-sm" />
+              <div className="absolute inset-4 rounded-full bg-white/20" />
               <div className="absolute inset-0 rounded-full dome-sheen" />
 
               {/* 内部回転カプセル */}
-              <div className="absolute inset-7 rounded-full overflow-hidden">
+              <div className="absolute inset-6 rounded-full overflow-hidden">
                 {capsules.map((c, i) => (
                   <div
                     key={i}
@@ -185,45 +185,38 @@ export default function GachaPage() {
                             animationDelay: `${spinMotion[i].delay}ms`,
                           }
                         : {
-                            transform: `translate(-50%, -50%) rotate(${idleAnglesDeg[i]}deg) translateX(104px)`,
+                            transform: `translate(-50%, -50%) rotate(${idleAnglesDeg[i]}deg) translateX(96px)`,
                           }
                     }
                   >
                     <div
                       className={
-                        "w-12 h-12 rounded-full border border-white/70 shadow-sm " +
+                        "w-10 h-10 rounded-full border border-white/40 shadow-sm " +
                         c.className
                       }
                     />
                   </div>
                 ))}
               </div>
-
-              {/* 排出口（ドーム下） */}
-              <div className="absolute left-1/2 -bottom-4 -translate-x-1/2 w-32 h-12 rounded-2xl bg-white border border-gray-200 shadow-sm" />
-              <div className="absolute left-1/2 -bottom-2 -translate-x-1/2 w-20 h-6 rounded-full bg-gray-200/60" />
             </div>
 
             {/* ベース */}
-            <div className="relative mx-auto w-80 max-w-full -mt-3">
-              <div className="rounded-3xl bg-white border border-gray-200 shadow-sm overflow-hidden">
-                <div className="px-4 py-3 bg-linear-to-r from-orange-50 to-pink-50 border-b border-gray-100">
-                  <div className="text-xs font-bold text-gray-600 tracking-widest">OKIPOKA GACHA</div>
-                </div>
-                <div className="p-4">
+            <div className="relative mx-auto w-72 max-w-full -mt-8 z-10">
+              <div className="rounded-3xl bg-white/80 backdrop-blur-md border border-white/60 shadow-xl overflow-hidden">
+                <div className="p-6">
                   {/* 取り出し口 */}
-                  <div className="relative">
-                    <div className="rounded-2xl bg-gray-50 border border-gray-200 p-4 min-h-[110px] flex items-center justify-center">
+                  <div className="relative mb-6">
+                    <div className="rounded-2xl bg-slate-50/50 border border-slate-100 p-4 min-h-[100px] flex items-center justify-center shadow-inner">
                       <div
                         className={
-                          "relative w-24 h-24 " +
+                          "relative w-20 h-20 " +
                           (dropping ? "capsule-drop" : "")
                         }
                         aria-hidden={!dropping && !revealed}
                       >
                         <div
                           className={
-                            "absolute inset-0 rounded-full border border-white/70 shadow-sm bg-orange-200 " +
+                            "absolute inset-0 rounded-full border border-white/60 shadow-md bg-orange-300 " +
                             (revealed ? "capsule-open" : "")
                           }
                         />
@@ -233,7 +226,7 @@ export default function GachaPage() {
                               result.type === "none" ? (
                                 <span className="text-2xl">😢</span>
                               ) : result.image_url && !revealImageFailed ? (
-                                <div className="relative w-20 h-20">
+                                <div className="relative w-16 h-16">
                                   {!revealImageLoaded ? (
                                     <div className="absolute inset-0 flex items-center justify-center">
                                       <span className="text-2xl">🎁</span>
@@ -243,7 +236,7 @@ export default function GachaPage() {
                                     src={result.image_url}
                                     alt={result.name || "景品"}
                                     fill
-                                    sizes="80px"
+                                    sizes="64px"
                                     className="object-contain"
                                     priority
                                     onLoadingComplete={() => setRevealImageLoaded(true)}
@@ -261,8 +254,8 @@ export default function GachaPage() {
                         ) : null}
                       </div>
                     </div>
-                    <div className="mt-2 text-xs text-gray-500 text-center">
-                      {spinning ? "回転中…" : result ? "結果が出ました" : "タップして回す"}
+                    <div className="mt-3 text-xs text-slate-400 text-center font-medium">
+                      {spinning ? "抽選中..." : result ? "結果" : "TAP TO SPIN"}
                     </div>
                   </div>
 
@@ -271,16 +264,16 @@ export default function GachaPage() {
                     <button
                       onClick={spinGacha}
                       disabled={spinning}
-                      className="mt-4 w-full bg-linear-to-r from-orange-500 to-pink-500 text-white font-bold py-4 px-8 rounded-2xl shadow-sm hover:shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full bg-slate-900 text-white font-bold py-3.5 px-6 rounded-xl shadow-lg hover:bg-slate-800 hover:shadow-xl active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm tracking-wide"
                     >
-                      {spinning ? "抽選中…" : "ガチャを回す！"}
+                      {spinning ? "SPINNING..." : "ガチャを回す"}
                     </button>
                   ) : (
                     <button
                       onClick={reset}
-                      className="mt-4 w-full bg-white text-gray-700 font-bold py-4 px-8 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-all"
+                      className="w-full bg-white text-slate-700 font-bold py-3.5 px-6 rounded-xl border border-slate-200 shadow-sm hover:bg-slate-50 transition-all text-sm"
                     >
-                      もう一度見る
+                      もう一度
                     </button>
                   )}
                 </div>
@@ -291,30 +284,30 @@ export default function GachaPage() {
 
         {result && revealed ? (
           <div className="w-full max-w-sm mt-6">
-            <div className="rounded-2xl overflow-hidden border border-gray-200 bg-white shadow-sm">
-              <div className="px-4 py-3 bg-linear-to-r from-orange-50 to-pink-50 border-b border-gray-100">
-                <div className="text-xs font-bold text-gray-600 tracking-widest">RESULT</div>
-                <div className="mt-1 text-lg font-extrabold text-gray-900 leading-tight break-words">
+            <div className="rounded-2xl overflow-hidden border border-slate-100 bg-white shadow-lg">
+              <div className="px-6 py-4 bg-slate-50 border-b border-slate-100">
+                <div className="text-xs font-bold text-slate-400 tracking-widest">RESULT</div>
+                <div className="mt-1 text-lg font-bold text-slate-800 leading-tight break-words">
                   {result.type === "none" ? "ざんねん…" : result.name}
                 </div>
               </div>
-              <div className="px-4 py-4">
+              <div className="px-6 py-6">
                 {result.type === "none" ? (
-                  <div className="text-sm text-gray-600">明日また挑戦してね。</div>
+                  <div className="text-sm text-slate-600">明日また挑戦してね。</div>
                 ) : (
                   <>
                     {result.description ? (
-                      <div className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">
+                      <div className="text-sm text-slate-600 leading-relaxed whitespace-pre-wrap">
                         {result.description}
                       </div>
                     ) : (
-                      <div className="text-sm text-gray-700">当たり！</div>
+                      <div className="text-sm text-slate-600">当たり！</div>
                     )}
                     <Link
                       href="/member/items"
-                      className="mt-4 block p-4 bg-yellow-50 border border-yellow-200 rounded-lg hover:bg-yellow-100 transition-colors"
+                      className="mt-6 block p-4 bg-amber-50 border border-amber-100 rounded-xl hover:bg-amber-100 transition-colors text-center"
                     >
-                      <p className="text-sm text-yellow-800">マイページの「獲得アイテム」から確認できます</p>
+                      <p className="text-sm font-medium text-amber-800">獲得アイテムを確認する</p>
                     </Link>
                   </>
                 )}
@@ -324,64 +317,38 @@ export default function GachaPage() {
         ) : null}
 
         {error && (
-          <div className="flex items-center gap-2 text-red-500 bg-red-50 p-4 rounded-lg mb-6">
-            <AlertCircle className="w-5 h-5" />
+          <div className="flex items-center gap-2 text-red-600 bg-red-50 p-4 rounded-xl mb-6 text-sm font-medium">
+            <AlertCircle className="w-4 h-4" />
             <span>{error}</span>
           </div>
         )}
         <style jsx>{`
-          .dome-rim {
-            box-shadow:
-              0 18px 40px rgba(0, 0, 0, 0.06),
-              inset 0 0 0 10px rgba(255, 255, 255, 0.45);
-          }
-
-          @keyframes sheen {
-            0% {
-              transform: translateX(-30%) rotate(18deg);
-              opacity: 0;
-            }
-            25% {
-              opacity: 0.75;
-            }
-            55% {
-              opacity: 0.35;
-            }
-            100% {
-              transform: translateX(30%) rotate(18deg);
-              opacity: 0;
-            }
-          }
-
           .dome-sheen {
             background: linear-gradient(
-              120deg,
-              rgba(255, 255, 255, 0) 0%,
-              rgba(255, 255, 255, 0.55) 28%,
-              rgba(255, 255, 255, 0) 55%
+              135deg,
+              rgba(255, 255, 255, 0.1) 0%,
+              rgba(255, 255, 255, 0.4) 50%,
+              rgba(255, 255, 255, 0.1) 100%
             );
-            filter: blur(0.2px);
-            mix-blend-mode: screen;
-            animation: sheen 2.8s ease-in-out infinite;
             pointer-events: none;
           }
 
           /* capsules orbit */
           @keyframes orbit {
             0% {
-              transform: translate(-50%, -50%) rotate(0deg) translateX(104px) rotate(0deg);
+              transform: translate(-50%, -50%) rotate(0deg) translateX(96px) rotate(0deg);
             }
             100% {
-              transform: translate(-50%, -50%) rotate(360deg) translateX(104px) rotate(-360deg);
+              transform: translate(-50%, -50%) rotate(360deg) translateX(96px) rotate(-360deg);
             }
           }
 
           @keyframes orbitSlow {
             0% {
-              transform: translate(-50%, -50%) rotate(0deg) translateX(92px) rotate(0deg);
+              transform: translate(-50%, -50%) rotate(0deg) translateX(84px) rotate(0deg);
             }
             100% {
-              transform: translate(-50%, -50%) rotate(360deg) translateX(92px) rotate(-360deg);
+              transform: translate(-50%, -50%) rotate(360deg) translateX(84px) rotate(-360deg);
             }
           }
 
@@ -427,10 +394,6 @@ export default function GachaPage() {
             .orbit-e,
             .orbit-f,
             .capsule-drop {
-              animation: none !important;
-            }
-
-            .dome-sheen {
               animation: none !important;
             }
           }
