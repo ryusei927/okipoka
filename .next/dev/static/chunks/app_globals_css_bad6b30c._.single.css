@@ -761,6 +761,13 @@
     overflow: hidden;
   }
 
+  .line-clamp-3 {
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    overflow: hidden;
+  }
+
   .block {
     display: block;
   }
@@ -873,12 +880,20 @@
     height: calc(var(--spacing) * 40);
   }
 
+  .h-44 {
+    height: calc(var(--spacing) * 44);
+  }
+
   .h-48 {
     height: calc(var(--spacing) * 48);
   }
 
   .h-56 {
     height: calc(var(--spacing) * 56);
+  }
+
+  .h-64 {
+    height: calc(var(--spacing) * 64);
   }
 
   .h-72 {
@@ -919,6 +934,10 @@
 
   .w-1 {
     width: calc(var(--spacing) * 1);
+  }
+
+  .w-1\.5 {
+    width: calc(var(--spacing) * 1.5);
   }
 
   .w-2 {
@@ -1031,6 +1050,10 @@
 
   .min-w-20 {
     min-width: calc(var(--spacing) * 20);
+  }
+
+  .min-w-max {
+    min-width: max-content;
   }
 
   .flex-1 {
@@ -1899,6 +1922,10 @@
     padding: calc(var(--spacing) * 8);
   }
 
+  .p-10 {
+    padding: calc(var(--spacing) * 10);
+  }
+
   .px-1 {
     padding-inline: calc(var(--spacing) * 1);
   }
@@ -2522,6 +2549,12 @@
   }
 
   @media (hover: hover) {
+    .group-hover\:scale-\[1\.01\]:is(:where(.group):hover *) {
+      scale: 1.01;
+    }
+  }
+
+  @media (hover: hover) {
     .group-hover\:scale-\[1\.02\]:is(:where(.group):hover *) {
       scale: 1.02;
     }
@@ -2542,6 +2575,12 @@
   @media (hover: hover) {
     .group-hover\:text-orange-600:is(:where(.group):hover *) {
       color: var(--color-orange-600);
+    }
+  }
+
+  @media (hover: hover) {
+    .group-hover\:text-orange-700:is(:where(.group):hover *) {
+      color: var(--color-orange-700);
     }
   }
 
@@ -2788,6 +2827,12 @@
   }
 
   @media (hover: hover) {
+    .hover\:text-orange-600:hover {
+      color: var(--color-orange-600);
+    }
+  }
+
+  @media (hover: hover) {
     .hover\:text-orange-700:hover {
       color: var(--color-orange-700);
     }
@@ -2899,8 +2944,20 @@
   }
 
   @media (min-width: 40rem) {
+    .sm\:h-52 {
+      height: calc(var(--spacing) * 52);
+    }
+  }
+
+  @media (min-width: 40rem) {
     .sm\:h-72 {
       height: calc(var(--spacing) * 72);
+    }
+  }
+
+  @media (min-width: 40rem) {
+    .sm\:h-80 {
+      height: calc(var(--spacing) * 80);
     }
   }
 
@@ -2919,6 +2976,13 @@
   @media (min-width: 40rem) {
     .sm\:items-center {
       align-items: center;
+    }
+  }
+
+  @media (min-width: 40rem) {
+    .sm\:text-3xl {
+      font-size: var(--text-3xl);
+      line-height: var(--tw-leading, var(--text-3xl--line-height));
     }
   }
 
@@ -3003,6 +3067,12 @@
   @media (min-width: 48rem) {
     .md\:h-80 {
       height: calc(var(--spacing) * 80);
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .md\:h-96 {
+      height: calc(var(--spacing) * 96);
     }
   }
 

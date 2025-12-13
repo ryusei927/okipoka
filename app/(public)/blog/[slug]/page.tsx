@@ -51,36 +51,42 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     : "";
 
   return (
-    <article className="space-y-6">
+    <article className="max-w-md md:max-w-4xl mx-auto px-4 py-6 space-y-6">
       <div className="flex items-center gap-3">
-        <Link href="/blog" className="text-sm text-gray-500 hover:text-orange-500 transition-colors">
-          ← ブログ一覧
+        <Link
+          href="/blog"
+          className="text-sm font-bold text-gray-600 hover:text-orange-600 transition-colors"
+        >
+          ← ブログ一覧へ戻る
         </Link>
       </div>
 
-      <header className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-2">
-        <div className="flex items-center gap-2 text-xs text-gray-500">
-          <span className="px-2 py-0.5 rounded-full bg-gray-100 text-gray-700 font-bold">
-            {data.category || "other"}
-          </span>
-          {publishedAt && <span>{publishedAt}</span>}
-        </div>
-        <h1 className="text-2xl font-bold text-gray-900">{data.title}</h1>
-        {data.excerpt && <p className="text-sm text-gray-600">{data.excerpt}</p>}
-
+      <header className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
         {data.cover_image_url && (
-          <div className="pt-3">
-            <div className="w-full h-56 bg-gray-100 rounded-lg overflow-hidden border border-gray-200">
-              <img
-                src={data.cover_image_url}
-                alt=""
-                className="w-full h-full object-cover"
-                loading="lazy"
-                referrerPolicy="no-referrer"
-              />
-            </div>
+          <div className="w-full h-64 sm:h-80 md:h-96 bg-gray-100 border-b border-gray-200 overflow-hidden">
+            <img
+              src={data.cover_image_url}
+              alt=""
+              className="w-full h-full object-cover"
+              loading="lazy"
+              referrerPolicy="no-referrer"
+            />
           </div>
         )}
+
+        <div className="p-6 space-y-3">
+          <div className="flex flex-wrap items-center gap-2 text-xs text-gray-500">
+            <span className="px-2 py-0.5 rounded-full bg-gray-100 text-gray-700 font-bold">
+              {data.category || "other"}
+            </span>
+            {publishedAt && <span>{publishedAt}</span>}
+          </div>
+
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 leading-snug">
+            {data.title}
+          </h1>
+          {data.excerpt && <p className="text-sm text-gray-600">{data.excerpt}</p>}
+        </div>
       </header>
 
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
