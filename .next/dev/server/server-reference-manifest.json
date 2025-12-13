@@ -151,6 +151,12 @@
     },
     "40fedde5104c32f1b28077acafedac695d8e203dee": {
       "workers": {
+        "app/(dashboard)/dashboard/blog/[id]/page": {
+          "moduleId": "[project]/.next-internal/server/app/(dashboard)/dashboard/blog/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/(dashboard)/dashboard/blog/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "deleteBlogPost",
+          "filename": "app/(dashboard)/dashboard/blog/actions.ts"
+        },
         "app/(dashboard)/dashboard/blog/new/page": {
           "moduleId": "[project]/.next-internal/server/app/(dashboard)/dashboard/blog/new/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/(dashboard)/dashboard/blog/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false,
@@ -159,6 +165,7 @@
         }
       },
       "layer": {
+        "app/(dashboard)/dashboard/blog/[id]/page": "action-browser",
         "app/(dashboard)/dashboard/blog/new/page": "action-browser"
       },
       "filename": "app/(dashboard)/dashboard/blog/actions.ts",
@@ -166,6 +173,12 @@
     },
     "608a5142903d738d75a34cf9b2e0e14f5f9202f287": {
       "workers": {
+        "app/(dashboard)/dashboard/blog/[id]/page": {
+          "moduleId": "[project]/.next-internal/server/app/(dashboard)/dashboard/blog/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/(dashboard)/dashboard/blog/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "upsertBlogPost",
+          "filename": "app/(dashboard)/dashboard/blog/actions.ts"
+        },
         "app/(dashboard)/dashboard/blog/new/page": {
           "moduleId": "[project]/.next-internal/server/app/(dashboard)/dashboard/blog/new/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/(dashboard)/dashboard/blog/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false,
@@ -174,6 +187,7 @@
         }
       },
       "layer": {
+        "app/(dashboard)/dashboard/blog/[id]/page": "action-browser",
         "app/(dashboard)/dashboard/blog/new/page": "action-browser"
       },
       "filename": "app/(dashboard)/dashboard/blog/actions.ts",
@@ -181,6 +195,12 @@
     },
     "40423dbb233727ab0c1fcc8ff8798972905a3aedf4": {
       "workers": {
+        "app/(dashboard)/dashboard/blog/[id]/page": {
+          "moduleId": "[project]/.next-internal/server/app/(dashboard)/dashboard/blog/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/(dashboard)/dashboard/blog/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "uploadBlogImage",
+          "filename": "app/(dashboard)/dashboard/blog/actions.ts"
+        },
         "app/(dashboard)/dashboard/blog/new/page": {
           "moduleId": "[project]/.next-internal/server/app/(dashboard)/dashboard/blog/new/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/(dashboard)/dashboard/blog/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false,
@@ -189,6 +209,7 @@
         }
       },
       "layer": {
+        "app/(dashboard)/dashboard/blog/[id]/page": "action-browser",
         "app/(dashboard)/dashboard/blog/new/page": "action-browser"
       },
       "filename": "app/(dashboard)/dashboard/blog/actions.ts",

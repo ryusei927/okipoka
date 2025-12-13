@@ -1,10 +1,13 @@
 {
+  "/(dashboard)/dashboard/blog/[id]/page": "app/(dashboard)/dashboard/blog/[id]/page.js",
   "/(dashboard)/dashboard/blog/new/page": "app/(dashboard)/dashboard/blog/new/page.js",
   "/(dashboard)/dashboard/blog/page": "app/(dashboard)/dashboard/blog/page.js",
   "/(dashboard)/dashboard/gacha/[id]/page": "app/(dashboard)/dashboard/gacha/[id]/page.js",
   "/(dashboard)/dashboard/gacha/page": "app/(dashboard)/dashboard/gacha/page.js",
   "/(dashboard)/dashboard/gacha/sim/page": "app/(dashboard)/dashboard/gacha/sim/page.js",
   "/(dashboard)/dashboard/page": "app/(dashboard)/dashboard/page.js",
+  "/(public)/blog/[slug]/page": "app/(public)/blog/[slug]/page.js",
+  "/(public)/blog/page": "app/(public)/blog/page.js",
   "/(public)/member/page": "app/(public)/member/page.js",
   "/(public)/member/profile/page": "app/(public)/member/profile/page.js",
   "/(public)/page": "app/(public)/page.js",

@@ -81,7 +81,7 @@ export default async function BlogIndexPage({
 
       {filtered.length === 0 ? (
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 text-sm text-gray-600">
-          記事がありません。
+          準備中。
         </div>
       ) : (
         <div className="grid gap-4">

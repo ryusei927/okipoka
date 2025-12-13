@@ -108,6 +108,10 @@ export async function upsertBlogPost(prevState: BlogPostState, formData: FormDat
     revalidatePath("/dashboard/blog");
     redirect("/dashboard/blog");
   } catch (e: any) {
+    // redirect() は例外で制御されるため、ここで握りつぶすと UI に NEXT_REDIRECT が出る
+    if (typeof e?.digest === "string" && e.digest.startsWith("NEXT_REDIRECT")) {
+      throw e;
+    }
     return { error: e?.message || "保存に失敗しました" };
   }
 }
