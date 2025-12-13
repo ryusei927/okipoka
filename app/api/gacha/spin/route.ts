@@ -11,6 +11,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  const email = (user.email ?? "").toLowerCase();
+  const isAdmin = email === "okipoka.jp@gmail.com";
+
   const { data, error } = await supabase.rpc("spin_gacha");
   if (error) {
     const msg = error.message || "Failed";
@@ -27,6 +30,22 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "No items available" }, { status: 500 });
     }
     console.error("spin_gacha rpc error:", error);
+
+    // 運営アカウントは原因特定できるよう詳細を返す（一般ユーザーには出さない）
+    if (isAdmin) {
+      return NextResponse.json(
+        {
+          error: msg,
+          debug: {
+            code: (error as unknown as { code?: unknown }).code,
+            details: (error as unknown as { details?: unknown }).details,
+            hint: (error as unknown as { hint?: unknown }).hint,
+          },
+        },
+        { status: 500 }
+      );
+    }
+
     return NextResponse.json({ error: "Failed to spin" }, { status: 500 });
   }
 
