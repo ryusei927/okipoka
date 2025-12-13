@@ -9,6 +9,10 @@ const ACCESS_TOKEN = process.env.SQUARE_ACCESS_TOKEN;
 const SQUARE_VERSION = process.env.SQUARE_VERSION || "2025-10-16";
 
 async function squareFetch(path: string, method: string = "GET", body?: any) {
+  if (!ACCESS_TOKEN) {
+    throw new Error("SQUARE_ACCESS_TOKEN is missing in environment variables");
+  }
+
   const url = `${BASE_URL}${path}`;
   const headers = {
     "Authorization": `Bearer ${ACCESS_TOKEN}`,
@@ -39,6 +43,11 @@ async function squareFetch(path: string, method: string = "GET", body?: any) {
 
 // SDKのインターフェースを模倣したクライアント
 export const squareClient = {
+  locations: {
+    list: async () => {
+      return squareFetch("/v2/locations", "GET");
+    },
+  },
   customers: {
     create: async (params: any) => {
       return squareFetch("/v2/customers", "POST", params);

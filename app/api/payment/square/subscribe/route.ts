@@ -67,6 +67,25 @@ export async function POST(request: Request) {
       );
     }
 
+    // Location ID がトークンのマーチャントに紐づいているか事前検証（よくある設定ミス対策）
+    try {
+      const { result: locResult } = await squareClient.locations.list();
+      const locations = (locResult as { locations?: Array<{ id?: unknown }> }).locations ?? [];
+      const accessibleIds = locations
+        .map((l) => l.id)
+        .filter((id): id is string => typeof id === "string" && id.length > 0);
+      if (accessibleIds.length > 0 && !accessibleIds.includes(process.env.SQUARE_LOCATION_ID)) {
+        return NextResponse.json(
+          {
+            error: `SQUARE_LOCATION_ID (${process.env.SQUARE_LOCATION_ID}) is not accessible by the current SQUARE_ACCESS_TOKEN. Accessible location IDs: ${accessibleIds.join(", ")}`,
+          },
+          { status: 500 }
+        );
+      }
+    } catch {
+      // 一時的なネットワーク等で落ちても決済処理は継続する
+    }
+
     const planVariationId = await getSubscriptionPlanVariationId();
 
     const { result: subscriptionResult } = await squareClient.subscriptions.create({
@@ -96,12 +115,10 @@ export async function POST(request: Request) {
 
     return NextResponse.json(responseData);
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Square subscription error:", error);
+    const message = error instanceof Error ? error.message : "Payment failed";
     // JSON.stringifyできないBigIntなどが含まれる可能性があるため、エラーメッセージだけ返す
-    return NextResponse.json(
-      { error: error.message || "Payment failed" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
