@@ -190,11 +190,11 @@ BEGIN
     RAISE EXCEPTION 'Subscription required';
   END IF;
 
-  -- JWTにemailが無いケースがあるため、profiles.emailへフォールバックする
+  -- JWTにemailが無いケースがあるため、auth.users.emailへフォールバックする
   v_email := lower(
     coalesce(
       auth.jwt() ->> 'email',
-      (SELECT p.email FROM profiles p WHERE p.id = v_user_id)
+      (SELECT u.email FROM auth.users u WHERE u.id = v_user_id)
     )
   );
 
