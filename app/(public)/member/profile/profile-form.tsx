@@ -92,9 +92,6 @@ export function ProfileForm({ profile }: { profile: Profile | null }) {
           className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
           required
         />
-        <p className="text-xs text-gray-500">
-          トーナメント参加時などに表示される名前です。
-        </p>
       </div>
 
       <div className="pt-4">

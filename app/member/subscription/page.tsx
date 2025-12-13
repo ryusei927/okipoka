@@ -253,8 +253,8 @@ export default function SubscriptionPage() {
         <>
           <div className="text-xs text-center text-gray-500 mb-4 bg-gray-100 p-2 rounded">
             {process.env.NEXT_PUBLIC_SQUARE_APPLICATION_ID?.startsWith("sandbox-")
-              ? "🔧 テスト環境モード：テスト用カード番号（4111...）が使えます"
-              : "💳 本番環境モード：実際のお支払いが発生します（本物のカードのみ有効）"}
+              ? "🔧 テスト決済：テスト用カード番号（4111...）が使えます"
+              : "💳 この決済は課金されます"}
           </div>
 
           <div id="card-container" className="min-h-25"></div>

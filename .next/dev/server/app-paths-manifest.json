@@ -1,10 +1,12 @@
 {
   "/(public)/member/page": "app/(public)/member/page.js",
+  "/(public)/member/profile/page": "app/(public)/member/profile/page.js",
   "/(public)/page": "app/(public)/page.js",
   "/api/gacha/spin/route": "app/api/gacha/spin/route.js",
   "/api/member/subscription/status/route": "app/api/member/subscription/status/route.js",
   "/api/payment/square/subscription/cancel/route": "app/api/payment/square/subscription/cancel/route.js",
   "/login/page": "app/login/page.js",
   "/member/gacha/page": "app/member/gacha/page.js",
+  "/member/items/page": "app/member/items/page.js",
   "/member/subscription/page": "app/member/subscription/page.js"
 }

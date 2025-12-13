@@ -73,6 +73,21 @@
       },
       "filename": "app/login/actions.ts",
       "exportedName": "login"
+    },
+    "406863ba23904b19eaa771d53e1a59d86edee85ce1": {
+      "workers": {
+        "app/(public)/member/profile/page": {
+          "moduleId": "[project]/.next-internal/server/app/(public)/member/profile/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/(public)/member/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "updateProfile",
+          "filename": "app/(public)/member/actions.ts"
+        }
+      },
+      "layer": {
+        "app/(public)/member/profile/page": "action-browser"
+      },
+      "filename": "app/(public)/member/actions.ts",
+      "exportedName": "updateProfile"
     }
   },
   "edge": {},

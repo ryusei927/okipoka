@@ -102,15 +102,6 @@ export default async function MemberPage() {
                     <div className="text-xs text-gray-500">毎日1回運試し！</div>
                   </div>
                 </Link>
-                <Link href="/member/items" className="w-full flex items-center gap-3 p-4 hover:bg-gray-50 transition-colors text-left">
-                  <div className="p-2 bg-blue-100 text-blue-600 rounded-lg">
-                    <Ticket className="w-5 h-5" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="font-medium text-gray-900">獲得アイテム</div>
-                    <div className="text-xs text-gray-500">チケットやクーポンを確認</div>
-                  </div>
-                </Link>
               </>
             )}
           </div>
@@ -128,6 +119,15 @@ export default async function MemberPage() {
                     <div className="text-xs text-gray-500">表示名やアイコンの変更</div>
                 </div>
             </Link>
+          <Link href="/member/items" className="w-full flex items-center gap-3 p-4 hover:bg-gray-50 transition-colors text-left">
+            <div className="p-2 bg-blue-100 text-blue-600 rounded-lg">
+              <Ticket className="w-5 h-5" />
+            </div>
+            <div className="flex-1">
+              <div className="font-medium text-gray-900">獲得アイテム</div>
+              <div className="text-xs text-gray-500">チケットやクーポンを確認</div>
+            </div>
+          </Link>
             <Link href="/member/settings" className="w-full flex items-center gap-3 p-4 hover:bg-gray-50 transition-colors text-left">
                 <div className="p-2 bg-gray-50 text-gray-600 rounded-lg">
                     <Settings className="w-5 h-5" />
