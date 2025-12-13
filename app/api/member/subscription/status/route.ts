@@ -54,6 +54,8 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  const userId = user.id;
+
   const { data: profile, error } = await supabase
     .from("profiles")
     .select("subscription_status, subscription_id, square_customer_id")
@@ -97,7 +99,7 @@ export async function GET() {
           subscription_id: subscriptionId,
           subscription_status: status,
         })
-        .eq("id", user.id);
+        .eq("id", userId);
     }
   }
 
