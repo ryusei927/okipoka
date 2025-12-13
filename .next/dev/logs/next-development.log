@@ -1489,3 +1489,5 @@ Import traces:
 [00:22:52.257] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/ads/l95ghgw9qq.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
 [00:22:52.257] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/ads/l95ghgw9qq.png" has "fill" and parent element with invalid "position". Provided "static" should be one of absolute,fixed,relative.
 [00:24:39.605] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/ads/m06dlsqb5ds.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:26:08.802] Server  ERROR    ⨯ Error: 指定した期待値が上限を超えています（上限: 109.1円）。当たり景品の原価/重みを見直してください。
+[00:26:13.544] Server  ERROR    ⨯ Error: 指定した期待値が上限を超えています（上限: 109.1円）。当たり景品の原価/重みを見直してください。
