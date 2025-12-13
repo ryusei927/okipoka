@@ -1,4 +1,4 @@
-import { Calendar, Store, Users, PlusCircle, Megaphone, Star, Dice5 } from "lucide-react";
+import { Calendar, Store, Users, PlusCircle, Megaphone, Star, Dice5, FileText } from "lucide-react";
 import Link from "next/link";
 
 export default function DashboardPage() {
@@ -64,6 +64,14 @@ export default function DashboardPage() {
             <div className="flex-1">
               <div className="font-bold text-gray-900">ガチャ景品管理</div>
               <div className="text-xs text-gray-500">クーポン/当選確率の編集</div>
+            </div>
+          </Link>
+
+          <Link href="/dashboard/blog" className="flex items-center gap-3 p-4 hover:bg-gray-50">
+            <FileText className="w-5 h-5 text-gray-400" />
+            <div className="flex-1">
+              <div className="font-bold text-gray-900">ブログ管理</div>
+              <div className="text-xs text-gray-500">記事の作成・下書き・公開</div>
             </div>
           </Link>
         </div>
