@@ -12,11 +12,6 @@ export function SiteFooter() {
                 初心者ガイド
               </Link>
             </li>
-            <li>
-              <Link href="/blog" className="hover:text-white transition-colors">
-                ブログ
-              </Link>
-            </li>
           </ul>
         </div>
         <div>

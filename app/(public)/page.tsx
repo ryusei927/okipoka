@@ -249,24 +249,6 @@ export default async function HomePage({
         </div>
       </div>
 
-      {/* ブログ導線（画像クリックでブログへ） */}
-      <div className="max-w-md md:max-w-4xl mx-auto px-4 pb-8">
-        <Link
-          href="/blog"
-          className="block bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-all"
-        >
-          <div className="relative w-full h-56 sm:h-72 md:h-80 bg-gray-100">
-            <Image
-              src="/blog.jpeg"
-              alt="ブログ"
-              fill
-              className="object-cover"
-              priority
-            />
-          </div>
-        </Link>
-      </div>
-
       {/* よくある質問 */}
       <FaqSection />
     </main>

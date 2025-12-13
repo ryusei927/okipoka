@@ -1,3 +1,6 @@
+-- NOTE: ブログ機能は一旦停止（Astroに移行予定）
+-- このSQLは現状のアプリでは使用しません。
+
 -- blog 画像用の Storage バケット
 insert into storage.buckets (id, name, public)
 values ('blog-images', 'blog-images', true)

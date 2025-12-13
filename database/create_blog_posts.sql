@@ -1,5 +1,8 @@
 -- Blog posts (運営投稿)
 
+-- NOTE: ブログ機能は一旦停止（Astroに移行予定）
+-- このSQLは現状のアプリでは使用しません。
+
 CREATE TABLE IF NOT EXISTS blog_posts (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   slug TEXT NOT NULL UNIQUE,
