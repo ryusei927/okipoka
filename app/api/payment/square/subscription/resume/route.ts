@@ -106,7 +106,10 @@ export async function POST() {
       charged_through_date: chargedThroughDate,
       next_renewal_date: nextRenewalDate,
     });
-  } catch (e: any) {
-    return NextResponse.json({ error: e.message || "Resume failed" }, { status: 500 });
+  } catch (e: unknown) {
+    return NextResponse.json(
+      { error: e instanceof Error ? e.message : "Resume failed" },
+      { status: 500 }
+    );
   }
 }

@@ -62,6 +62,9 @@ export const squareClient = {
     create: async (params: any) => {
       return squareFetch("/v2/subscriptions", "POST", params);
     },
+    search: async (params: unknown) => {
+      return squareFetch("/v2/subscriptions/search", "POST", params);
+    },
     update: async (subscriptionId: string, params: any) => {
       const encodedId = encodeURIComponent(subscriptionId);
       return squareFetch(`/v2/subscriptions/${encodedId}`, "PUT", params);

@@ -9,15 +9,16 @@ function addDays(ymd: string, days: number) {
   return date.toISOString().slice(0, 10);
 }
 
-function deriveDbStatusFromSubscription(subscription: any) {
-  const squareStatus = (subscription?.status as string | undefined) ?? null;
+function deriveDbStatusFromSubscription(subscription: unknown) {
+  const sub = subscription as { status?: unknown; canceled_date?: unknown; cancel_at?: unknown };
+  const squareStatus = typeof sub.status === "string" ? sub.status : null;
   if (squareStatus === "CANCELED") return "canceled";
   if (squareStatus === "CANCELING") return "canceling";
   if (squareStatus === "PAST_DUE") return "past_due";
 
   // ACTIVEでもキャンセル予約が入っていることがある
-  const canceledDate = (subscription?.canceled_date as string | undefined) ?? null;
-  const cancelAt = (subscription?.cancel_at as string | undefined) ?? null;
+  const canceledDate = typeof sub.canceled_date === "string" ? sub.canceled_date : null;
+  const cancelAt = typeof sub.cancel_at === "string" ? sub.cancel_at : null;
   if (cancelAt) return "canceling";
   const today = new Date().toISOString().slice(0, 10);
   if (canceledDate && canceledDate > today) return "canceling";
@@ -107,9 +108,9 @@ export async function POST() {
       charged_through_date: chargedThroughDate,
       next_renewal_date: nextRenewalDate,
     });
-  } catch (e: any) {
+  } catch (e: unknown) {
     // Squareが「既に解約予約がある」と言う場合は、canceling扱いに寄せる
-    const message = (e?.message as string | undefined) ?? "Cancel failed";
+    const message = e instanceof Error ? e.message : "Cancel failed";
     if (message.includes("already has a pending cancel date")) {
       await supabase
         .from("profiles")

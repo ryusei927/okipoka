@@ -99,14 +99,30 @@ export async function POST(request: Request) {
 
     const subscription = subscriptionResult.subscription;
 
+    const squareStatus = (subscription as { status?: unknown } | undefined)?.status;
+    const dbStatus =
+      squareStatus === "ACTIVE"
+        ? "active"
+        : squareStatus === "CANCELING"
+          ? "canceling"
+          : squareStatus === "CANCELED"
+            ? "canceled"
+            : squareStatus === "PAST_DUE"
+              ? "past_due"
+              : null;
+
     // 4. DBの状態を更新
-    await supabase
+    const { error: updateError } = await supabase
       .from("profiles")
       .update({
         subscription_id: subscription?.id,
-        subscription_status: 'active',
+        subscription_status: dbStatus,
       })
       .eq("id", user.id);
+
+    if (updateError) {
+      throw new Error(`Failed to update profile: ${updateError.message}`);
+    }
 
     // BigIntをシリアライズできるように変換
     const responseData = JSON.parse(JSON.stringify({ success: true, subscription }, (key, value) =>
