@@ -188,7 +188,6 @@ export default async function HomePage({
         ) : (
           <div className="text-center py-10 text-gray-500">
             <p>本日のトーナメントはありません</p>
-            <p className="text-sm mt-2">（管理画面から登録してください）</p>
           </div>
         )}
       </div>
