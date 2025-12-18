@@ -1,12 +1,20 @@
 import { OpenAI } from "openai";
 import { NextResponse } from "next/server";
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
 export async function POST(request: Request) {
   try {
+    const apiKey = process.env.OPENAI_API_KEY;
+    if (!apiKey) {
+      return NextResponse.json(
+        { error: "OpenAI API Keyが設定されていません" },
+        { status: 500 }
+      );
+    }
+
+    const openai = new OpenAI({
+      apiKey: apiKey,
+    });
+
     const formData = await request.formData();
     const file = formData.get("image") as File;
 
