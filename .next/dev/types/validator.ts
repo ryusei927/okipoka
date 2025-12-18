@@ -344,6 +344,15 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
+// Validate ../../../app/api/admin/analyze-tournament/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/admin/analyze-tournament">> = Specific
+  const handler = {} as typeof import("../../../app/api/admin/analyze-tournament/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../../app/api/admin/subscription/resync/route.ts
 {
   type __IsExpected<Specific extends RouteHandlerConfig<"/api/admin/subscription/resync">> = Specific

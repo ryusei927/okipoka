@@ -73,6 +73,36 @@
       },
       "filename": "app/login/actions.ts",
       "exportedName": "login"
+    },
+    "404e2aa2aa363fc3baee116be1c145ac82f91f7a68": {
+      "workers": {
+        "app/(dashboard)/dashboard/tournaments/page": {
+          "moduleId": "[project]/.next-internal/server/app/(dashboard)/dashboard/tournaments/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/(dashboard)/dashboard/tournaments/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "deleteTournament",
+          "filename": "app/(dashboard)/dashboard/tournaments/actions.ts"
+        }
+      },
+      "layer": {
+        "app/(dashboard)/dashboard/tournaments/page": "action-browser"
+      },
+      "filename": "app/(dashboard)/dashboard/tournaments/actions.ts",
+      "exportedName": "deleteTournament"
+    },
+    "60cd341a12bce7969b1f169d379ceff31717bfcff6": {
+      "workers": {
+        "app/(dashboard)/dashboard/tournaments/new/page": {
+          "moduleId": "[project]/.next-internal/server/app/(dashboard)/dashboard/tournaments/new/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/(dashboard)/dashboard/tournaments/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "upsertTournament",
+          "filename": "app/(dashboard)/dashboard/tournaments/actions.ts"
+        }
+      },
+      "layer": {
+        "app/(dashboard)/dashboard/tournaments/new/page": "action-browser"
+      },
+      "filename": "app/(dashboard)/dashboard/tournaments/actions.ts",
+      "exportedName": "upsertTournament"
     }
   },
   "edge": {},

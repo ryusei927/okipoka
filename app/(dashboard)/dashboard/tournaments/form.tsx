@@ -1,7 +1,7 @@
 "use client";
 
 import { upsertTournament, type TournamentState } from "./actions";
-import { ArrowLeft, Save } from "lucide-react";
+import { ArrowLeft, Save, Sparkles, Loader2, Upload } from "lucide-react";
 import Link from "next/link";
 import { useFormStatus } from "react-dom";
 import { useActionState, useState } from "react";
@@ -25,29 +25,100 @@ const initialState: TournamentState = {
   error: "",
 };
 
+function formatTime(date: Date) {
+  return date.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' });
+}
+
 export default function TournamentForm({ shops, tournament }: { shops: any[], tournament?: any }) {
   const [state, formAction] = useActionState(upsertTournament, initialState);
+  
+  // AI Analysis State
+  const [analyzing, setAnalyzing] = useState(false);
+  const [formKey, setFormKey] = useState(0);
+
+  // Initialize Form Data
+  const [formData, setFormData] = useState(() => {
+    let defaultDate = new Date().toISOString().split("T")[0];
+    let defaultTime = "19:00";
+    let defaultLateRegTime = "";
+
+    if (tournament?.start_at) {
+      const dateObj = new Date(tournament.start_at);
+      defaultDate = dateObj.toISOString().split("T")[0];
+      defaultTime = formatTime(dateObj);
+    }
+
+    if (tournament?.late_reg_at) {
+      const dateObj = new Date(tournament.late_reg_at);
+      defaultLateRegTime = formatTime(dateObj);
+    }
+
+    return {
+      shopId: tournament?.shop_id || "",
+      type: tournament?.type || "トーナメント",
+      title: tournament?.title || "",
+      date: defaultDate,
+      time: defaultTime,
+      lateRegTime: defaultLateRegTime,
+      buyIn: tournament?.buy_in || "",
+      reentryFee: tournament?.reentry_fee || "",
+      stack: tournament?.stack || "",
+      addonFee: tournament?.addon_fee || "",
+      addonStack: tournament?.addon_stack || "",
+      prizes: tournament?.prizes || "",
+      notes: tournament?.notes || "",
+    };
+  });
+
   const [addonStatus, setAddonStatus] = useState(tournament?.addon_status || "unknown");
 
-  // 日時の初期値処理
-  let defaultDate = new Date().toISOString().split("T")[0];
-  let defaultTime = "19:00";
-  let defaultLateRegTime = "";
+  const handleAnalyze = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
 
-  if (tournament?.start_at) {
-    const dateObj = new Date(tournament.start_at);
-    defaultDate = dateObj.toISOString().split("T")[0];
-    defaultTime = formatTime(dateObj);
-  }
+    setAnalyzing(true);
+    try {
+      const uploadData = new FormData();
+      uploadData.append("image", file);
 
-  if (tournament?.late_reg_at) {
-    const dateObj = new Date(tournament.late_reg_at);
-    defaultLateRegTime = formatTime(dateObj);
-  }
-
-  function formatTime(date: Date) {
-    return date.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' });
-  }
+      const res = await fetch("/api/admin/analyze-tournament", {
+        method: "POST",
+        body: uploadData,
+      });
+      
+      if (!res.ok) throw new Error("解析に失敗しました");
+      
+      const data = await res.json();
+      
+      setFormData(prev => ({
+        ...prev,
+        title: data.title || prev.title,
+        date: data.date || prev.date,
+        time: data.time || prev.time,
+        lateRegTime: data.lateRegTime || prev.lateRegTime,
+        buyIn: data.buyIn || prev.buyIn,
+        reentryFee: data.reentryFee || prev.reentryFee,
+        stack: data.stack || prev.stack,
+        addonFee: data.addonFee || prev.addonFee,
+        addonStack: data.addonStack || prev.addonStack,
+        prizes: data.prizes || prev.prizes,
+        notes: data.notes || prev.notes,
+      }));
+      
+      if (data.addonStatus) {
+        setAddonStatus(data.addonStatus);
+      }
+      
+      setFormKey(k => k + 1);
+      
+    } catch (e) {
+      console.error(e);
+      alert("画像の解析に失敗しました。もう一度お試しください。");
+    } finally {
+      setAnalyzing(false);
+      e.target.value = "";
+    }
+  };
 
   // 自動フォーマット関数
   const handleCurrencyBlur = (e: React.FocusEvent<HTMLInputElement>) => {
@@ -81,16 +152,57 @@ export default function TournamentForm({ shops, tournament }: { shops: any[], to
 
   return (
     <div className="pb-20">
-      <header className="flex items-center gap-4 mb-6">
-        <Link href="/dashboard/tournaments" className="p-2 bg-white rounded-full shadow-sm">
-          <ArrowLeft className="w-5 h-5 text-gray-600" />
-        </Link>
-        <h1 className="text-xl font-bold text-gray-900">
-          {tournament ? "大会情報の編集" : "新規大会作成"}
-        </h1>
+      <header className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-4">
+          <Link href="/dashboard/tournaments" className="p-2 bg-white rounded-full shadow-sm">
+            <ArrowLeft className="w-5 h-5 text-gray-600" />
+          </Link>
+          <h1 className="text-xl font-bold text-gray-900">
+            {tournament ? "大会情報の編集" : "新規大会作成"}
+          </h1>
+        </div>
       </header>
 
-      <form action={formAction} className="space-y-6">
+      {/* AI解析ボタン */}
+      <div className="mb-8 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl p-6 text-white shadow-lg">
+        <div className="flex items-start gap-4">
+          <div className="p-3 bg-white/20 rounded-xl backdrop-blur-sm">
+            <Sparkles className="w-6 h-6 text-yellow-300" />
+          </div>
+          <div className="flex-1">
+            <h3 className="font-bold text-lg mb-1">AI自動入力</h3>
+            <p className="text-indigo-100 text-sm mb-4">
+              Instagramなどの画像をアップロードすると、AIが情報を読み取って自動で入力します。
+            </p>
+            
+            <label className={`
+              inline-flex items-center gap-2 bg-white text-indigo-600 font-bold py-2.5 px-5 rounded-lg cursor-pointer hover:bg-indigo-50 transition-colors shadow-sm
+              ${analyzing ? "opacity-70 cursor-wait" : ""}
+            `}>
+              {analyzing ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  解析中...
+                </>
+              ) : (
+                <>
+                  <Upload className="w-4 h-4" />
+                  画像をアップロード
+                </>
+              )}
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleAnalyze}
+                disabled={analyzing}
+              />
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <form key={formKey} action={formAction} className="space-y-6">
         {tournament && <input type="hidden" name="id" value={tournament.id} />}
         
         {state.error && (
@@ -105,7 +217,7 @@ export default function TournamentForm({ shops, tournament }: { shops: any[], to
           <select
             name="shopId"
             required
-            defaultValue={tournament?.shop_id || ""}
+            defaultValue={formData.shopId}
             className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg font-medium text-gray-900 focus:ring-2 focus:ring-orange-500 outline-none"
           >
             <option value="">店舗を選択してください</option>
@@ -125,7 +237,7 @@ export default function TournamentForm({ shops, tournament }: { shops: any[], to
             <label className="block text-sm font-bold text-gray-700">イベント種別</label>
             <select
               name="type"
-              defaultValue={tournament?.type || "トーナメント"}
+              defaultValue={formData.type}
               className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg font-medium text-gray-900 focus:ring-2 focus:ring-orange-500 outline-none"
             >
               <option value="トーナメント">トーナメント</option>
@@ -141,7 +253,7 @@ export default function TournamentForm({ shops, tournament }: { shops: any[], to
               type="text"
               name="title"
               required
-              defaultValue={tournament?.title}
+              defaultValue={formData.title}
               placeholder="例：金曜ナイトスタック"
               className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg font-medium text-gray-900 focus:ring-2 focus:ring-orange-500 outline-none"
             />
@@ -154,7 +266,7 @@ export default function TournamentForm({ shops, tournament }: { shops: any[], to
                 type="date"
                 name="date"
                 required
-                defaultValue={defaultDate}
+                defaultValue={formData.date}
                 className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg font-medium text-gray-900 focus:ring-2 focus:ring-orange-500 outline-none"
               />
             </div>
@@ -164,7 +276,7 @@ export default function TournamentForm({ shops, tournament }: { shops: any[], to
                 type="time"
                 name="time"
                 required
-                defaultValue={defaultTime}
+                defaultValue={formData.time}
                 className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg font-medium text-gray-900 focus:ring-2 focus:ring-orange-500 outline-none"
               />
             </div>
@@ -175,7 +287,7 @@ export default function TournamentForm({ shops, tournament }: { shops: any[], to
             <input
               type="time"
               name="lateRegTime"
-              defaultValue={defaultLateRegTime}
+              defaultValue={formData.lateRegTime}
               className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg font-medium text-gray-900 focus:ring-2 focus:ring-orange-500 outline-none"
             />
             <p className="text-xs text-gray-500">※開始時間より早い時間を設定すると、翌日の時間として扱われます</p>
@@ -192,7 +304,7 @@ export default function TournamentForm({ shops, tournament }: { shops: any[], to
               <input
                 type="text"
                 name="buyIn"
-                defaultValue={tournament?.buy_in}
+                defaultValue={formData.buyIn}
                 placeholder="例：3,000円"
                 onBlur={handleCurrencyBlur}
                 className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg font-medium text-gray-900 focus:ring-2 focus:ring-orange-500 outline-none"
@@ -203,7 +315,7 @@ export default function TournamentForm({ shops, tournament }: { shops: any[], to
               <input
                 type="text"
                 name="reentryFee"
-                defaultValue={tournament?.reentry_fee}
+                defaultValue={formData.reentryFee}
                 placeholder="例：3,000円"
                 onBlur={handleCurrencyBlur}
                 className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg font-medium text-gray-900 focus:ring-2 focus:ring-orange-500 outline-none"
@@ -217,7 +329,7 @@ export default function TournamentForm({ shops, tournament }: { shops: any[], to
               <input
                 type="text"
                 name="stack"
-                defaultValue={tournament?.stack}
+                defaultValue={formData.stack}
                 placeholder="例：30,000点"
                 onBlur={handleStackBlur}
                 className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg font-medium text-gray-900 focus:ring-2 focus:ring-orange-500 outline-none"
@@ -270,7 +382,7 @@ export default function TournamentForm({ shops, tournament }: { shops: any[], to
                   <input
                     type="text"
                     name="addonFee"
-                    defaultValue={tournament?.addon_fee}
+                    defaultValue={formData.addonFee}
                     placeholder="例：2,000円"
                     onBlur={handleCurrencyBlur}
                     className="w-full p-2 bg-white border border-gray-200 rounded-md text-sm focus:ring-2 focus:ring-orange-500 outline-none"
@@ -281,7 +393,7 @@ export default function TournamentForm({ shops, tournament }: { shops: any[], to
                   <input
                     type="text"
                     name="addonStack"
-                    defaultValue={tournament?.addon_stack}
+                    defaultValue={formData.addonStack}
                     placeholder="例：20,000点"
                     onBlur={handleStackBlur}
                     className="w-full p-2 bg-white border border-gray-200 rounded-md text-sm focus:ring-2 focus:ring-orange-500 outline-none"
@@ -295,7 +407,7 @@ export default function TournamentForm({ shops, tournament }: { shops: any[], to
             <label className="block text-sm font-bold text-gray-700">プライズ</label>
             <textarea
               name="prizes"
-              defaultValue={tournament?.prizes}
+              defaultValue={formData.prizes}
               placeholder="例：1位 10,000マイル..."
               rows={3}
               className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg font-medium text-gray-900 focus:ring-2 focus:ring-orange-500 outline-none"
@@ -306,7 +418,7 @@ export default function TournamentForm({ shops, tournament }: { shops: any[], to
             <label className="block text-sm font-bold text-gray-700">備考</label>
             <textarea
               name="notes"
-              defaultValue={tournament?.notes}
+              defaultValue={formData.notes}
               placeholder="その他、特記事項があれば入力してください"
               rows={3}
               className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg font-medium text-gray-900 focus:ring-2 focus:ring-orange-500 outline-none"

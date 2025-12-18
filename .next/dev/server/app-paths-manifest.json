@@ -1,4 +1,7 @@
 {
+  "/(dashboard)/dashboard/page": "app/(dashboard)/dashboard/page.js",
+  "/(dashboard)/dashboard/tournaments/new/page": "app/(dashboard)/dashboard/tournaments/new/page.js",
+  "/(dashboard)/dashboard/tournaments/page": "app/(dashboard)/dashboard/tournaments/page.js",
   "/(public)/member/page": "app/(public)/member/page.js",
   "/(public)/page": "app/(public)/page.js",
   "/api/gacha/spin/route": "app/api/gacha/spin/route.js",
