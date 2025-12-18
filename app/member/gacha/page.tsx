@@ -116,7 +116,7 @@ export default function GachaPage() {
   };
 
   return (
-    <div className="relative w-full h-[100dvh] bg-[#facc15] overflow-hidden">
+    <div className="relative w-full h-dvh bg-[#facc15] overflow-hidden">
       {/* 背景画像エリア（画面いっぱい） */}
       <div className="absolute inset-0 w-full h-full">
         <img
@@ -161,7 +161,7 @@ export default function GachaPage() {
               <button
                 onClick={spinGacha}
                 disabled={spinning}
-                className="w-full bg-gradient-to-b from-amber-400 to-amber-600 text-white font-black py-5 px-8 rounded-full shadow-[0_6px_0_rgb(180,83,9)] hover:shadow-[0_3px_0_rgb(180,83,9)] hover:translate-y-[3px] active:translate-y-[6px] active:shadow-none transition-all text-xl tracking-wider border-4 border-white/30"
+                className="w-full bg-linear-to-b from-amber-400 to-amber-600 text-white font-black py-5 px-8 rounded-full shadow-[0_6px_0_rgb(180,83,9)] hover:shadow-[0_3px_0_rgb(180,83,9)] hover:translate-y-0.75 active:translate-y-1.5 active:shadow-none transition-all text-xl tracking-wider border-4 border-white/30"
               >
                 {spinning ? "SPINNING..." : "PUSH !"}
               </button>
@@ -226,22 +226,13 @@ export default function GachaPage() {
       {error && (
         <div className="absolute top-4 left-1/2 -translate-x-1/2 w-full max-w-md px-4 z-50">
           <div className="flex items-center gap-2 text-red-600 bg-red-50 border border-red-100 p-4 rounded-xl shadow-lg text-sm font-medium">
-            <AlertCircle className="w-4 h-4 flex-shrink-0" />
+            <AlertCircle className="w-4 h-4 shrink-0" />
             <span>{error}</span>
           </div>
         </div>
       )}
 
-      <style jsx>{`
-        @keyframes open {
-          0% { transform: scale(1); opacity: 1; }
-          50% { transform: scale(1.5); opacity: 0.5; }
-          100% { transform: scale(2); opacity: 0; }
-        }
-        .capsule-open {
-          animation: open 0.4s ease-out forwards;
-        }
-      `}</style>
+
     </div>
   );
 }
