@@ -1,12 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AlertCircle } from "lucide-react";
 import Link from "next/link";
+import confetti from "canvas-confetti";
 
 export default function GachaPage() {
-  const bgSrc = "/gacha.png";
-
   const [spinning, setSpinning] = useState(false);
   const [dropping, setDropping] = useState(false);
   const [revealed, setRevealed] = useState(false);
@@ -29,47 +28,6 @@ export default function GachaPage() {
     setRevealImageLoaded(false);
     setRevealImageFailed(false);
   }, [result?.image_url]);
-
-  const capsules = useMemo(
-    () => [
-      { className: "bg-orange-300/80" },
-      { className: "bg-rose-300/80" },
-      { className: "bg-amber-300/80" },
-      { className: "bg-blue-300/80" },
-      { className: "bg-emerald-300/80" },
-      { className: "bg-violet-300/80" },
-      { className: "bg-red-300/80" },
-      { className: "bg-cyan-300/80" },
-      { className: "bg-indigo-300/80" },
-      { className: "bg-yellow-300/80" },
-      { className: "bg-lime-300/80" },
-      { className: "bg-sky-300/80" },
-      { className: "bg-orange-300/80" },
-      { className: "bg-rose-300/80" },
-      { className: "bg-amber-300/80" },
-      { className: "bg-blue-300/80" },
-    ],
-    []
-  );
-
-  const idleAnglesDeg = useMemo(() => {
-    const n = capsules.length;
-    return Array.from({ length: n }, (_, i) => {
-      const base = (360 / n) * i;
-      const jitter = [0, 12, -9, 20, -16, 7, 11, -6, 16, -14, 9, -8][i % 12] ?? 0;
-      return base + jitter;
-    });
-  }, [capsules.length]);
-
-  const spinMotion = useMemo(() => {
-    const n = capsules.length;
-    return Array.from({ length: n }, (_, i) => {
-      const duration = 820 + (i % 6) * 95 + (i % 2) * 55;
-      const delay = -i * 70;
-      const variant = i % 3 === 0 ? "orbitSlow" : "orbit";
-      return { duration, delay, variant };
-    });
-  }, [capsules.length]);
 
   const spinGacha = async () => {
     clearTimers();
@@ -103,7 +61,6 @@ export default function GachaPage() {
         throw new Error(raw || "ガチャの実行に失敗しました");
       }
 
-      // 画像は演出中に先読みして「白抜け」を減らす
       if (data?.item?.image_url) {
         try {
           const img = new window.Image();
@@ -113,7 +70,6 @@ export default function GachaPage() {
         }
       }
 
-      // 抽選中の“ため”を作る（最低時間だけ回してから落下へ）
       const minSpinMs = 2600;
       const elapsed = Date.now() - startedAt;
       const waitMs = Math.max(0, minSpinMs - elapsed);
@@ -132,6 +88,14 @@ export default function GachaPage() {
       const t3 = window.setTimeout(() => {
         setRevealed(true);
         setDropping(false);
+        if (data.item && data.item.type !== "none") {
+          confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 },
+            colors: ["#fbbf24", "#f87171", "#60a5fa", "#34d399", "#a78bfa"],
+          });
+        }
       }, 1350);
       timersRef.current.push(t1, t2, t3);
 
@@ -152,250 +116,132 @@ export default function GachaPage() {
   };
 
   return (
-    <div className="relative min-h-[calc(100vh-64px)]">
-      <div
-        className="absolute inset-0 bg-transparent"
-        style={{ backgroundImage: `url(${bgSrc})`, backgroundSize: "cover", backgroundPosition: "center" }}
-        aria-hidden
-      />
+    <div className="relative w-full h-[100dvh] bg-[#facc15] overflow-hidden">
+      {/* 背景画像エリア（画面いっぱい） */}
+      <div className="absolute inset-0 w-full h-full">
+        <img
+          src="/gacha-pc.png"
+          alt="Gacha Machine"
+          className="hidden md:block w-full h-full object-cover object-center scale-105"
+        />
+        <img
+          src="/gacha-mobile.png"
+          alt="Gacha Machine"
+          className="block md:hidden w-full h-full object-cover object-center scale-105"
+        />
+      </div>
 
-      <div className="relative max-w-md mx-auto px-6 py-10 min-h-[calc(100vh-64px)] flex flex-col items-center justify-center">
-        <h1 className="text-xl font-bold mb-8 text-center text-slate-800 tracking-wider">DAILY GACHA</h1>
-
-        {/* ガチャ筐体 */}
-        <div className="w-full max-w-sm" aria-live="polite">
-          <div className="relative mx-auto w-[320px] max-w-full">
-            {/* ドーム */}
-            <div className="relative mx-auto w-72 h-72">
-              <div className="absolute inset-0 rounded-full bg-white/60 border border-white/50 shadow-inner backdrop-blur-sm" />
-              <div className="absolute inset-4 rounded-full bg-white/20" />
-              <div className="absolute inset-0 rounded-full dome-sheen" />
-
-              {/* 内部回転カプセル */}
-              <div className="absolute inset-6 rounded-full overflow-hidden">
-                {capsules.map((c, i) => (
-                  <div
-                    key={i}
-                    className="absolute left-1/2 top-1/2"
-                    style={
-                      spinning
-                        ? {
-                            animation: `${spinMotion[i].variant} ${spinMotion[i].duration}ms linear infinite`,
-                            animationDelay: `${spinMotion[i].delay}ms`,
-                          }
-                        : {
-                            transform: `translate(-50%, -50%) rotate(${idleAnglesDeg[i]}deg) translateX(96px)`,
-                          }
-                    }
-                  >
-                    <div
-                      className={
-                        "w-10 h-10 rounded-full border border-white/40 shadow-sm " +
-                        c.className
-                      }
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* ベース */}
-            <div className="relative mx-auto w-72 max-w-full -mt-8 z-10">
-              <div className="rounded-3xl bg-white/80 backdrop-blur-md border border-white/60 shadow-xl overflow-hidden">
-                <div className="p-6">
-                  {/* 取り出し口 */}
-                  <div className="relative mb-6">
-                    <div className="rounded-2xl bg-slate-50/50 border border-slate-100 p-4 min-h-[100px] flex items-center justify-center shadow-inner">
-                      <div
-                        className={
-                          "relative w-20 h-20 " +
-                          (dropping ? "capsule-drop" : "")
-                        }
-                        aria-hidden={!dropping && !revealed}
-                      >
-                        <div
-                          className={
-                            "absolute inset-0 rounded-full border border-white/60 shadow-md bg-orange-300 " +
-                            (revealed ? "capsule-open" : "")
-                          }
-                        />
-                        {revealed ? (
-                          <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
-                            {result ? (
-                              result.type === "none" ? (
-                                <span className="text-2xl">😢</span>
-                              ) : result.image_url && !revealImageFailed ? (
-                                <div className="relative w-20 h-20">
-                                  {!revealImageLoaded ? (
-                                    <div className="absolute inset-0 flex items-center justify-center">
-                                      <span className="text-2xl">🎁</span>
-                                    </div>
-                                  ) : null}
-                                  <img
-                                    src={result.image_url}
-                                    alt={result.name || "景品"}
-                                    className="absolute inset-0 w-full h-full object-contain"
-                                    loading="eager"
-                                    onLoad={() => setRevealImageLoaded(true)}
-                                    onError={() => {
-                                      setRevealImageFailed(true);
-                                      setRevealImageLoaded(false);
-                                    }}
-                                  />
-                                </div>
-                              ) : (
-                                <span className="text-2xl">🎁</span>
-                              )
-                            ) : null}
-                          </div>
-                        ) : null}
-                      </div>
-                    </div>
-                    <div className="mt-3 text-xs text-slate-400 text-center font-medium">
-                      {spinning ? "抽選中..." : result ? "結果" : "TAP TO SPIN"}
-                    </div>
-                  </div>
-
-                  {/* ボタン */}
-                  {!result ? (
-                    <button
-                      onClick={spinGacha}
-                      disabled={spinning}
-                      className="w-full bg-slate-900 text-white font-bold py-3.5 px-6 rounded-xl shadow-lg hover:bg-slate-800 hover:shadow-xl active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm tracking-wide"
-                    >
-                      {spinning ? "SPINNING..." : "ガチャを回す"}
-                    </button>
-                  ) : (
-                    <button
-                      onClick={reset}
-                      className="w-full bg-white text-slate-700 font-bold py-3.5 px-6 rounded-xl border border-slate-200 shadow-sm hover:bg-slate-50 transition-all text-sm"
-                    >
-                      もう一度
-                    </button>
-                  )}
+      {/* コンテンツエリア */}
+      <div className="relative w-full h-full flex flex-col items-center justify-center pointer-events-none">
+        
+        {/* 排出されるカプセル */}
+        <div 
+          className={`absolute left-1/2 -translate-x-1/2 w-32 h-32 z-20 transition-all duration-500 ease-out
+            ${dropping ? "opacity-100 bottom-[25%] scale-110 rotate-12" : "opacity-0 bottom-[35%] scale-50 rotate-0"}
+          `}
+        >
+            <div
+              className={
+                "w-full h-full rounded-full border-4 border-white/40 shadow-2xl bg-orange-300 relative overflow-hidden " +
+                (revealed ? "capsule-open" : "")
+              }
+            >
+              <div className="absolute top-3 left-5 w-8 h-4 bg-white/40 rounded-full -rotate-12" />
+              
+              {revealed && (
+                <div className="absolute inset-0 flex items-center justify-center bg-white">
                 </div>
+              )}
+            </div>
+        </div>
+
+        {/* 操作ボタン */}
+        <div className="absolute bottom-[10%] left-1/2 -translate-x-1/2 w-64 z-30 pointer-events-auto">
+            {!result ? (
+              <button
+                onClick={spinGacha}
+                disabled={spinning}
+                className="w-full bg-gradient-to-b from-amber-400 to-amber-600 text-white font-black py-5 px-8 rounded-full shadow-[0_6px_0_rgb(180,83,9)] hover:shadow-[0_3px_0_rgb(180,83,9)] hover:translate-y-[3px] active:translate-y-[6px] active:shadow-none transition-all text-xl tracking-wider border-4 border-white/30"
+              >
+                {spinning ? "SPINNING..." : "PUSH !"}
+              </button>
+            ) : (
+              <button
+                onClick={reset}
+                className="w-full bg-white text-slate-700 font-bold py-4 px-8 rounded-full border-4 border-slate-200 shadow-xl hover:bg-slate-50 transition-all text-lg"
+              >
+                もう一度
+              </button>
+            )}
+        </div>
+      </div>
+
+      {/* 結果モーダル */}
+      {result && revealed ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
+          <div className="bg-white rounded-3xl w-full max-w-sm overflow-hidden shadow-2xl animate-in zoom-in-95 duration-300">
+            <div className="p-8 flex flex-col items-center text-center">
+              <div className="w-32 h-32 mb-6 relative">
+                  {result.type === "none" ? (
+                    <span className="text-6xl">😢</span>
+                  ) : result.image_url && !revealImageFailed ? (
+                    <img
+                      src={result.image_url}
+                      alt={result.name}
+                      className="w-full h-full object-contain drop-shadow-md"
+                    />
+                  ) : (
+                    <span className="text-6xl">🎁</span>
+                  )}
+              </div>
+              
+              <div className="text-sm font-bold text-amber-500 tracking-widest mb-2">RESULT</div>
+              <h2 className="text-2xl font-bold text-slate-800 mb-4">{result.type === "none" ? "ざんねん…" : result.name}</h2>
+              
+              {result.description && (
+                <p className="text-slate-600 text-sm mb-8 leading-relaxed">{result.description}</p>
+              )}
+
+              <div className="flex flex-col gap-3 w-full">
+                {result.type !== "none" && (
+                  <Link
+                    href="/member/items"
+                    className="w-full py-3 bg-amber-100 text-amber-800 font-bold rounded-xl hover:bg-amber-200 transition-colors"
+                  >
+                    獲得アイテムを確認
+                  </Link>
+                )}
+                <button
+                  onClick={reset}
+                  className="w-full py-3 text-slate-500 font-medium hover:text-slate-800 transition-colors"
+                >
+                  閉じる
+                </button>
               </div>
             </div>
           </div>
         </div>
+      ) : null}
 
-        {result && revealed ? (
-          <div className="w-full max-w-sm mt-6">
-            <div className="rounded-2xl overflow-hidden border border-slate-100 bg-white shadow-lg">
-              <div className="px-6 py-4 bg-slate-50 border-b border-slate-100">
-                <div className="text-xs font-bold text-slate-400 tracking-widest">RESULT</div>
-                <div className="mt-1 text-lg font-bold text-slate-800 leading-tight break-words">
-                  {result.type === "none" ? "ざんねん…" : result.name}
-                </div>
-              </div>
-              <div className="px-6 py-6">
-                {result.type === "none" ? (
-                  <div className="text-sm text-slate-600">明日また挑戦してね。</div>
-                ) : (
-                  <>
-                    {result.description ? (
-                      <div className="text-sm text-slate-600 leading-relaxed whitespace-pre-wrap">
-                        {result.description}
-                      </div>
-                    ) : (
-                      <div className="text-sm text-slate-600">当たり！</div>
-                    )}
-                    <Link
-                      href="/member/items"
-                      className="mt-6 block p-4 bg-amber-50 border border-amber-100 rounded-xl hover:bg-amber-100 transition-colors text-center"
-                    >
-                      <p className="text-sm font-medium text-amber-800">獲得アイテムを確認する</p>
-                    </Link>
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
-        ) : null}
-
-        {error && (
-          <div className="flex items-center gap-2 text-red-600 bg-red-50 p-4 rounded-xl mb-6 text-sm font-medium">
-            <AlertCircle className="w-4 h-4" />
+      {error && (
+        <div className="absolute top-4 left-1/2 -translate-x-1/2 w-full max-w-md px-4 z-50">
+          <div className="flex items-center gap-2 text-red-600 bg-red-50 border border-red-100 p-4 rounded-xl shadow-lg text-sm font-medium">
+            <AlertCircle className="w-4 h-4 flex-shrink-0" />
             <span>{error}</span>
           </div>
-        )}
-        <style jsx>{`
-          .dome-sheen {
-            background: linear-gradient(
-              135deg,
-              rgba(255, 255, 255, 0.1) 0%,
-              rgba(255, 255, 255, 0.4) 50%,
-              rgba(255, 255, 255, 0.1) 100%
-            );
-            pointer-events: none;
-          }
+        </div>
+      )}
 
-          /* capsules orbit */
-          @keyframes orbit {
-            0% {
-              transform: translate(-50%, -50%) rotate(0deg) translateX(96px) rotate(0deg);
-            }
-            100% {
-              transform: translate(-50%, -50%) rotate(360deg) translateX(96px) rotate(-360deg);
-            }
-          }
-
-          @keyframes orbitSlow {
-            0% {
-              transform: translate(-50%, -50%) rotate(0deg) translateX(84px) rotate(0deg);
-            }
-            100% {
-              transform: translate(-50%, -50%) rotate(360deg) translateX(84px) rotate(-360deg);
-            }
-          }
-
-          /* capsule drop */
-          @keyframes drop {
-            0% {
-              transform: translateY(-28px) scale(0.85);
-              opacity: 0;
-            }
-            40% {
-              transform: translateY(0px) scale(1);
-              opacity: 1;
-            }
-            65% {
-              transform: translateY(6px) scale(0.98);
-            }
-            100% {
-              transform: translateY(0px) scale(1);
-              opacity: 1;
-            }
-          }
-          .capsule-drop {
-            animation: drop 520ms ease-out both;
-          }
-
-          @keyframes open {
-            0% {
-              transform: scale(1);
-            }
-            100% {
-              transform: scale(1);
-            }
-          }
-          .capsule-open {
-            animation: open 1ms linear both;
-          }
-
-          @media (prefers-reduced-motion: reduce) {
-            .orbit-a,
-            .orbit-b,
-            .orbit-c,
-            .orbit-d,
-            .orbit-e,
-            .orbit-f,
-            .capsule-drop {
-              animation: none !important;
-            }
-          }
-        `}</style>
-      </div>
+      <style jsx>{`
+        @keyframes open {
+          0% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(1.5); opacity: 0.5; }
+          100% { transform: scale(2); opacity: 0; }
+        }
+        .capsule-open {
+          animation: open 0.4s ease-out forwards;
+        }
+      `}</style>
     </div>
   );
 }
