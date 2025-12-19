@@ -601,3 +601,4 @@ Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
 [28:24:11.728] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.17165788852596298.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
 [28:25:10.988] Server  LOG      ✓ Compiled in 101ms
 [28:25:11.324] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/ads/90g9k2v5iak.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[28:26:35.364] Server  LOG      ✓ Compiled in 59ms

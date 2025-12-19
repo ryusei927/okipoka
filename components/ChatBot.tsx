@@ -152,7 +152,7 @@ export function ChatBot({ mode = "floating" }: ChatBotProps) {
           </div>
 
           {/* メッセージエリア */}
-          <div className="h-[400px] overflow-y-auto p-6 bg-white space-y-6">
+          <div className="h-100 overflow-y-auto p-6 bg-white space-y-6">
             {messages.map((msg, index) => (
               <div
                 key={index}
