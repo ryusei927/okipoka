@@ -57,48 +57,10 @@ function SiteFooter() {
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
                                 className: "text-white font-bold mb-4",
-                                children: "ガイド"
-                            }, void 0, false, {
-                                fileName: "[project]/components/SiteFooter.tsx",
-                                lineNumber: 8,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
-                                className: "space-y-2",
-                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$react$2d$server$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"], {
-                                        href: "/guide",
-                                        className: "hover:text-white transition-colors",
-                                        children: "初心者ガイド"
-                                    }, void 0, false, {
-                                        fileName: "[project]/components/SiteFooter.tsx",
-                                        lineNumber: 11,
-                                        columnNumber: 15
-                                    }, this)
-                                }, void 0, false, {
-                                    fileName: "[project]/components/SiteFooter.tsx",
-                                    lineNumber: 10,
-                                    columnNumber: 13
-                                }, this)
-                            }, void 0, false, {
-                                fileName: "[project]/components/SiteFooter.tsx",
-                                lineNumber: 9,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/components/SiteFooter.tsx",
-                        lineNumber: 7,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                className: "text-white font-bold mb-4",
                                 children: "規約・ポリシー"
                             }, void 0, false, {
                                 fileName: "[project]/components/SiteFooter.tsx",
-                                lineNumber: 18,
+                                lineNumber: 9,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
@@ -111,12 +73,12 @@ function SiteFooter() {
                                             children: "免責事項"
                                         }, void 0, false, {
                                             fileName: "[project]/components/SiteFooter.tsx",
-                                            lineNumber: 21,
+                                            lineNumber: 12,
                                             columnNumber: 15
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/components/SiteFooter.tsx",
-                                        lineNumber: 20,
+                                        lineNumber: 11,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
@@ -126,24 +88,24 @@ function SiteFooter() {
                                             children: "プライバシーポリシー"
                                         }, void 0, false, {
                                             fileName: "[project]/components/SiteFooter.tsx",
-                                            lineNumber: 26,
+                                            lineNumber: 17,
                                             columnNumber: 15
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/components/SiteFooter.tsx",
-                                        lineNumber: 25,
+                                        lineNumber: 16,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/SiteFooter.tsx",
-                                lineNumber: 19,
+                                lineNumber: 10,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/SiteFooter.tsx",
-                        lineNumber: 17,
+                        lineNumber: 8,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -153,7 +115,7 @@ function SiteFooter() {
                                 children: "お問い合わせ"
                             }, void 0, false, {
                                 fileName: "[project]/components/SiteFooter.tsx",
-                                lineNumber: 33,
+                                lineNumber: 24,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
@@ -166,12 +128,12 @@ function SiteFooter() {
                                             children: "okipoka.jp@gmail.com"
                                         }, void 0, false, {
                                             fileName: "[project]/components/SiteFooter.tsx",
-                                            lineNumber: 36,
+                                            lineNumber: 27,
                                             columnNumber: 15
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/components/SiteFooter.tsx",
-                                        lineNumber: 35,
+                                        lineNumber: 26,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
@@ -183,24 +145,24 @@ function SiteFooter() {
                                             children: "公式Instagram"
                                         }, void 0, false, {
                                             fileName: "[project]/components/SiteFooter.tsx",
-                                            lineNumber: 41,
+                                            lineNumber: 32,
                                             columnNumber: 15
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/components/SiteFooter.tsx",
-                                        lineNumber: 40,
+                                        lineNumber: 31,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/SiteFooter.tsx",
-                                lineNumber: 34,
+                                lineNumber: 25,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/SiteFooter.tsx",
-                        lineNumber: 32,
+                        lineNumber: 23,
                         columnNumber: 9
                     }, this)
                 ]
@@ -215,12 +177,12 @@ function SiteFooter() {
                     children: "© 2025 OKIPOKA"
                 }, void 0, false, {
                     fileName: "[project]/components/SiteFooter.tsx",
-                    lineNumber: 49,
+                    lineNumber: 40,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/components/SiteFooter.tsx",
-                lineNumber: 48,
+                lineNumber: 39,
                 columnNumber: 7
             }, this)
         ]

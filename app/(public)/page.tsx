@@ -4,6 +4,7 @@ import { AdBanner, Ad } from "@/components/ads/AdBanner";
 import { AdSquareGrid } from "@/components/ads/AdSquareGrid";
 import { FaqSection } from "@/components/FaqSection";
 import { HeroSlider } from "@/components/HeroSlider";
+import { ChatBot } from "@/components/ChatBot";
 import { Calendar, ChevronLeft, ChevronRight, Store, MapPin } from "lucide-react";
 import { format, addDays, subDays } from "date-fns";
 import Link from "next/link";

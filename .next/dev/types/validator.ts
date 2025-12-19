@@ -191,15 +191,6 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
-// Validate ../../../app/(public)/guide/page.tsx
-{
-  type __IsExpected<Specific extends AppPageConfig<"/guide">> = Specific
-  const handler = {} as typeof import("../../../app/(public)/guide/page.js")
-  type __Check = __IsExpected<typeof handler>
-  // @ts-ignore
-  type __Unused = __Check
-}
-
 // Validate ../../../app/(public)/member/page.tsx
 {
   type __IsExpected<Specific extends AppPageConfig<"/member">> = Specific
@@ -357,6 +348,15 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
 {
   type __IsExpected<Specific extends RouteHandlerConfig<"/api/admin/subscription/resync">> = Specific
   const handler = {} as typeof import("../../../app/api/admin/subscription/resync/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../../app/api/chat/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/chat">> = Specific
+  const handler = {} as typeof import("../../../app/api/chat/route.js")
   type __Check = __IsExpected<typeof handler>
   // @ts-ignore
   type __Unused = __Check
