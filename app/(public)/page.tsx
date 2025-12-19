@@ -25,8 +25,8 @@ export default async function HomePage({
     // UTC時間に9時間足してJST時間をシミュレート
     const jstTime = new Date(now.getTime() + 9 * 60 * 60 * 1000);
     
-    // JSTで0時〜6時の間なら、営業日は「前日」
-    if (jstTime.getUTCHours() < 6) {
+    // JSTで0時〜10時の間なら、営業日は「前日」
+    if (jstTime.getUTCHours() < 10) {
       jstTime.setUTCDate(jstTime.getUTCDate() - 1);
     }
     
@@ -37,10 +37,10 @@ export default async function HomePage({
     targetDateStr = `${y}-${m}-${d}`;
   }
 
-  // 2. 検索範囲を決定 (JST 06:00 〜 翌 JST 06:00)
+  // 2. 検索範囲を決定 (JST 10:00 〜 翌 JST 10:00)
   // ISO文字列でタイムゾーン(+09:00)を指定してDateオブジェクトを作ることで、正確なUTC時刻に変換する
-  const startOfDay = new Date(`${targetDateStr}T06:00:00+09:00`);
-  const endOfDay = new Date(`${targetDateStr}T06:00:00+09:00`);
+  const startOfDay = new Date(`${targetDateStr}T10:00:00+09:00`);
+  const endOfDay = new Date(`${targetDateStr}T10:00:00+09:00`);
   endOfDay.setDate(endOfDay.getDate() + 1); // 翌日の同時刻
 
   // 前日・翌日のリンク用日付

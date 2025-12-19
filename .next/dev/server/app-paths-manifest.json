@@ -4,6 +4,7 @@
   "/(dashboard)/dashboard/tournaments/page": "app/(dashboard)/dashboard/tournaments/page.js",
   "/(public)/member/page": "app/(public)/member/page.js",
   "/(public)/page": "app/(public)/page.js",
+  "/(public)/tournaments/[id]/page": "app/(public)/tournaments/[id]/page.js",
   "/api/admin/analyze-tournament/route": "app/api/admin/analyze-tournament/route.js",
   "/api/gacha/spin/route": "app/api/gacha/spin/route.js",
   "/api/member/subscription/status/route": "app/api/member/subscription/status/route.js",
