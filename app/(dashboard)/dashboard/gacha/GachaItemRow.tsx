@@ -52,11 +52,18 @@ export function GachaItemRow({ item }: { item: any }) {
             <span>重み: {item.probability}</span>
             <span>value: {typeof item.value === "number" ? item.value : "-"}</span>
             {typeof item.stock_total === "number" ? (
-              <span className={item.stock_used >= item.stock_total ? "text-red-600 font-bold" : ""}>
-                残り: {Math.max(0, item.stock_total - (item.stock_used || 0))} / {item.stock_total}
+              <span className={(item.current_stock_used || 0) >= item.stock_total ? "text-red-600 font-bold" : ""}>
+                残り: {Math.max(0, item.stock_total - (item.current_stock_used || 0))} / {item.stock_total}
+                {item.is_monthly_limit && <span className="text-[10px] bg-blue-100 text-blue-700 px-1 py-0.5 rounded ml-1">月間</span>}
               </span>
             ) : (
               <span className="text-blue-600 font-medium">在庫: 無制限</span>
+            )}
+            {typeof item.limit_per_user === "number" && (
+              <span className="text-purple-600 font-medium">
+                1人{item.limit_per_user}回まで
+                {item.is_monthly_limit && <span className="text-[10px] bg-blue-100 text-blue-700 px-1 py-0.5 rounded ml-1">月間</span>}
+              </span>
             )}
           </div>
         </div>

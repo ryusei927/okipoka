@@ -23,9 +23,11 @@ export async function upsertGachaItem(
   const valueRaw = formData.get("value") as string;
   const costYenRaw = formData.get("costYen") as string;
   const stockTotalRaw = formData.get("stockTotal") as string;
+  const limitPerUserRaw = formData.get("limitPerUser") as string;
   const expiresDaysRaw = formData.get("expiresDays") as string;
   const shopIdRaw = formData.get("shop_id") as string;
   const isActive = formData.get("isActive") === "on";
+  const isMonthlyLimit = formData.get("isMonthlyLimit") === "on";
   const imageFile = formData.get("image") as File;
 
   let imageUrl = (formData.get("currentImageUrl") as string) || "";
@@ -53,8 +55,14 @@ export async function upsertGachaItem(
     return { error: "当選上限（個）は0以上の数値で入力してください（空欄で無制限）" };
   }
 
+  const limit_per_user = limitPerUserRaw === "" ? null : Number(limitPerUserRaw);
+  if (limitPerUserRaw !== "" && (!Number.isFinite(limit_per_user) || (limit_per_user as number) < 1)) {
+    return { error: "1人あたりの上限は1以上の数値で入力してください（空欄で無制限）" };
+  }
+
   // ハズレは付与がないので上限は無効化
   const normalized_stock_total = type === "none" ? null : stock_total;
+  const normalized_limit_per_user = type === "none" ? null : limit_per_user;
 
   const expires_days = expiresDaysRaw === "" ? 30 : Number(expiresDaysRaw);
   if (!Number.isFinite(expires_days) || expires_days < 0) {
@@ -94,8 +102,10 @@ export async function upsertGachaItem(
     cost_yen,
     expires_days,
     stock_total: normalized_stock_total,
+    limit_per_user: normalized_limit_per_user,
     shop_id,
     is_active: isActive,
+    is_monthly_limit: isMonthlyLimit,
     image_url: imageUrl || null,
   };
 

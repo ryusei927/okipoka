@@ -7,16 +7,13 @@ import { GachaRateControls } from "./GachaRateControls";
 export default async function GachaPage() {
   const supabase = await createClient();
 
-  const { data: items, error } = await supabase
-    .from("gacha_items")
-    .select("*")
-    .is("deleted_at", null)
-    .order("created_at", { ascending: false });
+  const { data: items, error } = await supabase.rpc("get_admin_gacha_items");
 
   const activeItems = (items || []).filter((it: any) => {
     if (!it.is_active) return false;
     if (typeof it.stock_total === "number") {
-      return (it.stock_used || 0) < it.stock_total;
+      // RPCで計算済みの current_stock_used を使用
+      return (it.current_stock_used || 0) < it.stock_total;
     }
     return true;
   });
@@ -25,7 +22,7 @@ export default async function GachaPage() {
     if (!it.is_active) return false;
     if (it.deleted_at) return false;
     if (typeof it.stock_total !== "number") return false;
-    return (it.stock_used || 0) >= it.stock_total;
+    return (it.current_stock_used || 0) >= it.stock_total;
   }).length;
   const totalWeight = activeItems.reduce(
     (sum: number, it: any) => sum + (it.probability || 0),

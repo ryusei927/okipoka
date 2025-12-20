@@ -1203,6 +1203,10 @@
     animation: var(--animate-spin);
   }
 
+  .cursor-not-allowed {
+    cursor: not-allowed;
+  }
+
   .cursor-pointer {
     cursor: pointer;
   }
@@ -1652,6 +1656,16 @@
     background-color: var(--color-gray-50);
   }
 
+  .bg-gray-50\/50 {
+    background-color: #f9fafb80;
+  }
+
+  @supports (color: color-mix(in lab, red, red)) {
+    .bg-gray-50\/50 {
+      background-color: color-mix(in oklab, var(--color-gray-50) 50%, transparent);
+    }
+  }
+
   .bg-gray-100 {
     background-color: var(--color-gray-100);
   }
@@ -1740,6 +1754,16 @@
 
   .bg-slate-100 {
     background-color: var(--color-slate-100);
+  }
+
+  .bg-slate-100\/90 {
+    background-color: #f1f5f9e6;
+  }
+
+  @supports (color: color-mix(in lab, red, red)) {
+    .bg-slate-100\/90 {
+      background-color: color-mix(in oklab, var(--color-slate-100) 90%, transparent);
+    }
   }
 
   .bg-slate-800 {

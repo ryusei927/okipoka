@@ -169,8 +169,66 @@ export default function GachaItemForm({ item, shops = [] }: { item?: any; shops?
           <p className="text-xs text-gray-500">1回あたり期待値を150〜200円に合わせるための原価</p>
         </div>
 
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <label className="block text-sm font-bold text-gray-700">
+              全体の当選上限（個）
+            </label>
+            <input
+              type="number"
+              name="stockTotal"
+              min={0}
+              step={1}
+              defaultValue={item?.stock_total ?? ""}
+              className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all"
+              placeholder="空欄で無制限"
+            />
+            <p className="text-xs text-gray-500">
+              この景品が当選する総数です。在庫切れになると排出されなくなります。
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <label className="block text-sm font-bold text-gray-700">
+              1人あたりの当選上限（回）
+            </label>
+            <input
+              type="number"
+              name="limitPerUser"
+              min={1}
+              step={1}
+              defaultValue={item?.limit_per_user ?? ""}
+              className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all"
+              placeholder="空欄で無制限"
+            />
+            <p className="text-xs text-gray-500">
+              1人のユーザーがこの景品を当てられる最大回数です。
+            </p>
+          </div>
+        </div>
+
         <div className="space-y-2">
-          <label className="block text-sm font-bold text-gray-700">有効期限（日）</label>
+          <label className="flex items-center gap-2 p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+            <input
+              type="checkbox"
+              name="isMonthlyLimit"
+              defaultChecked={item?.is_monthly_limit ?? false}
+              className="w-5 h-5 text-orange-500 rounded focus:ring-orange-500 border-gray-300"
+            />
+            <div>
+              <div className="font-bold text-gray-900">毎月リセットする</div>
+              <div className="text-xs text-gray-500">
+                有効にすると、当選上限（在庫）と1人あたりの上限が「月間」の制限になります。<br/>
+                翌月1日になると自動的にカウントがリセットされ、また当たるようになります。
+              </div>
+            </div>
+          </label>
+        </div>
+
+        <div className="space-y-2">
+          <label className="block text-sm font-bold text-gray-700">
+            有効期限（日） <span className="text-red-500">*</span>
+          </label>
           <input
             type="number"
             name="expiresDays"
@@ -181,20 +239,6 @@ export default function GachaItemForm({ item, shops = [] }: { item?: any; shops?
             placeholder="例: 30"
           />
           <p className="text-xs text-gray-500">当選してから何日間使えるか（0なら当日まで）</p>
-        </div>
-
-        <div className="space-y-2">
-          <label className="block text-sm font-bold text-gray-700">当選上限（個・任意）</label>
-          <input
-            type="number"
-            name="stockTotal"
-            min={0}
-            step={1}
-            defaultValue={item?.stock_total ?? ""}
-            className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all"
-            placeholder="空欄なら無制限（例: 30）"
-          />
-          <p className="text-xs text-gray-500">設定すると、その個数が出た時点でガチャから自動的に除外されます</p>
         </div>
 
         <div className="space-y-2">

@@ -1,8 +1,9 @@
 import { DigitalMemberCard } from "@/components/member/DigitalMemberCard";
+import { DailyGachaButton } from "@/components/member/DailyGachaButton";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { signout } from "@/app/login/actions";
-import { LogOut, User, Settings, LayoutDashboard, Crown, Gift, Ticket } from "lucide-react";
+import { LogOut, User, Settings, LayoutDashboard, Crown, Ticket } from "lucide-react";
 import Link from "next/link";
 
 function formatSubscriptionStatus(status?: string | null) {
@@ -93,15 +94,7 @@ export default async function MemberPage() {
                     <div className="text-xs text-gray-500">登録状況の確認・解約</div>
                   </div>
                 </Link>
-                <Link href="/member/gacha" className="w-full flex items-center gap-3 p-4 hover:bg-gray-50 transition-colors text-left">
-                  <div className="p-2 bg-pink-100 text-pink-600 rounded-lg">
-                    <Gift className="w-5 h-5" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="font-medium text-gray-900">デイリーガチャ</div>
-                    <div className="text-xs text-gray-500">毎日1回運試し！</div>
-                  </div>
-                </Link>
+                <DailyGachaButton lastGachaAt={profile?.last_gacha_at} isAdmin={isAdmin} />
               </>
             )}
           </div>

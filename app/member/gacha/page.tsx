@@ -17,17 +17,93 @@ export default function GachaPage() {
   
   const [showItemsList, setShowItemsList] = useState(false);
   const [gachaItems, setGachaItems] = useState<any[]>([]);
+  const [canPlay, setCanPlay] = useState(true);
+  const [nextPlayTime, setNextPlayTime] = useState<Date | null>(null);
+  const [timeLeft, setTimeLeft] = useState<string>("");
   const supabase = createClient();
 
   const timersRef = useRef<number[]>([]);
+  const countdownRef = useRef<any>(null);
+
   const clearTimers = () => {
     for (const id of timersRef.current) window.clearTimeout(id);
     timersRef.current = [];
+    if (countdownRef.current) clearInterval(countdownRef.current);
   };
 
   useEffect(() => {
     return () => clearTimers();
   }, []);
+
+  // ユーザーの状態（本日プレイ済みか）を確認
+  useEffect(() => {
+    const checkUserStatus = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      // 管理者は無制限
+      if (user.email === 'okipoka.jp@gmail.com') {
+        setCanPlay(true);
+        return;
+      }
+
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("last_gacha_at")
+        .eq("id", user.id)
+        .single();
+
+      if (profile?.last_gacha_at) {
+        const lastDate = new Date(profile.last_gacha_at);
+        const now = new Date();
+        
+        // JSTでの日付比較
+        const lastJst = lastDate.toLocaleDateString("ja-JP", { timeZone: "Asia/Tokyo" });
+        const nowJst = now.toLocaleDateString("ja-JP", { timeZone: "Asia/Tokyo" });
+
+        if (lastJst === nowJst) {
+          setCanPlay(false);
+          
+          // 次回プレイ可能時間（JST翌日0時）を設定
+          const nowJstObj = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Tokyo" }));
+          const tomorrow = new Date(nowJstObj);
+          tomorrow.setDate(tomorrow.getDate() + 1);
+          tomorrow.setHours(0, 0, 0, 0);
+          setNextPlayTime(tomorrow);
+        }
+      }
+    };
+    checkUserStatus();
+  }, []);
+
+  // カウントダウン処理
+  useEffect(() => {
+    if (!nextPlayTime) return;
+
+    const updateTimer = () => {
+      const nowJstObj = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Tokyo" }));
+      const diff = nextPlayTime.getTime() - nowJstObj.getTime();
+
+      if (diff <= 0) {
+        setCanPlay(true);
+        setNextPlayTime(null);
+        setTimeLeft("");
+        return;
+      }
+
+      const h = Math.floor(diff / (1000 * 60 * 60));
+      const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const s = Math.floor((diff % (1000 * 60)) / 1000);
+      setTimeLeft(`${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`);
+    };
+
+    updateTimer(); // 初回実行
+    countdownRef.current = setInterval(updateTimer, 1000);
+
+    return () => {
+      if (countdownRef.current) clearInterval(countdownRef.current);
+    };
+  }, [nextPlayTime]);
 
   useEffect(() => {
     const fetchGachaItems = async () => {
@@ -86,6 +162,19 @@ export default function GachaPage() {
         } catch {
           // ignore
         }
+      }
+
+      // ガチャ成功時、次回プレイ時間を設定してボタンを無効化
+      // 管理者以外の場合のみ
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user && user.email !== 'okipoka.jp@gmail.com') {
+        setCanPlay(false);
+        const now = new Date();
+        const nowJstObj = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Tokyo" }));
+        const tomorrow = new Date(nowJstObj);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setHours(0, 0, 0, 0);
+        setNextPlayTime(tomorrow);
       }
 
       const minSpinMs = 2600;
@@ -185,13 +274,22 @@ export default function GachaPage() {
         {/* 操作ボタン */}
         <div className="absolute bottom-[10%] left-1/2 -translate-x-1/2 w-64 z-30 pointer-events-auto">
             {!result ? (
-              <button
-                onClick={spinGacha}
-                disabled={spinning}
-                className="w-full bg-linear-to-b from-amber-400 to-amber-600 text-white font-black py-5 px-8 rounded-full shadow-[0_6px_0_rgb(180,83,9)] hover:shadow-[0_3px_0_rgb(180,83,9)] hover:translate-y-0.75 active:translate-y-1.5 active:shadow-none transition-all text-xl tracking-wider border-4 border-white/30"
-              >
-                {spinning ? "SPINNING..." : "PUSH !"}
-              </button>
+              canPlay ? (
+                <button
+                  onClick={spinGacha}
+                  disabled={spinning}
+                  className="w-full bg-linear-to-b from-amber-400 to-amber-600 text-white font-black py-5 px-8 rounded-full shadow-[0_6px_0_rgb(180,83,9)] hover:shadow-[0_3px_0_rgb(180,83,9)] hover:translate-y-0.75 active:translate-y-1.5 active:shadow-none transition-all text-xl tracking-wider border-4 border-white/30"
+                >
+                  {spinning ? "SPINNING..." : "PUSH !"}
+                </button>
+              ) : (
+                <div className="w-full bg-slate-100/90 backdrop-blur-sm text-slate-500 font-bold py-4 px-6 rounded-full border-4 border-slate-200 shadow-lg text-center animate-in fade-in slide-in-from-bottom-4 duration-500">
+                  <div className="text-xs mb-1 font-medium text-slate-400">次回のガチャまで</div>
+                  <div className="text-2xl text-slate-600 font-mono tracking-widest">
+                     {timeLeft}
+                  </div>
+                </div>
+              )
             ) : (
               <button
                 onClick={reset}
