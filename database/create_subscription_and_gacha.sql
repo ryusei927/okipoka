@@ -86,11 +86,7 @@ WHERE NOT EXISTS (
   SELECT 1 FROM gacha_items WHERE name = '1000円割引券' AND type = 'discount_coupon' AND deleted_at IS NULL
 );
 
-INSERT INTO gacha_items (name, description, probability, type, value, cost_yen)
-SELECT 'ハズレ', '残念！また明日挑戦してね', 10, 'none', 0, 0
-WHERE NOT EXISTS (
-  SELECT 1 FROM gacha_items WHERE name = 'ハズレ' AND type = 'none' AND deleted_at IS NULL
-);
+
 
 
 -- 3. ユーザーが獲得したアイテム（チケット）

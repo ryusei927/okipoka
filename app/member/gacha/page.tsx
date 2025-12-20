@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, Info, X } from "lucide-react";
 import Link from "next/link";
 import confetti from "canvas-confetti";
+import { createClient } from "@/lib/supabase/client";
 
 export default function GachaPage() {
   const [spinning, setSpinning] = useState(false);
@@ -13,6 +14,10 @@ export default function GachaPage() {
   const [error, setError] = useState<string | null>(null);
   const [revealImageLoaded, setRevealImageLoaded] = useState(false);
   const [revealImageFailed, setRevealImageFailed] = useState(false);
+  
+  const [showItemsList, setShowItemsList] = useState(false);
+  const [gachaItems, setGachaItems] = useState<any[]>([]);
+  const supabase = createClient();
 
   const timersRef = useRef<number[]>([]);
   const clearTimers = () => {
@@ -22,6 +27,19 @@ export default function GachaPage() {
 
   useEffect(() => {
     return () => clearTimers();
+  }, []);
+
+  useEffect(() => {
+    const fetchGachaItems = async () => {
+      const { data } = await supabase
+        .from("gacha_items")
+        .select("*")
+        .eq("is_active", true)
+        .is("deleted_at", null)
+        .order("probability", { ascending: false });
+      if (data) setGachaItems(data);
+    };
+    fetchGachaItems();
   }, []);
 
   useEffect(() => {
@@ -53,7 +71,7 @@ export default function GachaPage() {
           throw new Error("プレミアム会員のみガチャを回せます");
         }
         if (raw.includes("Already played")) {
-          throw new Error("本日のガチャはすでに回しています");
+          throw new Error("本日のガチャはすでに回しています。また明日挑戦してね！");
         }
         if (raw.includes("Unauthorized")) {
           throw new Error("ログインが必要です");
@@ -117,6 +135,15 @@ export default function GachaPage() {
 
   return (
     <div className="relative w-full h-dvh bg-[#facc15] overflow-hidden">
+      {/* 景品一覧ボタン */}
+      <button
+        onClick={() => setShowItemsList(true)}
+        className="absolute top-4 right-4 z-40 bg-white/90 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-white hover:scale-105 transition-all text-slate-600 pointer-events-auto"
+        aria-label="景品一覧"
+      >
+        <Info className="w-6 h-6" />
+      </button>
+
       {/* 背景画像エリア（画面いっぱい） */}
       <div className="absolute inset-0 w-full h-full">
         <img
@@ -211,6 +238,14 @@ export default function GachaPage() {
                     獲得アイテムを確認
                   </Link>
                 )}
+                {result.shop_id && (
+                  <Link
+                    href={`/shops/${result.shop_id}`}
+                    className="w-full py-3 bg-white border-2 border-amber-100 text-amber-600 font-bold rounded-xl hover:bg-amber-50 transition-colors"
+                  >
+                    店舗ページを見る
+                  </Link>
+                )}
                 <button
                   onClick={reset}
                   className="w-full py-3 text-slate-500 font-medium hover:text-slate-800 transition-colors"
@@ -222,6 +257,54 @@ export default function GachaPage() {
           </div>
         </div>
       ) : null}
+
+      {/* 景品一覧モーダル */}
+      {showItemsList && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
+          <div className="bg-white rounded-3xl w-full max-w-md max-h-[80vh] overflow-hidden shadow-2xl animate-in zoom-in-95 duration-300 flex flex-col">
+            <div className="p-4 border-b flex items-center justify-between bg-slate-50">
+              <h3 className="font-bold text-lg text-slate-800">本日のラインナップ</h3>
+              <button onClick={() => setShowItemsList(false)} className="p-2 hover:bg-slate-200 rounded-full transition-colors">
+                <X className="w-5 h-5 text-slate-500" />
+              </button>
+            </div>
+            <div className="overflow-y-auto p-4 space-y-3">
+              {gachaItems.map((item) => (
+                <div key={item.id} className="flex items-center gap-4 p-3 rounded-xl border border-slate-100 bg-slate-50/50">
+                  <div className="w-12 h-12 shrink-0 bg-white rounded-lg border border-slate-100 flex items-center justify-center overflow-hidden">
+                    {item.type === "none" ? (
+                      <span className="text-2xl">😢</span>
+                    ) : item.image_url ? (
+                      <img src={item.image_url} alt={item.name} className="w-full h-full object-cover" />
+                    ) : (
+                      <span className="text-2xl">🎁</span>
+                    )}
+                  </div>
+                  <div>
+                    <div className="font-bold text-slate-800 text-sm">{item.name}</div>
+                    {item.description && (
+                      <div className="text-xs text-slate-500 mt-0.5">{item.description}</div>
+                    )}
+                  </div>
+                </div>
+              ))}
+              {gachaItems.length === 0 && (
+                <div className="text-center py-8 text-slate-400 text-sm">
+                  現在開催中のガチャはありません
+                </div>
+              )}
+            </div>
+            <div className="p-4 border-t bg-slate-50 text-center">
+              <button
+                onClick={() => setShowItemsList(false)}
+                className="w-full py-3 bg-slate-800 text-white font-bold rounded-xl hover:bg-slate-700 transition-colors"
+              >
+                閉じる
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {error && (
         <div className="absolute top-4 left-1/2 -translate-x-1/2 w-full max-w-md px-4 z-50">

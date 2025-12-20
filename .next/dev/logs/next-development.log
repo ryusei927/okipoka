@@ -602,3 +602,55 @@ Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
 [28:25:10.988] Server  LOG      ✓ Compiled in 101ms
 [28:25:11.324] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/ads/90g9k2v5iak.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
 [28:26:35.364] Server  LOG      ✓ Compiled in 59ms
+[28:28:33.032] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.056778745941199804.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[28:28:33.032] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.9993804361253611.jpg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[28:28:33.032] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.5045508567322626.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[28:28:33.032] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.2203148683505899.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[28:28:33.032] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.03223151330886742.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[28:28:33.184] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.6581583509847941.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[28:28:33.184] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.504133988865674.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[28:28:33.663] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.6270742804350743.jpg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[28:28:33.663] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.5562668820916477.jpg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[28:28:33.663] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.9665856878100714.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[28:28:33.663] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.3314706270828687.jpg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[46:42:34.221] Server  ERROR   AuthApiError: Invalid Refresh Token: Refresh Token Not Found
+    at ignore-listed frames {
+  __isAuthError: true,
+  status: 400,
+  code: 'refresh_token_not_found'
+}
+[46:42:34.235] Server  ERROR   AuthApiError: Invalid Refresh Token: Refresh Token Not Found
+    at ignore-listed frames {
+  __isAuthError: true,
+  status: 400,
+  code: 'refresh_token_not_found'
+}
+[46:42:40.160] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/avatars/56b616b7-02ab-4937-9cd2-7cf3a7a2b380-1765538599069.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[46:45:55.650] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[46:45:55.781] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/avatars/56b616b7-02ab-4937-9cd2-7cf3a7a2b380-1765538599069.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[46:52:04.619] Server  LOG      ✓ Compiled in 138ms
+[46:52:32.284] Server  LOG      ✓ Compiled in 57ms
+[46:52:40.238] Server  LOG      ✓ Compiled in 39ms
+[47:09:00.496] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[47:09:45.500] Server  LOG      ✓ Compiled in 37ms
+[47:12:16.111] Server  LOG      ✓ Compiled in 28ms
+[47:12:21.414] Server  LOG      ✓ Compiled in 42ms
+[47:12:26.483] Server  LOG      ✓ Compiled in 38ms
+[47:12:33.247] Server  LOG      ✓ Compiled in 30ms
+[47:12:37.521] Server  LOG      ✓ Compiled in 36ms
+[47:12:41.553] Server  LOG      ✓ Compiled in 42ms
+[47:13:19.318] Server  LOG      ✓ Compiled in 42ms
+[47:14:53.334] Server  LOG      ✓ Compiled in 33ms
+[47:14:58.937] Server  LOG      ✓ Compiled in 43ms
+[47:15:18.133] Server  LOG      ✓ Compiled in 39ms
+[47:15:45.650] Server  LOG      ✓ Compiled in 53ms
+[47:16:16.351] Server  LOG      ✓ Compiled in 66ms
+[47:16:52.679] Browser ERROR   Error fetching items: {"code":"PGRST200","details":"Searched for a foreign key relationship between 'gacha_items' and 'shops' in the schema 'public', but no matches were found.","hint":null,"message":"Could not find a relationship between 'gacha_items' and 'shops' in the schema cache"}
+[47:16:52.679] Browser ERROR   Error fetching items: {"code":"PGRST200","details":"Searched for a foreign key relationship between 'gacha_items' and 'shops' in the schema 'public', but no matches were found.","hint":null,"message":"Could not find a relationship between 'gacha_items' and 'shops' in the schema cache"}
+[47:16:58.639] Server  LOG      ✓ Compiled in 62ms
+[47:16:59.380] Browser ERROR   Error fetching items: {"code":"PGRST200","details":"Searched for a foreign key relationship between 'gacha_items' and 'shops' in the schema 'public', but no matches were found.","hint":null,"message":"Could not find a relationship between 'gacha_items' and 'shops' in the schema cache"}
+[47:17:00.223] Browser ERROR   Error fetching items: {"code":"PGRST200","details":"Searched for a foreign key relationship between 'gacha_items' and 'shops' in the schema 'public', but no matches were found.","hint":null,"message":"Could not find a relationship between 'gacha_items' and 'shops' in the schema cache"}
+[47:18:55.425] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[47:19:08.609] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.7637051495379074.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[47:21:19.965] Server  LOG      ✓ Compiled in 83ms
+[47:23:27.032] Server  LOG      ✓ Compiled in 56ms

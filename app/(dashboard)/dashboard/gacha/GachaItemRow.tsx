@@ -51,10 +51,12 @@ export function GachaItemRow({ item }: { item: any }) {
           <div className="text-xs text-gray-500 mt-2 flex flex-wrap gap-x-4 gap-y-1">
             <span>重み: {item.probability}</span>
             <span>value: {typeof item.value === "number" ? item.value : "-"}</span>
-            {typeof item.stock_total === "number" && (
-              <span>
+            {typeof item.stock_total === "number" ? (
+              <span className={item.stock_used >= item.stock_total ? "text-red-600 font-bold" : ""}>
                 残り: {Math.max(0, item.stock_total - (item.stock_used || 0))} / {item.stock_total}
               </span>
+            ) : (
+              <span className="text-blue-600 font-medium">在庫: 無制限</span>
             )}
           </div>
         </div>

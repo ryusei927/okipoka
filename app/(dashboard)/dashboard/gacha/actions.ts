@@ -24,6 +24,7 @@ export async function upsertGachaItem(
   const costYenRaw = formData.get("costYen") as string;
   const stockTotalRaw = formData.get("stockTotal") as string;
   const expiresDaysRaw = formData.get("expiresDays") as string;
+  const shopIdRaw = formData.get("shop_id") as string;
   const isActive = formData.get("isActive") === "on";
   const imageFile = formData.get("image") as File;
 
@@ -60,6 +61,8 @@ export async function upsertGachaItem(
     return { error: "有効期限（日）は0以上の数値で入力してください" };
   }
 
+  const shop_id = shopIdRaw ? shopIdRaw : null;
+
   // 画像アップロード（任意）
   if (imageFile && imageFile.size > 0) {
     const fileExt = imageFile.name.split(".").pop();
@@ -91,6 +94,7 @@ export async function upsertGachaItem(
     cost_yen,
     expires_days,
     stock_total: normalized_stock_total,
+    shop_id,
     is_active: isActive,
     image_url: imageUrl || null,
   };

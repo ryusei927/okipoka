@@ -15,5 +15,10 @@ export default async function EditGachaItemPage({
     .eq("id", id)
     .single();
 
-  return <GachaItemForm item={item} />;
+  const { data: shops } = await supabase
+    .from("shops")
+    .select("id, name")
+    .order("name");
+
+  return <GachaItemForm item={item} shops={shops || []} />;
 }

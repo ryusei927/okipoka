@@ -1,4 +1,8 @@
 {
+  "/(dashboard)/dashboard/gacha/[id]/page": "app/(dashboard)/dashboard/gacha/[id]/page.js",
+  "/(dashboard)/dashboard/gacha/new/page": "app/(dashboard)/dashboard/gacha/new/page.js",
+  "/(dashboard)/dashboard/gacha/page": "app/(dashboard)/dashboard/gacha/page.js",
+  "/(dashboard)/dashboard/gacha/sim/page": "app/(dashboard)/dashboard/gacha/sim/page.js",
   "/(dashboard)/dashboard/page": "app/(dashboard)/dashboard/page.js",
   "/(dashboard)/dashboard/tournaments/new/page": "app/(dashboard)/dashboard/tournaments/new/page.js",
   "/(dashboard)/dashboard/tournaments/page": "app/(dashboard)/dashboard/tournaments/page.js",
@@ -14,5 +18,6 @@
   "/api/member/subscription/status/route": "app/api/member/subscription/status/route.js",
   "/login/page": "app/login/page.js",
   "/member/gacha/page": "app/member/gacha/page.js",
+  "/member/items/page": "app/member/items/page.js",
   "/member/subscription/page": "app/member/subscription/page.js"
 }

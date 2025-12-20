@@ -26,7 +26,7 @@ const initialState: GachaItemState = {
   error: "",
 };
 
-export default function GachaItemForm({ item }: { item?: any }) {
+export default function GachaItemForm({ item, shops = [] }: { item?: any; shops?: any[] }) {
   const [state, formAction] = useActionState(upsertGachaItem, initialState);
   const [previewUrl, setPreviewUrl] = useState<string | null>(item?.image_url || null);
 
@@ -59,6 +59,27 @@ export default function GachaItemForm({ item }: { item?: any }) {
       )}
 
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-6">
+        <div className="space-y-2">
+          <label className="block text-sm font-bold text-gray-700">
+            対象店舗（任意）
+          </label>
+          <select
+            name="shop_id"
+            defaultValue={item?.shop_id || ""}
+            className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all bg-white"
+          >
+            <option value="">指定なし（共通クーポンなど）</option>
+            {shops.map((shop) => (
+              <option key={shop.id} value={shop.id}>
+                {shop.name}
+              </option>
+            ))}
+          </select>
+          <p className="text-xs text-gray-500">
+            特定の店舗で使えるクーポンの場合は選択してください。
+          </p>
+        </div>
+
         <div className="space-y-2">
           <label className="block text-sm font-bold text-gray-700">
             名前 <span className="text-red-500">*</span>
