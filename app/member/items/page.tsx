@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { Ticket, Gift, History, Store, X, CheckCircle2, AlertCircle } from "lucide-react";
+import { Ticket, Gift, History, Store, X, CheckCircle2, AlertCircle, Coins } from "lucide-react";
 import Link from "next/link";
 
 type UserItem = {
@@ -97,6 +97,7 @@ export default function ItemsPage() {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
 
+    // 全件取得してクライアント側で振り分け
     const { data, error } = await supabase
       .from("user_items")
       .select(`
@@ -116,13 +117,34 @@ export default function ItemsPage() {
         )
       `)
       .eq("user_id", user.id)
-      .eq("is_used", activeTab === 'used')
-      .order(activeTab === 'used' ? "used_at" : "created_at", { ascending: false });
+      .order("created_at", { ascending: false });
 
     if (error) {
       console.error("Error fetching items:", error);
     } else {
-      setItems(data as any);
+      const now = new Date();
+      const allItems = data as any[];
+      let filtered: UserItem[] = [];
+
+      if (activeTab === 'unused') {
+        // 未使用 = is_usedがfalse かつ (期限なし または 期限内)
+        filtered = allItems.filter(item => 
+          !item.is_used && (!item.expires_at || new Date(item.expires_at) > now)
+        );
+      } else {
+        // 使用済み = is_usedがtrue または 期限切れ
+        filtered = allItems.filter(item => 
+          item.is_used || (item.expires_at && new Date(item.expires_at) <= now)
+        );
+        
+        // 使用済みタブの場合は、使用日(または期限切れ日)の新しい順にソート
+        filtered.sort((a, b) => {
+            const dateA = a.used_at ? new Date(a.used_at).getTime() : (a.expires_at ? new Date(a.expires_at).getTime() : 0);
+            const dateB = b.used_at ? new Date(b.used_at).getTime() : (b.expires_at ? new Date(b.expires_at).getTime() : 0);
+            return dateB - dateA;
+        });
+      }
+      setItems(filtered);
     }
     setLoading(false);
   };
@@ -255,7 +277,7 @@ export default function ItemsPage() {
                     (item.gacha_items.image_url || item.gacha_items.shops?.image_url) 
                       ? 'p-0' 
                       : 'p-3'
-                  } ${item.gacha_items.type === 'drink_ticket' ? 'bg-blue-100 text-blue-600' : 'bg-orange-100 text-orange-600'}`}
+                  } ${item.gacha_items.type === 'drink_ticket' ? 'bg-blue-100 text-blue-600' : item.gacha_items.type === 'ring_chip' ? 'bg-yellow-100 text-yellow-600' : 'bg-orange-100 text-orange-600'}`}
                   onClick={() => setViewingItem(item)}
                 >
                   {(item.gacha_items.image_url || item.gacha_items.shops?.image_url) ? (
@@ -264,6 +286,8 @@ export default function ItemsPage() {
                       alt="" 
                       className="w-full h-full object-cover" 
                     />
+                  ) : item.gacha_items.type === 'ring_chip' ? (
+                    <Coins className="w-6 h-6" />
                   ) : (
                     <Ticket className="w-6 h-6" />
                   )}
@@ -278,9 +302,17 @@ export default function ItemsPage() {
                   )}
                   <p className="text-sm text-gray-600 line-clamp-2">{item.gacha_items.description}</p>
                   {item.expires_at && !item.is_used && (
-                    <p className="text-xs text-red-500 mt-1">
-                      有効期限: {new Date(item.expires_at).toLocaleDateString()}
-                    </p>
+                    <div className="flex flex-wrap items-center gap-2 mt-1">
+                      <span className="text-xs text-red-500">
+                        有効期限: {new Date(item.expires_at).toLocaleDateString()}
+                      </span>
+                      {(() => {
+                        const days = Math.ceil((new Date(item.expires_at).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
+                        if (days < 0) return <span className="text-xs font-bold bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded-md">期限切れ</span>;
+                        if (days === 0) return <span className="text-xs font-bold bg-red-100 text-red-600 px-1.5 py-0.5 rounded-md">今日まで</span>;
+                        return <span className="text-xs font-bold bg-red-100 text-red-600 px-1.5 py-0.5 rounded-md">あと{days}日</span>;
+                      })()}
+                    </div>
                   )}
                   {item.used_at && (
                     <p className="text-xs text-gray-500 mt-1">
@@ -445,8 +477,16 @@ export default function ItemsPage() {
                 </div>
               ) : (
                 <>
-                  <div className="w-16 h-16 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mb-6">
-                    <Store className="w-8 h-8" />
+                  <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mb-6 overflow-hidden border-4 border-orange-100 shadow-sm">
+                    {confirmingItem.gacha_items.shops?.image_url ? (
+                      <img 
+                        src={confirmingItem.gacha_items.shops.image_url} 
+                        alt={confirmingItem.gacha_items.shops.name}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <Store className="w-8 h-8 text-orange-400" />
+                    )}
                   </div>
                   
                   <div className="text-xs font-bold text-orange-500 tracking-widest mb-2">STAFF ONLY</div>

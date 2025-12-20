@@ -137,6 +137,12 @@
     },
     "60cf8f267cd31019f46b2a1f5616fd2c161e3b2674": {
       "workers": {
+        "app/(dashboard)/dashboard/gacha/[id]/page": {
+          "moduleId": "[project]/.next-internal/server/app/(dashboard)/dashboard/gacha/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/(dashboard)/dashboard/gacha/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "upsertGachaItem",
+          "filename": "app/(dashboard)/dashboard/gacha/actions.ts"
+        },
         "app/(dashboard)/dashboard/gacha/new/page": {
           "moduleId": "[project]/.next-internal/server/app/(dashboard)/dashboard/gacha/new/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/(dashboard)/dashboard/gacha/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false,
@@ -145,6 +151,7 @@
         }
       },
       "layer": {
+        "app/(dashboard)/dashboard/gacha/[id]/page": "action-browser",
         "app/(dashboard)/dashboard/gacha/new/page": "action-browser"
       },
       "filename": "app/(dashboard)/dashboard/gacha/actions.ts",

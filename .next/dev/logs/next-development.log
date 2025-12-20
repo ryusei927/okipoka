@@ -104,3 +104,23 @@
 [00:30:50.375] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.5562668820916477.jpg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
 [00:30:50.375] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.9665856878100714.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
 [00:30:50.375] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.3314706270828687.jpg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:37:24.263] Server  LOG      ✓ Compiled in 75ms
+[00:37:33.004] Server  ERROR    ⨯ Error: ハズレ（type=none）を1つ作成して有効にしてください
+[00:46:42.359] Server  LOG      ✓ Compiled in 43ms
+[00:47:10.748] Server  LOG      ✓ Compiled in 70ms
+[00:57:07.445] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:58:03.576] Server  LOG      ✓ Compiled in 40ms
+[00:58:44.902] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/avatars/56b616b7-02ab-4937-9cd2-7cf3a7a2b380-1765538599069.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:58:45.629] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.8224050437240357.jpg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:58:45.629] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.7182573599719301.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:58:45.629] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.9132020394586603.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:58:45.629] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.5045508567322626.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:58:45.629] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/ads/eap8jjrwyzu.jpg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:58:45.629] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.7674430560464816.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[01:00:01.298] Server  LOG      ✓ Compiled in 63ms
+[01:01:33.139] Server  LOG      ✓ Compiled in 57ms
+[01:03:07.277] Server  LOG      ✓ Compiled in 39ms
+[01:03:30.416] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:03:53.294] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/avatars/56b616b7-02ab-4937-9cd2-7cf3a7a2b380-1765538599069.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[01:05:20.754] Server  LOG      ✓ Compiled in 68ms
+[01:08:13.598] Server  LOG      ✓ Compiled in 47ms

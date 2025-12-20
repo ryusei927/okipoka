@@ -133,8 +133,8 @@ export default function GachaItemForm({ item, shops = [] }: { item?: any; shops?
             >
               <option value="drink_ticket">ドリンクチケット</option>
               <option value="discount_coupon">割引クーポン</option>
+              <option value="ring_chip">リングチップ</option>
               <option value="other">その他</option>
-              <option value="none">ハズレ（付与なし）</option>
             </select>
           </div>
         </div>
@@ -166,7 +166,6 @@ export default function GachaItemForm({ item, shops = [] }: { item?: any; shops?
             className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all"
             placeholder="例: 200"
           />
-          <p className="text-xs text-gray-500">1回あたり期待値を150〜200円に合わせるための原価</p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

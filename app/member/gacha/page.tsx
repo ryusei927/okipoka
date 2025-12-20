@@ -272,16 +272,21 @@ export default function GachaPage() {
         </div>
 
         {/* 操作ボタン */}
-        <div className="absolute bottom-[10%] left-1/2 -translate-x-1/2 w-64 z-30 pointer-events-auto">
+        <div className="absolute bottom-[10%] left-1/2 -translate-x-1/2 w-64 z-30 pointer-events-auto flex flex-col items-center gap-4">
             {!result ? (
               canPlay ? (
-                <button
-                  onClick={spinGacha}
-                  disabled={spinning}
-                  className="w-full bg-linear-to-b from-amber-400 to-amber-600 text-white font-black py-5 px-8 rounded-full shadow-[0_6px_0_rgb(180,83,9)] hover:shadow-[0_3px_0_rgb(180,83,9)] hover:translate-y-0.75 active:translate-y-1.5 active:shadow-none transition-all text-xl tracking-wider border-4 border-white/30"
-                >
-                  {spinning ? "SPINNING..." : "PUSH !"}
-                </button>
+                <>
+                  <button
+                    onClick={spinGacha}
+                    disabled={spinning}
+                    className="w-full bg-linear-to-b from-amber-400 to-amber-600 text-white font-black py-5 px-8 rounded-full shadow-[0_6px_0_rgb(180,83,9)] hover:shadow-[0_3px_0_rgb(180,83,9)] hover:translate-y-0.75 active:translate-y-1.5 active:shadow-none transition-all text-xl tracking-wider border-4 border-white/30"
+                  >
+                    {spinning ? "SPINNING..." : "PUSH !"}
+                  </button>
+                  <p className="text-[10px] text-white/80 text-center font-medium bg-black/20 px-3 py-1 rounded-full backdrop-blur-sm">
+                    ※クーポンによって有効期限が異なります。<br/>有効期限をしっかりご確認ください。
+                  </p>
+                </>
               ) : (
                 <div className="w-full bg-slate-100/90 backdrop-blur-sm text-slate-500 font-bold py-4 px-6 rounded-full border-4 border-slate-200 shadow-lg text-center animate-in fade-in slide-in-from-bottom-4 duration-500">
                   <div className="text-xs mb-1 font-medium text-slate-400">次回のガチャまで</div>
@@ -321,8 +326,18 @@ export default function GachaPage() {
               </div>
               
               <div className="text-sm font-bold text-amber-500 tracking-widest mb-2">RESULT</div>
-              <h2 className="text-2xl font-bold text-slate-800 mb-4">{result.type === "none" ? "ざんねん…" : result.name}</h2>
+              <h2 className="text-2xl font-bold text-slate-800 mb-2">{result.type === "none" ? "ざんねん…" : result.name}</h2>
               
+              {result.type !== "none" && (
+                <div className="mb-4 px-3 py-1 bg-red-50 text-red-500 text-xs font-bold rounded-full inline-block border border-red-100">
+                  有効期限: {(() => {
+                    const d = new Date();
+                    d.setDate(d.getDate() + (result.expires_days ?? 30));
+                    return d.toLocaleDateString();
+                  })()}
+                </div>
+              )}
+
               {result.description && (
                 <p className="text-slate-600 text-sm mb-8 leading-relaxed">{result.description}</p>
               )}
@@ -361,7 +376,7 @@ export default function GachaPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
           <div className="bg-white rounded-3xl w-full max-w-md max-h-[80vh] overflow-hidden shadow-2xl animate-in zoom-in-95 duration-300 flex flex-col">
             <div className="p-4 border-b flex items-center justify-between bg-slate-50">
-              <h3 className="font-bold text-lg text-slate-800">本日のラインナップ</h3>
+              <h3 className="font-bold text-lg text-slate-800">ラインナップ</h3>
               <button onClick={() => setShowItemsList(false)} className="p-2 hover:bg-slate-200 rounded-full transition-colors">
                 <X className="w-5 h-5 text-slate-500" />
               </button>
