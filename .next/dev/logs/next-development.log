@@ -251,3 +251,5 @@ Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
 [00:20:42.876] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/ads/l95ghgw9qq.png" has "fill" and parent element with invalid "position". Provided "static" should be one of absolute,fixed,relative.
 [00:20:43.751] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/ads/m06dlsqb5ds.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
 [00:22:16.464] Server  LOG      ✓ Compiled in 29ms
+[00:35:51.363] Server  LOG      ✓ Compiled in 69ms
+[00:36:01.662] Server  LOG      ✓ Compiled in 63ms

@@ -108,19 +108,13 @@ export default function PremiumGuidePage() {
              </div>
            </div>
            
-           {/* アクションボタン */}
+           {/* アクションボタン (Coming Soon) */}
            <div className="mt-12 mb-8">
-             <Link
-               href="/member"
-               className="group w-full bg-slate-900 text-white font-bold py-4 px-6 rounded-2xl shadow-xl shadow-slate-200 hover:shadow-2xl hover:scale-[1.02] transition-all flex items-center justify-between"
-             >
-               <span className="text-lg">登録してガチャを引く</span>
-               <div className="bg-white/20 rounded-full p-1 group-hover:translate-x-1 transition-transform">
-                 <ChevronRight className="w-5 h-5" />
-               </div>
-             </Link>
+             <div className="w-full bg-slate-300 text-white font-bold py-4 px-6 rounded-2xl shadow-sm flex items-center justify-center cursor-not-allowed">
+               <span className="text-lg">2025年1月1日 受付開始</span>
+             </div>
              <p className="text-[10px] text-center text-slate-400 mt-4">
-               ※マイページへ移動します。未ログインの場合はログイン画面が表示されます。
+               ※サービス開始まで今しばらくお待ちください。
              </p>
            </div>
          </div>
