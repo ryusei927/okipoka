@@ -127,7 +127,7 @@ export default async function MemberPage() {
                 </div>
                 <div className="flex-1">
                     <div className="font-medium text-gray-900">設定</div>
-                    <div className="text-xs text-gray-500">通知設定など</div>
+                    <div className="text-xs text-gray-500">パスワードの変更</div>
                 </div>
             </Link>
             {isAdmin && (
