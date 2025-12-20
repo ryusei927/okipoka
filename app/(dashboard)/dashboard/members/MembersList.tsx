@@ -89,6 +89,10 @@ export function MembersList({
           return itemType && itemType !== "none";
         });
         const unusedItems = ownedItems.filter((row) => !row.is_used);
+        const usedItems = ownedItems.filter((row) => row.is_used);
+
+        // 未使用を先に表示
+        const displayItems = [...unusedItems, ...usedItems];
 
         const isOpen = openUserId === profile.id;
 
@@ -167,7 +171,7 @@ export function MembersList({
                     ) : (
                       <ChevronRight className="w-4 h-4 text-gray-400" />
                     )}
-                    所持クーポン（未使用）: {unusedItems.length}
+                    所持クーポン: {ownedItems.length} (未使用: {unusedItems.length})
                     <span className="text-gray-400 font-normal">
                       （クリックで{isOpen ? "閉じる" : "表示"}）
                     </span>
@@ -178,9 +182,9 @@ export function MembersList({
 
             {isOpen && (
               <div className="mt-4 border-t border-gray-100 pt-3">
-                {unusedItems.length > 0 ? (
+                {displayItems.length > 0 ? (
                   <div className="grid gap-2">
-                    {unusedItems.map((row, idx) => {
+                    {displayItems.map((row, idx) => {
                       const itemName = row.gacha_items?.name ?? "(unknown)";
                       const itemType = row.gacha_items?.type ?? "";
                       const itemValue = row.gacha_items?.value;
@@ -189,11 +193,16 @@ export function MembersList({
                             locale: ja,
                           })
                         : null;
+                      const isUsed = row.is_used;
 
                       return (
                         <div
                           key={`${profile.id}-${idx}`}
-                          className="flex items-center justify-between bg-gray-50 border border-gray-100 rounded-lg px-3 py-2"
+                          className={`flex items-center justify-between border rounded-lg px-3 py-2 ${
+                            isUsed
+                              ? "bg-gray-100 border-gray-200 opacity-70"
+                              : "bg-gray-50 border-gray-100"
+                          }`}
                         >
                           <div className="min-w-0">
                             <div className="text-sm font-bold text-gray-900 truncate">
@@ -207,16 +216,22 @@ export function MembersList({
                               {expires ? ` / 期限: ${expires}` : ""}
                             </div>
                           </div>
-                          <span className="text-[10px] px-2 py-0.5 rounded-full font-bold bg-blue-100 text-blue-700 flex-shrink-0">
-                            未使用
-                          </span>
+                          {isUsed ? (
+                            <span className="text-[10px] px-2 py-0.5 rounded-full font-bold bg-gray-200 text-gray-600 flex-shrink-0">
+                              使用済み
+                            </span>
+                          ) : (
+                            <span className="text-[10px] px-2 py-0.5 rounded-full font-bold bg-blue-100 text-blue-700 flex-shrink-0">
+                              未使用
+                            </span>
+                          )}
                         </div>
                       );
                     })}
                   </div>
                 ) : (
                   <div className="text-sm text-gray-500">
-                    未使用のクーポンはありません
+                    クーポンはありません
                   </div>
                 )}
               </div>

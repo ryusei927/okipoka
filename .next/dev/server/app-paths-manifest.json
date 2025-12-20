@@ -1,6 +1,17 @@
 {
+  "/(dashboard)/dashboard/featured/page": "app/(dashboard)/dashboard/featured/page.js",
+  "/(dashboard)/dashboard/gacha/page": "app/(dashboard)/dashboard/gacha/page.js",
+  "/(dashboard)/dashboard/members/page": "app/(dashboard)/dashboard/members/page.js",
+  "/(dashboard)/dashboard/page": "app/(dashboard)/dashboard/page.js",
+  "/(dashboard)/dashboard/shops/page": "app/(dashboard)/dashboard/shops/page.js",
   "/(public)/member/page": "app/(public)/member/page.js",
+  "/(public)/member/profile/page": "app/(public)/member/profile/page.js",
+  "/(public)/member/settings/page": "app/(public)/member/settings/page.js",
   "/(public)/page": "app/(public)/page.js",
   "/(public)/premium/page": "app/(public)/premium/page.js",
-  "/login/page": "app/login/page.js"
+  "/(public)/shops/[id]/page": "app/(public)/shops/[id]/page.js",
+  "/api/gacha/spin/route": "app/api/gacha/spin/route.js",
+  "/login/page": "app/login/page.js",
+  "/member/gacha/page": "app/member/gacha/page.js",
+  "/member/items/page": "app/member/items/page.js"
 }
