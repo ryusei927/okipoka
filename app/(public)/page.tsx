@@ -75,11 +75,11 @@ export default async function HomePage({
     return newArray;
   };
 
-  // バナー広告: 全ての中からランダムに1つ（優先度無視）
-  let displayBannerAd = null;
-  if (bannerAds.length > 0) {
-    displayBannerAd = bannerAds[Math.floor(Math.random() * bannerAds.length)];
-  }
+  // バナー広告: ランダムに取得
+  const shuffledBannerAds = shuffle(bannerAds);
+  const displayBannerAd = shuffledBannerAds[0] || null;
+  // 2つ目のバナー広告（なければ1つ目を再利用、そもそもなければnull）
+  const displayBottomBannerAd = shuffledBannerAds.length > 1 ? shuffledBannerAds[1] : displayBannerAd;
 
   // スクエア広告: 全ての中からランダムに2つ（優先度無視）
   const displaySquareAds = shuffle(squareAds).slice(0, 2);
@@ -264,6 +264,9 @@ export default async function HomePage({
 
       {/* よくある質問 */}
       <FaqSection />
+
+      {/* フッター上部バナー広告 */}
+      {displayBottomBannerAd && <AdBanner ad={displayBottomBannerAd} />}
     </div>
   );
 }
