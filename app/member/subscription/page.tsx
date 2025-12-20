@@ -196,7 +196,7 @@ export default function SubscriptionPage() {
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded-xl shadow-sm my-10">
-      <h1 className="text-2xl font-bold text-center mb-6">おきぽかプレミアム会員</h1>
+      <h1 className="text-2xl font-bold text-center mb-6">プレミアム会員管理</h1>
 
       <div className="text-sm text-center text-gray-700 mb-4">
         現在のステータス：<span className="font-bold">{statusLabel(subscriptionStatus)}</span>

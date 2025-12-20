@@ -127,12 +127,25 @@ export default async function HomePage({
   const areaOrder = ["那覇", "中部", "南部", "北部", "宮古島", "その他"];
 
   return (
-    <main className="min-h-screen pb-20">
+    <div className="min-h-screen pb-20">
       {/* ヒーロースライダー (トップ画像 + PR) */}
       <HeroSlider featuredItems={featuredItems || []} />
 
       {/* バナー広告 */}
       {displayBannerAd && <AdBanner ad={displayBannerAd} />}
+
+      {/* プレミアム会員バナー */}
+      <div className="max-w-md md:max-w-4xl mx-auto px-4 mt-6">
+        <Link href="/premium" className="block relative rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-shadow group">
+          <Image
+            src="/premium-banner1.png"
+            alt="おきぽかプレミアム"
+            width={1024}
+            height={643}
+            className="w-full h-auto"
+          />
+        </Link>
+      </div>
 
       {/* ヘッダー */}
       <header className="bg-white shadow-sm">
@@ -251,6 +264,6 @@ export default async function HomePage({
 
       {/* よくある質問 */}
       <FaqSection />
-    </main>
+    </div>
   );
 }
