@@ -131,5 +131,20 @@ export async function POST() {
     return NextResponse.json({ error: "Failed to spin" }, { status: 500 });
   }
 
-  return NextResponse.json({ success: true, item: data });
+  // 店舗画像を取得して付与
+  let itemData = { ...data };
+  if (data && data.shop_id) {
+    const { data: shop } = await supabase
+      .from("shops")
+      .select("image_url")
+      .eq("id", data.shop_id)
+      .single();
+    
+    if (shop) {
+      // @ts-ignore
+      itemData.shop_image_url = shop.image_url;
+    }
+  }
+
+  return NextResponse.json({ success: true, item: itemData });
 }

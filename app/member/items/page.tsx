@@ -21,6 +21,7 @@ type UserItem = {
       id: string;
       name: string;
       slug: string;
+      image_url: string | null;
     } | null;
   };
 };
@@ -29,6 +30,7 @@ export default function ItemsPage() {
   const [items, setItems] = useState<UserItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'unused' | 'used'>('unused');
+  const [selectedShopId, setSelectedShopId] = useState<string | null>(null);
   
   // モーダル用state
   const [viewingItem, setViewingItem] = useState<UserItem | null>(null); // 詳細表示用
@@ -41,7 +43,20 @@ export default function ItemsPage() {
 
   useEffect(() => {
     fetchItems();
+    setSelectedShopId(null); // タブ切り替え時にフィルターをリセット
   }, [activeTab]);
+
+  // 店舗リストの抽出（重複排除）
+  const uniqueShops = Array.from(new Map(
+    items
+      .filter(item => item.gacha_items.shops)
+      .map(item => [item.gacha_items.shops!.id, item.gacha_items.shops!])
+  ).values());
+
+  // フィルタリングされたアイテム
+  const filteredItems = selectedShopId
+    ? items.filter(item => item.gacha_items.shops?.id === selectedShopId)
+    : items;
 
   // 長押し判定ロジック
   useEffect(() => {
@@ -95,7 +110,8 @@ export default function ItemsPage() {
           shops (
             id,
             name,
-            slug
+            slug,
+            image_url
           )
         )
       `)
@@ -169,37 +185,85 @@ export default function ItemsPage() {
         </button>
       </div>
 
+      {/* 店舗フィルター */}
+      {uniqueShops.length > 0 && (
+        <div className="mb-6 overflow-x-auto pb-2 -mx-6 px-6 scrollbar-hide touch-pan-x">
+          <div className="flex gap-2">
+            <button
+              onClick={() => setSelectedShopId(null)}
+              className={`px-4 py-2 rounded-full text-sm font-bold whitespace-nowrap transition-colors border ${
+                selectedShopId === null
+                  ? 'bg-slate-800 text-white border-slate-800'
+                  : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+              }`}
+            >
+              すべて
+            </button>
+            {uniqueShops.map((shop) => (
+              <button
+                key={shop.id}
+                onClick={() => setSelectedShopId(shop.id)}
+                className={`px-4 py-2 rounded-full text-sm font-bold whitespace-nowrap transition-colors border flex items-center gap-2 ${
+                  selectedShopId === shop.id
+                    ? 'bg-slate-800 text-white border-slate-800'
+                    : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+                }`}
+              >
+                {shop.image_url && (
+                  <img src={shop.image_url} alt="" className="w-4 h-4 rounded-full object-cover" />
+                )}
+                {shop.name}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
       {loading ? (
         <div className="p-8 text-center">読み込み中...</div>
-      ) : items.length === 0 ? (
+      ) : filteredItems.length === 0 ? (
         <div className="text-center py-12 bg-gray-50 rounded-lg">
           {activeTab === 'unused' ? (
             <>
               <Gift className="w-12 h-12 mx-auto text-gray-400 mb-4" />
-              <p className="text-gray-500">まだアイテムを持っていません。</p>
-              <p className="text-sm text-gray-400 mt-2">ガチャを回してアイテムをゲットしよう！</p>
+              <p className="text-gray-500">
+                {selectedShopId ? "この店舗のアイテムはありません。" : "まだアイテムを持っていません。"}
+              </p>
+              {!selectedShopId && (
+                <p className="text-sm text-gray-400 mt-2">ガチャを回してアイテムをゲットしよう！</p>
+              )}
             </>
           ) : (
             <>
               <History className="w-12 h-12 mx-auto text-gray-400 mb-4" />
-              <p className="text-gray-500">使用済みのアイテムはありません。</p>
+              <p className="text-gray-500">
+                {selectedShopId ? "この店舗の使用済みアイテムはありません。" : "使用済みのアイテムはありません。"}
+              </p>
             </>
           )}
         </div>
       ) : (
         <div className="space-y-4">
-          {items.map((item) => (
+          {filteredItems.map((item) => (
             <div 
               key={item.id} 
               className={`bg-white border rounded-lg p-4 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 ${item.is_used ? 'opacity-75 bg-gray-50' : ''}`}
             >
               <div className="flex items-start gap-4 flex-1">
                 <div 
-                  className={`p-3 rounded-full shrink-0 ${item.gacha_items.type === 'drink_ticket' ? 'bg-blue-100 text-blue-600' : 'bg-orange-100 text-orange-600'}`}
+                  className={`rounded-full shrink-0 overflow-hidden flex items-center justify-center w-12 h-12 ${
+                    (item.gacha_items.image_url || item.gacha_items.shops?.image_url) 
+                      ? 'p-0' 
+                      : 'p-3'
+                  } ${item.gacha_items.type === 'drink_ticket' ? 'bg-blue-100 text-blue-600' : 'bg-orange-100 text-orange-600'}`}
                   onClick={() => setViewingItem(item)}
                 >
-                  {item.gacha_items.image_url ? (
-                    <img src={item.gacha_items.image_url} alt="" className="w-6 h-6 object-cover rounded-full" />
+                  {(item.gacha_items.image_url || item.gacha_items.shops?.image_url) ? (
+                    <img 
+                      src={item.gacha_items.image_url || item.gacha_items.shops?.image_url || ""} 
+                      alt="" 
+                      className="w-full h-full object-cover" 
+                    />
                   ) : (
                     <Ticket className="w-6 h-6" />
                   )}
@@ -265,9 +329,9 @@ export default function ItemsPage() {
 
             {/* ヘッダー画像エリア */}
             <div className="w-full h-48 bg-slate-100 relative shrink-0">
-              {viewingItem.gacha_items.image_url ? (
+              {(viewingItem.gacha_items.image_url || viewingItem.gacha_items.shops?.image_url) ? (
                 <img 
-                  src={viewingItem.gacha_items.image_url} 
+                  src={viewingItem.gacha_items.image_url || viewingItem.gacha_items.shops?.image_url || ""} 
                   alt={viewingItem.gacha_items.name}
                   className="w-full h-full object-cover"
                 />

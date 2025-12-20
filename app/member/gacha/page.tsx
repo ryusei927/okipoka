@@ -109,7 +109,7 @@ export default function GachaPage() {
     const fetchGachaItems = async () => {
       const { data } = await supabase
         .from("gacha_items")
-        .select("*")
+        .select("*, shops(image_url)")
         .eq("is_active", true)
         .is("deleted_at", null)
         .order("probability", { ascending: false });
@@ -306,14 +306,14 @@ export default function GachaPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
           <div className="bg-white rounded-3xl w-full max-w-sm overflow-hidden shadow-2xl animate-in zoom-in-95 duration-300">
             <div className="p-8 flex flex-col items-center text-center">
-              <div className="w-32 h-32 mb-6 relative">
+              <div className="w-32 h-32 mb-6 relative rounded-full overflow-hidden border-4 border-white shadow-lg flex items-center justify-center bg-slate-50">
                   {result.type === "none" ? (
                     <span className="text-6xl">😢</span>
-                  ) : result.image_url && !revealImageFailed ? (
+                  ) : (result.image_url || result.shop_image_url) && !revealImageFailed ? (
                     <img
-                      src={result.image_url}
+                      src={result.image_url || result.shop_image_url}
                       alt={result.name}
-                      className="w-full h-full object-contain drop-shadow-md"
+                      className="w-full h-full object-cover"
                     />
                   ) : (
                     <span className="text-6xl">🎁</span>
@@ -372,8 +372,8 @@ export default function GachaPage() {
                   <div className="w-12 h-12 shrink-0 bg-white rounded-lg border border-slate-100 flex items-center justify-center overflow-hidden">
                     {item.type === "none" ? (
                       <span className="text-2xl">😢</span>
-                    ) : item.image_url ? (
-                      <img src={item.image_url} alt={item.name} className="w-full h-full object-cover" />
+                    ) : (item.image_url || item.shops?.image_url) ? (
+                      <img src={item.image_url || item.shops?.image_url} alt={item.name} className="w-full h-full object-cover" />
                     ) : (
                       <span className="text-2xl">🎁</span>
                     )}
