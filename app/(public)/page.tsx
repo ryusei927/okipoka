@@ -134,19 +134,6 @@ export default async function HomePage({
       {/* バナー広告 */}
       {displayBannerAd && <AdBanner ad={displayBannerAd} />}
 
-      {/* プレミアム会員バナー */}
-      <div className="max-w-md md:max-w-4xl mx-auto px-4 mt-6">
-        <Link href="/premium" className="block relative rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-shadow group">
-          <Image
-            src="/premium-banner1.png"
-            alt="おきぽかプレミアム"
-            width={1024}
-            height={643}
-            className="w-full h-auto"
-          />
-        </Link>
-      </div>
-
       {/* ヘッダー */}
       <header className="bg-white shadow-sm">
         <div className="max-w-md md:max-w-4xl mx-auto px-4 py-4 flex items-center justify-center relative">
@@ -204,6 +191,19 @@ export default async function HomePage({
             <p>本日のトーナメントはありません</p>
           </div>
         )}
+      </div>
+
+      {/* プレミアム会員バナー */}
+      <div className="max-w-md md:max-w-4xl mx-auto px-4 mt-6 mb-8">
+        <Link href="/premium" className="block relative rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-shadow group">
+          <Image
+            src="/premium-banner1.png"
+            alt="おきぽかプレミアム"
+            width={1024}
+            height={643}
+            className="w-full h-auto"
+          />
+        </Link>
       </div>
 
       {/* スクエア広告 */}
