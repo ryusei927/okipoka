@@ -13,6 +13,8 @@ function typeLabel(type?: string | null) {
       return "ドリンク";
     case "discount_coupon":
       return "割引";
+    case "ring_chip":
+      return "チップ";
     case "other":
       return "その他";
     case "none":

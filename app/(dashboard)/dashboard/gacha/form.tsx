@@ -4,8 +4,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { useActionState, useState } from "react";
 import { useFormStatus } from "react-dom";
-import { ArrowLeft, Save, Upload } from "lucide-react";
+import { ArrowLeft, Save, Upload, RefreshCw } from "lucide-react";
 import { upsertGachaItem, type GachaItemState } from "./actions";
+import { useRouter } from "next/navigation";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -29,12 +30,34 @@ const initialState: GachaItemState = {
 export default function GachaItemForm({ item, shops = [] }: { item?: any; shops?: any[] }) {
   const [state, formAction] = useActionState(upsertGachaItem, initialState);
   const [previewUrl, setPreviewUrl] = useState<string | null>(item?.image_url || null);
+  const [isResetting, setIsResetting] = useState(false);
+  const router = useRouter();
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const url = URL.createObjectURL(file);
       setPreviewUrl(url);
+    }
+  };
+
+  const handleResetStock = async () => {
+    if (!item || !confirm("現在の消費数（当選数）を0にリセットしますか？\nこの操作は取り消せません。")) return;
+    
+    setIsResetting(true);
+    try {
+      const res = await fetch(`/api/admin/gacha/reset-stock/${item.id}`, {
+        method: "POST",
+      });
+      
+      if (!res.ok) throw new Error("リセットに失敗しました");
+      
+      alert("在庫（消費数）をリセットしました");
+      router.refresh();
+    } catch (e) {
+      alert("エラーが発生しました");
+    } finally {
+      setIsResetting(false);
     }
   };
 
@@ -278,7 +301,21 @@ export default function GachaItemForm({ item, shops = [] }: { item?: any; shops?
         </div>
       </div>
 
-      <SubmitButton />
+      <div className="flex items-center justify-between">
+        <SubmitButton />
+        
+        {item && (
+          <button
+            type="button"
+            onClick={handleResetStock}
+            disabled={isResetting}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm font-bold shadow-sm"
+          >
+            <RefreshCw className={`w-4 h-4 ${isResetting ? 'animate-spin' : ''}`} />
+            在庫リセット
+          </button>
+        )}
+      </div>
     </form>
   );
 }
