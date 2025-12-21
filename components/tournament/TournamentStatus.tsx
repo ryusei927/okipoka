@@ -54,7 +54,11 @@ export function TournamentStatus({
   }
 
   if (now >= startDate) {
-    return <span className={cn("text-red-500 font-bold animate-pulse", className)}>開催中</span>;
+    return (
+      <span className={cn("font-bold text-red-500 animate-pulse whitespace-nowrap", className, "text-lg")}>
+        開催中
+      </span>
+    );
   }
 
   if (diffInMinutes <= 60 && diffInMinutes > 0) {
