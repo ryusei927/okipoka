@@ -191,3 +191,10 @@
 [25:34:11.343] Server  LOG      ✓ Compiled in 56ms
 [25:34:15.948] Server  LOG      ✓ Compiled in 63ms
 [25:34:20.036] Server  LOG      ✓ Compiled in 59ms
+[25:35:21.114] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/ads/cwv2u0e0fgg.jpeg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[25:41:36.170] Server  LOG      ✓ Compiled in 41ms
+[25:41:47.118] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/avatars/b90fb965-e84b-4801-bf15-c6a3beb0c93d-1765610467455.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[25:41:49.910] Browser ERROR   uncaughtError: TypeError: Cannot read properties of null (reading 'image_url')
+[25:41:57.299] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[25:41:57.321] Server  LOG      ✓ Compiled in 46ms
+[25:41:57.634] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold

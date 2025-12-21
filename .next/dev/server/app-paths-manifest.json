@@ -13,6 +13,7 @@
   "/api/admin/gacha/reset-stock/[id]/route": "app/api/admin/gacha/reset-stock/[id]/route.js",
   "/api/gacha/spin/route": "app/api/gacha/spin/route.js",
   "/api/member/subscription/status/route": "app/api/member/subscription/status/route.js",
+  "/login/page": "app/login/page.js",
   "/member/gacha/page": "app/member/gacha/page.js",
   "/member/items/page": "app/member/items/page.js",
   "/member/subscription/page": "app/member/subscription/page.js"

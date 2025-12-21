@@ -49,13 +49,13 @@ export default function ItemsPage() {
   // 店舗リストの抽出（重複排除）
   const uniqueShops = Array.from(new Map(
     items
-      .filter(item => item.gacha_items.shops)
-      .map(item => [item.gacha_items.shops!.id, item.gacha_items.shops!])
+      .filter(item => item.gacha_items?.shops)
+      .map(item => [item.gacha_items!.shops!.id, item.gacha_items!.shops!])
   ).values());
 
   // フィルタリングされたアイテム
   const filteredItems = selectedShopId
-    ? items.filter(item => item.gacha_items.shops?.id === selectedShopId)
+    ? items.filter(item => item.gacha_items?.shops?.id === selectedShopId)
     : items;
 
   // 長押し判定ロジック
@@ -129,12 +129,12 @@ export default function ItemsPage() {
       if (activeTab === 'unused') {
         // 未使用 = is_usedがfalse かつ (期限なし または 期限内)
         filtered = allItems.filter(item => 
-          !item.is_used && (!item.expires_at || new Date(item.expires_at) > now)
+          item.gacha_items && !item.is_used && (!item.expires_at || new Date(item.expires_at) > now)
         );
       } else {
         // 使用済み = is_usedがtrue または 期限切れ
         filtered = allItems.filter(item => 
-          item.is_used || (item.expires_at && new Date(item.expires_at) <= now)
+          item.gacha_items && (item.is_used || (item.expires_at && new Date(item.expires_at) <= now))
         );
         
         // 使用済みタブの場合は、使用日(または期限切れ日)の新しい順にソート
