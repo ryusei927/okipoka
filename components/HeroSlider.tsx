@@ -103,7 +103,7 @@ export function HeroSlider({ featuredItems }: { featuredItems: FeaturedItem[] })
     >
       {/* メインスライダーエリア */}
       {/* スマホ: 16:9〜4:5程度、PC: 21:9〜16:9程度。コンテンツに合わせて調整 */}
-      <div className="relative w-full aspect-video md:aspect-[21/9] max-h-[85vh] overflow-hidden">
+      <div className="relative w-full aspect-video md:aspect-21/9 max-h-[85vh] overflow-hidden">
         {slides.map((slide, index) => (
           <div
             key={slide.id}
@@ -122,7 +122,7 @@ export function HeroSlider({ featuredItems }: { featuredItems: FeaturedItem[] })
         ))}
 
         {/* グラデーションオーバーレイ（下部） */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/80 to-transparent z-20 pointer-events-none" />
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-linear-to-t from-black/80 to-transparent z-20 pointer-events-none" />
       </div>
 
       {/* ナビゲーションボタン (PCのみ表示、ホバーで出現) */}
@@ -169,7 +169,7 @@ export function HeroSlider({ featuredItems }: { featuredItems: FeaturedItem[] })
       {/* PR拡大モーダル */}
       {selectedSlide && (
         <div 
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 p-4 animate-in fade-in duration-200"
+          className="fixed inset-0 z-100 flex items-center justify-center bg-black/95 p-4 animate-in fade-in duration-200"
           onClick={() => setSelectedSlide(null)}
         >
           <button 
@@ -237,7 +237,7 @@ function SlideContent({
           alt=""
           fill
           className={cn(
-            "object-cover transition-transform duration-[10000ms] ease-linear",
+            "object-cover transition-transform duration-10000 ease-linear",
             isActive ? "scale-110" : "scale-100",
             slide.type === "pr" ? "blur-xl opacity-40" : "blur-sm opacity-30"
           )}
@@ -246,7 +246,7 @@ function SlideContent({
       </div>
 
       {/* メイン画像 */}
-      <div className="relative w-full h-full max-w-[1920px] mx-auto">
+      <div className="relative w-full h-full max-w-480 mx-auto">
         <Image
           src={slide.image_url}
           alt={slide.alt_text || ""}

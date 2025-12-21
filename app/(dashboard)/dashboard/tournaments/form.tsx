@@ -164,7 +164,7 @@ export default function TournamentForm({ shops, tournament }: { shops: any[], to
       </header>
 
       {/* AI解析ボタン */}
-      <div className="mb-8 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl p-6 text-white shadow-lg">
+      <div className="mb-8 bg-linear-to-r from-indigo-500 to-purple-600 rounded-2xl p-6 text-white shadow-lg">
         <div className="flex items-start gap-4">
           <div className="p-3 bg-white/20 rounded-xl backdrop-blur-sm">
             <Sparkles className="w-6 h-6 text-yellow-300" />

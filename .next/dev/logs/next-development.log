@@ -185,3 +185,9 @@
 [01:59:42.542] Server  LOG      ✓ Compiled in 34ms
 [02:00:04.894] Server  ERROR   Square API Error (/v2/subscriptions/9f5f7d94-17ae-41b9-9637-18b257a9b91b): "{\n  \"errors\": [\n    {\n      \"code\": \"NOT_FOUND\",\n      \"detail\": \"The provided subscription ID `9f5f7d94-17ae-41b9-9637-18b257a9b91b` was not found.\",\n      \"category\": \"INVALID_REQUEST_ERROR\"\n    }\n  ]\n}"
 [02:00:05.322] Server  ERROR   Square API Error (/v2/subscriptions/9f5f7d94-17ae-41b9-9637-18b257a9b91b): "{\n  \"errors\": [\n    {\n      \"code\": \"NOT_FOUND\",\n      \"detail\": \"The provided subscription ID `9f5f7d94-17ae-41b9-9637-18b257a9b91b` was not found.\",\n      \"category\": \"INVALID_REQUEST_ERROR\"\n    }\n  ]\n}"
+[25:29:34.951] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[25:34:02.474] Server  LOG      ✓ Compiled in 85ms
+[25:34:06.836] Server  LOG      ✓ Compiled in 36ms
+[25:34:11.343] Server  LOG      ✓ Compiled in 56ms
+[25:34:15.948] Server  LOG      ✓ Compiled in 63ms
+[25:34:20.036] Server  LOG      ✓ Compiled in 59ms

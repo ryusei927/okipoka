@@ -810,7 +810,7 @@
     z-index: 50;
   }
 
-  .z-\[100\] {
+  .z-100, .z-\[100\] {
     z-index: 100;
   }
 
@@ -1211,6 +1211,10 @@
 
   .max-w-4xl {
     max-width: var(--container-4xl);
+  }
+
+  .max-w-480 {
+    max-width: calc(var(--spacing) * 480);
   }
 
   .max-w-\[80\%\] {
@@ -3063,7 +3067,7 @@
     transition-duration: .7s;
   }
 
-  .duration-\[10000ms\] {
+  .duration-10000, .duration-\[10000ms\] {
     --tw-duration: 10s;
     transition-duration: 10s;
   }
@@ -3678,6 +3682,12 @@
   @media (min-width: 48rem) {
     .md\:aspect-3\/4 {
       aspect-ratio: 3 / 4;
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .md\:aspect-21\/9 {
+      aspect-ratio: 21 / 9;
     }
   }
 

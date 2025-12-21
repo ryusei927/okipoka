@@ -107,7 +107,7 @@ export function MembersList({
               onClick={() => setOpenUserId(isOpen ? null : profile.id)}
             >
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-gray-100 rounded-full overflow-hidden relative flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 bg-gray-100 rounded-full overflow-hidden relative flex items-center justify-center shrink-0">
                   {profile.avatar_url ? (
                     <Image
                       src={profile.avatar_url}
@@ -217,11 +217,11 @@ export function MembersList({
                             </div>
                           </div>
                           {isUsed ? (
-                            <span className="text-[10px] px-2 py-0.5 rounded-full font-bold bg-gray-200 text-gray-600 flex-shrink-0">
+                            <span className="text-[10px] px-2 py-0.5 rounded-full font-bold bg-gray-200 text-gray-600 shrink-0">
                               使用済み
                             </span>
                           ) : (
-                            <span className="text-[10px] px-2 py-0.5 rounded-full font-bold bg-blue-100 text-blue-700 flex-shrink-0">
+                            <span className="text-[10px] px-2 py-0.5 rounded-full font-bold bg-blue-100 text-blue-700 shrink-0">
                               未使用
                             </span>
                           )}
