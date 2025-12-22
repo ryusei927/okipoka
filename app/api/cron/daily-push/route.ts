@@ -176,7 +176,11 @@ export async function GET(request: Request) {
       if (subs) {
         for (const fav of favTournaments) {
           // @ts-ignore
-          const tournament = fav.tournaments;
+          const tournamentData = fav.tournaments;
+          const tournament = Array.isArray(tournamentData) ? tournamentData[0] : tournamentData;
+
+          if (!tournament) continue;
+
           const userSubs = subs.filter(s => s.user_id === fav.user_id);
 
           const payload = JSON.stringify({
