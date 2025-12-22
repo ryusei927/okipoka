@@ -14,25 +14,22 @@ export type Ad = {
 export function AdBanner({ ad }: { ad: Ad }) {
   if (!ad) return null;
 
-  const Content = () => (
-    <div className="relative w-full aspect-[3/1] md:aspect-[4/1] overflow-hidden rounded-lg shadow-sm border border-gray-100 bg-gray-50">
-      <Image
-        src={ad.image_url}
-        alt={ad.title}
-        fill
-        className="object-contain"
-      />
-    </div>
-  );
-
   return (
-        <div className="w-full max-w-4xl mx-auto px-4 py-2">
+    <div className="w-full max-w-4xl mx-auto px-4 py-2">
+      <div className="text-[10px] text-gray-400 mb-1">広告</div>
       <a
         href={ad.link_url || "#"}
         target="_blank"
         rel="noopener noreferrer"
         className="block relative w-full aspect-3/1 md:aspect-4/1 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
-        onClick={handleClick}
       >
+        <Image
+          src={ad.image_url}
+          alt={ad.title}
+          fill
+          className="object-cover"
+        />
+      </a>
+    </div>
   );
 }
