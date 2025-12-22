@@ -21,13 +21,15 @@ export function AdBanner({ ad }: { ad: Ad }) {
         href={ad.link_url || "#"}
         target="_blank"
         rel="noopener noreferrer"
-        className="block relative w-full aspect-3/1 md:aspect-4/1 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+        className="block w-full rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
       >
         <Image
           src={ad.image_url}
           alt={ad.title}
-          fill
-          className="object-cover"
+          width={0}
+          height={0}
+          sizes="100vw"
+          className="w-full h-auto"
         />
       </a>
     </div>
