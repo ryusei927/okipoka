@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Lock, ChevronRight, ArrowLeft } from "lucide-react";
-import { PushNotificationManager } from "@/components/PushNotificationManager";
 
 export default function SettingsPage() {
   return (
@@ -13,12 +12,6 @@ export default function SettingsPage() {
       </header>
 
       <div className="p-4 max-w-md mx-auto space-y-6">
-        {/* 通知設定 */}
-        <section>
-          <h2 className="text-xs font-bold text-gray-500 mb-2 ml-1">通知設定</h2>
-          <PushNotificationManager />
-        </section>
-
         <section className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="divide-y divide-gray-100">
             <Link href="/member/settings/password" className="w-full flex items-center gap-3 p-4 hover:bg-gray-50 transition-colors text-left">

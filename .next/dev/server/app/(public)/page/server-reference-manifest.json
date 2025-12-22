@@ -1,20 +1,4 @@
 {
-  "node": {
-    "60078e0a6d50183a3642a2174603bcef77f138c3ac": {
-      "workers": {
-        "app/(public)/page": {
-          "moduleId": "[project]/.next-internal/server/app/(public)/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/(public)/member/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false,
-          "exportedName": "toggleTournamentFavorite",
-          "filename": "app/(public)/member/actions.ts"
-        }
-      },
-      "layer": {
-        "app/(public)/page": "action-browser"
-      },
-      "exportedName": "toggleTournamentFavorite",
-      "filename": "app/(public)/member/actions.ts"
-    }
-  },
+  "node": {},
   "edge": {}
 }

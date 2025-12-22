@@ -5,7 +5,6 @@ import { redirect } from "next/navigation";
 import { signout } from "@/app/login/actions";
 import { LogOut, User, Settings, LayoutDashboard, Crown, Ticket } from "lucide-react";
 import Link from "next/link";
-import { TournamentCard } from "@/components/tournament/TournamentCard";
 
 function formatSubscriptionStatus(status?: string | null) {
   switch (status) {
@@ -44,24 +43,6 @@ export default async function MemberPage() {
   const isAdmin = (user.email ?? "").toLowerCase() === adminEmail;
   const isSubscriber = profile?.subscription_status === 'active' || profile?.subscription_status === 'canceling';
   const subscriptionStatus = formatSubscriptionStatus(profile?.subscription_status);
-
-  // お気に入りトーナメントの取得
-  const { data: favorites } = await supabase
-    .from("tournament_favorites")
-    .select(`
-      tournaments!inner (
-        id,
-        title,
-        start_at,
-        buy_in,
-        shops (
-          name,
-          image_url
-        )
-      )
-    `)
-    .eq("user_id", user.id)
-    .order("created_at", { ascending: false });
 
   return (
     <div className="min-h-screen bg-gray-50 pb-24">
@@ -117,46 +98,6 @@ export default async function MemberPage() {
               </>
             )}
           </div>
-        </section>
-
-        {/* お気に入りトーナメント */}
-        <section>
-          <div className="mb-2 flex items-center justify-between px-1">
-            <h2 className="text-sm font-bold text-gray-500">お気に入りトーナメント</h2>
-          </div>
-          
-          {favorites && favorites.length > 0 ? (
-            <div className="space-y-3">
-              {favorites.map((fav: any) => {
-                const t = fav.tournaments;
-                // 配列で返ってくる可能性を考慮（通常はオブジェクトだが型安全のため）
-                const tournament = Array.isArray(t) ? t[0] : t;
-                if (!tournament) return null;
-
-                const shop = Array.isArray(tournament.shops) ? tournament.shops[0] : tournament.shops;
-
-                return (
-                  <TournamentCard
-                    key={tournament.id}
-                    id={tournament.id}
-                    title={tournament.title}
-                    startAt={tournament.start_at}
-                    shopName={shop?.name || "不明な店舗"}
-                    shopImageUrl={shop?.image_url}
-                    buyIn={tournament.buy_in || "詳細確認"}
-                    isFavorite={true}
-                  />
-                );
-              })}
-            </div>
-          ) : (
-            <div className="bg-white rounded-xl p-6 text-center border border-gray-100">
-              <p className="text-sm text-gray-500">お気に入りのトーナメントはありません</p>
-              <Link href="/" className="mt-2 inline-block text-sm text-orange-500 font-bold">
-                トーナメントを探す
-              </Link>
-            </div>
-          )}
         </section>
 
         {/* メニューリスト */}

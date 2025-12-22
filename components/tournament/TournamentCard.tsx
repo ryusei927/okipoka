@@ -1,16 +1,12 @@
 "use client";
 
-import { ArrowRight, Store, Heart } from "lucide-react";
+import { ArrowRight, Store } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { TournamentStatus } from "./TournamentStatus";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
-import { toggleTournamentFavorite } from "@/app/(public)/member/actions";
-import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
-import { createClient } from "@/lib/supabase/client";
 
 interface TournamentCardProps {
   id: string;
@@ -22,7 +18,6 @@ interface TournamentCardProps {
   buyIn: string;
   tags?: string[];
   isPremium?: boolean; // 店舗ランクによる差別化用
-  isFavorite?: boolean; // お気に入り状態
 }
 
 export function TournamentCard({
@@ -35,47 +30,11 @@ export function TournamentCard({
   buyIn,
   tags = ["トーナメント"],
   isPremium = false,
-  isFavorite: initialIsFavorite = false,
 }: TournamentCardProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [pressed, setPressed] = useState(false);
-  const [isFavorite, setIsFavorite] = useState(initialIsFavorite);
-  const [isFavLoading, setIsFavLoading] = useState(false);
   const href = `/tournaments/${id}`;
-
-  const handleFavoriteClick = async (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    // ログインチェック
-    const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-
-    if (!user) {
-      toast.error("お気に入り機能を使うにはログインしてください");
-      router.push("/login");
-      return;
-    }
-    
-    if (isFavLoading) return;
-    setIsFavLoading(true);
-
-    // 楽観的UI更新
-    const newStatus = !isFavorite;
-    setIsFavorite(newStatus);
-
-    const result = await toggleTournamentFavorite(id, isFavorite);
-    
-    if (result.error) {
-      setIsFavorite(!newStatus); // ロールバック
-      toast.error(result.error);
-    } else {
-      toast.success(newStatus ? "お気に入りに追加しました" : "お気に入りを解除しました");
-    }
-    
-    setIsFavLoading(false);
-  };
 
   return (
     <div className="relative">
@@ -100,20 +59,7 @@ export function TournamentCard({
             isPremium ? "border-amber-200/50 bg-linear-to-br from-amber-50/30 to-transparent" : "border-border/50"
           )}
         >
-          {/* お気に入りボタン (絶対配置) */}
-          <div className="absolute top-3 right-3 z-10">
-            <Button
-              variant="ghost"
-              size="icon"
-              className={cn(
-                "h-8 w-8 rounded-full bg-background/80 backdrop-blur-sm shadow-sm hover:bg-background",
-                isFavorite ? "text-red-500" : "text-muted-foreground"
-              )}
-              onClick={handleFavoriteClick}
-            >
-              <Heart className={cn("h-5 w-5", isFavorite && "fill-current")} />
-            </Button>
-          </div>
+          {/* お気に入りボタン (削除済み) */}
 
           <div className="p-4 space-y-4">
             <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4">

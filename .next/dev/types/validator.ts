@@ -380,24 +380,6 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
-// Validate ../../../app/api/cron/daily-push/route.ts
-{
-  type __IsExpected<Specific extends RouteHandlerConfig<"/api/cron/daily-push">> = Specific
-  const handler = {} as typeof import("../../../app/api/cron/daily-push/route.js")
-  type __Check = __IsExpected<typeof handler>
-  // @ts-ignore
-  type __Unused = __Check
-}
-
-// Validate ../../../app/api/cron/hourly-push/route.ts
-{
-  type __IsExpected<Specific extends RouteHandlerConfig<"/api/cron/hourly-push">> = Specific
-  const handler = {} as typeof import("../../../app/api/cron/hourly-push/route.js")
-  type __Check = __IsExpected<typeof handler>
-  // @ts-ignore
-  type __Unused = __Check
-}
-
 // Validate ../../../app/api/gacha/spin/route.ts
 {
   type __IsExpected<Specific extends RouteHandlerConfig<"/api/gacha/spin">> = Specific
@@ -456,24 +438,6 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
 {
   type __IsExpected<Specific extends RouteHandlerConfig<"/api/payment/square/webhook">> = Specific
   const handler = {} as typeof import("../../../app/api/payment/square/webhook/route.js")
-  type __Check = __IsExpected<typeof handler>
-  // @ts-ignore
-  type __Unused = __Check
-}
-
-// Validate ../../../app/api/web-push/send/route.ts
-{
-  type __IsExpected<Specific extends RouteHandlerConfig<"/api/web-push/send">> = Specific
-  const handler = {} as typeof import("../../../app/api/web-push/send/route.js")
-  type __Check = __IsExpected<typeof handler>
-  // @ts-ignore
-  type __Unused = __Check
-}
-
-// Validate ../../../app/api/web-push/subscription/route.ts
-{
-  type __IsExpected<Specific extends RouteHandlerConfig<"/api/web-push/subscription">> = Specific
-  const handler = {} as typeof import("../../../app/api/web-push/subscription/route.js")
   type __Check = __IsExpected<typeof handler>
   // @ts-ignore
   type __Unused = __Check
