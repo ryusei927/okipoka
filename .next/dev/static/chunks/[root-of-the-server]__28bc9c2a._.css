@@ -1118,6 +1118,10 @@
     min-height: calc(var(--spacing) * 25);
   }
 
+  .min-h-\[50vh\] {
+    min-height: 50vh;
+  }
+
   .min-h-\[calc\(100vh-53px\)\] {
     min-height: calc(100vh - 53px);
   }

@@ -9,11 +9,27 @@ export default async function TournamentDetailPage({ params }: { params: Promise
   const supabase = await createClient();
   const { id } = await params;
 
-  // 広告の取得
-  const { data: adsData } = await supabase
-    .from("ads")
-    .select("*")
-    .eq("is_active", true);
+  // 並列でデータ取得
+  const [adsResponse, tournamentResponse] = await Promise.all([
+    supabase
+      .from("ads")
+      .select("*")
+      .eq("is_active", true),
+    supabase
+      .from("tournaments")
+      .select(`
+        *,
+        shops (
+          *
+        )
+      `)
+      .eq("id", id)
+      .single()
+  ]);
+
+  const adsData = adsResponse.data;
+  const tournament = tournamentResponse.data;
+  const error = tournamentResponse.error;
 
   const ads = (adsData || []) as Ad[];
   const bannerAds = ads.filter(ad => ad.type === 'banner');
@@ -23,17 +39,6 @@ export default async function TournamentDetailPage({ params }: { params: Promise
   if (bannerAds.length > 0) {
     displayBannerAd = bannerAds[Math.floor(Math.random() * bannerAds.length)];
   }
-
-  const { data: tournament, error } = await supabase
-    .from("tournaments")
-    .select(`
-      *,
-      shops (
-        *
-      )
-    `)
-    .eq("id", id)
-    .single();
 
   if (error) {
     console.error("Tournament fetch error:", error);

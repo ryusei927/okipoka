@@ -54,12 +54,44 @@ export default async function HomePage({
   const prevDateStr = format(prevDate, "yyyy-MM-dd");
   const nextDateStr = format(nextDate, "yyyy-MM-dd");
 
-  // 広告の取得
-  const { data: adsData } = await supabase
-    .from("ads")
-    .select("*")
-    .eq("is_active", true)
-    .order("priority", { ascending: false });
+  // 並列でデータ取得
+  const [adsResponse, featuredResponse, tournamentsResponse, shopsResponse] = await Promise.all([
+    // 広告の取得
+    supabase
+      .from("ads")
+      .select("*")
+      .eq("is_active", true)
+      .order("priority", { ascending: false }),
+    // ピックアップPRの取得
+    supabase
+      .from("featured_items")
+      .select("*")
+      .eq("is_active", true)
+      .order("created_at", { ascending: false })
+      .limit(5),
+    // トーナメントの取得
+    supabase
+      .from("tournaments")
+      .select(`
+        *,
+        shops (
+          name,
+          plan,
+          image_url
+        )
+      `)
+      .gte("start_at", startOfDay.toISOString())
+      .lte("start_at", endOfDay.toISOString())
+      .order("start_at", { ascending: true }),
+    // 店舗一覧を取得
+    supabase.from("shops").select("*").order("name")
+  ]);
+
+  const adsData = adsResponse.data;
+  const featuredItems = featuredResponse.data;
+  const tournaments = tournamentsResponse.data;
+  const error = tournamentsResponse.error;
+  const shops = shopsResponse.data;
 
   const ads = (adsData || []) as Ad[];
   const bannerAds = ads.filter(ad => ad.type === 'banner');
@@ -84,34 +116,9 @@ export default async function HomePage({
   // スクエア広告: 全ての中からランダムに2つ（優先度無視）
   const displaySquareAds = shuffle(squareAds).slice(0, 2);
 
-  // ピックアップPRの取得
-  const { data: featuredItems } = await supabase
-    .from("featured_items")
-    .select("*")
-    .eq("is_active", true)
-    .order("created_at", { ascending: false })
-    .limit(5);
-
-  const { data: tournaments, error } = await supabase
-    .from("tournaments")
-    .select(`
-      *,
-      shops (
-        name,
-        plan,
-        image_url
-      )
-    `)
-    .gte("start_at", startOfDay.toISOString())
-    .lte("start_at", endOfDay.toISOString())
-    .order("start_at", { ascending: true });
-
   if (error) {
     console.error("Supabase error:", error);
   }
-
-  // 店舗一覧を取得
-  const { data: shops } = await supabase.from("shops").select("*").order("name");
 
   // エリアごとにグループ化
   const groupedShops = (shops || []).reduce((acc, shop) => {
