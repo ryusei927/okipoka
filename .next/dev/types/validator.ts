@@ -380,6 +380,15 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
+// Validate ../../../app/api/cron/daily-push/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/cron/daily-push">> = Specific
+  const handler = {} as typeof import("../../../app/api/cron/daily-push/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../../app/api/gacha/spin/route.ts
 {
   type __IsExpected<Specific extends RouteHandlerConfig<"/api/gacha/spin">> = Specific

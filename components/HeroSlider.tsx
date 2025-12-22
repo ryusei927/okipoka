@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, ChevronDown, X, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
+import dynamic from "next/dynamic";
 
 type FeaturedItem = {
   id: string;

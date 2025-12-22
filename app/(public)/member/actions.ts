@@ -62,10 +62,51 @@ export async function updateProfile(formData: FormData) {
       return { error: `プロフィールの保存に失敗しました: ${error.message}` };
     }
 
-    revalidatePath("/member");
+    revalidatePath("/member/profile");
     return { success: true };
-  } catch (e) {
-    console.error("Unexpected error:", e);
-    return { error: "予期せぬエラーが発生しました" };
+  } catch (error) {
+    console.error("Profile update error:", error);
+    return { error: "プロフィールの更新に失敗しました" };
+  }
+}
+
+export async function toggleTournamentFavorite(tournamentId: string, isFavorite: boolean) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return { error: "ログインしてください" };
+  }
+
+  try {
+    if (isFavorite) {
+      // お気に入り解除
+      const { error } = await supabase
+        .from("tournament_favorites")
+        .delete()
+        .eq("user_id", user.id)
+        .eq("tournament_id", tournamentId);
+
+      if (error) throw error;
+    } else {
+      // お気に入り登録
+      const { error } = await supabase
+        .from("tournament_favorites")
+        .insert({
+          user_id: user.id,
+          tournament_id: tournamentId,
+        });
+
+      if (error) throw error;
+    }
+
+    revalidatePath("/");
+    revalidatePath("/tournaments");
+    return { success: true };
+  } catch (error) {
+    console.error("Favorite toggle error:", error);
+    return { error: "お気に入りの更新に失敗しました" };
   }
 }

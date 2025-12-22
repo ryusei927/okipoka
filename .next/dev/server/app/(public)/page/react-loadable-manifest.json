@@ -1,1 +1,9 @@
-{}
+{
+  "[project]/components/HeroSlider.tsx [app-client] (ecmascript, next/dynamic entry)": {
+    "id": "[project]/components/HeroSlider.tsx [app-client] (ecmascript, next/dynamic entry)",
+    "files": [
+      "static/chunks/_53bcfd7e._.js",
+      "static/chunks/components_HeroSlider_tsx_929ee690._.js"
+    ]
+  }
+}

@@ -9,11 +9,17 @@ const supabaseAdmin = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
-webpush.setVapidDetails(
-  process.env.NEXT_PUBLIC_VAPID_SUBJECT!,
-  process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
-  process.env.VAPID_PRIVATE_KEY!
-);
+if (
+  process.env.NEXT_PUBLIC_VAPID_SUBJECT &&
+  process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY &&
+  process.env.VAPID_PRIVATE_KEY
+) {
+  webpush.setVapidDetails(
+    process.env.NEXT_PUBLIC_VAPID_SUBJECT,
+    process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY,
+    process.env.VAPID_PRIVATE_KEY
+  );
+}
 
 export async function POST(request: Request) {
   const { userId, title, body, url } = await request.json();

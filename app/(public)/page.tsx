@@ -3,7 +3,7 @@ import { TournamentCard } from "@/components/tournament/TournamentCard";
 import { AdBanner, Ad } from "@/components/ads/AdBanner";
 import { AdSquareGrid } from "@/components/ads/AdSquareGrid";
 import { FaqSection } from "@/components/FaqSection";
-import { HeroSlider } from "@/components/HeroSlider";
+import { HeroSliderWrapper } from "@/components/HeroSliderWrapper";
 import { ChatBot } from "@/components/ChatBot";
 import { Calendar, ChevronLeft, ChevronRight, Store, MapPin } from "lucide-react";
 import { format, addDays, subDays } from "date-fns";
@@ -129,7 +129,7 @@ export default async function HomePage({
   return (
     <div className="min-h-screen">
       {/* ヒーロースライダー (トップ画像 + PR) */}
-      <HeroSlider featuredItems={featuredItems || []} />
+      <HeroSliderWrapper featuredItems={featuredItems || []} />
 
       {/* バナー広告 */}
       {displayBannerAd && <AdBanner ad={displayBannerAd} />}

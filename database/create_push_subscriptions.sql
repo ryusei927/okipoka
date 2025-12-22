@@ -10,6 +10,10 @@ create table if not exists push_subscriptions (
 
 alter table push_subscriptions enable row level security;
 
+-- 既存のポリシーがある場合は削除してから作成する（エラー回避）
+drop policy if exists "Users can insert their own subscriptions" on push_subscriptions;
+drop policy if exists "Users can delete their own subscriptions" on push_subscriptions;
+
 create policy "Users can insert their own subscriptions"
   on push_subscriptions for insert
   with check (auth.uid() = user_id);
