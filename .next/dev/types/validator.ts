@@ -443,6 +443,24 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
+// Validate ../../../app/api/web-push/send/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/web-push/send">> = Specific
+  const handler = {} as typeof import("../../../app/api/web-push/send/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../../app/api/web-push/subscription/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/web-push/subscription">> = Specific
+  const handler = {} as typeof import("../../../app/api/web-push/subscription/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../../app/auth/callback/route.ts
 {
   type __IsExpected<Specific extends RouteHandlerConfig<"/auth/callback">> = Specific
