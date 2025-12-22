@@ -10,6 +10,7 @@ import { useState, useTransition } from "react";
 import { toggleTournamentFavorite } from "@/app/(public)/member/actions";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { createClient } from "@/lib/supabase/client";
 
 interface TournamentCardProps {
   id: string;
@@ -46,6 +47,16 @@ export function TournamentCard({
   const handleFavoriteClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+
+    // ログインチェック
+    const supabase = createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      toast.error("お気に入り機能を使うにはログインしてください");
+      router.push("/login");
+      return;
+    }
     
     if (isFavLoading) return;
     setIsFavLoading(true);
@@ -86,7 +97,7 @@ export function TournamentCard({
           className={cn(
             "relative overflow-hidden rounded-2xl border bg-card transition-all duration-200",
             pressed ? "scale-[0.98] shadow-sm" : "shadow-sm hover:shadow-md",
-            isPremium ? "border-amber-200/50 bg-gradient-to-br from-amber-50/30 to-transparent" : "border-border/50"
+            isPremium ? "border-amber-200/50 bg-linear-to-br from-amber-50/30 to-transparent" : "border-border/50"
           )}
         >
           {/* お気に入りボタン (絶対配置) */}

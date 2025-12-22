@@ -978,6 +978,10 @@
     display: table;
   }
 
+  .aspect-3\/1 {
+    aspect-ratio: 3;
+  }
+
   .aspect-3\/2 {
     aspect-ratio: 3 / 2;
   }
@@ -3097,6 +3101,12 @@
     transition-duration: var(--tw-duration, var(--default-transition-duration));
   }
 
+  .transition-shadow {
+    transition-property: box-shadow;
+    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+    transition-duration: var(--tw-duration, var(--default-transition-duration));
+  }
+
   .transition-transform {
     transition-property: transform, translate, scale, rotate;
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
@@ -3807,6 +3817,12 @@
   @media (min-width: 48rem) {
     .md\:aspect-3\/4 {
       aspect-ratio: 3 / 4;
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .md\:aspect-4\/1 {
+      aspect-ratio: 4;
     }
   }
 
