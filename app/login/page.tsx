@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { login, signup } from "./actions";
+import { ChevronLeft } from "lucide-react";
 
 type AuthMode = "login" | "signup";
 
@@ -34,7 +35,15 @@ export default function LoginPage() {
   }, [mode]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 relative">
+      {/* 戻るボタン */}
+      <Link 
+        href="/" 
+        className="absolute top-4 left-4 p-2 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-colors"
+      >
+        <ChevronLeft className="w-6 h-6" />
+      </Link>
+
       <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-sm border border-gray-100">
         <div className="text-center">
           <h2 className="text-3xl font-bold text-gray-900">{ui.title}</h2>

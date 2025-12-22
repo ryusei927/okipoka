@@ -1,4 +1,9 @@
 {
+  "/(public)/member/page": "app/(public)/member/page.js",
   "/(public)/page": "app/(public)/page.js",
-  "/manifest.webmanifest/route": "app/manifest.webmanifest/route.js"
+  "/(public)/tournaments/[id]/page": "app/(public)/tournaments/[id]/page.js",
+  "/api/gacha/spin/route": "app/api/gacha/spin/route.js",
+  "/login/page": "app/login/page.js",
+  "/manifest.webmanifest/route": "app/manifest.webmanifest/route.js",
+  "/member/gacha/page": "app/member/gacha/page.js"
 }

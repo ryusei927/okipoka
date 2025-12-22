@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { AlertCircle, Info, X } from "lucide-react";
+import { AlertCircle, Info, X, ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import confetti from "canvas-confetti";
 import { createClient } from "@/lib/supabase/client";
@@ -224,6 +224,14 @@ export default function GachaPage() {
 
   return (
     <div className="relative w-full h-dvh bg-[#facc15] overflow-hidden">
+      {/* 戻るボタン */}
+      <Link 
+        href="/" 
+        className="absolute top-4 left-4 z-40 bg-white/90 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-white hover:scale-105 transition-all text-slate-600 pointer-events-auto"
+      >
+        <ChevronLeft className="w-6 h-6" />
+      </Link>
+
       {/* 景品一覧ボタン */}
       <button
         onClick={() => setShowItemsList(true)}

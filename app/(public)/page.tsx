@@ -127,7 +127,7 @@ export default async function HomePage({
   const areaOrder = ["那覇", "中部", "南部", "北部", "宮古島", "その他"];
 
   return (
-    <div className="min-h-screen pb-20">
+    <div className="min-h-screen">
       {/* ヒーロースライダー (トップ画像 + PR) */}
       <HeroSlider featuredItems={featuredItems || []} />
 

@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { Ticket, Gift, History, Store, X, CheckCircle2, AlertCircle, Coins } from "lucide-react";
+import { Ticket, Gift, History, Store, X, CheckCircle2, AlertCircle, Coins, ChevronLeft } from "lucide-react";
 import Link from "next/link";
 
 type UserItem = {
@@ -182,7 +182,12 @@ export default function ItemsPage() {
 
   return (
     <div className="max-w-2xl mx-auto p-6 pb-24">
-      <h1 className="text-2xl font-bold mb-6">獲得アイテム一覧</h1>
+      <div className="flex items-center gap-4 mb-6">
+        <Link href="/" className="p-2 -ml-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-full transition-colors">
+          <ChevronLeft className="w-6 h-6" />
+        </Link>
+        <h1 className="text-2xl font-bold">獲得アイテム一覧</h1>
+      </div>
 
       <div className="flex p-1 bg-gray-100 rounded-xl mb-6">
         <button
