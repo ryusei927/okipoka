@@ -19,6 +19,11 @@ export const metadata: Metadata = {
   },
   description: "沖縄のポーカー情報を全てここに。毎日のトーナメント情報や店舗の詳細情報をリアルタイムでお届けします。",
   keywords: ["沖縄", "ポーカー", "アミューズメントカジノ", "トーナメント", "テキサスホールデム", "OKIPOKA", "オキポカ"],
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "OKIPOKA",
+  },
   openGraph: {
     title: "OKIPOKA | 沖縄ポーカーポータル",
     description: "沖縄のポーカー情報を全てここに。毎日のトーナメント情報や店舗の詳細情報をリアルタイムでお届けします。",

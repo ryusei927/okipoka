@@ -86,6 +86,11 @@ const metadata = {
         "OKIPOKA",
         "オキポカ"
     ],
+    appleWebApp: {
+        capable: true,
+        statusBarStyle: "default",
+        title: "OKIPOKA"
+    },
     openGraph: {
         title: "OKIPOKA | 沖縄ポーカーポータル",
         description: "沖縄のポーカー情報を全てここに。毎日のトーナメント情報や店舗の詳細情報をリアルタイムでお届けします。",
@@ -112,12 +117,12 @@ function RootLayout({ children }) {
             children: children
         }, void 0, false, {
             fileName: "[project]/app/layout.tsx",
-            lineNumber: 44,
+            lineNumber: 49,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/app/layout.tsx",
-        lineNumber: 43,
+        lineNumber: 48,
         columnNumber: 5
     }, this);
 }
