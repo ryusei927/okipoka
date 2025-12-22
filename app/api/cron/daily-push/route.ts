@@ -147,66 +147,8 @@ export async function GET(request: Request) {
     }
 
     // 3. トーナメント開催通知
-    const tomorrow = new Date();
-    tomorrow.setDate(now.getDate() + 1);
-
-    const { data: favTournaments, error: tournamentError } = await supabaseAdmin
-      .from("tournament_favorites")
-      .select(`
-        user_id,
-        tournaments!inner (
-          id,
-          title,
-          start_at
-        )
-      `)
-      .gt("tournaments.start_at", now.toISOString())
-      .lt("tournaments.start_at", tomorrow.toISOString());
-
-    if (tournamentError) {
-      console.error("Tournament fetch error:", tournamentError);
-      results.errors.push(`Tournament error: ${tournamentError.message}`);
-    } else if (favTournaments && favTournaments.length > 0) {
-      const userIds = favTournaments.map(f => f.user_id);
-      const { data: subs } = await supabaseAdmin
-        .from("push_subscriptions")
-        .select("*")
-        .in("user_id", userIds);
-
-      if (subs) {
-        for (const fav of favTournaments) {
-          // @ts-ignore
-          const tournamentData = fav.tournaments;
-          const tournament = Array.isArray(tournamentData) ? tournamentData[0] : tournamentData;
-
-          if (!tournament) continue;
-
-          const userSubs = subs.filter(s => s.user_id === fav.user_id);
-
-          const payload = JSON.stringify({
-            title: "お気に入りのトーナメントが開催されます",
-            body: `「${tournament.title}」がまもなく開催されます。`,
-            url: `/tournaments/${tournament.id}`,
-          });
-
-          for (const sub of userSubs) {
-            try {
-              await webpush.sendNotification(
-                {
-                  endpoint: sub.endpoint,
-                  keys: { p256dh: sub.p256dh, auth: sub.auth },
-                },
-                payload
-              );
-              results.tournament++;
-            } catch (e) {
-              console.error("Push send error:", e);
-            }
-          }
-        }
-      }
-    }
-
+    // -> 毎時実行の /api/cron/hourly-push に移動しました
+    
     return NextResponse.json({ success: true, results });
   } catch (error: any) {
     console.error("Cron error:", error);
