@@ -1,7 +1,11 @@
 {
+  "/(dashboard)/dashboard/page": "app/(dashboard)/dashboard/page.js",
+  "/(dashboard)/dashboard/tournaments/[id]/page": "app/(dashboard)/dashboard/tournaments/[id]/page.js",
+  "/(dashboard)/dashboard/tournaments/new/page": "app/(dashboard)/dashboard/tournaments/new/page.js",
+  "/(dashboard)/dashboard/tournaments/page": "app/(dashboard)/dashboard/tournaments/page.js",
   "/(public)/member/page": "app/(public)/member/page.js",
   "/(public)/page": "app/(public)/page.js",
-  "/(public)/tournaments/[id]/page": "app/(public)/tournaments/[id]/page.js",
+  "/api/admin/analyze-tournament/route": "app/api/admin/analyze-tournament/route.js",
   "/login/page": "app/login/page.js",
   "/manifest.webmanifest/route": "app/manifest.webmanifest/route.js"
 }

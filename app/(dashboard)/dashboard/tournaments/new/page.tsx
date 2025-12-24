@@ -10,5 +10,13 @@ export default async function Page() {
     .select("id, name")
     .order("name");
 
-  return <TournamentForm shops={shops || []} />;
+  // 過去のトーナメント履歴を取得（入力補助用）
+  // テンプレートとして登録されているもののみ取得
+  const { data: recentTournaments } = await supabase
+    .from("tournaments")
+    .select("*")
+    .eq("is_template", true)
+    .order("created_at", { ascending: false });
+
+  return <TournamentForm shops={shops || []} recentTournaments={recentTournaments || []} />;
 }

@@ -30,6 +30,7 @@ export async function upsertTournament(prevState: TournamentState, formData: For
   const prizes = formData.get("prizes") as string;
   const notes = formData.get("notes") as string;
   const type = formData.get("type") as string || "トーナメント";
+  const isTemplate = formData.get("isTemplate") === "on";
 
   // 日時を結合してISO文字列に変換 (JSTとして扱う)
   const startAt = new Date(`${date}T${time}:00+09:00`).toISOString();
@@ -66,6 +67,7 @@ export async function upsertTournament(prevState: TournamentState, formData: For
     prizes: prizes,
     notes: notes,
     type: type,
+    is_template: isTemplate,
   };
 
   let error;
@@ -101,4 +103,20 @@ export async function deleteTournament(id: string) {
 
   revalidatePath("/dashboard/tournaments");
   revalidatePath("/");
+}
+
+export async function removeTemplate(id: string) {
+  const supabase = await createClient();
+  
+  const { error } = await supabase
+    .from("tournaments")
+    .update({ is_template: false })
+    .eq("id", id);
+
+  if (error) {
+    console.error(error);
+    throw new Error("テンプレートの解除に失敗しました");
+  }
+
+  revalidatePath("/dashboard/tournaments/new");
 }

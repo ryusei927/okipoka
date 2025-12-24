@@ -30,6 +30,11 @@ export async function POST(request: Request) {
     const base64Image = buffer.toString("base64");
     const dataUrl = `data:${file.type};base64,${base64Image}`;
 
+    // 日本時間 (JST) の今日の日付を取得
+    const now = new Date();
+    const jstDate = new Date(now.getTime() + (9 * 60 * 60 * 1000));
+    const todayStr = jstDate.toISOString().split('T')[0];
+
     const prompt = `
       この画像はポーカーのトーナメント情報（スケジュールや詳細）です。
       以下の情報を抽出してJSON形式で返してください。
@@ -38,7 +43,7 @@ export async function POST(request: Request) {
       出力フォーマット:
       {
         "title": "イベント名",
-        "date": "開催日 (YYYY-MM-DD形式, 年が不明なら現在の年${new Date().getFullYear()})",
+        "date": "開催日 (YYYY-MM-DD形式, 日付が不明なら '${todayStr}' を設定)",
         "time": "開始時間 (HH:MM形式)",
         "lateRegTime": "レイトレジスト締切時間 (HH:MM形式)",
         "buyIn": "参加費 (例: 3,000円)",
