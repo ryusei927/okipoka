@@ -102,6 +102,7 @@ export default function TournamentForm({ shops, tournament, recentTournaments = 
       addonStack: history.addon_stack || "",
       prizes: history.prizes || "",
       notes: history.notes || "",
+      isTemplate: false,
     });
     
     if (history.addon_status) {
