@@ -1,11 +1,15 @@
 {
+  "/(dashboard)/dashboard/gacha/[id]/page": "app/(dashboard)/dashboard/gacha/[id]/page.js",
+  "/(dashboard)/dashboard/gacha/new/page": "app/(dashboard)/dashboard/gacha/new/page.js",
+  "/(dashboard)/dashboard/gacha/page": "app/(dashboard)/dashboard/gacha/page.js",
   "/(dashboard)/dashboard/page": "app/(dashboard)/dashboard/page.js",
-  "/(dashboard)/dashboard/tournaments/[id]/page": "app/(dashboard)/dashboard/tournaments/[id]/page.js",
-  "/(dashboard)/dashboard/tournaments/new/page": "app/(dashboard)/dashboard/tournaments/new/page.js",
   "/(dashboard)/dashboard/tournaments/page": "app/(dashboard)/dashboard/tournaments/page.js",
   "/(public)/member/page": "app/(public)/member/page.js",
+  "/(public)/member/settings/page": "app/(public)/member/settings/page.js",
   "/(public)/page": "app/(public)/page.js",
-  "/api/admin/analyze-tournament/route": "app/api/admin/analyze-tournament/route.js",
-  "/login/page": "app/login/page.js",
-  "/manifest.webmanifest/route": "app/manifest.webmanifest/route.js"
+  "/(public)/tournaments/[id]/page": "app/(public)/tournaments/[id]/page.js",
+  "/api/gacha/spin/route": "app/api/gacha/spin/route.js",
+  "/manifest.webmanifest/route": "app/manifest.webmanifest/route.js",
+  "/member/gacha/page": "app/member/gacha/page.js",
+  "/member/items/page": "app/member/items/page.js"
 }

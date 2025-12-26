@@ -6,6 +6,20 @@ import Link from "next/link";
 import confetti from "canvas-confetti";
 import { createClient } from "@/lib/supabase/client";
 
+type PublicGachaItem = {
+  id: string;
+  name: string;
+  description: string | null;
+  image_url: string | null;
+  probability: number | null;
+  type: string;
+  stock_total: number | null;
+  stock_used: number | null;
+  is_monthly_limit: boolean | null;
+  current_stock_used: number | null;
+  shop_image_url: string | null;
+};
+
 export default function GachaPage() {
   const [spinning, setSpinning] = useState(false);
   const [dropping, setDropping] = useState(false);
@@ -16,11 +30,26 @@ export default function GachaPage() {
   const [revealImageFailed, setRevealImageFailed] = useState(false);
   
   const [showItemsList, setShowItemsList] = useState(false);
-  const [gachaItems, setGachaItems] = useState<any[]>([]);
+  const [gachaItems, setGachaItems] = useState<PublicGachaItem[]>([]);
   const [canPlay, setCanPlay] = useState(true);
   const [nextPlayTime, setNextPlayTime] = useState<Date | null>(null);
   const [timeLeft, setTimeLeft] = useState<string>("");
   const supabase = createClient();
+
+  const totalWeight = gachaItems.reduce((sum, item) => sum + (item.probability ?? 0), 0);
+  const formatProbabilityPct = (item: PublicGachaItem) => {
+    const w = item.probability ?? 0;
+    if (!totalWeight || !w) return "0%";
+    const pct = Math.round((w / totalWeight) * 1000) / 10;
+    return `${Number.isInteger(pct) ? pct.toFixed(0) : pct.toFixed(1)}%`;
+  };
+
+  const formatRemainingStock = (item: PublicGachaItem) => {
+    if (item.stock_total === null || item.stock_total === undefined) return "無制限";
+    const used = Number(item.current_stock_used ?? item.stock_used ?? 0);
+    const remaining = Math.max(0, item.stock_total - used);
+    return String(remaining);
+  };
 
   const timersRef = useRef<number[]>([]);
   const countdownRef = useRef<any>(null);
@@ -107,13 +136,36 @@ export default function GachaPage() {
 
   useEffect(() => {
     const fetchGachaItems = async () => {
-      const { data } = await supabase
+      const { data, error } = await supabase.rpc("get_public_gacha_items");
+
+      if (!error) {
+        setGachaItems((data ?? []) as PublicGachaItem[]);
+        return;
+      }
+
+      const { data: legacy } = await supabase
         .from("gacha_items")
-        .select("*, shops(image_url)")
+        .select("id,name,description,image_url,probability,type,stock_total,stock_used,is_monthly_limit,shops(image_url)")
         .eq("is_active", true)
         .is("deleted_at", null)
         .order("probability", { ascending: false });
-      if (data) setGachaItems(data);
+
+      if (legacy) {
+        const mapped: PublicGachaItem[] = (legacy as any[]).map((item) => ({
+          id: item.id,
+          name: item.name,
+          description: item.description ?? null,
+          image_url: item.image_url ?? null,
+          probability: item.probability ?? null,
+          type: item.type,
+          stock_total: item.stock_total ?? null,
+          stock_used: item.stock_used ?? null,
+          is_monthly_limit: item.is_monthly_limit ?? null,
+          current_stock_used: item.stock_used ?? 0,
+          shop_image_url: item.shops?.image_url ?? null,
+        }));
+        setGachaItems(mapped);
+      }
     };
     fetchGachaItems();
   }, []);
@@ -395,8 +447,8 @@ export default function GachaPage() {
                   <div className="w-12 h-12 shrink-0 bg-white rounded-lg border border-slate-100 flex items-center justify-center overflow-hidden">
                     {item.type === "none" ? (
                       <span className="text-2xl">😢</span>
-                    ) : (item.image_url || item.shops?.image_url) ? (
-                      <img src={item.image_url || item.shops?.image_url} alt={item.name} className="w-full h-full object-cover" />
+                    ) : (item.image_url || item.shop_image_url) ? (
+                      <img src={item.image_url || item.shop_image_url || ""} alt={item.name} className="w-full h-full object-cover" />
                     ) : (
                       <span className="text-2xl">🎁</span>
                     )}
@@ -406,6 +458,10 @@ export default function GachaPage() {
                     {item.description && (
                       <div className="text-xs text-slate-500 mt-0.5">{item.description}</div>
                     )}
+                    <div className="text-xs text-slate-500 mt-1 flex flex-wrap gap-x-3 gap-y-1">
+                      <span>確率: {formatProbabilityPct(item)}</span>
+                      <span>残り: {formatRemainingStock(item)}</span>
+                    </div>
                   </div>
                 </div>
               ))}

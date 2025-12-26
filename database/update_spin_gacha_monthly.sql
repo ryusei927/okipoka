@@ -10,23 +10,27 @@ DECLARE
   v_status text;
   v_last_gacha_at timestamptz;
   v_now timestamptz := now();
-  v_month_start timestamptz := date_trunc('month', now());
+  v_month_start timestamptz := (date_trunc('month', (now() AT TIME ZONE 'Asia/Tokyo')) AT TIME ZONE 'Asia/Tokyo');
   v_total_weight integer;
   v_rand numeric;
   v_try integer := 0;
   v_selected record;
   v_new_stock_used integer;
   v_current_user_count integer;
+  v_locked_stock_used integer;
+  v_locked_stock_total integer;
 BEGIN
   v_user_id := auth.uid();
   IF v_user_id IS NULL THEN
     RAISE EXCEPTION 'Unauthorized';
   END IF;
 
+  -- 同一ユーザーの並行実行を防ぐ（1日1回制限の競合対策）
   SELECT subscription_status, last_gacha_at
     INTO v_status, v_last_gacha_at
   FROM profiles
-  WHERE id = v_user_id;
+  WHERE id = v_user_id
+  FOR UPDATE;
 
   IF v_status IS DISTINCT FROM 'active' AND v_status IS DISTINCT FROM 'canceling' THEN
     RAISE EXCEPTION 'Subscription required';
@@ -182,16 +186,20 @@ BEGIN
     -- 月次制限の場合も、累積の stock_used はインクリメントしておく（統計用）
     v_new_stock_used := v_selected.stock_used;
     IF v_selected.stock_total IS NOT NULL AND v_selected.type <> 'none' THEN
-      -- 厳密な在庫チェック（FOR UPDATE相当のロックは行わないが、直前の状態を確認）
+      -- 対象アイテムの行を先にロックしてから、在庫判定を再確認する（同時実行のズレ対策）
+      SELECT stock_used, stock_total
+        INTO v_locked_stock_used, v_locked_stock_total
+      FROM gacha_items
+      WHERE id = v_selected.id
+      FOR UPDATE;
+
       IF v_selected.is_monthly_limit THEN
-        -- 月次の場合、ログから再集計してチェック
-        IF (SELECT COUNT(*) FROM gacha_logs WHERE item_id = v_selected.id AND created_at >= v_month_start) >= v_selected.stock_total THEN
-           CONTINUE; -- 競合で埋まってた
+        IF (SELECT COUNT(*) FROM gacha_logs WHERE item_id = v_selected.id AND created_at >= v_month_start) >= v_locked_stock_total THEN
+          CONTINUE;
         END IF;
       ELSE
-        -- 通常の場合、stock_usedでチェック
-        IF v_selected.stock_used >= v_selected.stock_total THEN
-           CONTINUE;
+        IF v_locked_stock_used >= v_locked_stock_total THEN
+          CONTINUE;
         END IF;
       END IF;
 

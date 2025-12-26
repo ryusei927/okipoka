@@ -37,17 +37,10 @@
           "async": false,
           "exportedName": "signup",
           "filename": "app/login/actions.ts"
-        },
-        "app/login/page": {
-          "moduleId": "[project]/.next-internal/server/app/login/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/login/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false,
-          "exportedName": "signup",
-          "filename": "app/login/actions.ts"
         }
       },
       "layer": {
-        "app/(public)/member/page": "rsc",
-        "app/login/page": "action-browser"
+        "app/(public)/member/page": "rsc"
       },
       "filename": "app/login/actions.ts",
       "exportedName": "signup"
@@ -59,57 +52,13 @@
           "async": false,
           "exportedName": "login",
           "filename": "app/login/actions.ts"
-        },
-        "app/login/page": {
-          "moduleId": "[project]/.next-internal/server/app/login/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/login/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false,
-          "exportedName": "login",
-          "filename": "app/login/actions.ts"
         }
       },
       "layer": {
-        "app/(public)/member/page": "rsc",
-        "app/login/page": "action-browser"
+        "app/(public)/member/page": "rsc"
       },
       "filename": "app/login/actions.ts",
       "exportedName": "login"
-    },
-    "60cd341a12bce7969b1f169d379ceff31717bfcff6": {
-      "workers": {
-        "app/(dashboard)/dashboard/tournaments/[id]/page": {
-          "moduleId": "[project]/.next-internal/server/app/(dashboard)/dashboard/tournaments/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/(dashboard)/dashboard/tournaments/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false,
-          "exportedName": "upsertTournament",
-          "filename": "app/(dashboard)/dashboard/tournaments/actions.ts"
-        },
-        "app/(dashboard)/dashboard/tournaments/new/page": {
-          "moduleId": "[project]/.next-internal/server/app/(dashboard)/dashboard/tournaments/new/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/(dashboard)/dashboard/tournaments/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false,
-          "exportedName": "upsertTournament",
-          "filename": "app/(dashboard)/dashboard/tournaments/actions.ts"
-        }
-      },
-      "layer": {
-        "app/(dashboard)/dashboard/tournaments/[id]/page": "action-browser",
-        "app/(dashboard)/dashboard/tournaments/new/page": "action-browser"
-      },
-      "filename": "app/(dashboard)/dashboard/tournaments/actions.ts",
-      "exportedName": "upsertTournament"
-    },
-    "40bf02657a10aa5c2620b73aafd23942a50086b2d3": {
-      "workers": {
-        "app/(dashboard)/dashboard/tournaments/new/page": {
-          "moduleId": "[project]/.next-internal/server/app/(dashboard)/dashboard/tournaments/new/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/(dashboard)/dashboard/tournaments/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false,
-          "exportedName": "removeTemplate",
-          "filename": "app/(dashboard)/dashboard/tournaments/actions.ts"
-        }
-      },
-      "layer": {
-        "app/(dashboard)/dashboard/tournaments/new/page": "action-browser"
-      },
-      "filename": "app/(dashboard)/dashboard/tournaments/actions.ts",
-      "exportedName": "removeTemplate"
     },
     "404e2aa2aa363fc3baee116be1c145ac82f91f7a68": {
       "workers": {
@@ -125,6 +74,73 @@
       },
       "filename": "app/(dashboard)/dashboard/tournaments/actions.ts",
       "exportedName": "deleteTournament"
+    },
+    "6082c6b2fef60015930c87b0837041538282ba430f": {
+      "workers": {
+        "app/(dashboard)/dashboard/gacha/page": {
+          "moduleId": "[project]/.next-internal/server/app/(dashboard)/dashboard/gacha/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/(dashboard)/dashboard/gacha/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "toggleGachaItemStatus",
+          "filename": "app/(dashboard)/dashboard/gacha/actions.ts"
+        }
+      },
+      "layer": {
+        "app/(dashboard)/dashboard/gacha/page": "action-browser"
+      },
+      "filename": "app/(dashboard)/dashboard/gacha/actions.ts",
+      "exportedName": "toggleGachaItemStatus"
+    },
+    "40e693e291e1a151b5f46acd23224210f6b44e9e47": {
+      "workers": {
+        "app/(dashboard)/dashboard/gacha/page": {
+          "moduleId": "[project]/.next-internal/server/app/(dashboard)/dashboard/gacha/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/(dashboard)/dashboard/gacha/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "autoAdjustLoseWeightByExpectedValue",
+          "filename": "app/(dashboard)/dashboard/gacha/actions.ts"
+        }
+      },
+      "layer": {
+        "app/(dashboard)/dashboard/gacha/page": "action-browser"
+      },
+      "filename": "app/(dashboard)/dashboard/gacha/actions.ts",
+      "exportedName": "autoAdjustLoseWeightByExpectedValue"
+    },
+    "403f03d83b896c23ca7591031960bd9f7c14131f2e": {
+      "workers": {
+        "app/(dashboard)/dashboard/gacha/page": {
+          "moduleId": "[project]/.next-internal/server/app/(dashboard)/dashboard/gacha/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/(dashboard)/dashboard/gacha/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "deleteGachaItem",
+          "filename": "app/(dashboard)/dashboard/gacha/actions.ts"
+        }
+      },
+      "layer": {
+        "app/(dashboard)/dashboard/gacha/page": "action-browser"
+      },
+      "filename": "app/(dashboard)/dashboard/gacha/actions.ts",
+      "exportedName": "deleteGachaItem"
+    },
+    "60cf8f267cd31019f46b2a1f5616fd2c161e3b2674": {
+      "workers": {
+        "app/(dashboard)/dashboard/gacha/[id]/page": {
+          "moduleId": "[project]/.next-internal/server/app/(dashboard)/dashboard/gacha/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/(dashboard)/dashboard/gacha/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "upsertGachaItem",
+          "filename": "app/(dashboard)/dashboard/gacha/actions.ts"
+        },
+        "app/(dashboard)/dashboard/gacha/new/page": {
+          "moduleId": "[project]/.next-internal/server/app/(dashboard)/dashboard/gacha/new/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/(dashboard)/dashboard/gacha/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "upsertGachaItem",
+          "filename": "app/(dashboard)/dashboard/gacha/actions.ts"
+        }
+      },
+      "layer": {
+        "app/(dashboard)/dashboard/gacha/[id]/page": "action-browser",
+        "app/(dashboard)/dashboard/gacha/new/page": "action-browser"
+      },
+      "filename": "app/(dashboard)/dashboard/gacha/actions.ts",
+      "exportedName": "upsertGachaItem"
     }
   },
   "edge": {},

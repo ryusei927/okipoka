@@ -47,50 +47,58 @@ export async function POST() {
   const adminEmail = (process.env.OKIPOKA_ADMIN_EMAIL ?? "okipoka.jp@gmail.com").toLowerCase();
   const isAdmin = email === adminEmail;
 
+  // まずDBの状態を取得（以降のSquare同期にも使う）
+  const { data: profileBase } = await supabase
+    .from("profiles")
+    .select("subscription_status, subscription_id, square_customer_id")
+    .eq("id", user.id)
+    .single();
+
   // 「支払い済みなのにsubscription_status/subscription_idがDBに反映されていない」ケースを救済する
   try {
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("subscription_status, subscription_id, square_customer_id")
-      .eq("id", user.id)
-      .single();
+    const currentStatus = (profileBase as { subscription_status?: string | null } | null)?.subscription_status ?? null;
+    const subscriptionId = (profileBase as { subscription_id?: string | null } | null)?.subscription_id ?? null;
+    const customerId = (profileBase as { square_customer_id?: string | null } | null)?.square_customer_id ?? null;
 
-    const currentStatus = (profile as { subscription_status?: string | null } | null)?.subscription_status ?? null;
-    const needsSync = currentStatus !== "active" && currentStatus !== "canceling";
-    if (needsSync) {
-      const subscriptionId = (profile as { subscription_id?: string | null } | null)?.subscription_id ?? null;
-      const customerId = (profile as { square_customer_id?: string | null } | null)?.square_customer_id ?? null;
+    // できるなら毎回Squareの最新状態を取りに行く（1日1回のAPIなので許容）
+    // 失敗した場合はDBの状態で続行（誤ブロックを避ける）
+    let subscription: unknown = null;
+    if (subscriptionId) {
+      const { result } = await squareClient.subscriptions.retrieve(subscriptionId);
+      subscription = (result as { subscription?: unknown }).subscription ?? null;
+    } else if (customerId) {
+      const filter: { customer_ids: string[]; location_ids?: string[] } = { customer_ids: [customerId] };
+      if (process.env.SQUARE_LOCATION_ID) filter.location_ids = [process.env.SQUARE_LOCATION_ID];
+      const { result } = await squareClient.subscriptions.search({
+        query: { filter },
+        sort: { field: "CREATED_AT", order: "DESC" },
+      });
+      const subs = (result as { subscriptions?: unknown[] }).subscriptions ?? [];
+      subscription = subs[0] ?? null;
+    }
 
-      let subscription: unknown = null;
-      if (subscriptionId) {
-        const { result } = await squareClient.subscriptions.retrieve(subscriptionId);
-        subscription = (result as { subscription?: unknown }).subscription ?? null;
-      } else if (customerId) {
-        const filter: { customer_ids: string[]; location_ids?: string[] } = { customer_ids: [customerId] };
-        if (process.env.SQUARE_LOCATION_ID) filter.location_ids = [process.env.SQUARE_LOCATION_ID];
-        const { result } = await squareClient.subscriptions.search({
-          query: { filter },
-          sort: { field: "CREATED_AT", order: "DESC" },
-        });
-        const subs = (result as { subscriptions?: unknown[] }).subscriptions ?? [];
-        subscription = subs[0] ?? null;
+    if (subscription) {
+      const nextStatus = deriveDbStatusFromSubscription(subscription);
+      const nextId = (subscription as { id?: unknown }).id;
+      const nextSubscriptionId = typeof nextId === "string" ? nextId : null;
+
+      if (nextSubscriptionId || nextStatus) {
+        await supabase
+          .from("profiles")
+          .update({
+            subscription_id: nextSubscriptionId ?? subscriptionId,
+            subscription_status: nextStatus,
+          })
+          .eq("id", user.id);
       }
 
-      if (subscription) {
-        const nextStatus = deriveDbStatusFromSubscription(subscription);
-        const nextId = (subscription as { id?: unknown }).id;
-        const nextSubscriptionId = typeof nextId === "string" ? nextId : null;
-
-        if (nextSubscriptionId || nextStatus) {
-          await supabase
-            .from("profiles")
-            .update({
-              subscription_id: nextSubscriptionId ?? subscriptionId,
-              subscription_status: nextStatus,
-            })
-            .eq("id", user.id);
-        }
+      // Squareで非有効になっていたら、ここで止める（Webhook遅延・取りこぼし対策）
+      if (nextStatus && nextStatus !== "active" && nextStatus !== "canceling") {
+        return NextResponse.json({ error: "Subscription required" }, { status: 403 });
       }
+    } else if (currentStatus !== "active" && currentStatus !== "canceling") {
+      // Squareから取れず、DBでも非有効なら従来どおりブロック
+      return NextResponse.json({ error: "Subscription required" }, { status: 403 });
     }
   } catch {
     // 救済同期が失敗してもRPCで判定させる
