@@ -1,9 +1,79 @@
 "use client";
 
 import Link from "next/link";
-import { Gift, Ticket, Unlock, ChevronRight, Sparkles } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Gift, Ticket, Unlock, Sparkles, X } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
+
+type PublicGachaItem = {
+  id: string;
+  name: string;
+  description: string | null;
+  image_url: string | null;
+  probability: number | null;
+  type: string;
+  stock_total: number | null;
+  stock_used: number | null;
+  is_monthly_limit: boolean | null;
+  current_stock_used: number | null;
+  shop_image_url: string | null;
+};
 
 export default function PremiumGuidePage() {
+  const [showItemsList, setShowItemsList] = useState(false);
+  const [gachaItems, setGachaItems] = useState<PublicGachaItem[]>([]);
+  const supabase = createClient();
+
+  useEffect(() => {
+    const fetchGachaItems = async () => {
+      const { data, error } = await supabase.rpc("get_public_gacha_items");
+
+      if (!error) {
+        setGachaItems((data ?? []) as PublicGachaItem[]);
+        return;
+      }
+
+      const { data: legacy } = await supabase
+        .from("gacha_items")
+        .select("id,name,description,image_url,probability,type,stock_total,stock_used,is_monthly_limit,shops(image_url)")
+        .eq("is_active", true)
+        .is("deleted_at", null)
+        .order("probability", { ascending: false });
+
+      if (legacy) {
+        const mapped: PublicGachaItem[] = (legacy as any[]).map((item) => ({
+          id: item.id,
+          name: item.name,
+          description: item.description ?? null,
+          image_url: item.image_url ?? null,
+          probability: item.probability ?? null,
+          type: item.type,
+          stock_total: item.stock_total ?? null,
+          stock_used: item.stock_used ?? null,
+          is_monthly_limit: item.is_monthly_limit ?? null,
+          current_stock_used: item.stock_used ?? 0,
+          shop_image_url: item.shops?.image_url ?? null,
+        }));
+        setGachaItems(mapped);
+      }
+    };
+
+    fetchGachaItems();
+  }, [supabase]);
+
+  const totalWeight = gachaItems.reduce((sum, item) => sum + (item.probability ?? 0), 0);
+  const formatProbabilityPct = (item: PublicGachaItem) => {
+    const w = item.probability ?? 0;
+    if (!totalWeight || !w) return "0%";
+    const pct = Math.round((w / totalWeight) * 1000) / 10;
+    return `${Number.isInteger(pct) ? pct.toFixed(0) : pct.toFixed(1)}%`;
+  };
+  const formatRemainingStock = (item: PublicGachaItem) => {
+    if (item.stock_total === null || item.stock_total === undefined) return "無制限";
+    const used = Number(item.current_stock_used ?? item.stock_used ?? 0);
+    return String(Math.max(0, item.stock_total - used));
+  };
+
   return (
     <div className="min-h-screen bg-white pb-24 font-sans text-slate-800">
       {/* ヘッダー */}
@@ -113,12 +183,82 @@ export default function PremiumGuidePage() {
              <div className="w-full bg-slate-300 text-white font-bold py-4 px-6 rounded-2xl shadow-sm flex items-center justify-center cursor-not-allowed">
                <span className="text-lg">2025年1月1日 受付開始</span>
              </div>
+
+             <button
+               type="button"
+               onClick={() => setShowItemsList(true)}
+               className="w-full mt-4 bg-white border border-slate-200 text-slate-700 font-bold py-4 px-6 rounded-2xl shadow-sm hover:bg-slate-50 transition-colors"
+             >
+               ラインナップを見る
+             </button>
+
              <p className="text-[10px] text-center text-slate-400 mt-4">
                ※サービス開始まで今しばらくお待ちください。
              </p>
            </div>
          </div>
       </div>
+
+      {/* 景品一覧モーダル */}
+      {showItemsList && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
+          <div className="bg-white rounded-3xl w-full max-w-md max-h-[80vh] overflow-hidden shadow-2xl animate-in zoom-in-95 duration-300 flex flex-col">
+            <div className="p-4 border-b flex items-center justify-between bg-slate-50">
+              <h3 className="font-bold text-lg text-slate-800">ラインナップ</h3>
+              <button
+                type="button"
+                onClick={() => setShowItemsList(false)}
+                className="p-2 hover:bg-slate-200 rounded-full transition-colors"
+                aria-label="閉じる"
+              >
+                <X className="w-5 h-5 text-slate-500" />
+              </button>
+            </div>
+
+            <div className="overflow-y-auto p-4 space-y-3">
+              {gachaItems.map((item) => (
+                <div key={item.id} className="flex items-center gap-4 p-3 rounded-xl border border-slate-100 bg-slate-50/50">
+                  <div className="w-12 h-12 shrink-0 bg-white rounded-lg border border-slate-100 flex items-center justify-center overflow-hidden">
+                    {item.type === "none" ? (
+                      <span className="text-2xl">😢</span>
+                    ) : (item.image_url || item.shop_image_url) ? (
+                      <img src={item.image_url || item.shop_image_url || ""} alt={item.name} className="w-full h-full object-cover" />
+                    ) : (
+                      <span className="text-2xl">🎁</span>
+                    )}
+                  </div>
+                  <div>
+                    <div className="font-bold text-slate-800 text-sm">{item.name}</div>
+                    {item.description && (
+                      <div className="text-xs text-slate-500 mt-0.5">{item.description}</div>
+                    )}
+                    <div className="text-xs text-slate-500 mt-1 flex flex-wrap gap-x-3 gap-y-1">
+                      <span>確率: {formatProbabilityPct(item)}</span>
+                      <span>残り: {formatRemainingStock(item)}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+
+              {gachaItems.length === 0 && (
+                <div className="text-center py-8 text-slate-400 text-sm">
+                  現在開催中のガチャはありません
+                </div>
+              )}
+            </div>
+
+            <div className="p-4 border-t bg-slate-50 text-center">
+              <button
+                type="button"
+                onClick={() => setShowItemsList(false)}
+                className="w-full py-3 bg-slate-800 text-white font-bold rounded-xl hover:bg-slate-700 transition-colors"
+              >
+                閉じる
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

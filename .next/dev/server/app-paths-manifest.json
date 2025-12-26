@@ -7,6 +7,7 @@
   "/(public)/member/page": "app/(public)/member/page.js",
   "/(public)/member/settings/page": "app/(public)/member/settings/page.js",
   "/(public)/page": "app/(public)/page.js",
+  "/(public)/premium/page": "app/(public)/premium/page.js",
   "/(public)/tournaments/[id]/page": "app/(public)/tournaments/[id]/page.js",
   "/api/gacha/spin/route": "app/api/gacha/spin/route.js",
   "/manifest.webmanifest/route": "app/manifest.webmanifest/route.js",
