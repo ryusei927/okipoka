@@ -222,6 +222,34 @@ export default async function HomePage({
         </div>
       </div>
 
+      {/* スポンサーバナー */}
+      <div className="max-w-md md:max-w-4xl mx-auto px-4 mb-8">
+        <Link href="/support" className="block relative rounded-2xl overflow-hidden shadow-md group">
+          <div className="absolute inset-0 bg-slate-900" />
+          <div className="relative h-32 sm:h-40 flex items-center justify-between px-6 sm:px-10">
+            <div className="absolute inset-0 bg-[url('/dai01.jpg')] bg-cover bg-[center_25%] opacity-40 group-hover:opacity-50 transition-opacity duration-500 scale-110 group-hover:scale-100" />
+            <div className="absolute inset-0 bg-linear-to-r from-slate-900/90 via-slate-900/60 to-transparent" />
+            
+            <div className="relative z-10">
+              <div className="inline-flex items-center gap-2 px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/30 text-xs font-bold mb-2">
+                <Store className="w-3 h-3" />
+                OFFICIAL SPONSORSHIP
+              </div>
+              <h3 className="text-xl sm:text-2xl font-black text-white mb-1">
+                <span className="text-orange-400">スピだい</span>を応援しよう
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-300 font-bold">
+                OKIPOKAは挑戦するプレイヤーをサポートしています
+              </p>
+            </div>
+
+            <div className="relative z-10 hidden sm:flex items-center justify-center w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 group-hover:bg-white/20 transition-colors">
+              <ChevronRight className="w-6 h-6 text-white" />
+            </div>
+          </div>
+        </Link>
+      </div>
+
       {/* スクエア広告 */}
       {displaySquareAds.length > 0 && <AdSquareGrid ads={displaySquareAds} />}
 

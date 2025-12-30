@@ -41,6 +41,16 @@ export default function ItemsPage() {
   
   const supabase = createClient();
 
+  // 期限切れ判定関数
+  const isExpired = (expiresAt: string | null) => {
+    if (!expiresAt) return false;
+    const now = new Date();
+    const expireDate = new Date(expiresAt);
+    // 期限日の23:59:59まで有効とする
+    expireDate.setHours(23, 59, 59, 999);
+    return now > expireDate;
+  };
+
   useEffect(() => {
     fetchItems();
     setSelectedShopId(null); // タブ切り替え時にフィルターをリセット
@@ -129,12 +139,12 @@ export default function ItemsPage() {
       if (activeTab === 'unused') {
         // 未使用 = is_usedがfalse かつ (期限なし または 期限内)
         filtered = allItems.filter(item => 
-          item.gacha_items && !item.is_used && (!item.expires_at || new Date(item.expires_at) > now)
+          item.gacha_items && !item.is_used && !isExpired(item.expires_at)
         );
       } else {
         // 使用済み = is_usedがtrue または 期限切れ
         filtered = allItems.filter(item => 
-          item.gacha_items && (item.is_used || (item.expires_at && new Date(item.expires_at) <= now))
+          item.gacha_items && (item.is_used || isExpired(item.expires_at))
         );
         
         // 使用済みタブの場合は、使用日(または期限切れ日)の新しい順にソート
@@ -165,6 +175,14 @@ export default function ItemsPage() {
   };
 
   const executeUseItem = async (itemId: string) => {
+    // 念のため期限切れチェック
+    const item = items.find(i => i.id === itemId);
+    if (item && isExpired(item.expires_at)) {
+      alert("このクーポンは使用できません");
+      setConfirmingItem(null);
+      return;
+    }
+
     const { error } = await supabase
       .from("user_items")
       .update({ 
@@ -334,13 +352,18 @@ export default function ItemsPage() {
                 >
                   詳細
                 </button>
-                {!item.is_used && (
+                {!item.is_used && !isExpired(item.expires_at) && (
                   <button
                     onClick={() => openConfirmModal(item)}
                     className="px-6 py-2 bg-slate-900 text-white font-bold rounded-lg hover:bg-slate-800 transition-colors text-sm whitespace-nowrap"
                   >
                     使用する
                   </button>
+                )}
+                {!item.is_used && isExpired(item.expires_at) && (
+                  <div className="px-4 py-2 bg-gray-100 text-gray-400 font-bold rounded-lg text-sm whitespace-nowrap text-center">
+                    使用できません
+                  </div>
                 )}
                 {item.is_used && (
                   <div className="px-4 py-2 bg-gray-200 text-gray-500 font-bold rounded-lg text-sm whitespace-nowrap text-center">
@@ -442,12 +465,18 @@ export default function ItemsPage() {
 
             <div className="p-4 border-t bg-slate-50 shrink-0">
               {!viewingItem.is_used ? (
-                <button
-                  onClick={() => openConfirmModal(viewingItem)}
-                  className="w-full py-3 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 transition-colors shadow-lg shadow-slate-200"
-                >
-                  このクーポンを使用する
-                </button>
+                !isExpired(viewingItem.expires_at) ? (
+                  <button
+                    onClick={() => openConfirmModal(viewingItem)}
+                    className="w-full py-3 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 transition-colors shadow-lg shadow-slate-200"
+                  >
+                    このクーポンを使用する
+                  </button>
+                ) : (
+                  <div className="w-full py-3 bg-gray-200 text-gray-500 font-bold rounded-xl text-center">
+                    使用できません
+                  </div>
+                )
               ) : (
                 <div className="w-full py-3 bg-gray-200 text-gray-500 font-bold rounded-xl text-center">
                   使用済みです
