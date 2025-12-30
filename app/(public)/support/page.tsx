@@ -13,7 +13,7 @@ export default function SupportPage() {
         <div className="relative max-w-4xl mx-auto px-6 py-24 sm:py-32 text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/30 text-sm font-bold mb-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
             <Star className="w-4 h-4 fill-orange-400" />
-            OFFICIAL SPONSORSHIP
+            OFFICIAL PARTNER
           </div>
           <h1 className="text-3xl sm:text-6xl font-black tracking-tight mb-6 animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100 leading-tight">
             OKIPOKAは<br className="sm:hidden" />

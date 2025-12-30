@@ -233,7 +233,7 @@ export default async function HomePage({
             <div className="relative z-10">
               <div className="inline-flex items-center gap-2 px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/30 text-xs font-bold mb-2">
                 <Store className="w-3 h-3" />
-                OFFICIAL SPONSORSHIP
+                OFFICIAL PARTNER
               </div>
               <h3 className="text-xl sm:text-2xl font-black text-white mb-1">
                 <span className="text-orange-400">スピだい</span>を応援しよう
