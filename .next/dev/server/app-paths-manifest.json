@@ -1,6 +1,7 @@
 {
   "/(public)/member/page": "app/(public)/member/page.js",
   "/(public)/page": "app/(public)/page.js",
+  "/(public)/premium/page": "app/(public)/premium/page.js",
   "/(public)/support/page": "app/(public)/support/page.js",
   "/login/page": "app/login/page.js",
   "/manifest.webmanifest/route": "app/manifest.webmanifest/route.js",
