@@ -97,7 +97,10 @@ export async function signout() {
 
 export async function signInWithGoogle() {
   const supabase = await createClient()
-  const origin = (await headers()).get('origin')
+  const headersList = await headers()
+  const origin = headersList.get('origin') || headersList.get('x-forwarded-host') 
+    ? `https://${headersList.get('x-forwarded-host')}` 
+    : 'https://okipoka.com'
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
