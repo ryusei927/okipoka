@@ -1,5 +1,27 @@
 {
   "node": {
+    "000abec51d25c95f4a55bd7693b29ddd44e43ed599": {
+      "workers": {
+        "app/(public)/member/page": {
+          "moduleId": "[project]/.next-internal/server/app/(public)/member/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/login/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "signInWithGoogle",
+          "filename": "app/login/actions.ts"
+        },
+        "app/login/page": {
+          "moduleId": "[project]/.next-internal/server/app/login/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/login/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "signInWithGoogle",
+          "filename": "app/login/actions.ts"
+        }
+      },
+      "layer": {
+        "app/(public)/member/page": "rsc",
+        "app/login/page": "action-browser"
+      },
+      "filename": "app/login/actions.ts",
+      "exportedName": "signInWithGoogle"
+    },
     "00c380ef7e8e8886d9bd4811daeeedee0b5f0d6bdf": {
       "workers": {
         "app/(public)/member/page": {

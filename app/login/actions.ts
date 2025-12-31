@@ -95,6 +95,30 @@ export async function signout() {
   redirect('/login')
 }
 
+export async function signInWithGoogle() {
+  const supabase = await createClient()
+  const origin = (await headers()).get('origin')
+
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: `${origin}/auth/callback`,
+      queryParams: {
+        access_type: 'offline',
+        prompt: 'consent',
+      },
+    },
+  })
+
+  if (error) {
+    redirect('/login?error=Could not authenticate with Google')
+  }
+
+  if (data.url) {
+    redirect(data.url)
+  }
+}
+
 export async function resetPassword(formData: FormData) {
   const supabase = await createClient()
   const origin = (await headers()).get('origin')
