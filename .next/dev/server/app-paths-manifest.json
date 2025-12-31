@@ -2,6 +2,8 @@
   "/(dashboard)/dashboard/ads/[id]/page": "app/(dashboard)/dashboard/ads/[id]/page.js",
   "/(dashboard)/dashboard/ads/page": "app/(dashboard)/dashboard/ads/page.js",
   "/(dashboard)/dashboard/page": "app/(dashboard)/dashboard/page.js",
+  "/(public)/hands/new/page": "app/(public)/hands/new/page.js",
+  "/(public)/hands/page": "app/(public)/hands/page.js",
   "/(public)/member/page": "app/(public)/member/page.js",
   "/(public)/member/settings/page": "app/(public)/member/settings/page.js",
   "/(public)/page": "app/(public)/page.js",

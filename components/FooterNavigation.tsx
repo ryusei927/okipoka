@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Calendar, User } from "lucide-react";
+import { Calendar, User, Layers } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function FooterNavigation() {
@@ -20,6 +20,16 @@ export function FooterNavigation() {
         >
           <Calendar className="w-6 h-6" />
           <span className="text-[10px] font-bold">大会</span>
+        </Link>
+        <Link 
+          href="/hands" 
+          className={cn(
+            "flex flex-col items-center gap-1 transition-colors",
+            pathname.startsWith("/hands") ? "text-orange-500" : "text-gray-400 hover:text-orange-500"
+          )}
+        >
+          <Layers className="w-6 h-6" />
+          <span className="text-[10px] font-bold">ハンド</span>
         </Link>
         <Link 
           href="/member" 
