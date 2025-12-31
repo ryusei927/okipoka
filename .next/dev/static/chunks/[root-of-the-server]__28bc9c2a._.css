@@ -286,6 +286,7 @@
     --font-weight-black: 900;
     --tracking-tighter: -.05em;
     --tracking-tight: -.025em;
+    --tracking-wide: .025em;
     --tracking-wider: .05em;
     --tracking-widest: .1em;
     --leading-tight: 1.25;
@@ -886,10 +887,6 @@
     margin-top: calc(var(--spacing) * 12);
   }
 
-  .mt-20 {
-    margin-top: calc(var(--spacing) * 20);
-  }
-
   .mr-1 {
     margin-right: calc(var(--spacing) * 1);
   }
@@ -1135,6 +1132,10 @@
 
   .min-h-25 {
     min-height: calc(var(--spacing) * 25);
+  }
+
+  .min-h-100 {
+    min-height: calc(var(--spacing) * 100);
   }
 
   .min-h-\[50vh\] {
@@ -2873,6 +2874,11 @@
     letter-spacing: var(--tracking-tighter);
   }
 
+  .tracking-wide {
+    --tw-tracking: var(--tracking-wide);
+    letter-spacing: var(--tracking-wide);
+  }
+
   .tracking-wider {
     --tw-tracking: var(--tracking-wider);
     letter-spacing: var(--tracking-wider);
@@ -3117,6 +3123,10 @@
     color: var(--color-yellow-800);
   }
 
+  .italic {
+    font-style: italic;
+  }
+
   .tabular-nums {
     --tw-numeric-spacing: tabular-nums;
     font-variant-numeric: var(--tw-ordinal, ) var(--tw-slashed-zero, ) var(--tw-numeric-figure, ) var(--tw-numeric-spacing, ) var(--tw-numeric-fraction, );
@@ -3253,22 +3263,6 @@
   @supports (color: color-mix(in lab, red, red)) {
     .shadow-orange-100\/50 {
       --tw-shadow-color: color-mix(in oklab, color-mix(in oklab, var(--color-orange-100) 50%, transparent) var(--tw-shadow-alpha), transparent);
-    }
-  }
-
-  .shadow-orange-200 {
-    --tw-shadow-color: #ffd7a8;
-  }
-
-  @supports (color: lab(0% 0 0)) {
-    .shadow-orange-200 {
-      --tw-shadow-color: lab(88.4871% 9.94918 28.8378);
-    }
-  }
-
-  @supports (color: color-mix(in lab, red, red)) {
-    .shadow-orange-200 {
-      --tw-shadow-color: color-mix(in oklab, var(--color-orange-200) var(--tw-shadow-alpha), transparent);
     }
   }
 
@@ -3510,6 +3504,18 @@
   @media (hover: hover) {
     .group-hover\:scale-\[1\.02\]:is(:where(.group):hover *) {
       scale: 1.02;
+    }
+  }
+
+  @media (hover: hover) {
+    .group-hover\:bg-black\/40:is(:where(.group):hover *) {
+      background-color: #0006;
+    }
+
+    @supports (color: color-mix(in lab, red, red)) {
+      .group-hover\:bg-black\/40:is(:where(.group):hover *) {
+        background-color: color-mix(in oklab, var(--color-black) 40%, transparent);
+      }
     }
   }
 
@@ -4136,6 +4142,13 @@
   }
 
   @media (min-width: 40rem) {
+    .sm\:text-4xl {
+      font-size: var(--text-4xl);
+      line-height: var(--tw-leading, var(--text-4xl--line-height));
+    }
+  }
+
+  @media (min-width: 40rem) {
     .sm\:text-6xl {
       font-size: var(--text-6xl);
       line-height: var(--tw-leading, var(--text-6xl--line-height));
@@ -4300,12 +4313,6 @@
   @media (min-width: 48rem) {
     .md\:grid-cols-2 {
       grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-
-  @media (min-width: 48rem) {
-    .md\:grid-cols-3 {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 

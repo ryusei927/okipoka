@@ -32,7 +32,7 @@ export default function SupportPage() {
       <div className="max-w-5xl mx-auto px-6 -mt-20 relative z-10">
         {/* メインプロフィールカード */}
         <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100 flex flex-col md:flex-row">
-          <div className="md:w-1/2 relative h-96 md:h-auto min-h-[400px] bg-slate-200">
+          <div className="md:w-1/2 relative h-96 md:h-auto min-h-100 bg-slate-200">
             <Image
               src="/dai01.jpg"
               alt="スピだい"
@@ -54,10 +54,14 @@ export default function SupportPage() {
               <p className="text-slate-400 font-bold">スピだい</p>
             </div>
 
-            <p className="text-slate-600 leading-relaxed mb-8">
+            <p className="text-slate-600 leading-relaxed mb-4">
               沖縄を拠点に活動するポーカープレイヤー。
               アグレッシブなプレイスタイルと冷静な判断力を武器に、国内外のトーナメントで活躍中。
               ポーカーの普及活動にも力を入れており、沖縄のポーカーシーンを牽引する存在として注目を集めている。
+            </p>
+
+            <p className="text-orange-600 font-bold text-sm mb-8 italic">
+              「ポーカーに救われたから、ポーカーで恩返しを。沖縄から世界へ。」
             </p>
 
             <div className="mb-8">
@@ -74,6 +78,10 @@ export default function SupportPage() {
                     <span className="text-xs font-bold text-orange-600">Latest</span>
                   </div>
                   <ul className="space-y-2 text-sm font-bold text-slate-800">
+                    <li className="flex items-start gap-2">
+                      <span className="text-orange-400 mt-1">●</span>
+                      沖縄 It&apos;s Showdown 年間チャンピオン（43回開催 / 1,697エントリー）
+                    </li>
                     <li className="flex items-start gap-2">
                       <span className="text-orange-400 mt-1">●</span>
                       台湾 AJPC Main Event 14位

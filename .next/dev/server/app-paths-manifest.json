@@ -1,9 +1,15 @@
 {
+  "/(dashboard)/dashboard/ads/[id]/page": "app/(dashboard)/dashboard/ads/[id]/page.js",
+  "/(dashboard)/dashboard/ads/page": "app/(dashboard)/dashboard/ads/page.js",
+  "/(dashboard)/dashboard/page": "app/(dashboard)/dashboard/page.js",
   "/(public)/member/page": "app/(public)/member/page.js",
+  "/(public)/member/settings/page": "app/(public)/member/settings/page.js",
   "/(public)/page": "app/(public)/page.js",
   "/(public)/premium/page": "app/(public)/premium/page.js",
   "/(public)/support/page": "app/(public)/support/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/member/subscription/status/route": "app/api/member/subscription/status/route.js",
   "/login/page": "app/login/page.js",
   "/manifest.webmanifest/route": "app/manifest.webmanifest/route.js",
-  "/member/items/page": "app/member/items/page.js"
+  "/member/subscription/page": "app/member/subscription/page.js"
 }

@@ -178,11 +178,14 @@ export default function PremiumGuidePage() {
              </div>
            </div>
            
-           {/* アクションボタン (Coming Soon) */}
+           {/* アクションボタン */}
            <div className="mt-12 mb-8">
-             <div className="w-full bg-slate-300 text-white font-bold py-4 px-6 rounded-2xl shadow-sm flex items-center justify-center cursor-not-allowed">
-               <span className="text-lg">2025年1月1日 受付開始</span>
-             </div>
+             <Link
+               href="/member"
+               className="w-full bg-orange-500 text-white font-bold py-4 px-6 rounded-2xl shadow-lg hover:bg-orange-600 transition-colors flex items-center justify-center"
+             >
+               <span className="text-lg">今すぐ登録する</span>
+             </Link>
 
              <button
                type="button"
@@ -191,10 +194,6 @@ export default function PremiumGuidePage() {
              >
                ラインナップを見る
              </button>
-
-             <p className="text-[10px] text-center text-slate-400 mt-4">
-               ※サービス開始まで今しばらくお待ちください。
-             </p>
            </div>
          </div>
       </div>

@@ -200,26 +200,17 @@ export default async function HomePage({
         )}
       </div>
 
-      {/* プレミアム会員バナー (Coming Soon) */}
+      {/* プレミアム会員バナー */}
       <div className="max-w-md md:max-w-4xl mx-auto px-4 mt-6 mb-8">
-        <div className="relative rounded-2xl overflow-hidden shadow-md">
+        <Link href="/premium" className="block relative rounded-2xl overflow-hidden shadow-md group">
           <Image
             src="/premium-banner1.png"
             alt="おきぽかプレミアム"
             width={1024}
             height={643}
-            className="w-full h-auto"
+            className="w-full h-auto transition-transform duration-500 group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px] flex flex-col items-center justify-center text-white">
-            <p className="text-4xl font-black tracking-widest drop-shadow-lg">COMING SOON</p>
-            <p className="mt-3 text-lg font-bold bg-orange-600 px-6 py-1.5 rounded-full shadow-lg">
-              2026.1.1 START
-            </p>
-            <Link href="/premium" className="mt-4 text-sm font-bold underline decoration-white/50 underline-offset-4 hover:text-orange-200 transition-colors">
-              詳細を見る
-            </Link>
-          </div>
-        </div>
+        </Link>
       </div>
 
       {/* スポンサーバナー */}

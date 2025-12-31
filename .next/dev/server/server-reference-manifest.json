@@ -73,6 +73,36 @@
       },
       "filename": "app/login/actions.ts",
       "exportedName": "login"
+    },
+    "40123e1d48499ad4dc1ebfc1f86ff3e05512459a6d": {
+      "workers": {
+        "app/(dashboard)/dashboard/ads/page": {
+          "moduleId": "[project]/.next-internal/server/app/(dashboard)/dashboard/ads/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/(dashboard)/dashboard/ads/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "deleteAd",
+          "filename": "app/(dashboard)/dashboard/ads/actions.ts"
+        }
+      },
+      "layer": {
+        "app/(dashboard)/dashboard/ads/page": "action-browser"
+      },
+      "filename": "app/(dashboard)/dashboard/ads/actions.ts",
+      "exportedName": "deleteAd"
+    },
+    "60ab31df43492201007b5dcd1f392158833fd09360": {
+      "workers": {
+        "app/(dashboard)/dashboard/ads/[id]/page": {
+          "moduleId": "[project]/.next-internal/server/app/(dashboard)/dashboard/ads/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/(dashboard)/dashboard/ads/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "upsertAd",
+          "filename": "app/(dashboard)/dashboard/ads/actions.ts"
+        }
+      },
+      "layer": {
+        "app/(dashboard)/dashboard/ads/[id]/page": "action-browser"
+      },
+      "filename": "app/(dashboard)/dashboard/ads/actions.ts",
+      "exportedName": "upsertAd"
     }
   },
   "edge": {},
