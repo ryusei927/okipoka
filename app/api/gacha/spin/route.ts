@@ -50,75 +50,9 @@ export async function POST() {
   // まずDBの状態を取得（以降のSquare同期にも使う）
   const { data: profileBase } = await supabase
     .from("profiles")
-    .select("subscription_status, subscription_id, square_customer_id, payment_method, subscription_expires_at")
+    .select("subscription_status, subscription_id, square_customer_id")
     .eq("id", user.id)
     .single();
-
-  // 現金払いの場合、期限切れチェック
-  const paymentMethod = (profileBase as { payment_method?: string | null } | null)?.payment_method ?? null;
-  const expiresAt = (profileBase as { subscription_expires_at?: string | null } | null)?.subscription_expires_at ?? null;
-  
-  if (paymentMethod === "cash") {
-    const today = new Date().toISOString().slice(0, 10);
-    if (expiresAt && expiresAt < today) {
-      // 期限切れ → ステータスを自動で canceled に更新
-      await supabase
-        .from("profiles")
-        .update({ 
-          subscription_status: "canceled",
-          payment_method: null,
-          subscription_expires_at: null,
-        })
-        .eq("id", user.id);
-      
-      return NextResponse.json({ error: "Subscription expired" }, { status: 403 });
-    }
-    
-    // 現金払いで期限内ならSquareチェックをスキップしてガチャ実行
-    const currentStatus = (profileBase as { subscription_status?: string | null } | null)?.subscription_status ?? null;
-    if (currentStatus === "active" || currentStatus === "canceling") {
-      // ガチャ実行
-      const { data, error } = await supabase.rpc("spin_gacha");
-      if (error) {
-        const msg = error.message || "Failed";
-        if (msg.includes("Unauthorized")) {
-          return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-        }
-        if (msg.includes("Subscription required")) {
-          return NextResponse.json({ error: "Subscription required" }, { status: 403 });
-        }
-        if (msg.includes("Already played today")) {
-          return NextResponse.json({ error: "Already played today" }, { status: 400 });
-        }
-        if (msg.includes("No items available")) {
-          return NextResponse.json({ error: "No items available" }, { status: 500 });
-        }
-        if (msg.includes("Subscription expired")) {
-          return NextResponse.json({ error: "Subscription expired" }, { status: 403 });
-        }
-        console.error("spin_gacha rpc error:", error);
-        return NextResponse.json({ error: "Failed to spin" }, { status: 500 });
-      }
-
-      let itemData = { ...data };
-      if (data && data.shop_id) {
-        const { data: shop } = await supabase
-          .from("shops")
-          .select("image_url")
-          .eq("id", data.shop_id)
-          .single();
-        
-        if (shop) {
-          // @ts-ignore
-          itemData.shop_image_url = shop.image_url;
-        }
-      }
-
-      return NextResponse.json({ success: true, item: itemData });
-    } else {
-      return NextResponse.json({ error: "Subscription required" }, { status: 403 });
-    }
-  }
 
   // 「支払い済みなのにsubscription_status/subscription_idがDBに反映されていない」ケースを救済する
   try {

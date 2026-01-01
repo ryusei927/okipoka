@@ -701,3 +701,9 @@ This will cause a hydration error.%s <button> button
 
 [01:05:12.457] Browser ERROR   <%s> cannot contain a nested %s.
 See this log for the ancestor stack trace. button <button>
+[01:08:58.487] Server  LOG      ✓ Compiled in 45ms
+[01:08:59.462] Browser ERROR   uncaughtError: ReferenceError: showPeriodModal is not defined
+[01:09:19.795] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[01:09:19.815] Server  LOG      ✓ Compiled in 44ms
+[01:09:20.494] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:09:45.141] Server  LOG      ✓ Compiled in 41ms

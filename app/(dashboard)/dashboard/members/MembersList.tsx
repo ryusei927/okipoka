@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { format } from "date-fns";
 import { ja } from "date-fns/locale";
-import { ChevronDown, ChevronRight, User, Crown } from "lucide-react";
+import { ChevronDown, ChevronRight, User } from "lucide-react";
 import { useMemo, useState } from "react";
 
 type ProfileRow = any;
@@ -61,66 +61,6 @@ export function MembersList({
   userItems: UserItemRow[];
 }) {
   const [openUserId, setOpenUserId] = useState<string | null>(null);
-  const [loading, setLoading] = useState<string | null>(null); // userId of loading action
-  const [message, setMessage] = useState<{ userId: string; text: string; type: "success" | "error" } | null>(null);
-  const [showPeriodModal, setShowPeriodModal] = useState<{ userId: string; displayName: string } | null>(null);
-
-  // 期間選択後にプレミアム付与
-  async function grantPremium(userId: string, months: number) {
-    setShowPeriodModal(null);
-    setLoading(userId);
-    setMessage(null);
-
-    // 有効期限を計算
-    const expiresAt = new Date();
-    expiresAt.setMonth(expiresAt.getMonth() + months);
-    const expiresAtStr = expiresAt.toISOString().slice(0, 10); // YYYY-MM-DD
-
-    try {
-      const res = await fetch("/api/admin/members/premium", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, action: "grant", expiresAt: expiresAtStr }),
-      });
-      const data = await res.json();
-
-      if (!res.ok) throw new Error(data.error || "Failed");
-
-      setMessage({ userId, text: `${months}ヶ月のプレミアム会員を付与しました（${expiresAtStr}まで）`, type: "success" });
-      setTimeout(() => window.location.reload(), 1500);
-    } catch (e: any) {
-      setMessage({ userId, text: e.message, type: "error" });
-    } finally {
-      setLoading(null);
-    }
-  }
-
-  // プレミアム解除（現金払いのみ）
-  async function revokePremium(userId: string, displayName: string) {
-    const confirmed = window.confirm(`${displayName} さんのプレミアムを解除しますか？`);
-    if (!confirmed) return;
-
-    setLoading(userId);
-    setMessage(null);
-
-    try {
-      const res = await fetch("/api/admin/members/premium", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, action: "revoke" }),
-      });
-      const data = await res.json();
-
-      if (!res.ok) throw new Error(data.error || "Failed");
-
-      setMessage({ userId, text: data.message, type: "success" });
-      setTimeout(() => window.location.reload(), 1000);
-    } catch (e: any) {
-      setMessage({ userId, text: e.message, type: "error" });
-    } finally {
-      setLoading(null);
-    }
-  }
 
   const itemsByUserId = useMemo(() => {
     return (userItems || []).reduce((acc, row) => {
@@ -193,19 +133,6 @@ export function MembersList({
                         VIP
                       </span>
                     )}
-                    {/* 未登録・解約済みの場合は付与ボタンを表示 */}
-                    {subscriptionStatus !== "active" && subscriptionStatus !== "canceling" && (
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setShowPeriodModal({ userId: profile.id, displayName: profile.display_name || "このユーザー" });
-                        }}
-                        disabled={loading === profile.id}
-                        className="text-[10px] px-2 py-0.5 rounded-full font-bold bg-orange-500 text-white hover:bg-orange-600 disabled:opacity-50"
-                      >
-                        {loading === profile.id ? "..." : "付与"}
-                      </button>
-                    )}
                   </div>
 
                   <div className="text-xs text-gray-500 mt-1">
@@ -255,50 +182,6 @@ export function MembersList({
 
             {isOpen && (
               <div className="mt-4 border-t border-gray-100 pt-3">
-                {/* プレミアム会員管理ボタン */}
-                <div className="mb-4 p-3 bg-orange-50 rounded-lg">
-                  <div className="flex items-center justify-between flex-wrap gap-2">
-                    <div className="flex items-center gap-2">
-                      <Crown className="w-4 h-4 text-orange-600" />
-                      <span className="text-sm font-bold text-orange-800">プレミアム会員管理</span>
-                      {profile.payment_method === "cash" && profile.subscription_expires_at && (
-                        <span className="text-xs text-gray-600">
-                          （期限: {format(new Date(profile.subscription_expires_at), "yyyy/MM/dd", { locale: ja })}）
-                        </span>
-                      )}
-                    </div>
-                    {subscriptionStatus === "active" || subscriptionStatus === "canceling" ? (
-                      // 現金払いの人のみ解除可能
-                      profile.payment_method === "cash" ? (
-                        <button
-                          onClick={() => revokePremium(profile.id, profile.display_name || "このユーザー")}
-                          disabled={loading === profile.id}
-                          className="px-3 py-1.5 text-xs font-bold bg-red-500 text-white rounded-lg hover:bg-red-600 disabled:opacity-50"
-                        >
-                          {loading === profile.id ? "処理中..." : "プレミアム解除"}
-                        </button>
-                      ) : (
-                        <span className="text-xs text-gray-500">
-                          カード払い（ユーザー側で解約）
-                        </span>
-                      )
-                    ) : (
-                      <button
-                        onClick={() => setShowPeriodModal({ userId: profile.id, displayName: profile.display_name || "このユーザー" })}
-                        disabled={loading === profile.id}
-                        className="px-3 py-1.5 text-xs font-bold bg-orange-500 text-white rounded-lg hover:bg-orange-600 disabled:opacity-50"
-                      >
-                        {loading === profile.id ? "処理中..." : "プレミアム付与（現金払い）"}
-                      </button>
-                    )}
-                  </div>
-                  {message?.userId === profile.id && message && (
-                    <div className={`mt-2 text-xs ${message.type === "success" ? "text-green-700" : "text-red-600"}`}>
-                      {message.text}
-                    </div>
-                  )}
-                </div>
-
                 {displayItems.length > 0 ? (
                   <div className="grid gap-2">
                     {displayItems.map((row, idx) => {
@@ -359,50 +242,6 @@ export function MembersList({
 
       {profiles?.length === 0 && (
         <div className="text-center py-10 text-gray-500">会員がまだいません</div>
-      )}
-
-      {/* 期間選択モーダル */}
-      {showPeriodModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setShowPeriodModal(null)}>
-          <div className="bg-white rounded-xl p-6 max-w-sm w-full mx-4 shadow-xl" onClick={(e) => e.stopPropagation()}>
-            <h3 className="text-lg font-bold text-gray-900 mb-2">プレミアム期間を選択</h3>
-            <p className="text-sm text-gray-600 mb-4">
-              {showPeriodModal.displayName} さんにプレミアム会員を付与します
-            </p>
-            <div className="grid gap-2">
-              <button
-                onClick={() => grantPremium(showPeriodModal.userId, 1)}
-                className="w-full py-3 px-4 bg-orange-100 text-orange-800 font-bold rounded-lg hover:bg-orange-200 transition-colors"
-              >
-                1ヶ月（お試し）
-              </button>
-              <button
-                onClick={() => grantPremium(showPeriodModal.userId, 3)}
-                className="w-full py-3 px-4 bg-orange-100 text-orange-800 font-bold rounded-lg hover:bg-orange-200 transition-colors"
-              >
-                3ヶ月
-              </button>
-              <button
-                onClick={() => grantPremium(showPeriodModal.userId, 6)}
-                className="w-full py-3 px-4 bg-orange-100 text-orange-800 font-bold rounded-lg hover:bg-orange-200 transition-colors"
-              >
-                6ヶ月
-              </button>
-              <button
-                onClick={() => grantPremium(showPeriodModal.userId, 12)}
-                className="w-full py-3 px-4 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-600 transition-colors"
-              >
-                1年間
-              </button>
-            </div>
-            <button
-              onClick={() => setShowPeriodModal(null)}
-              className="w-full mt-3 py-2 text-sm text-gray-500 hover:text-gray-700"
-            >
-              キャンセル
-            </button>
-          </div>
-        </div>
       )}
     </div>
   );

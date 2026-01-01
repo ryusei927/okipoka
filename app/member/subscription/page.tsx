@@ -19,9 +19,6 @@ export default function SubscriptionPage() {
   const [subscriptionStatus, setSubscriptionStatus] = useState<string | null>(null);
   const [chargedThroughDate, setChargedThroughDate] = useState<string | null>(null);
   const [nextRenewalDate, setNextRenewalDate] = useState<string | null>(null);
-  const [paymentMethod, setPaymentMethod] = useState<string | null>(null);
-  const [daysRemaining, setDaysRemaining] = useState<number | null>(null);
-  const [subscriptionExpiresAt, setSubscriptionExpiresAt] = useState<string | null>(null);
   const [statusLoaded, setStatusLoaded] = useState(false);
   const router = useRouter();
   const initialized = useRef(false);
@@ -35,9 +32,6 @@ export default function SubscriptionPage() {
         setSubscriptionStatus(data.subscription_status ?? null);
         setChargedThroughDate(data.charged_through_date ?? null);
         setNextRenewalDate(data.next_renewal_date ?? null);
-        setPaymentMethod(data.payment_method ?? null);
-        setDaysRemaining(data.days_remaining ?? null);
-        setSubscriptionExpiresAt(data.subscription_expires_at ?? null);
       })
       .finally(() => {
         setStatusLoaded(true);
@@ -209,25 +203,10 @@ export default function SubscriptionPage() {
 
       <div className="text-sm text-center text-gray-700 mb-4">
         現在のステータス：<span className="font-bold">{statusLabel(subscriptionStatus)}</span>
-        {paymentMethod === "cash" && (
-          <span className="ml-2 text-xs text-orange-600">（現金払い）</span>
-        )}
       </div>
 
-      {/* 現金払いの残り日数表示 */}
-      {paymentMethod === "cash" && daysRemaining !== null && (subscriptionStatus === "active" || subscriptionStatus === "canceling") && (
-        <div className={`text-center mb-4 p-3 rounded-lg ${daysRemaining <= 7 ? "bg-red-50" : "bg-blue-50"}`}>
-          <div className={`text-2xl font-bold ${daysRemaining <= 7 ? "text-red-600" : "text-blue-600"}`}>
-            残り {daysRemaining} 日
-          </div>
-          <div className="text-xs text-gray-600 mt-1">
-            有効期限：{subscriptionExpiresAt} まで
-          </div>
-        </div>
-      )}
-
-      {/* カード払いの場合の表示 */}
-      {paymentMethod !== "cash" && (nextRenewalDate || chargedThroughDate) && (
+      {/* 次回更新日・利用期限の表示 */}
+      {(nextRenewalDate || chargedThroughDate) && (
         <div className="text-xs text-center text-gray-600 mb-4 bg-gray-50 p-2 rounded">
           {nextRenewalDate && (
             <div>次回更新日：{nextRenewalDate}</div>
