@@ -50,9 +50,30 @@ export async function POST() {
   // まずDBの状態を取得（以降のSquare同期にも使う）
   const { data: profileBase } = await supabase
     .from("profiles")
-    .select("subscription_status, subscription_id, square_customer_id")
+    .select("subscription_status, subscription_id, square_customer_id, payment_method, subscription_expires_at")
     .eq("id", user.id)
     .single();
+
+  // 現金払いの場合、期限切れチェック
+  const paymentMethod = (profileBase as { payment_method?: string | null } | null)?.payment_method ?? null;
+  const expiresAt = (profileBase as { subscription_expires_at?: string | null } | null)?.subscription_expires_at ?? null;
+  
+  if (paymentMethod === "cash") {
+    const today = new Date().toISOString().slice(0, 10);
+    if (expiresAt && expiresAt < today) {
+      // 期限切れ → ステータスを自動で canceled に更新
+      await supabase
+        .from("profiles")
+        .update({ 
+          subscription_status: "canceled",
+          payment_method: null,
+          subscription_expires_at: null,
+        })
+        .eq("id", user.id);
+      
+      return NextResponse.json({ error: "Subscription expired" }, { status: 403 });
+    }
+  }
 
   // 「支払い済みなのにsubscription_status/subscription_idがDBに反映されていない」ケースを救済する
   try {

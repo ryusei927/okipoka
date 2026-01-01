@@ -34,6 +34,8 @@ export default function GachaPage() {
   const [canPlay, setCanPlay] = useState(true);
   const [nextPlayTime, setNextPlayTime] = useState<Date | null>(null);
   const [timeLeft, setTimeLeft] = useState<string>("");
+  const [daysRemaining, setDaysRemaining] = useState<number | null>(null);
+  const [paymentMethod, setPaymentMethod] = useState<string | null>(null);
   const supabase = createClient();
 
   const totalWeight = gachaItems.reduce((sum, item) => sum + (item.probability ?? 0), 0);
@@ -62,6 +64,18 @@ export default function GachaPage() {
 
   useEffect(() => {
     return () => clearTimers();
+  }, []);
+
+  // サブスク状態と残り日数を取得
+  useEffect(() => {
+    fetch("/api/member/subscription/status")
+      .then(async (res) => {
+        if (!res.ok) return;
+        const data = await res.json();
+        setDaysRemaining(data.days_remaining ?? null);
+        setPaymentMethod(data.payment_method ?? null);
+      })
+      .catch(() => {});
   }, []);
 
   // ユーザーの状態（本日プレイ済みか）を確認
@@ -292,6 +306,15 @@ export default function GachaPage() {
       >
         <Info className="w-6 h-6" />
       </button>
+
+      {/* 現金払いの残り日数表示 */}
+      {paymentMethod === "cash" && daysRemaining !== null && (
+        <div className={`absolute top-4 left-1/2 -translate-x-1/2 z-40 px-4 py-2 rounded-full shadow-lg backdrop-blur-sm pointer-events-none ${
+          daysRemaining <= 7 ? "bg-red-500/90 text-white" : "bg-white/90 text-slate-700"
+        }`}>
+          <span className="font-bold">残り {daysRemaining} 日</span>
+        </div>
+      )}
 
       {/* 背景画像エリア（画面いっぱい） */}
       <div className="absolute inset-0 w-full h-full">
