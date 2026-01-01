@@ -88,7 +88,7 @@ export async function signup(formData: FormData) {
   redirect('/login/verify')
 }
 
-export async function signout() {
+export async function signout(): Promise<never> {
   const supabase = await createClient()
   await supabase.auth.signOut()
   revalidatePath('/', 'layout')

@@ -1,9 +1,9 @@
 import { DigitalMemberCard } from "@/components/member/DigitalMemberCard";
 import { DailyGachaButton } from "@/components/member/DailyGachaButton";
+import { LogoutButton } from "@/components/member/LogoutButton";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { signout } from "@/app/login/actions";
-import { LogOut, User, Settings, LayoutDashboard, Crown, Ticket } from "lucide-react";
+import { User, Settings, LayoutDashboard, Crown, Ticket } from "lucide-react";
 import Link from "next/link";
 
 function formatSubscriptionStatus(status?: string | null) {
@@ -145,12 +145,7 @@ export default async function MemberPage() {
         </section>
 
         {/* ログアウトボタン */}
-        <form action={signout}>
-            <button className="w-full flex items-center justify-center gap-2 p-4 text-red-600 bg-white rounded-xl shadow-sm border border-gray-100 hover:bg-red-50 transition-colors font-medium">
-                <LogOut className="w-5 h-5" />
-                ログアウト
-            </button>
-        </form>
+        <LogoutButton />
       </div>
     </div>
   );

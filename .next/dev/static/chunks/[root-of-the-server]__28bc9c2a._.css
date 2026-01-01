@@ -288,7 +288,6 @@
     --font-weight-black: 900;
     --tracking-tighter: -.05em;
     --tracking-tight: -.025em;
-    --tracking-wide: .025em;
     --tracking-wider: .05em;
     --tracking-widest: .1em;
     --leading-tight: 1.25;
@@ -862,6 +861,10 @@
     margin-inline: auto;
   }
 
+  .my-4 {
+    margin-block: calc(var(--spacing) * 4);
+  }
+
   .my-6 {
     margin-block: calc(var(--spacing) * 6);
   }
@@ -1179,10 +1182,6 @@
 
   .min-h-\[100px\] {
     min-height: 100px;
-  }
-
-  .min-h-\[400px\] {
-    min-height: 400px;
   }
 
   .min-h-\[calc\(100vh-53px\)\] {
@@ -1993,16 +1992,6 @@
     }
   }
 
-  .bg-black\/50 {
-    background-color: #00000080;
-  }
-
-  @supports (color: color-mix(in lab, red, red)) {
-    .bg-black\/50 {
-      background-color: color-mix(in oklab, var(--color-black) 50%, transparent);
-    }
-  }
-
   .bg-black\/60 {
     background-color: #0009;
   }
@@ -2167,10 +2156,6 @@
 
   .bg-slate-200 {
     background-color: var(--color-slate-200);
-  }
-
-  .bg-slate-300 {
-    background-color: var(--color-slate-300);
   }
 
   .bg-slate-500 {
@@ -2997,11 +2982,6 @@
     letter-spacing: var(--tracking-tighter);
   }
 
-  .tracking-wide {
-    --tw-tracking: var(--tracking-wide);
-    letter-spacing: var(--tracking-wide);
-  }
-
   .tracking-wider {
     --tw-tracking: var(--tracking-wider);
     letter-spacing: var(--tracking-wider);
@@ -3257,17 +3237,6 @@
 
   .underline {
     text-decoration-line: underline;
-  }
-
-  .decoration-white\/50 {
-    text-decoration-color: #ffffff80;
-  }
-
-  @supports (color: color-mix(in lab, red, red)) {
-    .decoration-white\/50 {
-      -webkit-text-decoration-color: color-mix(in oklab, var(--color-white) 50%, transparent);
-      text-decoration-color: color-mix(in oklab, var(--color-white) 50%, transparent);
-    }
   }
 
   .underline-offset-4 {
@@ -3641,18 +3610,6 @@
   @media (hover: hover) {
     .group-hover\:scale-\[1\.02\]:is(:where(.group):hover *) {
       scale: 1.02;
-    }
-  }
-
-  @media (hover: hover) {
-    .group-hover\:bg-black\/40:is(:where(.group):hover *) {
-      background-color: #0006;
-    }
-
-    @supports (color: color-mix(in lab, red, red)) {
-      .group-hover\:bg-black\/40:is(:where(.group):hover *) {
-        background-color: color-mix(in oklab, var(--color-black) 40%, transparent);
-      }
     }
   }
 
@@ -4060,12 +4017,6 @@
   }
 
   @media (hover: hover) {
-    .hover\:text-orange-200:hover {
-      color: var(--color-orange-200);
-    }
-  }
-
-  @media (hover: hover) {
     .hover\:text-orange-500:hover {
       color: var(--color-orange-500);
     }
@@ -4327,13 +4278,6 @@
     .sm\:text-2xl {
       font-size: var(--text-2xl);
       line-height: var(--tw-leading, var(--text-2xl--line-height));
-    }
-  }
-
-  @media (min-width: 40rem) {
-    .sm\:text-4xl {
-      font-size: var(--text-4xl);
-      line-height: var(--tw-leading, var(--text-4xl--line-height));
     }
   }
 

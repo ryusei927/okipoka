@@ -11,11 +11,20 @@ declare global {
   }
 }
 
+// サブスク料金（Apple Pay / Google Pay 用）
+const SUBSCRIPTION_AMOUNT = "2200"; // 円
+const SUBSCRIPTION_CURRENCY = "JPY";
+const SUBSCRIPTION_LABEL = "OKIPOKAプレミアム会員（月額）";
+
 export default function SubscriptionPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [infoMessage, setInfoMessage] = useState<string | null>(null);
   const [card, setCard] = useState<any>(null);
+  const [applePay, setApplePay] = useState<any>(null);
+  const [googlePay, setGooglePay] = useState<any>(null);
+  const [applePaySupported, setApplePaySupported] = useState(false);
+  const [googlePaySupported, setGooglePaySupported] = useState(false);
   const [subscriptionStatus, setSubscriptionStatus] = useState<string | null>(null);
   const [chargedThroughDate, setChargedThroughDate] = useState<string | null>(null);
   const [nextRenewalDate, setNextRenewalDate] = useState<string | null>(null);
@@ -66,11 +75,11 @@ export default function SubscriptionPage() {
       ? "https://sandbox.web.squarecdn.com/v1/square.js"
       : "https://web.squarecdn.com/v1/square.js";
 
-    script.onload = initializeCard;
+    script.onload = initializePayments;
     document.body.appendChild(script);
   }, [statusLoaded, subscriptionStatus]);
 
-  async function initializeCard() {
+  async function initializePayments() {
     if (!window.Square) return;
 
     try {
@@ -79,15 +88,97 @@ export default function SubscriptionPage() {
         process.env.NEXT_PUBLIC_SQUARE_LOCATION_ID
       );
 
+      // クレジットカードフォーム
       const cardInstance = await payments.card();
       await cardInstance.attach("#card-container");
       setCard(cardInstance);
+
+      // Apple Pay の初期化
+      try {
+        const applePayRequest = payments.paymentRequest({
+          countryCode: "JP",
+          currencyCode: SUBSCRIPTION_CURRENCY,
+          total: {
+            amount: SUBSCRIPTION_AMOUNT,
+            label: SUBSCRIPTION_LABEL,
+          },
+        });
+        const applePayInstance = await payments.applePay(applePayRequest);
+        setApplePay(applePayInstance);
+        setApplePaySupported(true);
+      } catch (e) {
+        console.log("Apple Pay not supported on this device");
+        setApplePaySupported(false);
+      }
+
+      // Google Pay の初期化
+      try {
+        const googlePayRequest = payments.paymentRequest({
+          countryCode: "JP",
+          currencyCode: SUBSCRIPTION_CURRENCY,
+          total: {
+            amount: SUBSCRIPTION_AMOUNT,
+            label: SUBSCRIPTION_LABEL,
+          },
+        });
+        const googlePayInstance = await payments.googlePay(googlePayRequest);
+        await googlePayInstance.attach("#google-pay-button");
+        setGooglePay(googlePayInstance);
+        setGooglePaySupported(true);
+      } catch (e) {
+        console.log("Google Pay not supported on this device");
+        setGooglePaySupported(false);
+      }
+
     } catch (e: any) {
       console.error(e);
       setError("決済フォームの読み込みに失敗しました: " + e.message);
     }
   }
 
+  // Apple Pay で支払い
+  async function handleApplePay() {
+    if (!applePay) return;
+    
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const result = await applePay.tokenize();
+      if (result.status === "OK") {
+        await handlePayment(result.token);
+      } else {
+        setError(result.errors?.[0]?.message || "Apple Pay の処理に失敗しました");
+      }
+    } catch (e: any) {
+      setError(e.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  // Google Pay で支払い
+  async function handleGooglePay() {
+    if (!googlePay) return;
+    
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const result = await googlePay.tokenize();
+      if (result.status === "OK") {
+        await handlePayment(result.token);
+      } else {
+        setError(result.errors?.[0]?.message || "Google Pay の処理に失敗しました");
+      }
+    } catch (e: any) {
+      setError(e.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  // クレジットカードで支払い
   async function handleSubscribe() {
     if (!card) return;
     
@@ -257,6 +348,41 @@ export default function SubscriptionPage() {
               : "💳 この決済は課金されます"}
           </div>
 
+          {/* Apple Pay / Google Pay ボタン */}
+          {(applePaySupported || googlePaySupported) && (
+            <div className="mb-4">
+              <div className="text-xs text-center text-gray-600 mb-2">
+                スマホ決済で簡単に登録
+              </div>
+              <div className="flex flex-col gap-3">
+                {applePaySupported && (
+                  <button
+                    onClick={handleApplePay}
+                    disabled={loading}
+                    className="w-full bg-black text-white font-bold py-3 px-4 rounded-lg hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  >
+                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
+                    </svg>
+                    {loading ? "処理中..." : "Apple Pay で登録"}
+                  </button>
+                )}
+                {googlePaySupported && (
+                  <div id="google-pay-button" className="w-full"></div>
+                )}
+              </div>
+              <div className="flex items-center my-4">
+                <div className="flex-1 border-t border-gray-300"></div>
+                <span className="px-3 text-xs text-gray-500">または</span>
+                <div className="flex-1 border-t border-gray-300"></div>
+              </div>
+            </div>
+          )}
+
+          {/* クレジットカードフォーム */}
+          <div className="text-xs text-center text-gray-600 mb-2">
+            クレジットカードで登録
+          </div>
           <div id="card-container" className="min-h-25"></div>
         </>
       )}
@@ -280,7 +406,7 @@ export default function SubscriptionPage() {
           disabled={loading || !card}
           className="w-full bg-orange-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-orange-600 transition-colors disabled:opacity-50 mt-4 disabled:cursor-not-allowed"
         >
-          {loading ? "処理中..." : "登録してガチャを引く"}
+          {loading ? "処理中..." : "カードで登録してガチャを引く"}
         </button>
       )}
 
