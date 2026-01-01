@@ -25,6 +25,7 @@ export default function SubscriptionPage() {
   const [googlePay, setGooglePay] = useState<any>(null);
   const [applePaySupported, setApplePaySupported] = useState(false);
   const [googlePaySupported, setGooglePaySupported] = useState(false);
+  const [walletDebug, setWalletDebug] = useState<string | null>(null);
   const [subscriptionStatus, setSubscriptionStatus] = useState<string | null>(null);
   const [chargedThroughDate, setChargedThroughDate] = useState<string | null>(null);
   const [nextRenewalDate, setNextRenewalDate] = useState<string | null>(null);
@@ -106,9 +107,11 @@ export default function SubscriptionPage() {
         const applePayInstance = await payments.applePay(applePayRequest);
         setApplePay(applePayInstance);
         setApplePaySupported(true);
-      } catch (e) {
-        console.log("Apple Pay not supported on this device");
+        setWalletDebug(prev => (prev || "") + " | Apple Pay OK");
+      } catch (e: any) {
+        console.log("Apple Pay not supported on this device", e);
         setApplePaySupported(false);
+        setWalletDebug(prev => (prev || "") + " | Apple Pay Error: " + (e?.message || e));
       }
 
       // Google Pay の初期化
@@ -125,9 +128,11 @@ export default function SubscriptionPage() {
         await googlePayInstance.attach("#google-pay-button");
         setGooglePay(googlePayInstance);
         setGooglePaySupported(true);
-      } catch (e) {
-        console.log("Google Pay not supported on this device");
+        setWalletDebug(prev => (prev || "") + " | Google Pay OK");
+      } catch (e: any) {
+        console.log("Google Pay not supported on this device", e);
         setGooglePaySupported(false);
+        setWalletDebug(prev => (prev || "") + " | Google Pay Error: " + (e?.message || e));
       }
 
     } catch (e: any) {
@@ -314,6 +319,13 @@ export default function SubscriptionPage() {
           <li>いつでも解約可能</li>
         </ul>
       </div>
+
+      {/* デバッグ情報（本番確認後に削除） */}
+      {walletDebug && (
+        <div className="text-xs text-gray-500 bg-gray-100 p-2 rounded mb-4 break-all">
+          Debug: {walletDebug}
+        </div>
+      )}
 
       {(subscriptionStatus === "active" || subscriptionStatus === "canceling") && (
         <div className="mb-6">
