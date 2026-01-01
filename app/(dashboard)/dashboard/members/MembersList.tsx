@@ -193,6 +193,19 @@ export function MembersList({
                         VIP
                       </span>
                     )}
+                    {/* 未登録・解約済みの場合は付与ボタンを表示 */}
+                    {subscriptionStatus !== "active" && subscriptionStatus !== "canceling" && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setShowPeriodModal({ userId: profile.id, displayName: profile.display_name || "このユーザー" });
+                        }}
+                        disabled={loading === profile.id}
+                        className="text-[10px] px-2 py-0.5 rounded-full font-bold bg-orange-500 text-white hover:bg-orange-600 disabled:opacity-50"
+                      >
+                        {loading === profile.id ? "..." : "付与"}
+                      </button>
+                    )}
                   </div>
 
                   <div className="text-xs text-gray-500 mt-1">

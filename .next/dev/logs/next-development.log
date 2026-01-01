@@ -661,3 +661,43 @@ Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
 [00:50:45.425] Server  LOG      ✓ Compiled in 59ms
 [00:52:20.782] Server  LOG      ✓ Compiled in 65ms
 [00:55:05.418] Server  LOG      ✓ Compiled in 49ms
+[01:05:11.584] Server  LOG      ✓ Compiled in 41ms
+[01:05:12.457] Browser ERROR   In HTML, %s cannot be a descendant of <%s>.
+This will cause a hydration error.%s <button> button 
+
+  ...
+    <InnerScrollAndFocusHandler segmentPath={[...]} focusAndScrollRef={{apply:false, ...}}>
+      <ErrorBoundary errorComponent={undefined} errorStyles={undefined} errorScripts={undefined}>
+        <LoadingBoundary name="members/" loading={Promise}>
+          <HTTPAccessFallbackBoundary notFound={undefined} forbidden={undefined} unauthorized={undefined}>
+            <RedirectBoundary>
+              <RedirectErrorBoundary router={{...}}>
+                <InnerLayoutRouter url="/dashboard..." tree={[...]} params={{}} cacheNode={{lazyData:null, ...}} ...>
+                  <SegmentViewNode type="page" pagePath="(dashboard...">
+                    <SegmentTrieNode>
+                    <MembersPage>
+                      <div className="pb-20">
+                        <header>
+                        <MembersList profiles={[...]} userItems={[...]}>
+                          <div className="grid gap-4">
+                            <div className="bg-white p...">
+>                             <button type="button" className="w-full text-left" onClick={function onClick}>
+                                <div className="flex items...">
+                                  <div>
+                                  <div className="flex-1 min...">
+                                    <div className="flex items...">
+                                      <div>
+                                      <span>
+>                                     <button
+>                                       onClick={function onClick}
+>                                       disabled={false}
+>                                       className="text-[10px] px-2 py-0.5 rounded-full font-bold bg-orange-500 text-w..."
+>                                     >
+                                    ...
+                            ...
+                  ...
+                ...
+      ...
+
+[01:05:12.457] Browser ERROR   <%s> cannot contain a nested %s.
+See this log for the ancestor stack trace. button <button>
