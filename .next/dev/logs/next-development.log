@@ -587,3 +587,6 @@ Import traces:
   Client Component SSR:
     ./app/member/subscription/page.tsx [Client Component SSR]
     ./app/member/subscription/page.tsx [Server Component]
+[00:22:16.566] Server  LOG      ✓ Compiled in 54ms
+[00:22:17.606] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:22:19.459] Browser LOG     Apple Pay not supported on this device {"errors":[],"name":"PaymentMethodUnsupportedError"}

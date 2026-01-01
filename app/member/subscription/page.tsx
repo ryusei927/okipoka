@@ -138,13 +138,6 @@ export default function SubscriptionPage() {
 
   // クレジットカードで支払い
   async function handleSubscribe() {
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  // クレジットカードで支払い
-  async function handleSubscribe() {
     if (!card) return;
     
     setLoading(true);
