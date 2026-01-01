@@ -279,7 +279,7 @@ export function MembersList({
                       </button>
                     )}
                   </div>
-                  {message?.userId === profile.id && (
+                  {message?.userId === profile.id && message && (
                     <div className={`mt-2 text-xs ${message.type === "success" ? "text-green-700" : "text-red-600"}`}>
                       {message.text}
                     </div>
