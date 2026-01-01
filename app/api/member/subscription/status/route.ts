@@ -58,7 +58,7 @@ export async function GET() {
 
   const { data: profile, error } = await supabase
     .from("profiles")
-    .select("subscription_status, subscription_id, square_customer_id, payment_method, subscription_expires_at")
+    .select("subscription_status, subscription_id, square_customer_id")
     .eq("id", user.id)
     .single();
 
@@ -70,20 +70,6 @@ export async function GET() {
   let status = profile?.subscription_status ?? null;
   let chargedThroughDate: string | null = null;
   let nextRenewalDate: string | null = null;
-  const paymentMethod = profile?.payment_method ?? null;
-  const subscriptionExpiresAt = profile?.subscription_expires_at ?? null;
-  
-  // 現金払いの残り日数計算
-  let daysRemaining: number | null = null;
-  if (paymentMethod === "cash" && subscriptionExpiresAt) {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const expiresDate = new Date(subscriptionExpiresAt);
-    expiresDate.setHours(0, 0, 0, 0);
-    const diffTime = expiresDate.getTime() - today.getTime();
-    daysRemaining = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    if (daysRemaining < 0) daysRemaining = 0;
-  }
 
   async function syncFromSquareSubscription(subscription: unknown) {
     const sub = subscription as {
@@ -153,8 +139,5 @@ export async function GET() {
     subscription_id: subscriptionId,
     charged_through_date: chargedThroughDate,
     next_renewal_date: nextRenewalDate,
-    payment_method: paymentMethod,
-    subscription_expires_at: subscriptionExpiresAt,
-    days_remaining: daysRemaining,
   });
 }
