@@ -298,7 +298,10 @@ export function ChatBot({
               <Image src="/logo.png" alt="OKIPOKA AI" width={40} height={40} className="w-full h-full object-cover" />
             </div>
             <div>
-              <h3 className="font-bold text-sm">OKIPOKA AI</h3>
+              <div className="flex items-center gap-2">
+                <h3 className="font-bold text-sm">OKIPOKA AI</h3>
+                <span className="px-1.5 py-0.5 bg-white/20 text-[10px] font-bold rounded">β</span>
+              </div>
               <p className="text-xs text-orange-100">何でも聞いてください</p>
             </div>
           </div>
