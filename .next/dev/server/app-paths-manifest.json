@@ -1,13 +1,9 @@
 {
-  "/(dashboard)/dashboard/gacha/page": "app/(dashboard)/dashboard/gacha/page.js",
-  "/(dashboard)/dashboard/members/page": "app/(dashboard)/dashboard/members/page.js",
-  "/(dashboard)/dashboard/page": "app/(dashboard)/dashboard/page.js",
+  "/(public)/hands/page": "app/(public)/hands/page.js",
   "/(public)/member/page": "app/(public)/member/page.js",
   "/(public)/page": "app/(public)/page.js",
-  "/api/auth/logout/route": "app/api/auth/logout/route.js",
-  "/api/member/subscription/status/route": "app/api/member/subscription/status/route.js",
+  "/(public)/premium/page": "app/(public)/premium/page.js",
+  "/api/chat/route": "app/api/chat/route.js",
   "/login/page": "app/login/page.js",
-  "/manifest.webmanifest/route": "app/manifest.webmanifest/route.js",
-  "/member/items/page": "app/member/items/page.js",
-  "/member/subscription/page": "app/member/subscription/page.js"
+  "/manifest.webmanifest/route": "app/manifest.webmanifest/route.js"
 }

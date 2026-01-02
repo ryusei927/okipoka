@@ -12,6 +12,9 @@ type Message = {
 
 type ChatBotProps = {
   mode?: "floating" | "inline";
+  isOpen?: boolean;
+  onClose?: () => void;
+  showTriggerButton?: boolean;
 };
 
 // 簡易的なMarkdownリンクパーサー
@@ -44,12 +47,33 @@ const renderMessage = (content: string) => {
   return parts.length > 0 ? parts : content;
 };
 
-export function ChatBot({ mode = "floating" }: ChatBotProps) {
-  const [isOpen, setIsOpen] = useState(mode === "inline"); // inlineの場合は初期表示で開くかどうか制御可能にするが、今回は常時表示風にする
+export function ChatBot({ 
+  mode = "floating", 
+  isOpen: externalIsOpen, 
+  onClose,
+  showTriggerButton = true 
+}: ChatBotProps) {
+  const [internalIsOpen, setInternalIsOpen] = useState(mode === "inline");
+  
+  // 外部制御か内部制御かを判定
+  const isControlled = externalIsOpen !== undefined;
+  const isOpen = isControlled ? externalIsOpen : internalIsOpen;
+  
+  const handleOpenChange = (newState: boolean) => {
+    if (isControlled) {
+      if (!newState && onClose) {
+        onClose();
+      }
+    } else {
+      setInternalIsOpen(newState);
+    }
+  };
+
   const [isExpanded, setIsExpanded] = useState(mode === "inline"); // inlineモードでの展開状態
   const [messages, setMessages] = useState<Message[]>([
     { role: "assistant", content: "こんにちは！OKIPOKAへようこそ。何かお手伝いできることはありますか？🃏" }
   ]);
+  const [sessionId] = useState(() => typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2));
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -94,7 +118,8 @@ export function ChatBot({ mode = "floating" }: ChatBotProps) {
           messages: [...messages, { role: "user", content: userMessage }].map(m => ({
             role: m.role,
             content: m.content
-          }))
+          })),
+          sessionId
         }),
       });
 
@@ -237,60 +262,74 @@ export function ChatBot({ mode = "floating" }: ChatBotProps) {
   return (
     <>
       {/* フローティングボタン */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className={`fixed bottom-6 right-6 z-50 p-4 rounded-full shadow-lg transition-all duration-300 ${
-          isOpen ? "bg-gray-200 text-gray-800 rotate-90" : "bg-orange-500 text-white hover:bg-orange-600"
-        }`}
-        aria-label="チャットを開く"
-      >
-        {isOpen ? <X className="w-6 h-6" /> : <MessageCircle className="w-6 h-6" />}
-      </button>
+      {showTriggerButton && (
+        <button
+          onClick={() => handleOpenChange(!isOpen)}
+          className={`fixed bottom-6 right-6 z-50 p-4 rounded-full shadow-lg transition-all duration-300 ${
+            isOpen 
+              ? "bg-gray-200 text-gray-800 rotate-90 md:flex hidden" 
+              : "bg-orange-500 text-white hover:bg-orange-600 flex"
+          }`}
+          aria-label="チャットを開く"
+        >
+          {isOpen ? <X className="w-6 h-6" /> : <MessageCircle className="w-6 h-6" />}
+        </button>
+      )}
 
       {/* チャットウィンドウ */}
       <div
-        className={`fixed bottom-24 right-6 z-50 w-80 md:w-96 bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden transition-all duration-300 origin-bottom-right ${
+        className={`fixed z-50 bg-white overflow-hidden transition-all duration-300 origin-bottom-right flex flex-col
+          ${
           isOpen
-            ? "opacity-100 scale-100 translate-y-0"
+            ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
             : "opacity-0 scale-95 translate-y-10 pointer-events-none"
-        }`}
+        }
+          /* モバイル: 全画面 */
+          inset-0 w-full h-full rounded-none
+          
+          /* PC: 右下固定、サイズアップ */
+          md:inset-auto md:bottom-24 md:right-6 md:w-[500px] md:h-[700px] md:max-h-[80vh] md:rounded-2xl md:border md:border-gray-200 md:shadow-2xl
+        `}
       >
         {/* ヘッダー */}
-        <div className="bg-orange-500 p-4 flex items-center gap-3 text-white">
-          <div className="bg-white/20 p-2 rounded-full">
-            <Bot className="w-5 h-5" />
+        <div className="bg-orange-500 p-4 flex items-center justify-between text-white shrink-0">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white/50 bg-white">
+              <Image src="/logo.png" alt="OKIPOKA AI" width={40} height={40} className="w-full h-full object-cover" />
+            </div>
+            <div>
+              <h3 className="font-bold text-sm">OKIPOKA AI</h3>
+              <p className="text-xs text-orange-100">何でも聞いてください</p>
+            </div>
           </div>
-          <div>
-            <h3 className="font-bold text-sm">OKIPOKA AI</h3>
-            <p className="text-xs text-orange-100">何でも聞いてください</p>
-          </div>
+          {/* 閉じるボタン */}
+          <button 
+            onClick={() => handleOpenChange(false)}
+            className="p-2 hover:bg-white/10 rounded-full transition-colors"
+          >
+            <X className="w-6 h-6" />
+          </button>
         </div>
 
         {/* メッセージエリア */}
-        <div className="h-96 overflow-y-auto p-4 bg-gray-50 space-y-4">
+        <div className="flex-1 overflow-y-auto p-4 bg-gray-50 space-y-4">
           {messages.map((msg, index) => (
             <div
               key={index}
               className={`flex items-start gap-2 ${
-                msg.role === "user" ? "flex-row-reverse" : "flex-row"
+                msg.role === "user" ? "justify-end" : "flex-row"
               }`}
             >
+              {msg.role !== "user" && (
+                <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 overflow-hidden bg-white border border-gray-100">
+                  <Image src="/logo.png" alt="AI" width={32} height={32} className="w-full h-full object-cover" />
+                </div>
+              )}
               <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
-                  msg.role === "user" ? "bg-gray-200" : "bg-orange-100"
-                }`}
-              >
-                {msg.role === "user" ? (
-                  <User className="w-4 h-4 text-gray-600" />
-                ) : (
-                  <Bot className="w-4 h-4 text-orange-500" />
-                )}
-              </div>
-              <div
-                className={`max-w-[80%] p-3 rounded-2xl text-sm leading-relaxed ${
+                className={`max-w-[80%] px-4 py-3 rounded-3xl text-sm leading-relaxed ${
                   msg.role === "user"
-                    ? "bg-gray-800 text-white rounded-tr-none"
-                    : "bg-white border border-gray-200 text-gray-800 rounded-tl-none shadow-sm"
+                    ? "bg-gray-800 text-white"
+                    : "bg-white border border-gray-200 text-gray-800 shadow-sm"
                 }`}
               >
                 {renderMessage(msg.content)}
@@ -299,10 +338,10 @@ export function ChatBot({ mode = "floating" }: ChatBotProps) {
           ))}
           {isLoading && (
             <div className="flex items-start gap-2">
-              <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center shrink-0">
-                <Bot className="w-4 h-4 text-orange-500" />
+              <div className="w-8 h-8 rounded-full bg-white border border-gray-100 flex items-center justify-center shrink-0 overflow-hidden">
+                <Image src="/logo.png" alt="AI" width={32} height={32} className="w-full h-full object-cover" />
               </div>
-              <div className="bg-white border border-gray-200 p-3 rounded-2xl rounded-tl-none shadow-sm">
+              <div className="bg-white border border-gray-200 px-4 py-3 rounded-3xl shadow-sm">
                 <div className="flex gap-1">
                   <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
                   <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
@@ -315,7 +354,7 @@ export function ChatBot({ mode = "floating" }: ChatBotProps) {
         </div>
 
         {/* 入力エリア */}
-        <form onSubmit={handleSubmit} className="p-3 bg-white border-t border-gray-100">
+        <form onSubmit={handleSubmit} className="p-3 bg-white border-t border-gray-100 shrink-0">
           <div className="flex items-center gap-2">
             <input
               type="text"

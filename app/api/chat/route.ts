@@ -1,10 +1,15 @@
 import { OpenAI } from "openai";
 import { NextResponse } from "next/server";
+import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
+
+export const dynamic = 'force-dynamic';
 
 export async function POST(request: Request) {
   try {
     const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) {
+      console.error("OpenAI API Key is missing");
       return NextResponse.json(
         { error: "OpenAI API Keyが設定されていません" },
         { status: 500 }
@@ -15,7 +20,45 @@ export async function POST(request: Request) {
       apiKey: apiKey,
     });
 
-    const { messages } = await request.json();
+    const body = await request.json();
+    const { messages, sessionId } = body;
+    const lastMessage = messages[messages.length - 1];
+
+    // ユーザーID取得（ログインしている場合） - エラーになってもチャットは続行させる
+    let userId = null;
+    try {
+      const supabase = await createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      userId = user?.id;
+    } catch (e) {
+      console.warn("Failed to get user session:", e);
+    }
+
+    // ログ保存用の管理者クライアント（環境変数がない場合はスキップ）
+    let adminSupabase = null;
+    try {
+      if (process.env.SUPABASE_SERVICE_ROLE_KEY) {
+        adminSupabase = createAdminClient();
+      } else {
+        console.warn("SUPABASE_SERVICE_ROLE_KEY is missing, chat logging disabled");
+      }
+    } catch (e) {
+      console.warn("Failed to create admin client:", e);
+    }
+
+    // ユーザーメッセージを保存
+    if (adminSupabase && lastMessage && lastMessage.role === 'user') {
+      try {
+        await adminSupabase.from('chat_logs').insert({
+          user_id: userId,
+          role: 'user',
+          content: lastMessage.content,
+          session_id: sessionId
+        });
+      } catch (err) {
+        console.error("Failed to save user log:", err);
+      }
+    }
 
     const systemPrompt = `
 あなたは沖縄のポーカー情報ポータルサイト「OKIPOKA（オキポカ）」のAIアシスタントです。
@@ -35,12 +78,20 @@ export async function POST(request: Request) {
 - 店舗一覧ページ: /shops
 - ログイン: /login
 - 新規登録: /login?view=sign-up
+- おきぽかプレミアム詳細: /premium
 
 あなたの役割:
 - このサイト「OKIPOKA」の使い方や、サイトに掲載されている情報（店舗、トーナメントなど）の探し方について案内すること。
+- 「おきぽかプレミアム」について聞かれたら、以下の情報を魅力的に伝えてください：
+  - 月額2,200円（税込）で、毎日1回ハズレなしのガチャが引けるお得なプランです。
+  - ガチャでは、ポーカー店舗の割引券やドリンクチケットなどが必ず当たります。
+  - さらに、サブスク会員限定のトーナメント割引や、無料招待トーナメントが開催されることもあります！
+  - 契約期間の縛りはなく、いつでも解約可能です。
+  - 詳しくは [こちらのページ](/premium) をご覧ください。
 - 「店舗を探したい」と言われたら、「こちらの [店舗一覧ページ](/shops) からエリアごとに探せますよ！」のように案内する。
 - 「初心者講習」について聞かれたら、「トップページで初心者マークのついたイベントを探すのがおすすめです。」のように案内する。
-- ポーカーのルールや戦略、一般的なポーカーの知識に関する質問には回答しないでください。「申し訳ありませんが、ポーカーのルールや戦略についてはお答えできません。OKIPOKAの使い方や掲載情報についてご質問ください。」と丁寧に断ってください。
+- ポーカーの基本的なルールや用語（例：役の強さ、ポジション、用語の意味など）や、ゲーム形式の違い（トーナメントとリングゲームの違いなど）については、初心者にもわかりやすく教えてあげてください。
+- ただし、具体的な戦略アドバイス、ハンドレビュー（「このハンドはどうプレイすべき？」など）、GTO（ゲーム理論最適）に関する質問には回答しないでください。「申し訳ありませんが、戦略的なアドバイスやハンドレビューは行っていません。ぜひ店舗で実践しながら学んでみてください！」と応援する形で断ってください。
 - 具体的な店舗の空き状況やリアルタイムなトーナメントの開催状況については、「最新情報は各店舗のSNSやサイト内の詳細ページをご確認ください」と案内すること。
 
 回答のトーン:
@@ -60,13 +111,33 @@ export async function POST(request: Request) {
     // ストリーミングレスポンスを作成
     const stream = new ReadableStream({
       async start(controller) {
-        for await (const chunk of response) {
-          const content = chunk.choices[0]?.delta?.content || "";
-          if (content) {
-            controller.enqueue(new TextEncoder().encode(content));
+        let fullContent = "";
+        try {
+          for await (const chunk of response) {
+            const content = chunk.choices[0]?.delta?.content || "";
+            if (content) {
+              fullContent += content;
+              controller.enqueue(new TextEncoder().encode(content));
+            }
           }
+        } catch (e) {
+          console.error("Streaming error:", e);
+        } finally {
+          // AIの応答が完了したらログに保存
+          if (adminSupabase && fullContent) {
+            try {
+              await adminSupabase.from('chat_logs').insert({
+                user_id: userId,
+                role: 'assistant',
+                content: fullContent,
+                session_id: sessionId
+              });
+            } catch (err) {
+              console.error("Failed to save assistant log:", err);
+            }
+          }
+          controller.close();
         }
-        controller.close();
       },
     });
 
@@ -79,7 +150,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("Chat API Error:", error);
     return NextResponse.json(
-      { error: "エラーが発生しました" },
+      { error: "エラーが発生しました", details: error instanceof Error ? error.message : String(error) },
       { status: 500 }
     );
   }
