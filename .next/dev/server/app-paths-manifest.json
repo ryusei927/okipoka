@@ -3,6 +3,7 @@
   "/(public)/member/page": "app/(public)/member/page.js",
   "/(public)/page": "app/(public)/page.js",
   "/(public)/premium/page": "app/(public)/premium/page.js",
+  "/(public)/shops/page": "app/(public)/shops/page.js",
   "/api/chat/route": "app/api/chat/route.js",
   "/login/page": "app/login/page.js",
   "/manifest.webmanifest/route": "app/manifest.webmanifest/route.js"

@@ -17,34 +17,49 @@ type ChatBotProps = {
   showTriggerButton?: boolean;
 };
 
-// 簡易的なMarkdownリンクパーサー
+// 簡易的なMarkdownリンクパーサー + 改行対応
 const renderMessage = (content: string) => {
-  const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
-  const parts = [];
-  let lastIndex = 0;
-  let match;
+  // まず改行で分割
+  const lines = content.split('\n');
+  
+  return lines.map((line, lineIndex) => {
+    const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+    const parts: (string | JSX.Element)[] = [];
+    let lastIndex = 0;
+    let match;
 
-  while ((match = linkRegex.exec(content)) !== null) {
-    if (match.index > lastIndex) {
-      parts.push(content.substring(lastIndex, match.index));
+    while ((match = linkRegex.exec(line)) !== null) {
+      if (match.index > lastIndex) {
+        parts.push(line.substring(lastIndex, match.index));
+      }
+      parts.push(
+        <Link
+          key={`${lineIndex}-${match.index}`}
+          href={match[2]}
+          className="text-orange-500 underline font-bold hover:text-orange-600"
+        >
+          {match[1]}
+        </Link>
+      );
+      lastIndex = match.index + match[0].length;
     }
-    parts.push(
-      <Link
-        key={match.index}
-        href={match[2]}
-        className="text-orange-500 underline font-bold hover:text-orange-600"
-      >
-        {match[1]}
-      </Link>
+
+    if (lastIndex < line.length) {
+      parts.push(line.substring(lastIndex));
+    }
+
+    // 空行の場合はスペーサーとして表示
+    if (line.trim() === '') {
+      return <div key={lineIndex} className="h-2" />;
+    }
+
+    return (
+      <span key={lineIndex}>
+        {parts.length > 0 ? parts : line}
+        {lineIndex < lines.length - 1 && <br />}
+      </span>
     );
-    lastIndex = match.index + match[0].length;
-  }
-
-  if (lastIndex < content.length) {
-    parts.push(content.substring(lastIndex));
-  }
-
-  return parts.length > 0 ? parts : content;
+  });
 };
 
 export function ChatBot({ 
@@ -324,7 +339,9 @@ export function ChatBot({
               }`}
             >
               {msg.role !== "user" && (
-                <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 overflow-hidden bg-white border border-gray-100">
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 overflow-hidden bg-white border border-gray-100 transition-all ${
+                  isLoading && index === messages.length - 1 ? "animate-pulse ring-2 ring-orange-200" : ""
+                }`}>
                   <Image src="/logo.png" alt="AI" width={32} height={32} className="w-full h-full object-cover" />
                 </div>
               )}
@@ -336,19 +353,23 @@ export function ChatBot({
                 }`}
               >
                 {renderMessage(msg.content)}
+                {/* タイピングカーソル - 最後のAIメッセージで、まだローディング中の場合 */}
+                {msg.role === "assistant" && index === messages.length - 1 && isLoading && (
+                  <span className="inline-block w-0.5 h-4 bg-orange-500 ml-0.5 animate-pulse" />
+                )}
               </div>
             </div>
           ))}
-          {isLoading && (
+          {isLoading && messages[messages.length - 1]?.role !== "assistant" && (
             <div className="flex items-start gap-2">
-              <div className="w-8 h-8 rounded-full bg-white border border-gray-100 flex items-center justify-center shrink-0 overflow-hidden">
+              <div className="w-8 h-8 rounded-full bg-white border border-gray-100 flex items-center justify-center shrink-0 overflow-hidden animate-pulse">
                 <Image src="/logo.png" alt="AI" width={32} height={32} className="w-full h-full object-cover" />
               </div>
               <div className="bg-white border border-gray-200 px-4 py-3 rounded-3xl shadow-sm">
-                <div className="flex gap-1">
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+                <div className="flex gap-1.5 items-center">
+                  <div className="w-2 h-2 bg-orange-400 rounded-full animate-[bounce_1s_ease-in-out_infinite]" style={{ animationDelay: "0ms" }} />
+                  <div className="w-2 h-2 bg-orange-400 rounded-full animate-[bounce_1s_ease-in-out_infinite]" style={{ animationDelay: "150ms" }} />
+                  <div className="w-2 h-2 bg-orange-400 rounded-full animate-[bounce_1s_ease-in-out_infinite]" style={{ animationDelay: "300ms" }} />
                 </div>
               </div>
             </div>
