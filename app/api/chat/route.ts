@@ -104,6 +104,8 @@ export async function POST(request: Request) {
 - 複数のポイントがある場合は、箇条書きを使ってください。
 - リンクは文中に自然に埋め込むか、別の行に記載してください。
 - 回答は簡潔にまとめ、必要な情報だけを伝えてください。
+- アスタリスク（*）やハッシュ（#）などのMarkdown記号は絶対に使わないでください。太字や見出しは不要です。
+- 箇条書きには「-」のみを使い、番号付きリストには「1. 2. 3.」を使ってください。
 `;
 
     const response = await openai.chat.completions.create({

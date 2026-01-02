@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, type ReactNode } from "react";
 import { MessageCircle, X, Send, User, Bot } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -24,7 +24,7 @@ const renderMessage = (content: string) => {
   
   return lines.map((line, lineIndex) => {
     const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
-    const parts: (string | JSX.Element)[] = [];
+    const parts: ReactNode[] = [];
     let lastIndex = 0;
     let match;
 
@@ -299,8 +299,8 @@ export function ChatBot({
             ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
             : "opacity-0 scale-95 translate-y-10 pointer-events-none"
         }
-          /* モバイル: 全画面 */
-          inset-0 w-full h-full rounded-none
+          /* モバイル: 全画面（キーボード対応） */
+          inset-0 w-full h-[100dvh] rounded-none
           
           /* PC: 右下固定、サイズアップ */
           md:inset-auto md:bottom-24 md:right-6 md:w-[500px] md:h-[700px] md:max-h-[80vh] md:rounded-2xl md:border md:border-gray-200 md:shadow-2xl
@@ -378,14 +378,14 @@ export function ChatBot({
         </div>
 
         {/* 入力エリア */}
-        <form onSubmit={handleSubmit} className="p-3 bg-white border-t border-gray-100 shrink-0">
+        <form onSubmit={handleSubmit} className="p-3 bg-white border-t border-gray-100 shrink-0 pb-safe">
           <div className="flex items-center gap-2">
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="メッセージを入力..."
-              className="flex-1 bg-gray-100 border-0 rounded-full px-4 py-2.5 text-sm focus:ring-2 focus:ring-orange-500 focus:bg-white transition-all outline-none"
+              className="flex-1 bg-gray-100 border-0 rounded-full px-4 py-2.5 text-base focus:ring-2 focus:ring-orange-500 focus:bg-white transition-all outline-none"
             />
             <button
               type="submit"
