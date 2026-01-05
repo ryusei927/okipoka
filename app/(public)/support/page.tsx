@@ -60,9 +60,14 @@ export default function SupportPage() {
               ポーカーの普及活動にも力を入れており、沖縄のポーカーシーンを牽引する存在として注目を集めている。
             </p>
 
-            <p className="text-orange-600 font-bold text-sm mb-8 italic">
-              「ポーカーに救われたから、ポーカーで恩返しを。沖縄から世界へ。」
-            </p>
+            <div className="mb-8">
+              <p className="text-slate-500 font-bold text-sm italic mb-2">
+                「ポーカーに救われたから、ポーカーで恩返しを。」
+              </p>
+              <p className="text-3xl sm:text-4xl font-black italic text-transparent bg-clip-text bg-linear-to-r from-yellow-500 via-orange-500 to-red-600 tracking-wider drop-shadow-sm">
+                沖縄から世界へ。
+              </p>
+            </div>
 
             <div className="mb-8">
               <h3 className="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2">
@@ -71,10 +76,10 @@ export default function SupportPage() {
               </h3>
               
               <div className="space-y-3">
-                {/* 2024年の実績 */}
+                {/* 2025年の実績 */}
                 <div className="bg-orange-50 p-4 rounded-xl border border-orange-100">
                   <div className="flex items-center gap-2 mb-2">
-                    <span className="px-2 py-0.5 bg-orange-500 text-white text-xs font-bold rounded-md">2024</span>
+                    <span className="px-2 py-0.5 bg-orange-500 text-white text-xs font-bold rounded-md">2025</span>
                     <span className="text-xs font-bold text-orange-600">Latest</span>
                   </div>
                   <ul className="space-y-2 text-sm font-bold text-slate-800">
@@ -93,9 +98,9 @@ export default function SupportPage() {
                   </ul>
                 </div>
                 
-                {/* 2023年の実績 */}
+                {/* 2024年の実績 */}
                 <div className="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                  <div className="text-xs font-bold text-slate-400 mb-2">2023</div>
+                  <div className="text-xs font-bold text-slate-400 mb-2">2024</div>
                   <ul className="space-y-2 text-sm text-slate-600">
                     <li className="flex items-start gap-2">
                       <span className="text-slate-300 mt-1">●</span>
