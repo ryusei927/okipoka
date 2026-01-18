@@ -134,7 +134,7 @@ export default function TournamentForm({ shops, tournament, recentTournaments = 
       acc.push(curr);
     }
     return acc;
-  }, []).slice(0, 10);
+  }, []);
 
   const handleAnalyze = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
