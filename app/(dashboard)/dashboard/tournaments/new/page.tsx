@@ -16,7 +16,8 @@ export default async function Page() {
     .from("tournaments")
     .select("*")
     .eq("is_template", true)
-    .order("created_at", { ascending: false });
+    .order("created_at", { ascending: false })
+    .limit(100);
 
   return <TournamentForm shops={shops || []} recentTournaments={recentTournaments || []} />;
 }

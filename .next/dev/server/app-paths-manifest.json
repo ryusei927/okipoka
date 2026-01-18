@@ -1,8 +1,6 @@
 {
   "/(public)/member/page": "app/(public)/member/page.js",
   "/(public)/page": "app/(public)/page.js",
-  "/(public)/support/page": "app/(public)/support/page.js",
-  "/_not-found/page": "app/_not-found/page.js",
   "/login/page": "app/login/page.js",
   "/manifest.webmanifest/route": "app/manifest.webmanifest/route.js"
 }
