@@ -407,6 +407,15 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
+// Validate ../../../app/api/admin/members/cash-subscription/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/admin/members/cash-subscription">> = Specific
+  const handler = {} as typeof import("../../../app/api/admin/members/cash-subscription/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../../app/api/admin/subscription/resync/route.ts
 {
   type __IsExpected<Specific extends RouteHandlerConfig<"/api/admin/subscription/resync">> = Specific

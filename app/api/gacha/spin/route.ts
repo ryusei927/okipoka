@@ -50,12 +50,17 @@ export async function POST() {
   // まずDBの状態を取得（以降のSquare同期にも使う）
   const { data: profileBase } = await supabase
     .from("profiles")
-    .select("subscription_status, subscription_id, square_customer_id")
+    .select("subscription_status, subscription_id, square_customer_id, payment_method, subscription_expires_at")
     .eq("id", user.id)
     .single();
 
-  // 「支払い済みなのにsubscription_status/subscription_idがDBに反映されていない」ケースを救済する
-  try {
+  // 現金払いユーザーはSquareチェックをスキップしてRPCに任せる
+  const paymentMethod = (profileBase as { payment_method?: string | null } | null)?.payment_method ?? null;
+  if (paymentMethod === "cash") {
+    // 現金払いはspin_gacha関数内で期限チェックするので、ここではスキップ
+  } else {
+    // 「支払い済みなのにsubscription_status/subscription_idがDBに反映されていない」ケースを救済する
+    try {
     const currentStatus = (profileBase as { subscription_status?: string | null } | null)?.subscription_status ?? null;
     const subscriptionId = (profileBase as { subscription_id?: string | null } | null)?.subscription_id ?? null;
     const customerId = (profileBase as { square_customer_id?: string | null } | null)?.square_customer_id ?? null;
@@ -102,6 +107,7 @@ export async function POST() {
     }
   } catch {
     // 救済同期が失敗してもRPCで判定させる
+  }
   }
 
   const { data, error } = await supabase.rpc("spin_gacha");

@@ -820,6 +820,10 @@
     margin-inline: calc(var(--spacing) * 1);
   }
 
+  .mx-4 {
+    margin-inline: calc(var(--spacing) * 4);
+  }
+
   .mx-auto {
     margin-inline: auto;
   }
@@ -2041,6 +2045,16 @@
   @supports (color: color-mix(in lab, red, red)) {
     .bg-black\/40 {
       background-color: color-mix(in oklab, var(--color-black) 40%, transparent);
+    }
+  }
+
+  .bg-black\/50 {
+    background-color: #00000080;
+  }
+
+  @supports (color: color-mix(in lab, red, red)) {
+    .bg-black\/50 {
+      background-color: color-mix(in oklab, var(--color-black) 50%, transparent);
     }
   }
 
