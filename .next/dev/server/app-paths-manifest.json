@@ -1,6 +1,10 @@
 {
+  "/(dashboard)/dashboard/members/page": "app/(dashboard)/dashboard/members/page.js",
+  "/(dashboard)/dashboard/page": "app/(dashboard)/dashboard/page.js",
   "/(public)/member/page": "app/(public)/member/page.js",
   "/(public)/page": "app/(public)/page.js",
   "/_not-found/page": "app/_not-found/page.js",
-  "/login/page": "app/login/page.js"
+  "/api/admin/members/cash-subscription/route": "app/api/admin/members/cash-subscription/route.js",
+  "/login/page": "app/login/page.js",
+  "/manifest.webmanifest/route": "app/manifest.webmanifest/route.js"
 }

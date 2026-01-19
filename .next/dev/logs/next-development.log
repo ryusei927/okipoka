@@ -65,3 +65,131 @@ Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
 [00:16:17.872] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.9665856878100714.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
 [00:16:17.872] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/shop-images/0.7182573599719301.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
 [00:16:19.157] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/member color: rgb(120, 120, 120) color: inherit {"o":"http://localhost:3000/member","sdkn":"@vercel/analytics/react","sdkv":"1.6.1","sv":"0.1.3","ts":1768822984199}
+[00:21:26.540] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:21:26.655] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:21:26.655] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"o":"http://localhost:3000/login","r":"","sdkn":"@vercel/analytics/react","sdkv":"1.6.1","sv":"0.1.3","ts":1768823291696}
+[00:21:31.759] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/member color: rgb(120, 120, 120) color: inherit {"o":"http://localhost:3000/member","sdkn":"@vercel/analytics/react","sdkv":"1.6.1","sv":"0.1.3","ts":1768823296800}
+[00:21:32.090] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/avatars/56b616b7-02ab-4937-9cd2-7cf3a7a2b380-1765538599069.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:21:36.273] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/react","sdkv":"1.6.1","sv":"0.1.3","ts":1768823301314}
+[00:21:52.091] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/members color: rgb(120, 120, 120) color: inherit {"o":"http://localhost:3000/dashboard/members","sdkn":"@vercel/analytics/react","sdkv":"1.6.1","sv":"0.1.3","ts":1768823317131}
+[00:21:52.538] Browser WARN    Image with src "https://lh3.googleusercontent.com/a/ACg8ocLnaCqEnnq0o3TSvwlnMx4PX6Y_68eE4Gduq4m2xRnfm3P9ww=s96-c" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:21:52.643] Browser WARN    Image with src "https://lh3.googleusercontent.com/a/ACg8ocJ6YPTpRlZ9_ubtw-U1WGP3DH8ajiWA7R99DYbCKXuCfB-j-w=s96-c" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:21:52.643] Browser WARN    Image with src "https://lh3.googleusercontent.com/a/ACg8ocI8NZ-nkCPc3SvVWbivPxM1fqlaXtjxy6jpgHqWrE7R4YQ7Sg=s96-c" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:21:52.771] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/avatars/dfd1f90d-5fc1-4797-9e67-7453e4fdf6a5-1767669535277.jpeg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:21:53.050] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/avatars/e4c5d0f6-6175-4643-81b0-2672b1f25d1b-1767595855753.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:21:53.929] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/avatars/d27cb7fe-bea2-44b6-902b-6daee00be217-1767442805460.jpeg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:22:04.901] Browser WARN    Image with src "https://lh3.googleusercontent.com/a/ACg8ocIIpety1zlcY09Ha8vdC4IefBhTejwgXmVFabaadSPiLN2t7U0=s96-c" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:22:04.901] Browser WARN    Image with src "https://lh3.googleusercontent.com/a/ACg8ocKDI22oJ1fTclhQdiYagubHMnt2pwXoSR6cKX0b2Drr1lc7hQ=s96-c" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:22:04.901] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/avatars/5b1dae17-c251-4438-b0b6-ec95bfce50f0-1767205449138.jpeg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:22:04.901] Browser WARN    Image with src "https://lh3.googleusercontent.com/a/ACg8ocIV9My2lMUck9JlhBC_c90cMP85FIoDMrJ3OsuZUn9BamAZmb4=s96-c" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:22:12.263] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/avatars/b90fb965-e84b-4801-bf15-c6a3beb0c93d-1765610467455.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:22:12.611] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/avatars/9d21d1a7-1665-41b6-87af-8d82251a0c28-1765531389086.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:22:46.458] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:22:46.563] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:22:46.563] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/members color: rgb(120, 120, 120) color: inherit {"o":"http://localhost:3000/dashboard/members","sdkn":"@vercel/analytics/react","sdkv":"1.6.1","sv":"0.1.3","ts":1768823371606}
+[00:22:46.952] Browser WARN    Image with src "https://lh3.googleusercontent.com/a/ACg8ocLnaCqEnnq0o3TSvwlnMx4PX6Y_68eE4Gduq4m2xRnfm3P9ww=s96-c" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:22:46.952] Browser WARN    Image with src "https://lh3.googleusercontent.com/a/ACg8ocJ6YPTpRlZ9_ubtw-U1WGP3DH8ajiWA7R99DYbCKXuCfB-j-w=s96-c" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:22:46.952] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/avatars/e4c5d0f6-6175-4643-81b0-2672b1f25d1b-1767595855753.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:22:46.953] Browser WARN    Image with src "https://lh3.googleusercontent.com/a/ACg8ocI8NZ-nkCPc3SvVWbivPxM1fqlaXtjxy6jpgHqWrE7R4YQ7Sg=s96-c" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:22:46.953] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/avatars/d27cb7fe-bea2-44b6-902b-6daee00be217-1767442805460.jpeg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:22:46.953] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/avatars/dfd1f90d-5fc1-4797-9e67-7453e4fdf6a5-1767669535277.jpeg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:22:48.244] Browser WARN    Image with src "https://lh3.googleusercontent.com/a/ACg8ocIIpety1zlcY09Ha8vdC4IefBhTejwgXmVFabaadSPiLN2t7U0=s96-c" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:22:48.244] Browser WARN    Image with src "https://lh3.googleusercontent.com/a/ACg8ocKDI22oJ1fTclhQdiYagubHMnt2pwXoSR6cKX0b2Drr1lc7hQ=s96-c" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:22:48.244] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/avatars/5b1dae17-c251-4438-b0b6-ec95bfce50f0-1767205449138.jpeg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:22:48.886] Browser WARN    Image with src "https://lh3.googleusercontent.com/a/ACg8ocIV9My2lMUck9JlhBC_c90cMP85FIoDMrJ3OsuZUn9BamAZmb4=s96-c" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:22:50.251] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/avatars/b90fb965-e84b-4801-bf15-c6a3beb0c93d-1765610467455.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:22:50.251] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/avatars/56b616b7-02ab-4937-9cd2-7cf3a7a2b380-1765538599069.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:22:50.251] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/avatars/9d21d1a7-1665-41b6-87af-8d82251a0c28-1765531389086.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:25:53.689] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"o":"http://localhost:3000/login","sdkn":"@vercel/analytics/react","sdkv":"1.6.1","sv":"0.1.3","ts":1768823558728}
+[00:25:58.959] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/member color: rgb(120, 120, 120) color: inherit {"o":"http://localhost:3000/member","sdkn":"@vercel/analytics/react","sdkv":"1.6.1","sv":"0.1.3","ts":1768823564002}
+[00:27:19.967] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/react","sdkv":"1.6.1","sv":"0.1.3","ts":1768823645008}
+[00:27:25.341] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/members color: rgb(120, 120, 120) color: inherit {"o":"http://localhost:3000/dashboard/members","sdkn":"@vercel/analytics/react","sdkv":"1.6.1","sv":"0.1.3","ts":1768823650381}
+[00:40:22.495] Server  LOG      ✓ Compiled in 100ms
+[00:40:22.627] Browser ERROR   ./app/(dashboard)/dashboard/members/MembersList.tsx:41:14
+Parsing ecmascript source code failed
+  39 |   if (status === "active" || status === "canceling") {
+  40 |     if (paymentMethod === "cash") {
+> 41 |       return \`\${base} bg-orange-100 text-orange-700\`;
+     |              ^
+  42 |     }
+  43 |     return \`\${base} bg-green-100 text-green-700\`;
+  44 |   }
+
+Expected unicode escape
+
+Import trace:
+  Server Component:
+    ./app/(dashboard)/dashboard/members/MembersList.tsx
+    ./app/(dashboard)/dashboard/members/page.tsx
+[00:45:25.627] Server  LOG      ✓ Compiled in 46ms
+[00:45:58.184] Server  LOG      ✓ Compiled in 50ms
+[00:46:05.552] Server  LOG      ✓ Compiled in 49ms
+[00:46:09.781] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:46:09.897] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:46:09.897] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/members color: rgb(120, 120, 120) color: inherit {"o":"http://localhost:3000/dashboard/members","sdkn":"@vercel/analytics/react","sdkv":"1.6.1","sv":"0.1.3","ts":1768824774949}
+[00:46:10.262] Browser WARN    Image with src "https://lh3.googleusercontent.com/a/ACg8ocLnaCqEnnq0o3TSvwlnMx4PX6Y_68eE4Gduq4m2xRnfm3P9ww=s96-c" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:46:10.262] Browser WARN    Image with src "https://lh3.googleusercontent.com/a/ACg8ocJ6YPTpRlZ9_ubtw-U1WGP3DH8ajiWA7R99DYbCKXuCfB-j-w=s96-c" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:46:10.262] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/avatars/e4c5d0f6-6175-4643-81b0-2672b1f25d1b-1767595855753.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:46:10.262] Browser WARN    Image with src "https://lh3.googleusercontent.com/a/ACg8ocI8NZ-nkCPc3SvVWbivPxM1fqlaXtjxy6jpgHqWrE7R4YQ7Sg=s96-c" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:46:10.262] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/avatars/d27cb7fe-bea2-44b6-902b-6daee00be217-1767442805460.jpeg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:46:10.262] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/avatars/dfd1f90d-5fc1-4797-9e67-7453e4fdf6a5-1767669535277.jpeg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:46:11.040] Browser WARN    Image with src "https://lh3.googleusercontent.com/a/ACg8ocIIpety1zlcY09Ha8vdC4IefBhTejwgXmVFabaadSPiLN2t7U0=s96-c" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:46:11.040] Browser WARN    Image with src "https://lh3.googleusercontent.com/a/ACg8ocKDI22oJ1fTclhQdiYagubHMnt2pwXoSR6cKX0b2Drr1lc7hQ=s96-c" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:46:11.040] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/avatars/5b1dae17-c251-4438-b0b6-ec95bfce50f0-1767205449138.jpeg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:46:11.040] Browser WARN    Image with src "https://lh3.googleusercontent.com/a/ACg8ocIV9My2lMUck9JlhBC_c90cMP85FIoDMrJ3OsuZUn9BamAZmb4=s96-c" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:46:11.040] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/avatars/b90fb965-e84b-4801-bf15-c6a3beb0c93d-1765610467455.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:46:11.040] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/avatars/56b616b7-02ab-4937-9cd2-7cf3a7a2b380-1765538599069.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:46:11.040] Browser WARN    Image with src "https://atqbsrgpedaxutnqokcz.supabase.co/storage/v1/object/public/avatars/9d21d1a7-1665-41b6-87af-8d82251a0c28-1765531389086.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:46:27.764] Server  LOG      ✓ Compiled in 46ms
+[00:46:28.629] Browser ERROR   ./app/(dashboard)/dashboard/members/MembersList.tsx:508:9
+Parsing ecmascript source code failed
+  506 |           </div>
+  507 |         );
+> 508 |       })}
+      |         ^
+  509 |
+  510 |       {profiles?.length === 0 && (
+  511 |         <div className="text-center py-10 text-gray-500">会員がまだいません</div>
+
+Expected '</', got '}'
+
+Import trace:
+  Server Component:
+    ./app/(dashboard)/dashboard/members/MembersList.tsx
+    ./app/(dashboard)/dashboard/members/page.tsx
+[00:46:34.627] Browser ERROR   ./app/(dashboard)/dashboard/members/MembersList.tsx:507:9
+Parsing ecmascript source code failed
+  505 |           </div>
+  506 |         );
+> 507 |       })}
+      |         ^
+  508 |
+  509 |       {profiles?.length === 0 && (
+  510 |         <div className="text-center py-10 text-gray-500">会員がまだいません</div>
+
+Expected '</', got '}'
+
+Import trace:
+  Server Component:
+    ./app/(dashboard)/dashboard/members/MembersList.tsx
+    ./app/(dashboard)/dashboard/members/page.tsx
+[00:47:00.628] Browser ERROR   ./app/(dashboard)/dashboard/members/MembersList.tsx:487:9
+Parsing ecmascript source code failed
+  485 |           </div>
+  486 |         );
+> 487 |       })}
+      |         ^
+  488 |
+  489 |       {profiles?.length === 0 && (
+  490 |         <div className="text-center py-10 text-gray-500">会員がまだいません</div>
+
+Expected '</', got '}'
+
+Import trace:
+  Server Component:
+    ./app/(dashboard)/dashboard/members/MembersList.tsx
+    ./app/(dashboard)/dashboard/members/page.tsx
+[00:47:28.344] Server  LOG      ✓ Compiled in 45ms
+[00:47:43.364] Server  LOG      ✓ Compiled in 44ms
+[00:50:17.682] Server  LOG      ✓ Compiled in 47ms
+[00:51:41.663] Server  LOG      ✓ Compiled in 69ms
