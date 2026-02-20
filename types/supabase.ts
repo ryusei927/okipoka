@@ -129,6 +129,70 @@ export interface Database {
           vip_expires_at?: string | null
         }
       }
+      photo_albums: {
+        Row: {
+          id: string
+          created_at: string
+          updated_at: string
+          title: string
+          description: string | null
+          cover_image_url: string | null
+          event_date: string
+          is_published: boolean
+          photo_count: number
+        }
+        Insert: {
+          id?: string
+          created_at?: string
+          updated_at?: string
+          title: string
+          description?: string | null
+          cover_image_url?: string | null
+          event_date: string
+          is_published?: boolean
+          photo_count?: number
+        }
+        Update: {
+          id?: string
+          created_at?: string
+          updated_at?: string
+          title?: string
+          description?: string | null
+          cover_image_url?: string | null
+          event_date?: string
+          is_published?: boolean
+          photo_count?: number
+        }
+      }
+      photo_album_photos: {
+        Row: {
+          id: string
+          created_at: string
+          album_id: string
+          image_url: string
+          thumbnail_url: string | null
+          caption: string | null
+          sort_order: number
+        }
+        Insert: {
+          id?: string
+          created_at?: string
+          album_id: string
+          image_url: string
+          thumbnail_url?: string | null
+          caption?: string | null
+          sort_order?: number
+        }
+        Update: {
+          id?: string
+          created_at?: string
+          album_id?: string
+          image_url?: string
+          thumbnail_url?: string | null
+          caption?: string | null
+          sort_order?: number
+        }
+      }
     }
   }
 }

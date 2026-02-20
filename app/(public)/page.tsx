@@ -213,6 +213,22 @@ export default async function HomePage({
         </Link>
       </div>
 
+      {/* プレイヤーズフォトバナー */}
+      <div className="max-w-md md:max-w-4xl mx-auto px-4 mb-8">
+        <Link href="/photos" className="block relative rounded-2xl overflow-hidden shadow-md group">
+          <Image
+            src="/prayersphoto.png"
+            alt="プレイヤーズフォト"
+            width={1024}
+            height={367}
+            className="w-full h-auto transition-transform duration-500 group-hover:scale-105"
+          />
+          <span className="absolute top-3 right-3 bg-white/90 text-gray-800 text-xs font-bold px-3 py-1 rounded-full shadow animate-pulse">
+            Click →
+          </span>
+        </Link>
+      </div>
+
       {/* スポンサーバナー */}
       <div className="max-w-md md:max-w-4xl mx-auto px-4 mb-8">
         <Link href="/support" className="block relative rounded-2xl overflow-hidden shadow-md group">

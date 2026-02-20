@@ -45,35 +45,35 @@
       "filename": "app/login/actions.ts",
       "exportedName": "signInWithGoogle"
     },
-    "60cd341a12bce7969b1f169d379ceff31717bfcff6": {
+    "40123e1d48499ad4dc1ebfc1f86ff3e05512459a6d": {
       "workers": {
-        "app/(dashboard)/dashboard/tournaments/new/page": {
-          "moduleId": "[project]/.next-internal/server/app/(dashboard)/dashboard/tournaments/new/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/(dashboard)/dashboard/tournaments/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+        "app/(dashboard)/dashboard/ads/page": {
+          "moduleId": "[project]/.next-internal/server/app/(dashboard)/dashboard/ads/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/(dashboard)/dashboard/ads/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false,
-          "exportedName": "upsertTournament",
-          "filename": "app/(dashboard)/dashboard/tournaments/actions.ts"
+          "exportedName": "deleteAd",
+          "filename": "app/(dashboard)/dashboard/ads/actions.ts"
         }
       },
       "layer": {
-        "app/(dashboard)/dashboard/tournaments/new/page": "action-browser"
+        "app/(dashboard)/dashboard/ads/page": "action-browser"
       },
-      "filename": "app/(dashboard)/dashboard/tournaments/actions.ts",
-      "exportedName": "upsertTournament"
+      "filename": "app/(dashboard)/dashboard/ads/actions.ts",
+      "exportedName": "deleteAd"
     },
-    "40bf02657a10aa5c2620b73aafd23942a50086b2d3": {
+    "60ab31df43492201007b5dcd1f392158833fd09360": {
       "workers": {
-        "app/(dashboard)/dashboard/tournaments/new/page": {
-          "moduleId": "[project]/.next-internal/server/app/(dashboard)/dashboard/tournaments/new/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/(dashboard)/dashboard/tournaments/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+        "app/(dashboard)/dashboard/ads/[id]/page": {
+          "moduleId": "[project]/.next-internal/server/app/(dashboard)/dashboard/ads/[id]/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/(dashboard)/dashboard/ads/actions.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false,
-          "exportedName": "removeTemplate",
-          "filename": "app/(dashboard)/dashboard/tournaments/actions.ts"
+          "exportedName": "upsertAd",
+          "filename": "app/(dashboard)/dashboard/ads/actions.ts"
         }
       },
       "layer": {
-        "app/(dashboard)/dashboard/tournaments/new/page": "action-browser"
+        "app/(dashboard)/dashboard/ads/[id]/page": "action-browser"
       },
-      "filename": "app/(dashboard)/dashboard/tournaments/actions.ts",
-      "exportedName": "removeTemplate"
+      "filename": "app/(dashboard)/dashboard/ads/actions.ts",
+      "exportedName": "upsertAd"
     }
   },
   "edge": {},

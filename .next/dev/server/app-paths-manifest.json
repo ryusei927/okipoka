@@ -1,11 +1,17 @@
 {
-  "/(dashboard)/dashboard/members/page": "app/(dashboard)/dashboard/members/page.js",
+  "/(dashboard)/dashboard/ads/[id]/page": "app/(dashboard)/dashboard/ads/[id]/page.js",
+  "/(dashboard)/dashboard/ads/page": "app/(dashboard)/dashboard/ads/page.js",
   "/(dashboard)/dashboard/page": "app/(dashboard)/dashboard/page.js",
-  "/(dashboard)/dashboard/tournaments/new/page": "app/(dashboard)/dashboard/tournaments/new/page.js",
+  "/(dashboard)/dashboard/photos/[id]/page": "app/(dashboard)/dashboard/photos/[id]/page.js",
+  "/(dashboard)/dashboard/photos/page": "app/(dashboard)/dashboard/photos/page.js",
+  "/(public)/hands/page": "app/(public)/hands/page.js",
   "/(public)/member/page": "app/(public)/member/page.js",
   "/(public)/page": "app/(public)/page.js",
-  "/_not-found/page": "app/_not-found/page.js",
-  "/api/admin/members/cash-subscription/route": "app/api/admin/members/cash-subscription/route.js",
+  "/(public)/photos/[id]/page": "app/(public)/photos/[id]/page.js",
+  "/(public)/photos/page": "app/(public)/photos/page.js",
+  "/api/admin/photos/[id]/route": "app/api/admin/photos/[id]/route.js",
+  "/api/admin/photos/[id]/upload/route": "app/api/admin/photos/[id]/upload/route.js",
+  "/api/admin/photos/route": "app/api/admin/photos/route.js",
   "/login/page": "app/login/page.js",
   "/manifest.webmanifest/route": "app/manifest.webmanifest/route.js"
 }
