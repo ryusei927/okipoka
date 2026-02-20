@@ -2,6 +2,14 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { NextRequest, NextResponse } from "next/server";
 
+// アップロードサイズ上限を100MBに引き上げ（大量写真対応）
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+export const maxDuration = 60;
+
 const ADMIN_EMAIL = (
   process.env.OKIPOKA_ADMIN_EMAIL ?? "okipoka.jp@gmail.com"
 ).toLowerCase();
