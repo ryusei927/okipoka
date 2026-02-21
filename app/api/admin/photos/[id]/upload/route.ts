@@ -2,12 +2,6 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { NextRequest, NextResponse } from "next/server";
 
-// アップロードサイズ上限を100MBに引き上げ（大量写真対応）
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
 export const maxDuration = 60;
 
 const ADMIN_EMAIL = (
@@ -53,6 +47,7 @@ export async function POST(
   }
 
   const uploadedPhotos = [];
+  const failedFiles: { name: string; reason: string }[] = [];
 
   // 現在の最大sort_orderを取得
   const { data: maxSortData } = await admin
@@ -65,19 +60,66 @@ export async function POST(
   let nextSortOrder = (maxSortData?.[0]?.sort_order ?? -1) + 1;
 
   for (const file of files) {
-    const ext = file.name.split(".").pop() || "jpg";
+    // ファイルサイズチェック（50MB上限）
+    if (file.size > 50 * 1024 * 1024) {
+      failedFiles.push({ name: file.name, reason: "ファイルサイズが50MBを超えています" });
+      continue;
+    }
+
+    // 対応するMIMEタイプ
+    const allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/gif",
+      "image/webp",
+      "image/heic",
+      "image/heif",
+      "image/svg+xml",
+      "image/bmp",
+      "image/tiff",
+    ];
+
+    // MIMEタイプが空の場合は拡張子で判定
+    let contentType = file.type;
+    if (!contentType || contentType === "application/octet-stream") {
+      const extLower = (file.name.split(".").pop() || "").toLowerCase();
+      const extMap: Record<string, string> = {
+        jpg: "image/jpeg",
+        jpeg: "image/jpeg",
+        png: "image/png",
+        gif: "image/gif",
+        webp: "image/webp",
+        heic: "image/heic",
+        heif: "image/heif",
+        svg: "image/svg+xml",
+        bmp: "image/bmp",
+        tiff: "image/tiff",
+        tif: "image/tiff",
+      };
+      contentType = extMap[extLower] || "image/jpeg";
+    }
+
+    if (!allowedTypes.includes(contentType) && !contentType.startsWith("image/")) {
+      failedFiles.push({ name: file.name, reason: `非対応の形式です (${contentType})` });
+      continue;
+    }
+
+    // ファイル名を安全な形式に変換（日本語・特殊文字を除去）
+    const extRaw = file.name.split(".").pop() || "jpg";
+    const ext = extRaw.toLowerCase().replace(/[^a-z0-9]/g, "") || "jpg";
     const fileName = `${albumId}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
 
     // Storageにアップロード
     const { error: uploadError } = await admin.storage
       .from("player-photos")
       .upload(fileName, file, {
-        contentType: file.type,
+        contentType,
         upsert: false,
       });
 
     if (uploadError) {
-      console.error("Upload error:", uploadError);
+      console.error("Upload error:", file.name, uploadError);
+      failedFiles.push({ name: file.name, reason: uploadError.message || "ストレージへのアップロードに失敗" });
       continue;
     }
 
@@ -133,6 +175,8 @@ export async function POST(
 
   return NextResponse.json({
     uploaded: uploadedPhotos.length,
+    failed: failedFiles.length,
+    failedFiles,
     photos: uploadedPhotos,
   });
 }

@@ -53,10 +53,18 @@ create policy "Published album photos are viewable by everyone"
     )
   );
 
--- Storageバケット
-insert into storage.buckets (id, name, public)
-values ('player-photos', 'player-photos', true)
-on conflict (id) do nothing;
+-- Storageバケット（ファイルサイズ上限: 50MB、画像のみ許可）
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values (
+  'player-photos',
+  'player-photos',
+  true,
+  52428800,  -- 50MB
+  array['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/heic', 'image/heif']
+)
+on conflict (id) do update set
+  file_size_limit = 52428800,
+  allowed_mime_types = array['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/heic', 'image/heif'];
 
 -- Storage ポリシー
 create policy "Public Access for player-photos"

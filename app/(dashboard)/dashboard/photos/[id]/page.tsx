@@ -41,6 +41,7 @@ export default function PhotoAlbumDetailPage() {
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState("");
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [deleting, setDeleting] = useState(false);
 
@@ -68,29 +69,52 @@ export default function PhotoAlbumDetailPage() {
     if (!files || files.length === 0) return;
 
     setUploading(true);
+    let successCount = 0;
+    const failedFiles: { name: string; reason: string }[] = [];
+
     try {
-      const formData = new FormData();
+      // 1枚ずつアップロード（サイズ制限回避）
       for (let i = 0; i < files.length; i++) {
+        setUploadProgress(`${i + 1} / ${files.length} 枚をアップロード中...`);
+
+        const formData = new FormData();
         formData.append("files", files[i]);
+
+        try {
+          const res = await fetch(`/api/admin/photos/${id}/upload`, {
+            method: "POST",
+            body: formData,
+          });
+
+          if (res.ok) {
+            const result = await res.json();
+            successCount += result.uploaded;
+            if (result.failed > 0) {
+              failedFiles.push(...result.failedFiles);
+            }
+          } else {
+            failedFiles.push({ name: files[i].name, reason: "アップロードに失敗" });
+          }
+        } catch {
+          failedFiles.push({ name: files[i].name, reason: "通信エラー" });
+        }
       }
 
-      const res = await fetch(`/api/admin/photos/${id}/upload`, {
-        method: "POST",
-        body: formData,
-      });
-
-      if (res.ok) {
-        const result = await res.json();
-        alert(`${result.uploaded}枚の写真をアップロードしました`);
-        fetchData();
-      } else {
-        alert("アップロードに失敗しました");
+      let msg = `${successCount}枚の写真をアップロードしました`;
+      if (failedFiles.length > 0) {
+        msg += `\n\n⚠️ ${failedFiles.length}枚が失敗しました:\n`;
+        msg += failedFiles
+          .map((f) => `・${f.name}: ${f.reason}`)
+          .join("\n");
       }
+      alert(msg);
+      fetchData();
     } catch (err) {
       console.error("Upload error:", err);
       alert("アップロードに失敗しました");
     } finally {
       setUploading(false);
+      setUploadProgress("");
       // inputをリセット
       e.target.value = "";
     }
@@ -218,7 +242,7 @@ export default function PhotoAlbumDetailPage() {
           ) : (
             <Upload className="w-4 h-4" />
           )}
-          {uploading ? "アップロード中..." : "写真をアップロード"}
+          {uploading ? (uploadProgress || "アップロード中...") : "写真をアップロード"}
           <input
             type="file"
             multiple
