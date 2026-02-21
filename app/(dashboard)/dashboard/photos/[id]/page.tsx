@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { format } from "date-fns";
 import { ja } from "date-fns/locale";
+import { createClient } from "@/lib/supabase/client";
 
 type Album = {
   id: string;
@@ -71,32 +72,51 @@ export default function PhotoAlbumDetailPage() {
     setUploading(true);
     let successCount = 0;
     const failedFiles: { name: string; reason: string }[] = [];
+    const supabase = createClient();
 
     try {
-      // 1枚ずつアップロード（サイズ制限回避）
       for (let i = 0; i < files.length; i++) {
+        const file = files[i];
         setUploadProgress(`${i + 1} / ${files.length} 枚をアップロード中...`);
 
-        const formData = new FormData();
-        formData.append("files", files[i]);
-
         try {
+          // 安全なファイル名を生成
+          const extRaw = file.name.split(".").pop() || "jpg";
+          const ext = extRaw.toLowerCase().replace(/[^a-z0-9]/g, "") || "jpg";
+          const fileName = `${id}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+
+          // ブラウザからSupabase Storageに直接アップロード
+          const { error: uploadError } = await supabase.storage
+            .from("player-photos")
+            .upload(fileName, file, {
+              contentType: file.type || "image/jpeg",
+              upsert: false,
+            });
+
+          if (uploadError) {
+            failedFiles.push({ name: file.name, reason: uploadError.message });
+            continue;
+          }
+
+          // 公開URLを取得
+          const { data: { publicUrl } } = supabase.storage
+            .from("player-photos")
+            .getPublicUrl(fileName);
+
+          // DBレコードをAPIで保存
           const res = await fetch(`/api/admin/photos/${id}/upload`, {
             method: "POST",
-            body: formData,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ image_url: publicUrl }),
           });
 
           if (res.ok) {
-            const result = await res.json();
-            successCount += result.uploaded;
-            if (result.failed > 0) {
-              failedFiles.push(...result.failedFiles);
-            }
+            successCount++;
           } else {
-            failedFiles.push({ name: files[i].name, reason: "アップロードに失敗" });
+            failedFiles.push({ name: file.name, reason: "DB保存に失敗" });
           }
         } catch {
-          failedFiles.push({ name: files[i].name, reason: "通信エラー" });
+          failedFiles.push({ name: file.name, reason: "通信エラー" });
         }
       }
 
