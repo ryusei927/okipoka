@@ -1,11 +1,1 @@
-{
-  "version": 4,
-  "routes": {},
-  "dynamicRoutes": {},
-  "notFoundRoutes": [],
-  "preview": {
-    "previewModeId": "07a6d9fdb3b98c10b5523386d9a76c5e",
-    "previewModeSigningKey": "3a42b6c297dfc2ba571b1ae62f96c0b32d4e1ca84b74df4df7f8d70fd98934b6",
-    "previewModeEncryptionKey": "b22ce2d83a112d297dbb503028b945334a70dd0aa4dd1da39abd8df654d8a19d"
-  }
-}
+{"version":4,"routes":{"/interviews/day1-dash-toshio":{},"/interviews/day1-dash-masato":{},"/interviews/day1-dash-luke":{},"/interviews/day1-dash-yottaka":{},"/interviews/day1-dash-kenken":{},"/interviews/day1-dash-matsuda":{},"/interviews/day1-dash-eda":{},"/interviews/day1-dash-ollie":{},"/interviews/day1-dash-mune":{}},"dynamicRoutes":{"/interviews/[slug]":{"dataRoute":null,"dataRouteRegex":null,"fallback":null,"fallbackRevalidate":false,"fallbackSourceRoute":"/interviews/[slug]","routeRegex":"^\\/interviews\\/([^/]+?)(?:\\/)?$","allowHeader":[]}},"notFoundRoutes":[],"preview":{"previewModeId":"e3c4384f6606924017afd245b7e977a1","previewModeSigningKey":"3aca54c6ab917beac3ded9f03ff6ed323505431aaeea3ed8e148828f241a4675","previewModeEncryptionKey":"4a6fe1e24c2edb3e1712f4e48f47b94ab55a0f1047f778c04ba194ede84a9ed2"}}

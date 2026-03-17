@@ -5,7 +5,7 @@ import { AdSquareGrid } from "@/components/ads/AdSquareGrid";
 import { FaqSection } from "@/components/FaqSection";
 import { HeroSliderWrapper } from "@/components/HeroSliderWrapper";
 import { ChatBot } from "@/components/ChatBot";
-import { Calendar, ChevronLeft, ChevronRight, Store, MapPin } from "lucide-react";
+import { Calendar, ChevronLeft, ChevronRight, Store, MapPin, Mic } from "lucide-react";
 import { format, addDays, subDays } from "date-fns";
 import Link from "next/link";
 import Image from "next/image";
@@ -226,6 +226,31 @@ export default async function HomePage({
           <span className="absolute top-3 right-3 bg-white/90 text-gray-800 text-xs font-bold px-3 py-1 rounded-full shadow animate-pulse">
             Click →
           </span>
+        </Link>
+      </div>
+
+      {/* 大会インタビューバナー */}
+      <div className="max-w-md md:max-w-4xl mx-auto px-4 mb-8">
+        <Link href="/interviews" className="block relative rounded-2xl overflow-hidden shadow-md group bg-gray-900">
+          <div className="relative h-28 sm:h-36 flex items-center px-6 sm:px-10">
+            <div className="absolute inset-0 bg-linear-to-r from-orange-600/90 via-orange-500/70 to-orange-400/50" />
+            <div className="relative z-10 flex items-center gap-4">
+              <div className="flex items-center justify-center w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm border border-white/30">
+                <Mic className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <h3 className="text-lg sm:text-xl font-black text-white mb-1">
+                  大会インタビュー
+                </h3>
+                <p className="text-xs sm:text-sm text-white/80 font-bold">
+                  選手・運営の生の声をお届け
+                </p>
+              </div>
+            </div>
+            <div className="relative z-10 ml-auto hidden sm:flex items-center justify-center w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 group-hover:bg-white/20 transition-colors">
+              <ChevronRight className="w-6 h-6 text-white" />
+            </div>
+          </div>
         </Link>
       </div>
 
