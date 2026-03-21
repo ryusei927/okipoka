@@ -87,3 +87,5 @@
 [00:16:39.110] Browser WARN    Image with src "/interviews/day1b-stew.jpg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
 [00:17:10.111] Browser WARN    Image with src "/interviews/day1b-yuu.jpg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
 [00:17:51.110] Browser WARN    Image with src "/interviews/day1b-takuto.jpg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:18:22.108] Browser WARN    Image with src "/interviews/day1b-shogo.jpg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:18:50.110] Browser WARN    Image with src "/interviews/day1b-dai23.jpg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
