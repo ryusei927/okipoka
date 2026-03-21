@@ -1,6 +1,5 @@
 {
   "/(public)/interviews/[slug]/page": "app/(public)/interviews/[slug]/page.js",
   "/(public)/interviews/page": "app/(public)/interviews/page.js",
-  "/(public)/page": "app/(public)/page.js",
   "/manifest.webmanifest/route": "app/manifest.webmanifest/route.js"
 }
