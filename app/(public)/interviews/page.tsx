@@ -40,9 +40,6 @@ export default function InterviewsPage() {
                   />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <span className="inline-block text-xs font-semibold text-orange-600 bg-orange-50 px-2 py-0.5 rounded mb-1">
-                    {interview.day}
-                  </span>
                   <h2 className="text-sm font-bold text-gray-900 line-clamp-2 mb-1">
                     {interview.title}
                   </h2>

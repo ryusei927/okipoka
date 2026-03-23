@@ -49,9 +49,6 @@ export default async function InterviewDetailPage({
         />
         <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 p-6">
-          <span className="inline-block text-xs font-semibold text-white bg-orange-500 px-3 py-1 rounded-full mb-3">
-            {interview.day}
-          </span>
           <h1 className="text-xl md:text-2xl font-bold text-white leading-tight">
             {interview.title}
           </h1>
