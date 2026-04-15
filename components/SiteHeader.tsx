@@ -11,7 +11,15 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-gray-100">
       <div className="max-w-md md:max-w-4xl mx-auto flex items-center justify-between h-[72px] px-4">
-        <Link href="/">
+        <Link href="/" className="flex items-center gap-2">
+          <Image
+            src="/logo.png"
+            alt="Logo"
+            width={36}
+            height={36}
+            className="h-9 w-9 rounded-full"
+            priority
+          />
           <Image
             src="/okipoka.png"
             alt="OKIPOKA"
