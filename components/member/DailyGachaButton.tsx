@@ -48,7 +48,7 @@ export function DailyGachaButton({ lastGachaAt, isAdmin }: Props) {
     // SSR時はデフォルトの表示
     return (
       <div className="w-full flex items-center gap-3 p-4 hover:bg-gray-50 transition-colors text-left">
-        <div className="p-2 bg-pink-100 text-pink-600 rounded-lg">
+        <div className="p-2 bg-pink-100 text-pink-600">
           <Gift className="w-5 h-5" />
         </div>
         <div className="flex-1">
@@ -61,7 +61,7 @@ export function DailyGachaButton({ lastGachaAt, isAdmin }: Props) {
 
   const content = (
     <>
-      <div className={`p-2 rounded-lg ${canPlay ? "bg-pink-100 text-pink-600" : "bg-gray-100 text-gray-400"}`}>
+      <div className={`p-2 ${canPlay ? "bg-pink-100 text-pink-600" : "bg-gray-100 text-gray-400"}`}>
         <Gift className="w-5 h-5" />
       </div>
       <div className="flex-1">

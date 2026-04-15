@@ -14,15 +14,10 @@ export default async function AdsPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Link href="/dashboard" className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-            <ArrowLeft className="w-6 h-6 text-gray-500" />
-          </Link>
-          <h1 className="text-2xl font-bold text-gray-900">広告管理</h1>
-        </div>
+        <h1 className="text-xl font-bold text-gray-900">広告管理</h1>
         <Link
           href="/dashboard/ads/new"
-          className="flex items-center gap-2 bg-orange-500 text-white px-4 py-2 rounded-lg font-bold hover:bg-orange-600 transition-colors"
+          className="flex items-center gap-2 bg-orange-500 text-white px-4 py-2 font-bold hover:bg-orange-600 transition-colors"
         >
           <PlusCircle className="w-5 h-5" />
           新規作成
@@ -33,9 +28,9 @@ export default async function AdsPage() {
         {ads?.map((ad) => (
           <div
             key={ad.id}
-            className="bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex items-center gap-4"
+            className="bg-white p-4 border border-gray-200 flex items-center gap-4"
           >
-            <div className="w-24 h-16 relative bg-gray-100 rounded-lg overflow-hidden shrink-0">
+            <div className="w-24 h-16 relative bg-gray-50 overflow-hidden shrink-0">
               <Image
                 src={ad.image_url}
                 alt={ad.title}
@@ -46,12 +41,12 @@ export default async function AdsPage() {
             
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-1">
-                <span className={`text-xs px-2 py-0.5 rounded-full font-bold ${
-                  ad.is_active ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-600"
+                <span className={`text-xs px-2 py-0.5 font-bold ${
+                  ad.is_active ? "bg-green-50 text-green-700" : "bg-gray-50 text-gray-500"
                 }`}>
                   {ad.is_active ? "公開中" : "非公開"}
                 </span>
-                <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-bold">
+                <span className="text-xs bg-blue-50 text-blue-700 px-2 py-0.5 font-bold">
                   {ad.type === 'banner' ? 'バナー' : 'スクエア'}
                 </span>
               </div>
@@ -72,7 +67,7 @@ export default async function AdsPage() {
             <div className="flex items-center gap-2">
               <Link
                 href={`/dashboard/ads/${ad.id}`}
-                className="px-3 py-1.5 text-sm font-bold text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                className="px-3 py-1.5 text-sm font-bold text-gray-700 bg-gray-50 hover:bg-gray-100 transition-colors"
               >
                 編集
               </Link>

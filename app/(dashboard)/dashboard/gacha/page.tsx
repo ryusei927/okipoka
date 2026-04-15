@@ -47,19 +47,19 @@ export default async function GachaPage() {
     <div className="pb-20 space-y-6">
       <header className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Dice5 className="w-6 h-6 text-gray-400" />
+          <Dice5 className="w-6 h-6 text-gray-500" />
           <h1 className="text-xl font-bold text-gray-900">ガチャ景品管理</h1>
         </div>
         <div className="flex items-center gap-2">
           <Link
             href="/dashboard/gacha/sim"
-            className="flex items-center gap-2 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg font-bold text-sm hover:bg-gray-200 transition-colors"
+            className="flex items-center gap-2 bg-gray-50 text-gray-700 px-4 py-2 font-bold text-sm hover:bg-gray-100 transition-colors"
           >
             シミュレーション
           </Link>
           <Link
             href="/dashboard/gacha/new"
-            className="flex items-center gap-2 bg-orange-500 text-white px-4 py-2 rounded-lg font-bold text-sm shadow-sm hover:bg-orange-600 transition-colors"
+            className="flex items-center gap-2 bg-orange-500 text-white px-4 py-2 font-bold text-sm hover:bg-orange-600 transition-colors"
           >
             <Plus className="w-4 h-4" />
             追加
@@ -76,7 +76,7 @@ export default async function GachaPage() {
       {!error && (items?.length || 0) > 0 && (
         <>
           {outOfStockActiveCount > 0 && (
-            <div className="bg-amber-50 border border-amber-200 text-amber-800 text-sm rounded-xl p-4">
+            <div className="bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm p-4">
               在庫切れの景品が {outOfStockActiveCount} 件あります。抽選/当たり率/期待値の計算は在庫切れを除外します（実際の抽選と同じ挙動）。
             </div>
           )}

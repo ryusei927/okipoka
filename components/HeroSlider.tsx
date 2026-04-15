@@ -23,26 +23,20 @@ type SlideItem = {
 };
 
 export function HeroSlider({ featuredItems }: { featuredItems: FeaturedItem[] }) {
+  // スライドがなければ何も表示しない
+  if (!featuredItems || featuredItems.length === 0) return null;
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [selectedSlide, setSelectedSlide] = useState<SlideItem | null>(null);
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
-  // スライドデータの構築
-  const slides: SlideItem[] = [
-    {
-      id: "top-hero",
-      type: "static",
-      image_url: "/top.png",
-      link_url: null,
-      alt_text: "OKIPOKA - 沖縄のポーカー情報を全てここに",
-    },
-    ...featuredItems.map((item) => ({
-      ...item,
-      type: "pr" as const,
-    })),
-  ];
+  // スライドデータの構築（PR画像のみ）
+  const slides: SlideItem[] = featuredItems.map((item) => ({
+    ...item,
+    type: "pr" as const,
+  }));
 
   const nextSlide = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % slides.length);

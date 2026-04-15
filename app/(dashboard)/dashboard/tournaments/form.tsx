@@ -12,7 +12,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="w-full flex items-center justify-center gap-2 bg-orange-500 text-white font-bold py-4 rounded-xl shadow-md hover:bg-orange-600 transition-colors disabled:opacity-50"
+      className="w-full flex items-center justify-center gap-2 bg-orange-500 text-white font-bold py-4 hover:bg-orange-600 transition-colors disabled:opacity-50"
     >
       <Save className="w-5 h-5" />
       {pending ? "保存中..." : "保存する"}
@@ -218,8 +218,8 @@ export default function TournamentForm({ shops, tournament, recentTournaments = 
     <div className="pb-20">
       <header className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-4">
-          <Link href="/dashboard/tournaments" className="p-2 bg-white rounded-full shadow-sm">
-            <ArrowLeft className="w-5 h-5 text-gray-600" />
+          <Link href="/dashboard/tournaments" className="p-2 hover:bg-gray-50 transition-colors">
+            <ArrowLeft className="w-5 h-5 text-gray-500" />
           </Link>
           <h1 className="text-xl font-bold text-gray-900">
             {tournament ? "大会情報の編集" : "新規大会作成"}
@@ -293,7 +293,7 @@ export default function TournamentForm({ shops, tournament, recentTournaments = 
 
       {/* テンプレートからコピー */}
       {!tournament && uniqueHistory.length > 0 && (
-        <div className="mb-8 bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+        <div className="mb-8 bg-white border border-gray-200 overflow-hidden">
           <button 
             type="button"
             onClick={() => setIsTemplateOpen(!isTemplateOpen)}
@@ -302,7 +302,7 @@ export default function TournamentForm({ shops, tournament, recentTournaments = 
             <div className="flex items-center gap-2 font-bold text-gray-900">
               <Star className="w-5 h-5 text-yellow-500 fill-yellow-500" />
               テンプレートからコピー
-              <span className="text-xs font-normal text-gray-500 bg-white px-2 py-0.5 rounded-full border border-gray-200">
+              <span className="text-xs font-normal text-gray-700 bg-gray-100 px-2 py-0.5 border border-gray-200">
                 {uniqueHistory.length}件
               </span>
             </div>
@@ -310,7 +310,7 @@ export default function TournamentForm({ shops, tournament, recentTournaments = 
           </button>
           
           {isTemplateOpen && (
-            <div className="p-4 bg-gray-50/50 border-t border-gray-200">
+            <div className="p-4 border-t border-gray-200">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 max-h-96 overflow-y-auto pr-1 scrollbar-thin">
                 {uniqueHistory.map((item) => (
                   <div
@@ -323,25 +323,25 @@ export default function TournamentForm({ shops, tournament, recentTournaments = 
                         handleCopyFromHistory(item);
                       }
                     }}
-                    className="relative bg-white p-3 rounded-lg border border-gray-200 shadow-sm hover:border-orange-500 hover:shadow-md transition-all group cursor-pointer"
+                    className="relative bg-gray-50 p-3 border border-gray-200 hover:border-orange-500 transition-all group cursor-pointer"
                   >
                     <div className="absolute top-2 right-2 flex gap-1 z-10">
                       <button
                         type="button"
                         onClick={(e) => handleRemoveTemplate(e, item.id)}
-                        className="bg-red-100 p-1.5 rounded-full hover:bg-red-200 transition-colors opacity-100 sm:opacity-0 sm:group-hover:opacity-100"
+                        className="bg-red-50 p-1.5 hover:bg-red-100 transition-colors opacity-100 sm:opacity-0 sm:group-hover:opacity-100"
                         title="テンプレートから削除"
                       >
                         <X className="w-3.5 h-3.5 text-red-600" />
                       </button>
                     </div>
                     
-                    <div className="font-bold text-gray-900 truncate mb-1 pr-8 group-hover:text-orange-600 transition-colors text-sm">
+                    <div className="font-bold text-gray-900 truncate mb-1 pr-8 group-hover:text-orange-700 transition-colors text-sm">
                       {item.title}
                     </div>
                     
                     <div className="flex items-center gap-2 mb-2">
-                      <span className="bg-gray-100 px-1.5 py-0.5 rounded text-gray-600 font-medium text-[10px]">
+                      <span className="bg-gray-100 px-1.5 py-0.5 text-gray-700 font-medium text-[10px]">
                         {item.type}
                       </span>
                       {item.buy_in && (
@@ -351,7 +351,7 @@ export default function TournamentForm({ shops, tournament, recentTournaments = 
                       )}
                     </div>
                     
-                    <div className="flex items-center justify-between text-[10px] text-gray-400 border-t border-gray-100 pt-2">
+                    <div className="flex items-center justify-between text-[10px] text-gray-500 border-t border-gray-200 pt-2">
                       <span>前回: {new Date(item.start_at).toLocaleDateString()}</span>
                       <span className="text-orange-500 font-bold opacity-0 group-hover:opacity-100 transition-opacity">
                         コピー
@@ -369,21 +369,21 @@ export default function TournamentForm({ shops, tournament, recentTournaments = 
         {tournament && <input type="hidden" name="id" value={tournament.id} />}
         
         {state.error && (
-          <div className="p-4 bg-red-50 text-red-600 rounded-xl text-sm font-bold">
+          <div className="p-4 bg-red-50 text-red-600 border border-red-200 text-sm font-bold">
             {state.error}
           </div>
         )}
 
         {/* テンプレート登録オプション */}
-        <div className="bg-yellow-50 border border-yellow-200 p-4 rounded-xl flex items-center gap-3">
+        <div className="bg-yellow-50 border border-yellow-200 p-4 flex items-center gap-3">
           <input
             type="checkbox"
             id="isTemplate"
             name="isTemplate"
             defaultChecked={formData.isTemplate}
-            className="w-5 h-5 text-orange-500 rounded focus:ring-orange-500 border-gray-300"
+            className="w-5 h-5 text-orange-500 focus:ring-orange-500 border-gray-300"
           />
-          <label htmlFor="isTemplate" className="text-sm font-bold text-gray-800 cursor-pointer select-none">
+          <label htmlFor="isTemplate" className="text-sm font-bold text-yellow-700 cursor-pointer select-none">
             この内容をテンプレート（お気に入り）として保存する
             <p className="text-xs text-gray-500 font-normal mt-0.5">
               次回から「テンプレートからコピー」に表示され、簡単に入力できるようになります。
@@ -392,13 +392,13 @@ export default function TournamentForm({ shops, tournament, recentTournaments = 
         </div>
 
         {/* 店舗選択 */}
-        <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200 space-y-2">
+        <div className="bg-white p-4 border border-gray-200 space-y-2">
           <label className="block text-sm font-bold text-gray-700">開催店舗</label>
           <select
             name="shopId"
             required
             defaultValue={formData.shopId}
-            className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg font-medium text-gray-900 focus:ring-2 focus:ring-orange-500 outline-none"
+            className="w-full p-3 bg-gray-50 border border-gray-200 font-medium text-gray-900 focus:ring-2 focus:ring-orange-500 outline-none"
           >
             <option value="">店舗を選択してください</option>
             {shops.map((shop) => (
@@ -410,15 +410,15 @@ export default function TournamentForm({ shops, tournament, recentTournaments = 
         </div>
 
         {/* 基本情報 */}
-        <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200 space-y-4">
-          <h2 className="font-bold text-gray-900 border-b pb-2">基本情報</h2>
+        <div className="bg-white p-4 border border-gray-200 space-y-4">
+          <h2 className="font-bold text-gray-900 border-b border-gray-200 pb-2">基本情報</h2>
           
           <div className="space-y-2">
             <label className="block text-sm font-bold text-gray-700">イベント種別</label>
             <select
               name="type"
               defaultValue={formData.type}
-              className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg font-medium text-gray-900 focus:ring-2 focus:ring-orange-500 outline-none"
+              className="w-full p-3 bg-gray-50 border border-gray-200 font-medium text-gray-900 focus:ring-2 focus:ring-orange-500 outline-none"
             >
               <option value="トーナメント">トーナメント</option>
               <option value="リングゲーム">リングゲーム</option>
@@ -435,7 +435,7 @@ export default function TournamentForm({ shops, tournament, recentTournaments = 
               required
               defaultValue={formData.title}
               placeholder="例：金曜ナイトスタック"
-              className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg font-medium text-gray-900 focus:ring-2 focus:ring-orange-500 outline-none"
+              className="w-full p-3 bg-gray-50 border border-gray-200 font-medium text-gray-900 focus:ring-2 focus:ring-orange-500 outline-none placeholder:text-gray-400"
             />
           </div>
 
@@ -447,7 +447,7 @@ export default function TournamentForm({ shops, tournament, recentTournaments = 
                 name="date"
                 required
                 defaultValue={formData.date}
-                className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg font-medium text-gray-900 focus:ring-2 focus:ring-orange-500 outline-none"
+                className="w-full p-3 bg-gray-50 border border-gray-200 font-medium text-gray-900 focus:ring-2 focus:ring-orange-500 outline-none"
               />
             </div>
             <div className="space-y-2">
@@ -457,7 +457,7 @@ export default function TournamentForm({ shops, tournament, recentTournaments = 
                 name="time"
                 required
                 defaultValue={formData.time}
-                className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg font-medium text-gray-900 focus:ring-2 focus:ring-orange-500 outline-none"
+                className="w-full p-3 bg-gray-50 border border-gray-200 font-medium text-gray-900 focus:ring-2 focus:ring-orange-500 outline-none"
               />
             </div>
           </div>
@@ -468,15 +468,15 @@ export default function TournamentForm({ shops, tournament, recentTournaments = 
               type="time"
               name="lateRegTime"
               defaultValue={formData.lateRegTime}
-              className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg font-medium text-gray-900 focus:ring-2 focus:ring-orange-500 outline-none"
+              className="w-full p-3 bg-gray-50 border border-gray-200 font-medium text-gray-900 focus:ring-2 focus:ring-orange-500 outline-none"
             />
             <p className="text-xs text-gray-500">※開始時間より早い時間を設定すると、翌日の時間として扱われます</p>
           </div>
         </div>
 
         {/* 詳細情報 */}
-        <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200 space-y-4">
-          <h2 className="font-bold text-gray-900 border-b pb-2">詳細情報</h2>
+        <div className="bg-white p-4 border border-gray-200 space-y-4">
+          <h2 className="font-bold text-gray-900 border-b border-gray-200 pb-2">詳細情報</h2>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
@@ -487,7 +487,7 @@ export default function TournamentForm({ shops, tournament, recentTournaments = 
                 defaultValue={formData.buyIn}
                 placeholder="例：3,000円"
                 onBlur={handleCurrencyBlur}
-                className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg font-medium text-gray-900 focus:ring-2 focus:ring-orange-500 outline-none"
+                className="w-full p-3 bg-gray-50 border border-gray-200 font-medium text-gray-900 focus:ring-2 focus:ring-orange-500 outline-none placeholder:text-gray-400"
               />
             </div>
             <div className="space-y-2">
@@ -498,7 +498,7 @@ export default function TournamentForm({ shops, tournament, recentTournaments = 
                 defaultValue={formData.reentryFee}
                 placeholder="例：3,000円"
                 onBlur={handleCurrencyBlur}
-                className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg font-medium text-gray-900 focus:ring-2 focus:ring-orange-500 outline-none"
+                className="w-full p-3 bg-gray-50 border border-gray-200 font-medium text-gray-900 focus:ring-2 focus:ring-orange-500 outline-none placeholder:text-gray-400"
               />
             </div>
           </div>
@@ -512,7 +512,7 @@ export default function TournamentForm({ shops, tournament, recentTournaments = 
                 defaultValue={formData.stack}
                 placeholder="例：30,000点"
                 onBlur={handleStackBlur}
-                className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg font-medium text-gray-900 focus:ring-2 focus:ring-orange-500 outline-none"
+                className="w-full p-3 bg-gray-50 border border-gray-200 font-medium text-gray-900 focus:ring-2 focus:ring-orange-500 outline-none placeholder:text-gray-400"
               />
             </div>
           </div>
@@ -529,7 +529,7 @@ export default function TournamentForm({ shops, tournament, recentTournaments = 
                   onChange={(e) => setAddonStatus(e.target.value)}
                   className="w-4 h-4 text-orange-500 focus:ring-orange-500"
                 />
-                <span className="text-sm font-medium text-gray-700">あり</span>
+                <span className="text-sm font-medium text-gray-500">あり</span>
               </label>
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
@@ -540,7 +540,7 @@ export default function TournamentForm({ shops, tournament, recentTournaments = 
                   onChange={(e) => setAddonStatus(e.target.value)}
                   className="w-4 h-4 text-orange-500 focus:ring-orange-500"
                 />
-                <span className="text-sm font-medium text-gray-700">なし</span>
+                <span className="text-sm font-medium text-gray-500">なし</span>
               </label>
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
@@ -551,12 +551,12 @@ export default function TournamentForm({ shops, tournament, recentTournaments = 
                   onChange={(e) => setAddonStatus(e.target.value)}
                   className="w-4 h-4 text-orange-500 focus:ring-orange-500"
                 />
-                <span className="text-sm font-medium text-gray-700">不明</span>
+                <span className="text-sm font-medium text-gray-500">不明</span>
               </label>
             </div>
 
             {addonStatus === "available" && (
-              <div className="grid grid-cols-2 gap-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+              <div className="grid grid-cols-2 gap-4 p-4 bg-gray-50 border border-gray-200">
                 <div className="space-y-1">
                   <label className="text-xs font-bold text-gray-500">費用</label>
                   <input
@@ -565,7 +565,7 @@ export default function TournamentForm({ shops, tournament, recentTournaments = 
                     defaultValue={formData.addonFee}
                     placeholder="例：2,000円"
                     onBlur={handleCurrencyBlur}
-                    className="w-full p-2 bg-white border border-gray-200 rounded-md text-sm focus:ring-2 focus:ring-orange-500 outline-none"
+                    className="w-full p-2 bg-gray-50 border border-gray-200 text-sm text-gray-900 focus:ring-2 focus:ring-orange-500 outline-none placeholder:text-gray-400"
                   />
                 </div>
                 <div className="space-y-1">
@@ -576,7 +576,7 @@ export default function TournamentForm({ shops, tournament, recentTournaments = 
                     defaultValue={formData.addonStack}
                     placeholder="例：20,000点"
                     onBlur={handleStackBlur}
-                    className="w-full p-2 bg-white border border-gray-200 rounded-md text-sm focus:ring-2 focus:ring-orange-500 outline-none"
+                    className="w-full p-2 bg-gray-50 border border-gray-200 text-sm text-gray-900 focus:ring-2 focus:ring-orange-500 outline-none placeholder:text-gray-400"
                   />
                 </div>
               </div>
@@ -590,7 +590,7 @@ export default function TournamentForm({ shops, tournament, recentTournaments = 
               defaultValue={formData.prizes}
               placeholder="例：1位 10,000マイル..."
               rows={3}
-              className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg font-medium text-gray-900 focus:ring-2 focus:ring-orange-500 outline-none"
+              className="w-full p-3 bg-gray-50 border border-gray-200 font-medium text-gray-900 focus:ring-2 focus:ring-orange-500 outline-none placeholder:text-gray-400"
             />
           </div>
 
@@ -601,7 +601,7 @@ export default function TournamentForm({ shops, tournament, recentTournaments = 
               defaultValue={formData.notes}
               placeholder="その他、特記事項があれば入力してください"
               rows={3}
-              className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg font-medium text-gray-900 focus:ring-2 focus:ring-orange-500 outline-none"
+              className="w-full p-3 bg-gray-50 border border-gray-200 font-medium text-gray-900 focus:ring-2 focus:ring-orange-500 outline-none placeholder:text-gray-400"
             />
           </div>
         </div>

@@ -202,7 +202,7 @@ export default function PhotoAlbumDetailPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <Loader2 className="w-6 h-6 animate-spin text-gray-400" />
+        <Loader2 className="w-6 h-6 animate-spin text-gray-700" />
       </div>
     );
   }
@@ -244,7 +244,7 @@ export default function PhotoAlbumDetailPage() {
               {" ・ "}
               <span
                 className={
-                  album.is_published ? "text-green-600" : "text-gray-400"
+                  album.is_published ? "text-green-700" : "text-gray-500"
                 }
               >
                 {album.is_published ? "公開中" : "非公開"}
@@ -256,7 +256,7 @@ export default function PhotoAlbumDetailPage() {
 
       {/* アクションバー */}
       <div className="flex items-center gap-3 flex-wrap">
-        <label className="flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors cursor-pointer">
+        <label className="flex items-center gap-2 px-4 py-2 bg-orange-500 text-white hover:bg-orange-600 transition-colors cursor-pointer">
           {uploading ? (
             <Loader2 className="w-4 h-4 animate-spin" />
           ) : (
@@ -277,7 +277,7 @@ export default function PhotoAlbumDetailPage() {
           <>
             <button
               onClick={toggleSelectAll}
-              className="flex items-center gap-2 px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm"
+              className="flex items-center gap-2 px-3 py-2 bg-gray-100 text-gray-500 hover:bg-gray-200 transition-colors text-sm"
             >
               {selectedIds.size === photos.length ? (
                 <CheckSquare className="w-4 h-4" />
@@ -291,7 +291,7 @@ export default function PhotoAlbumDetailPage() {
               <button
                 onClick={handleDeleteSelected}
                 disabled={deleting}
-                className="flex items-center gap-2 px-3 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors text-sm disabled:opacity-50"
+                className="flex items-center gap-2 px-3 py-2 bg-red-50 text-red-600 hover:bg-red-100 transition-colors text-sm disabled:opacity-50"
               >
                 {deleting ? (
                   <Loader2 className="w-4 h-4 animate-spin" />
@@ -307,10 +307,10 @@ export default function PhotoAlbumDetailPage() {
 
       {/* 写真グリッド */}
       {photos.length === 0 ? (
-        <div className="text-center py-20 bg-white rounded-xl shadow-sm border border-gray-200">
-          <Camera className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-          <p className="text-gray-400">まだ写真がありません</p>
-          <p className="text-sm text-gray-400 mt-1">
+        <div className="text-center py-20 bg-white border border-gray-200">
+          <Camera className="w-12 h-12 text-gray-500 mx-auto mb-3" />
+          <p className="text-gray-700">まだ写真がありません</p>
+          <p className="text-sm text-gray-500 mt-1">
             上の「写真をアップロード」ボタンから写真を追加してください
           </p>
         </div>
@@ -319,7 +319,7 @@ export default function PhotoAlbumDetailPage() {
           {photos.map((photo) => (
             <div
               key={photo.id}
-              className="group relative aspect-square bg-gray-100 rounded-lg overflow-hidden"
+              className="group relative aspect-square bg-gray-50 overflow-hidden"
             >
               <Image
                 src={photo.image_url}
@@ -345,7 +345,7 @@ export default function PhotoAlbumDetailPage() {
                   {selectedIds.has(photo.id) ? (
                     <CheckSquare className="w-5 h-5 text-orange-500 drop-shadow-md" />
                   ) : (
-                    <Square className="w-5 h-5 text-white opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-md" />
+                    <Square className="w-5 h-5 text-gray-900 opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-md" />
                   )}
                 </button>
 
@@ -355,7 +355,7 @@ export default function PhotoAlbumDetailPage() {
                   className="absolute top-2 right-2 p-1 opacity-0 group-hover:opacity-100 transition-opacity"
                   title="カバー画像に設定"
                 >
-                  <ImageIcon className="w-4 h-4 text-white drop-shadow-md" />
+                  <ImageIcon className="w-4 h-4 text-gray-900 drop-shadow-md" />
                 </button>
               </div>
 

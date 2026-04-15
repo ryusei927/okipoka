@@ -14,7 +14,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="w-full flex items-center justify-center gap-2 bg-orange-500 text-white font-bold py-4 rounded-xl shadow-md hover:bg-orange-600 transition-colors disabled:opacity-50"
+      className="w-full flex items-center justify-center gap-2 bg-orange-500 text-white font-bold py-4 hover:bg-orange-600 transition-colors disabled:opacity-50"
     >
       <Save className="w-5 h-5" />
       {pending ? "保存中..." : "保存する"}
@@ -67,21 +67,21 @@ export default function GachaItemForm({ item, shops = [] }: { item?: any; shops?
       <input type="hidden" name="currentImageUrl" value={item?.image_url || ""} />
 
       <div className="flex items-center gap-4">
-        <Link href="/dashboard/gacha" className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+        <Link href="/dashboard/gacha" className="p-2 hover:bg-gray-50 transition-colors">
           <ArrowLeft className="w-6 h-6 text-gray-500" />
         </Link>
-        <h1 className="text-2xl font-bold text-gray-900">
+        <h1 className="text-xl font-bold text-gray-900">
           {item ? "ガチャ景品を編集" : "ガチャ景品を追加"}
         </h1>
       </div>
 
       {state.error && (
-        <div className="bg-red-50 text-red-600 p-4 rounded-xl text-sm font-bold">
+        <div className="bg-red-50 text-red-600 p-4 text-sm font-bold border border-red-200">
           {state.error}
         </div>
       )}
 
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-6">
+      <div className="bg-white border border-gray-200 p-6 space-y-6">
         <div className="space-y-2">
           <label className="block text-sm font-bold text-gray-700">
             対象店舗（任意）
@@ -89,7 +89,7 @@ export default function GachaItemForm({ item, shops = [] }: { item?: any; shops?
           <select
             name="shop_id"
             defaultValue={item?.shop_id || ""}
-            className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all bg-white"
+            className="w-full px-4 py-3 border border-gray-200 bg-gray-50 text-gray-900 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all"
           >
             <option value="">指定なし（共通クーポンなど）</option>
             {shops.map((shop) => (
@@ -105,14 +105,14 @@ export default function GachaItemForm({ item, shops = [] }: { item?: any; shops?
 
         <div className="space-y-2">
           <label className="block text-sm font-bold text-gray-700">
-            名前 <span className="text-red-500">*</span>
+            名前 <span className="text-red-600">*</span>
           </label>
           <input
             type="text"
             name="name"
             defaultValue={item?.name}
             required
-            className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all"
+            className="w-full px-4 py-3 border border-gray-200 bg-gray-50 text-gray-900 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all"
             placeholder="例: 500円割引券"
           />
         </div>
@@ -123,7 +123,7 @@ export default function GachaItemForm({ item, shops = [] }: { item?: any; shops?
             name="description"
             defaultValue={item?.description || ""}
             rows={3}
-            className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all resize-y"
+            className="w-full px-4 py-3 border border-gray-200 bg-gray-50 text-gray-900 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all resize-y"
             placeholder="例: トーナメント参加費から500円割引"
           />
         </div>
@@ -131,7 +131,7 @@ export default function GachaItemForm({ item, shops = [] }: { item?: any; shops?
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="space-y-2">
             <label className="block text-sm font-bold text-gray-700">
-              当選確率（重み） <span className="text-red-500">*</span>
+              当選確率（重み） <span className="text-red-600">*</span>
             </label>
             <input
               type="number"
@@ -140,19 +140,19 @@ export default function GachaItemForm({ item, shops = [] }: { item?: any; shops?
               step={1}
               defaultValue={item?.probability ?? 10}
               required
-              className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all"
+              className="w-full px-4 py-3 border border-gray-200 bg-gray-50 text-gray-900 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all"
             />
             <p className="text-xs text-gray-500">数値が大きいほど当たりやすい</p>
           </div>
 
           <div className="space-y-2">
             <label className="block text-sm font-bold text-gray-700">
-              種類 <span className="text-red-500">*</span>
+              種類 <span className="text-red-600">*</span>
             </label>
             <select
               name="type"
               defaultValue={item?.type || "drink_ticket"}
-              className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all bg-white"
+              className="w-full px-4 py-3 border border-gray-200 bg-gray-50 text-gray-900 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all"
             >
               <option value="drink_ticket">ドリンクチケット</option>
               <option value="discount_coupon">割引クーポン</option>
@@ -170,7 +170,7 @@ export default function GachaItemForm({ item, shops = [] }: { item?: any; shops?
             min={0}
             step={1}
             defaultValue={item?.value ?? ""}
-            className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all"
+            className="w-full px-4 py-3 border border-gray-200 bg-gray-50 text-gray-900 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all"
             placeholder="例: 500"
           />
           <p className="text-xs text-gray-500">割引額など。不要なら空欄</p>
@@ -186,7 +186,7 @@ export default function GachaItemForm({ item, shops = [] }: { item?: any; shops?
             min={0}
             step={1}
             defaultValue={item?.cost_yen ?? 0}
-            className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all"
+            className="w-full px-4 py-3 border border-gray-200 bg-gray-50 text-gray-900 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all"
             placeholder="例: 200"
           />
         </div>
@@ -202,7 +202,7 @@ export default function GachaItemForm({ item, shops = [] }: { item?: any; shops?
               min={0}
               step={1}
               defaultValue={item?.stock_total ?? ""}
-              className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all"
+              className="w-full px-4 py-3 border border-gray-200 bg-gray-50 text-gray-900 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all"
               placeholder="空欄で無制限"
             />
             <p className="text-xs text-gray-500">
@@ -220,7 +220,7 @@ export default function GachaItemForm({ item, shops = [] }: { item?: any; shops?
               min={1}
               step={1}
               defaultValue={item?.limit_per_user ?? ""}
-              className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all"
+              className="w-full px-4 py-3 border border-gray-200 bg-gray-50 text-gray-900 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all"
               placeholder="空欄で無制限"
             />
             <p className="text-xs text-gray-500">
@@ -230,12 +230,12 @@ export default function GachaItemForm({ item, shops = [] }: { item?: any; shops?
         </div>
 
         <div className="space-y-2">
-          <label className="flex items-center gap-2 p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+          <label className="flex items-center gap-2 p-4 border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors">
             <input
               type="checkbox"
               name="isMonthlyLimit"
               defaultChecked={item?.is_monthly_limit ?? false}
-              className="w-5 h-5 text-orange-500 rounded focus:ring-orange-500 border-gray-300"
+              className="w-5 h-5 text-orange-500 focus:ring-orange-500 border-gray-300"
             />
             <div>
               <div className="font-bold text-gray-900">毎月リセットする</div>
@@ -249,7 +249,7 @@ export default function GachaItemForm({ item, shops = [] }: { item?: any; shops?
 
         <div className="space-y-2">
           <label className="block text-sm font-bold text-gray-700">
-            有効期限（日） <span className="text-red-500">*</span>
+            有効期限（日） <span className="text-red-600">*</span>
           </label>
           <input
             type="number"
@@ -257,7 +257,7 @@ export default function GachaItemForm({ item, shops = [] }: { item?: any; shops?
             min={0}
             step={1}
             defaultValue={item?.expires_days ?? 30}
-            className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all"
+            className="w-full px-4 py-3 border border-gray-200 bg-gray-50 text-gray-900 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all"
             placeholder="例: 30"
           />
           <p className="text-xs text-gray-500">当選してから何日間使えるか（0なら当日まで）</p>
@@ -265,13 +265,13 @@ export default function GachaItemForm({ item, shops = [] }: { item?: any; shops?
 
         <div className="space-y-2">
           <label className="block text-sm font-bold text-gray-700">画像（任意）</label>
-          <div className="border-2 border-dashed border-gray-200 rounded-xl p-6 flex flex-col items-center justify-center gap-4 hover:bg-gray-50 transition-colors relative">
+          <div className="border-2 border-dashed border-gray-200 p-6 flex flex-col items-center justify-center gap-4 hover:bg-gray-50 transition-colors relative">
             {previewUrl ? (
               <div className="relative w-full aspect-video max-w-md">
                 <Image src={previewUrl} alt="Preview" fill className="object-contain rounded-lg" />
               </div>
             ) : (
-              <div className="text-gray-400 flex flex-col items-center">
+              <div className="text-gray-700 flex flex-col items-center">
                 <Upload className="w-8 h-8 mb-2" />
                 <span className="text-sm">クリックして画像をアップロード</span>
               </div>
@@ -287,15 +287,15 @@ export default function GachaItemForm({ item, shops = [] }: { item?: any; shops?
           <p className="text-xs text-gray-500">画像はクーポン表示用（任意）</p>
         </div>
 
-        <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
+        <div className="flex items-center gap-3 p-4 bg-gray-50">
           <input
             type="checkbox"
             name="isActive"
             id="isActive"
             defaultChecked={item?.is_active ?? true}
-            className="w-5 h-5 text-orange-500 rounded focus:ring-orange-500 border-gray-300"
+            className="w-5 h-5 text-orange-500 focus:ring-orange-500 border-gray-300"
           />
-          <label htmlFor="isActive" className="font-bold text-gray-700 cursor-pointer">
+          <label htmlFor="isActive" className="font-bold text-gray-500 cursor-pointer">
             有効にする（ガチャに入れる）
           </label>
         </div>
@@ -309,7 +309,7 @@ export default function GachaItemForm({ item, shops = [] }: { item?: any; shops?
             type="button"
             onClick={handleResetStock}
             disabled={isResetting}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm font-bold shadow-sm"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-gray-50 border border-gray-200 text-gray-700 hover:bg-gray-100 transition-colors text-sm font-bold"
           >
             <RefreshCw className={`w-4 h-4 ${isResetting ? 'animate-spin' : ''}`} />
             在庫リセット

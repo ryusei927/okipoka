@@ -29,17 +29,17 @@ export function GachaItemRow({ item }: { item: any }) {
   const router = useRouter();
 
   return (
-    <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+    <div className="bg-white p-4 border border-gray-200">
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
             <div className="font-bold text-gray-900 truncate">{item.name}</div>
-            <span className="text-[10px] px-2 py-0.5 rounded-full font-bold bg-gray-100 text-gray-700">
+            <span className="text-[10px] px-2 py-0.5 font-bold bg-gray-50 text-gray-700">
               {typeLabel(item.type)}
             </span>
             <span
-              className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
-                item.is_active ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-600"
+              className={`text-[10px] px-2 py-0.5 font-bold ${
+                item.is_active ? "bg-green-50 text-green-700" : "bg-gray-50 text-gray-500"
               }`}
             >
               {item.is_active ? "有効" : "無効"}
@@ -47,7 +47,7 @@ export function GachaItemRow({ item }: { item: any }) {
           </div>
 
           {item.description && (
-            <div className="text-sm text-gray-600 mt-1">{item.description}</div>
+            <div className="text-sm text-gray-700 mt-1">{item.description}</div>
           )}
 
           <div className="text-xs text-gray-500 mt-2 flex flex-wrap gap-x-4 gap-y-1">
@@ -56,27 +56,27 @@ export function GachaItemRow({ item }: { item: any }) {
             {typeof item.stock_total === "number" ? (
               <span className={(item.current_stock_used || 0) >= item.stock_total ? "text-red-600 font-bold" : ""}>
                 残り: {Math.max(0, item.stock_total - (item.current_stock_used || 0))} / {item.stock_total}
-                {item.is_monthly_limit && <span className="text-[10px] bg-blue-100 text-blue-700 px-1 py-0.5 rounded ml-1">月間</span>}
+                {item.is_monthly_limit && <span className="text-[10px] bg-blue-50 text-blue-700 px-1 py-0.5 ml-1">月間</span>}
               </span>
             ) : (
-              <span className="text-blue-600 font-medium">在庫: 無制限</span>
+              <span className="text-blue-700 font-medium">在庫: 無制限</span>
             )}
             {typeof item.limit_per_user === "number" && (
-              <span className="text-purple-600 font-medium">
+              <span className="text-purple-700 font-medium">
                 1人{item.limit_per_user}回まで
-                {item.is_monthly_limit && <span className="text-[10px] bg-blue-100 text-blue-700 px-1 py-0.5 rounded ml-1">月間</span>}
+                {item.is_monthly_limit && <span className="text-[10px] bg-blue-50 text-blue-700 px-1 py-0.5 ml-1">月間</span>}
               </span>
             )}
           </div>
         </div>
 
         <div className="flex items-center gap-2 shrink-0">
-          <label className="flex items-center gap-2 text-xs text-gray-600 cursor-pointer select-none">
+          <label className="flex items-center gap-2 text-xs text-gray-700 cursor-pointer select-none">
             <input
               type="checkbox"
               checked={Boolean(item.is_active)}
               disabled={isPending}
-              className="w-4 h-4 text-orange-500 rounded focus:ring-orange-500 border-gray-300 disabled:opacity-50"
+              className="w-4 h-4 text-orange-500 focus:ring-orange-500 border-gray-300 disabled:opacity-50"
               onChange={(e) => {
                 const next = e.currentTarget.checked;
                 startTransition(async () => {
@@ -90,7 +90,7 @@ export function GachaItemRow({ item }: { item: any }) {
 
           <Link
             href={`/dashboard/gacha/${item.id}`}
-            className="p-2 text-gray-400 hover:text-blue-500 hover:bg-blue-50 rounded-full transition-colors"
+            className="p-2 text-gray-500 hover:text-blue-700 hover:bg-gray-50 transition-colors"
             aria-label="編集"
           >
             <Pencil className="w-4 h-4" />

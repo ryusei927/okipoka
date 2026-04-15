@@ -41,6 +41,21 @@ html, body {
   animation: open 0.4s ease-out forwards;
 }
 
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  display: inline-block;
+  animation: marquee 10s linear infinite;
+}
+@media (min-width: 768px) {
+  .animate-marquee {
+    animation: none;
+    display: none;
+  }
+}
+
 @layer utilities {
   .scrollbar-hide::-webkit-scrollbar {
     display: none;

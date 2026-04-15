@@ -1,14 +1,15 @@
 import { createClient } from "@/lib/supabase/server";
-import { TournamentCard } from "@/components/tournament/TournamentCard";
+import { TournamentFilterList } from "@/components/tournament/TournamentFilterList";
 import { AdBanner, Ad } from "@/components/ads/AdBanner";
 import { AdSquareGrid } from "@/components/ads/AdSquareGrid";
-import { FaqSection } from "@/components/FaqSection";
+import { AdCardInfeed } from "@/components/ads/AdCardInfeed";
+import { AdClickWrapper } from "@/components/ads/AdClickWrapper";
 import { HeroSliderWrapper } from "@/components/HeroSliderWrapper";
-import { ChatBot } from "@/components/ChatBot";
-import { Calendar, ChevronLeft, ChevronRight, Store, MapPin, Mic } from "lucide-react";
+import { Store, MapPin } from "lucide-react";
 import { format, addDays, subDays } from "date-fns";
 import Link from "next/link";
 import Image from "next/image";
+import ShopAccordion from "@/components/ShopAccordion";
 
 export default async function HomePage({
   searchParams,
@@ -55,7 +56,7 @@ export default async function HomePage({
   const nextDateStr = format(nextDate, "yyyy-MM-dd");
 
   // 並列でデータ取得
-  const [adsResponse, featuredResponse, tournamentsResponse, shopsResponse] = await Promise.all([
+  const [adsResponse, featuredResponse, tournamentsResponse, shopsResponse, upcomingTournamentsResponse] = await Promise.all([
     // 広告の取得
     supabase
       .from("ads")
@@ -77,14 +78,21 @@ export default async function HomePage({
         shops (
           name,
           plan,
-          image_url
+          image_url,
+          area
         )
       `)
       .gte("start_at", startOfDay.toISOString())
       .lte("start_at", endOfDay.toISOString())
       .order("start_at", { ascending: true }),
     // 店舗一覧を取得
-    supabase.from("shops").select("*").order("name")
+    supabase.from("shops").select("*").order("name"),
+    // 店舗アコーディオン用: 今後のトーナメント
+    supabase
+      .from("tournaments")
+      .select("id, title, start_at, buy_in, shop_id")
+      .gte("start_at", new Date().toISOString())
+      .order("start_at", { ascending: true }),
   ]);
 
   const adsData = adsResponse.data;
@@ -92,33 +100,80 @@ export default async function HomePage({
   const tournaments = tournamentsResponse.data;
   const error = tournamentsResponse.error;
   const shops = shopsResponse.data;
+  const upcomingTournaments = upcomingTournamentsResponse.data;
 
   const ads = (adsData || []) as Ad[];
-  const bannerAds = ads.filter(ad => ad.type === 'banner');
-  const squareAds = ads.filter(ad => ad.type === 'square');
 
-  // シャッフル関数
-  const shuffle = <T,>(array: T[]) => {
-    const newArray = [...array];
-    for (let i = newArray.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-    }
-    return newArray;
+  // --- 広告ロジック ---
+  // 1. 期間フィルタ: start_at/end_at で有効期間内のものだけ表示
+  const now = new Date();
+  const activeAds = ads.filter(ad => {
+    if (ad.start_at && new Date(ad.start_at) > now) return false;
+    if (ad.end_at && new Date(ad.end_at) < now) return false;
+    return true;
+  });
+
+  // 2. priority加重ランダム: priorityが高いほど選ばれやすい
+  const weightedShuffle = <T extends { priority: number }>(array: T[]): T[] => {
+    const weighted = array.map(item => ({
+      item,
+      weight: Math.random() * (item.priority + 1),
+    }));
+    weighted.sort((a, b) => b.weight - a.weight);
+    return weighted.map(w => w.item);
   };
 
-  // バナー広告: ランダムに取得
-  const shuffledBannerAds = shuffle(bannerAds);
-  const displayBannerAd = shuffledBannerAds[0] || null;
-  // 2つ目のバナー広告（なければ1つ目を再利用、そもそもなければnull）
-  const displayBottomBannerAd = shuffledBannerAds.length > 1 ? shuffledBannerAds[1] : displayBannerAd;
+  // 3. タイプ別に分類
+  const bannerAds = activeAds.filter(ad => ad.type === 'banner');
+  const squareAds = activeAds.filter(ad => ad.type === 'square');
+  const storyAds = activeAds.filter(ad => ad.type === 'story');
+  const cardAds = activeAds.filter(ad => ad.type === 'card');
+  const allShuffled = weightedShuffle(activeAds);
 
-  // スクエア広告: 全ての中からランダムに2つ（優先度無視）
-  const displaySquareAds = shuffle(squareAds).slice(0, 2);
+  // 4. 各枠に配分
+  // ② カード型（トーナメントリスト内）
+  const displayCardAd = cardAds.length > 0
+    ? weightedShuffle(cardAds)[0]
+    : allShuffled[0] || null;
+
+  // ③④ スクエア上段（スクエア広告のみ）
+  const usedIds = new Set([displayCardAd?.id].filter(Boolean));
+  const remainingSquares1 = weightedShuffle(squareAds.filter(a => !usedIds.has(a.id)));
+  const displaySquareAds1 = remainingSquares1.slice(0, 2);
+
+  // ⑤⑥ スクエア中段
+  const usedIds2 = new Set([...usedIds, ...displaySquareAds1.map(a => a.id)]);
+  const displaySquareAds2 = weightedShuffle(squareAds.filter(a => !usedIds2.has(a.id))).slice(0, 2);
+
+  // ⑦ バナー（店舗間）
+  const usedIds3 = new Set([...usedIds2, ...displaySquareAds2.map(a => a.id)]);
+  const bannerPool = weightedShuffle(bannerAds.length > 0 ? bannerAds : []);
+  const displayMidBannerAd = bannerPool[0] || null;
+
+  // ⑧⑨ スクエア下段
+  const usedIds4 = new Set([...usedIds3, displayMidBannerAd?.id].filter(Boolean));
+  const displaySquareAds3 = weightedShuffle(squareAds.filter(a => !usedIds4.has(a.id))).slice(0, 2);
+
+  // ⑩ バナー（フッター上）
+  const usedIds5 = new Set([...usedIds4, ...displaySquareAds3.map(a => a.id)]);
+  const footerBannerPool = weightedShuffle(bannerAds.filter(a => !usedIds5.has(a.id)));
+  const displayBottomBannerAd = footerBannerPool[0] || bannerPool[1] || bannerPool[0] || null;
+
+  // ⑪⑫ スクエア最下部
+  const usedIds6 = new Set([...usedIds5, displayBottomBannerAd?.id].filter(Boolean));
+  const displaySquareAds4 = weightedShuffle(squareAds.filter(a => !usedIds6.has(a.id))).slice(0, 2);
 
   if (error) {
     console.error("Supabase error:", error);
   }
+
+  // トーナメントをshop_idごとにマップ
+  const tournamentsByShop = (upcomingTournaments || []).reduce((acc, t) => {
+    if (!t.shop_id) return acc;
+    if (!acc[t.shop_id]) acc[t.shop_id] = [];
+    acc[t.shop_id].push(t);
+    return acc;
+  }, {} as Record<string, any[]>);
 
   // エリアごとにグループ化
   const groupedShops = (shops || []).reduce((acc, shop) => {
@@ -138,211 +193,131 @@ export default async function HomePage({
       {/* ヒーロースライダー (トップ画像 + PR) */}
       <HeroSliderWrapper featuredItems={featuredItems || []} />
 
-      {/* バナー広告 */}
-      {displayBannerAd && <AdBanner ad={displayBannerAd} />}
+      {/* PC: 2カラム / スマホ: 1カラム */}
+      <div className="max-w-6xl mx-auto md:flex md:gap-8 md:items-start md:px-4">
 
-      {/* ヘッダー */}
-      <header className="bg-white shadow-sm">
-        <div className="max-w-md md:max-w-4xl mx-auto px-4 py-4 flex items-center justify-center relative">
-          <h1 className="text-xl font-bold text-gray-900">トーナメント情報</h1>
-        </div>
-        
-        {/* 日付選択バー */}
-        <div className="border-t border-gray-100 overflow-x-auto">
-          <div className="max-w-md md:max-w-4xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
-            <Link href={`/?date=${prevDateStr}`} className="p-1 hover:bg-gray-100 rounded-full transition-colors">
-              <ChevronLeft className="w-5 h-5 text-gray-500" />
-            </Link>
-            
-            <div className="flex items-center gap-2 font-bold text-lg">
-              <Calendar className="w-5 h-5 text-orange-500" />
-              <span>
-                {new Intl.DateTimeFormat("ja-JP", {
-                  timeZone: "Asia/Tokyo",
-                  year: "numeric",
-                  month: "2-digit",
-                  day: "2-digit",
-                }).format(targetDate).replace(/\//g, "/")}
-              </span>
-            </div>
+        {/* 左: メインコンテンツ */}
+        <div className="md:flex-1 md:min-w-0">
 
-            <Link href={`/?date=${nextDateStr}`} className="p-1 hover:bg-gray-100 rounded-full transition-colors">
-              <ChevronRight className="w-5 h-5 text-gray-500" />
+          {/* OKIPOKAプレミアム バナー */}
+          <div className="max-w-md md:max-w-none mx-auto px-4 md:px-0 py-4">
+            <Link href="/premium">
+              <Image
+                src="/premium-banner1.png"
+                alt="OKIPOKAプレミアム"
+                width={1500}
+                height={500}
+                className="w-full h-auto"
+              />
             </Link>
           </div>
+
+          {/* トーナメントリスト（フィルター付き） */}
+          <TournamentFilterList
+            tournaments={(tournaments || []) as any}
+            allShops={(shops || []).map((s: any) => ({ id: s.id, name: s.name, area: s.area || null, image_url: s.image_url || null }))}
+            dateStr={targetDateStr}
+            prevDateStr={prevDateStr}
+            nextDateStr={nextDateStr}
+            infeedAd={displayBottomBannerAd || displayMidBannerAd}
+          />
+
+          {/* スマホのみ: スクエア広告 */}
+          <div className="md:hidden">
+            {displaySquareAds1.length > 0 && <AdSquareGrid ads={displaySquareAds1} />}
+          </div>
+
+          {/* バナー広告（店舗一覧の上） */}
+          {displayMidBannerAd && <AdBanner ad={displayMidBannerAd} />}
+
+          {/* 店舗一覧セクション（前半: 那覇・中部） */}
+          <div className="max-w-md md:max-w-none mx-auto px-4 md:px-0 mb-4">
+            <div className="flex items-center gap-2 mb-4">
+              <Store className="w-5 h-5 text-orange-500" />
+              <h2 className="text-base font-black text-gray-900">店舗一覧</h2>
+            </div>
+            <div className="space-y-5">
+              {areaOrder.slice(0, 2).map((area, idx) => {
+                const areaShops = groupedShops[area];
+                if (!areaShops || areaShops.length === 0) return null;
+                return (
+                  <div key={area}>
+                    {/* 那覇と中部の間にスクエア広告2つ */}
+                    {idx === 1 && displaySquareAds1.length > 0 && <AdSquareGrid ads={displaySquareAds1} />}
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-1 h-4 bg-orange-500" />
+                      <h3 className="text-sm font-bold text-gray-600">{area}</h3>
+                    </div>
+                    <ShopAccordion shops={areaShops.map((shop: any) => ({ ...shop, tournaments: tournamentsByShop[shop.id] || [] }))} />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* スマホのみ: バナー広告 */}
+          <div className="md:hidden">
+            {displayMidBannerAd && <AdBanner ad={displayMidBannerAd} />}
+          </div>
+
+          {/* 店舗一覧セクション（後半: 南部・北部・宮古島） */}
+          <div className="max-w-md md:max-w-none mx-auto px-4 md:px-0 mb-8">
+            <div className="space-y-5">
+              {areaOrder.slice(2).map((area) => {
+                const areaShops = groupedShops[area];
+                if (!areaShops || areaShops.length === 0) return null;
+                return (
+                  <div key={area}>
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-1 h-4 bg-orange-500" />
+                      <h3 className="text-sm font-bold text-gray-600">{area}</h3>
+                    </div>
+                    <ShopAccordion shops={areaShops.map((shop: any) => ({ ...shop, tournaments: tournamentsByShop[shop.id] || [] }))} />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* スマホのみ: 下部広告 */}
+          <div className="md:hidden">
+            {displaySquareAds3.length > 0 && <AdSquareGrid ads={displaySquareAds3} />}
+            {displayBottomBannerAd && <AdBanner ad={displayBottomBannerAd} />}
+            {displaySquareAds4.length > 0 && <AdSquareGrid ads={displaySquareAds4} />}
+          </div>
+
+          {/* PC: バナー広告はメインコンテンツ内に全幅で表示 */}
+          <div className="hidden md:block px-4 md:px-0 space-y-4 mb-8">
+            {displayMidBannerAd && <AdBanner ad={displayMidBannerAd} />}
+            {displayBottomBannerAd && <AdBanner ad={displayBottomBannerAd} />}
+          </div>
+
         </div>
-      </header>
 
-      {/* コンテンツエリア */}
-      <div className="max-w-md md:max-w-4xl mx-auto px-4 py-6 space-y-4">
-        {tournaments && tournaments.length > 0 ? (
-          tournaments.map((tournament) => (
-            <TournamentCard
-              key={tournament.id}
-              id={tournament.id}
-              title={tournament.title}
-              startAt={tournament.start_at}
-              lateRegAt={tournament.late_reg_at}
-              // @ts-ignore: Supabaseの型定義と結合時の型推論が複雑なため一旦無視
-              shopName={tournament.shops?.name || "Unknown Shop"}
-              // @ts-ignore
-              shopImageUrl={tournament.shops?.image_url}
-              buyIn={tournament.buy_in || "-"}
-              tags={tournament.tags || []}
-              // @ts-ignore
-              isPremium={tournament.shops?.plan === "premium" || tournament.shops?.plan === "business"}
-            />
-          ))
-        ) : (
-          <div className="text-center py-10 text-gray-500">
-            <p>本日のトーナメントはありません</p>
-          </div>
-        )}
-      </div>
-
-      {/* プレミアム会員バナー */}
-      <div className="max-w-md md:max-w-4xl mx-auto px-4 mt-6 mb-8">
-        <Link href="/premium" className="block relative rounded-2xl overflow-hidden shadow-md group">
-          <Image
-            src="/premium-banner1.png"
-            alt="おきぽかプレミアム"
-            width={1024}
-            height={643}
-            className="w-full h-auto transition-transform duration-500 group-hover:scale-105"
-          />
-        </Link>
-      </div>
-
-      {/* プレイヤーズフォトバナー */}
-      <div className="max-w-md md:max-w-4xl mx-auto px-4 mb-8">
-        <Link href="/photos" className="block relative rounded-2xl overflow-hidden shadow-md group">
-          <Image
-            src="/prayersphoto.png"
-            alt="プレイヤーズフォト"
-            width={1024}
-            height={367}
-            className="w-full h-auto transition-transform duration-500 group-hover:scale-105"
-          />
-          <span className="absolute top-3 right-3 bg-white/90 text-gray-800 text-xs font-bold px-3 py-1 rounded-full shadow animate-pulse">
-            Click →
-          </span>
-        </Link>
-      </div>
-
-      {/* 大会インタビューバナー */}
-      <div className="max-w-md md:max-w-4xl mx-auto px-4 mb-8">
-        <Link href="/interviews" className="block relative rounded-2xl overflow-hidden shadow-md group bg-gray-900">
-          <div className="relative h-28 sm:h-36 flex items-center px-6 sm:px-10">
-            <div className="absolute inset-0 bg-linear-to-r from-orange-600/90 via-orange-500/70 to-orange-400/50" />
-            <div className="relative z-10 flex items-center gap-4">
-              <div className="flex items-center justify-center w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm border border-white/30">
-                <Mic className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <h3 className="text-lg sm:text-xl font-black text-white mb-1">
-                  大会インタビュー
-                </h3>
-                <p className="text-xs sm:text-sm text-white/80 font-bold">
-                  選手・運営の生の声をお届け
-                </p>
-              </div>
-            </div>
-            <div className="relative z-10 ml-auto hidden sm:flex items-center justify-center w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 group-hover:bg-white/20 transition-colors">
-              <ChevronRight className="w-6 h-6 text-white" />
-            </div>
-          </div>
-        </Link>
-      </div>
-
-      {/* スポンサーバナー */}
-      <div className="max-w-md md:max-w-4xl mx-auto px-4 mb-8">
-        <Link href="/support" className="block relative rounded-2xl overflow-hidden shadow-md group">
-          <div className="absolute inset-0 bg-slate-900" />
-          <div className="relative h-32 sm:h-40 flex items-center justify-between px-6 sm:px-10">
-            <div className="absolute inset-0 bg-[url('/dai01.jpg')] bg-cover bg-[center_25%] opacity-40 group-hover:opacity-50 transition-opacity duration-500 scale-110 group-hover:scale-100" />
-            <div className="absolute inset-0 bg-linear-to-r from-slate-900/90 via-slate-900/60 to-transparent" />
-            
-            <div className="relative z-10">
-              <div className="inline-flex items-center gap-2 px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/30 text-xs font-bold mb-2">
-                <Store className="w-3 h-3" />
-                OFFICIAL PARTNER
-              </div>
-              <h3 className="text-xl sm:text-2xl font-black text-white mb-1">
-                <span className="text-orange-400">スピだい</span>を応援しよう
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-300 font-bold">
-                OKIPOKAは挑戦するプレイヤーをサポートしています
-              </p>
-            </div>
-
-            <div className="relative z-10 hidden sm:flex items-center justify-center w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 group-hover:bg-white/20 transition-colors">
-              <ChevronRight className="w-6 h-6 text-white" />
-            </div>
-          </div>
-        </Link>
-      </div>
-
-      {/* スクエア広告 */}
-      {displaySquareAds.length > 0 && <AdSquareGrid ads={displaySquareAds} />}
-
-      {/* 店舗一覧セクション */}
-      <div className="max-w-md md:max-w-4xl mx-auto px-4 py-8 border-t border-gray-100">
-        <h2 className="text-xl font-bold text-center mb-8 text-gray-900">店舗一覧</h2>
-        <div className="space-y-8">
-          {areaOrder.map((area) => {
-            const areaShops = groupedShops[area];
-            if (!areaShops || areaShops.length === 0) return null;
-
-            return (
-              <div key={area}>
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="w-1 h-6 bg-orange-500 rounded-full"></div>
-                  <h3 className="text-lg font-bold text-gray-700">{area}</h3>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {areaShops.map((shop: any) => (
-                    <Link
-                      key={shop.id}
-                      href={`/shops/${shop.id}`}
-                      className="flex items-center gap-4 p-4 bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-all"
-                    >
-                      <div className="w-12 h-12 bg-gray-100 rounded-full shrink-0 overflow-hidden relative flex items-center justify-center border border-gray-100">
-                        {shop.image_url ? (
-                          <Image
-                            src={shop.image_url}
-                            alt={shop.name}
-                            fill
-                            className="object-cover"
-                          />
-                        ) : (
-                          <Store className="w-6 h-6 text-gray-300" />
-                        )}
-                      </div>
-                      
-                      <div className="flex-1 min-w-0">
-                        <h4 className="font-bold text-gray-900 truncate">{shop.name}</h4>
-                        {shop.address && (
-                          <div className="flex items-center gap-1 text-xs text-gray-500 mt-1 truncate">
-                            <MapPin className="w-3 h-3" />
-                            <span>{shop.address}</span>
-                          </div>
-                        )}
-                      </div>
-                    </Link>
-                  ))}
+        {/* 右: 広告サイドバー（PCのみ・スクエア広告のみ） */}
+        <div className="hidden md:block md:w-72 md:shrink-0 mt-6 space-y-4">
+          <div className="text-[10px] text-gray-400">広告</div>
+          {squareAds.slice(0, 6).map((ad: any) => (
+            <AdClickWrapper key={ad.id} ad={ad} className="block group">
+              <div className="relative w-full aspect-square overflow-hidden shadow-sm border border-gray-100 bg-gray-50">
+                <Image
+                  src={ad.image_url}
+                  alt={ad.title}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+                <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/60 via-black/20 to-transparent pt-8 pb-2 px-2">
+                  <p className="text-xs font-bold text-white leading-tight line-clamp-2">{ad.title}</p>
+                  {ad.description && (
+                    <p className="text-[10px] text-white/70 leading-tight line-clamp-1 mt-0.5">{ad.description}</p>
+                  )}
                 </div>
               </div>
-            );
-          })}
+            </AdClickWrapper>
+          ))}
         </div>
+
       </div>
-
-      {/* よくある質問 */}
-      <FaqSection />
-
-      {/* フッター上部バナー広告 */}
-      {displayBottomBannerAd && <AdBanner ad={displayBottomBannerAd} />}
     </div>
   );
 }

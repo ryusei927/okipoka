@@ -19,6 +19,9 @@ export async function upsertShop(formData: FormData) {
   const twitterUrl = formData.get("twitterUrl") as string;
   const websiteUrl = formData.get("websiteUrl") as string;
   const area = formData.get("area") as string;
+  const description = formData.get("description") as string;
+  const photoUrl = formData.get("photoUrl") as string;
+  const phone = formData.get("phone") as string;
 
   const data = {
     name,
@@ -26,6 +29,9 @@ export async function upsertShop(formData: FormData) {
     plan,
     area: area || "那覇",
     image_url: imageUrl || null,
+    photo_url: photoUrl || null,
+    description: description || null,
+    phone: phone || null,
     address: address || null,
     opening_hours: openingHours || null,
     google_map_url: googleMapUrl || null,

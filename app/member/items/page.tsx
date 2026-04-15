@@ -412,7 +412,7 @@ export default function ItemsPage() {
             <div className="p-6 overflow-y-auto">
               {viewingItem.gacha_items.shops && (
                 <Link 
-                  href={`/shops/${viewingItem.gacha_items.shops.id}`}
+                  href={`/shops#shop-${viewingItem.gacha_items.shops.id}`}
                   className="flex items-center gap-2 p-3 bg-orange-50 text-orange-700 rounded-xl mb-4 hover:bg-orange-100 transition-colors"
                 >
                   <div className="p-2 bg-white rounded-full shrink-0">

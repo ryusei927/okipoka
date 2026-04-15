@@ -413,7 +413,7 @@ export default function GachaPage() {
                 )}
                 {result.shop_id && (
                   <Link
-                    href={`/shops/${result.shop_id}`}
+                    href={`/shops#shop-${result.shop_id}`}
                     className="w-full py-3 bg-white border-2 border-amber-100 text-amber-600 font-bold rounded-xl hover:bg-amber-50 transition-colors"
                   >
                     店舗ページを見る

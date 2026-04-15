@@ -24,13 +24,13 @@ export function DigitalMemberCard({
     setTime(new Date());
   }, []);
 
-  if (!time) return <div className="w-full max-w-sm mx-auto aspect-[1.586/1] rounded-2xl bg-gray-200 animate-pulse" />;
+  if (!time) return <div className="w-full max-w-sm mx-auto aspect-[1.586/1] bg-gray-200 animate-pulse rounded-2xl" />;
 
   const isGold = isVip || isPremium;
   const rankLabel = isVip ? "VIP PASS" : isPremium ? "PREMIUM" : "MEMBER";
 
   return (
-    <div className="relative w-full max-w-sm mx-auto aspect-[1.586/1] rounded-2xl overflow-hidden shadow-2xl transition-all duration-500 hover:scale-[1.02]">
+    <div className="relative w-full max-w-sm mx-auto aspect-[1.586/1] overflow-hidden shadow-2xl rounded-2xl transition-all duration-500 hover:scale-[1.02]">
       {/* 背景アニメーション */}
       <div
         className={cn(

@@ -1,6 +1,7 @@
-import { FooterNavigation } from "@/components/FooterNavigation";
 import { SiteFooter } from "@/components/SiteFooter";
+import { SiteHeader } from "@/components/SiteHeader";
 import { InstallPrompt } from "@/components/InstallPrompt";
+import { MarqueeBanner } from "@/components/MarqueeBanner";
 
 export default function PublicLayout({
   children,
@@ -8,11 +9,12 @@ export default function PublicLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="pb-20">
+    <div>
+      <SiteHeader />
+      <MarqueeBanner />
       {children}
       <InstallPrompt />
       <SiteFooter />
-      <FooterNavigation />
     </div>
   );
 }

@@ -8,7 +8,7 @@ export function DeleteAdButton({ id }: { id: string }) {
     <form action={deleteAd.bind(null, id)}>
       <button
         type="submit"
-        className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+        className="p-2 text-red-600/50 hover:text-red-600 hover:bg-gray-50 transition-colors"
         onClick={(e) => {
           if (!confirm("本当に削除しますか？")) {
             e.preventDefault();

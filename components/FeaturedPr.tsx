@@ -26,7 +26,7 @@ export function FeaturedPr({ items }: { items: FeaturedItem[] }) {
 
 function FeaturedItemContent({ item }: { item: FeaturedItem }) {
   const Content = () => (
-    <div className="group relative w-full aspect-4/5 md:aspect-3/4 rounded-2xl overflow-hidden shadow-md border border-border/50 bg-muted transition-all hover:shadow-xl">
+    <div className="group relative w-full aspect-4/5 md:aspect-3/4 rounded-lg overflow-hidden shadow-md border border-border/50 bg-muted transition-all hover:shadow-xl">
       {/* 背景用（ぼかし） */}
       <div className="absolute inset-0">
         <Image

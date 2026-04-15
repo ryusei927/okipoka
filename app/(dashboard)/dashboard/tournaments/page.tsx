@@ -63,7 +63,7 @@ export default async function TournamentsPage({
         <h1 className="text-xl font-bold text-gray-900">大会管理</h1>
         <Link
           href="/dashboard/tournaments/new"
-          className="flex items-center gap-2 bg-orange-500 text-white px-4 py-2 rounded-lg font-bold text-sm shadow-sm hover:bg-orange-600 transition-colors"
+          className="flex items-center gap-2 bg-orange-500 text-white px-4 py-2 font-bold text-sm hover:bg-orange-600 transition-colors"
         >
           <Plus className="w-4 h-4" />
           新規作成
@@ -71,19 +71,19 @@ export default async function TournamentsPage({
       </header>
 
       {/* タブ切り替え */}
-      <div className="flex p-1 bg-gray-100 rounded-xl mb-6">
+      <div className="flex p-1 bg-gray-50 mb-6">
         <Link
           href="/dashboard/tournaments"
-          className={`flex-1 py-2 text-center text-sm font-bold rounded-lg transition-all ${
-            !isHistory ? "bg-white text-orange-500 shadow-sm" : "text-gray-500 hover:text-gray-700"
+          className={`flex-1 py-2 text-center text-sm font-bold transition-all ${
+            !isHistory ? "bg-orange-500 text-white" : "text-gray-500 hover:text-gray-900"
           }`}
         >
           開催予定
         </Link>
         <Link
           href="/dashboard/tournaments?tab=history"
-          className={`flex-1 py-2 text-center text-sm font-bold rounded-lg transition-all ${
-            isHistory ? "bg-white text-orange-500 shadow-sm" : "text-gray-500 hover:text-gray-700"
+          className={`flex-1 py-2 text-center text-sm font-bold transition-all ${
+            isHistory ? "bg-orange-500 text-white" : "text-gray-500 hover:text-gray-900"
           }`}
         >
           終了分
@@ -98,7 +98,7 @@ export default async function TournamentsPage({
           return (
             <div key={dateKey}>
               <h2 className="text-sm font-bold text-gray-500 mb-3 flex items-center gap-2">
-                <Calendar className="w-4 h-4" />
+                <Calendar className="w-4 h-4 text-gray-500" />
                 {format(dateObj, "yyyy年MM月dd日 (E)", { locale: ja })}
               </h2>
               
@@ -106,7 +106,7 @@ export default async function TournamentsPage({
                 {dayTournaments?.map((tournament: any) => (
                   <div
                     key={tournament.id}
-                    className="bg-white p-4 rounded-xl shadow-sm border border-gray-200"
+                    className="bg-white p-4 border border-gray-200"
                   >
                     <div className="flex justify-between items-start gap-4 mb-3">
                       <h3 className="font-bold text-gray-900 leading-snug">{tournament.title}</h3>
@@ -119,7 +119,7 @@ export default async function TournamentsPage({
                     
                     <div className="flex justify-between items-center">
                       {/* @ts-ignore */}
-                      <div className="flex items-center gap-2 bg-gray-100 text-gray-600 px-2.5 py-1 rounded-full text-xs font-medium">
+                      <div className="flex items-center gap-2 bg-gray-50 text-gray-700 px-2.5 py-1 text-xs font-medium">
                         <div className="w-4 h-4 relative rounded-full overflow-hidden bg-white shrink-0 border border-gray-200">
                           {tournament.shops?.image_url ? (
                             <Image
@@ -129,7 +129,7 @@ export default async function TournamentsPage({
                               className="object-cover"
                             />
                           ) : (
-                            <Store className="w-2.5 h-2.5 text-gray-400 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+                            <Store className="w-2.5 h-2.5 text-gray-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
                           )}
                         </div>
                         {tournament.shops?.name}
@@ -138,7 +138,7 @@ export default async function TournamentsPage({
                       <div className="flex gap-2">
                         <Link
                           href={`/dashboard/tournaments/${tournament.id}`}
-                          className="p-2 text-gray-400 hover:text-blue-500 hover:bg-blue-50 rounded-full transition-colors"
+                          className="p-2 text-gray-500 hover:text-blue-700 hover:bg-gray-50 transition-colors"
                         >
                           <Pencil className="w-4 h-4" />
                         </Link>

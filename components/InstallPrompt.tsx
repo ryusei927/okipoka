@@ -1,10 +1,15 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { Download, X, Share, PlusSquare, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+// InstallPromptを非表示にするパスパターン
+const HIDDEN_PATHS = ["/tournaments/", "/member"];
+
 export function InstallPrompt() {
+  const pathname = usePathname();
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const [isIOS, setIsIOS] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
@@ -31,6 +36,9 @@ export function InstallPrompt() {
     return () => window.removeEventListener("beforeinstallprompt", handler);
   }, []);
 
+  // 特定ページでは非表示
+  if (HIDDEN_PATHS.some(p => pathname.startsWith(p))) return null;
+
   // アプリ版で起動している場合、または閉じるボタンが押された場合は表示しない
   if (isStandalone || !isVisible) return null;
 
@@ -56,7 +64,7 @@ export function InstallPrompt() {
     <>
       {/* インストール訴求バナー（埋め込み型） */}
       <div className="w-full max-w-md mx-auto px-4 mt-7 mb-4">
-        <div className="bg-linear-to-r from-slate-900 to-slate-800 text-white p-4 rounded-2xl shadow-lg flex items-center gap-4 border border-slate-700/50">
+        <div className="bg-linear-to-r from-slate-900 to-slate-800 text-white p-4 rounded-lg shadow-lg flex items-center gap-4 border border-slate-700/50">
           <div className="bg-white p-2 rounded-xl shrink-0">
             <img src="/logo.png" alt="OKIPOKA" className="w-10 h-10 object-contain" />
           </div>
@@ -79,7 +87,7 @@ export function InstallPrompt() {
       {showIOSGuide && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-6 animate-in fade-in duration-200">
           <div 
-            className="bg-white w-full max-w-sm rounded-3xl p-8 shadow-2xl animate-in zoom-in-95 duration-300 relative"
+            className="bg-white w-full max-w-sm rounded-xl p-8 shadow-2xl animate-in zoom-in-95 duration-300 relative"
             onClick={(e) => e.stopPropagation()}
           >
             <button 
@@ -90,7 +98,7 @@ export function InstallPrompt() {
             </button>
 
             <div className="text-center mb-8">
-              <div className="w-20 h-20 bg-white border border-gray-100 shadow-sm rounded-2xl mx-auto mb-4 flex items-center justify-center p-2">
+              <div className="w-20 h-20 bg-white border border-gray-100 shadow-sm rounded-xl mx-auto mb-4 flex items-center justify-center p-2">
                 <img src="/logo.png" alt="OKIPOKA" className="w-full h-full object-contain" />
               </div>
               <h3 className="text-xl font-bold text-slate-900">ホーム画面に追加</h3>

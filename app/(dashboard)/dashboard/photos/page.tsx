@@ -118,7 +118,7 @@ export default function PhotosAdminPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <Loader2 className="w-6 h-6 animate-spin text-gray-400" />
+        <Loader2 className="w-6 h-6 animate-spin text-gray-700" />
       </div>
     );
   }
@@ -127,25 +127,17 @@ export default function PhotosAdminPage() {
     <div className="space-y-6">
       {/* ヘッダー */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Link
-            href="/dashboard"
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-          >
-            <ArrowLeft className="w-5 h-5 text-gray-500" />
-          </Link>
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">
-              プレイヤーズフォト管理
-            </h1>
-            <p className="text-sm text-gray-500">
-              イベント写真のアルバムを管理
-            </p>
-          </div>
+        <div>
+          <h1 className="text-xl font-bold text-gray-900">
+            プレイヤーズフォト管理
+          </h1>
+          <p className="text-sm text-gray-500">
+            イベント写真のアルバムを管理
+          </p>
         </div>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
+          className="flex items-center gap-2 px-4 py-2 bg-orange-500 text-white hover:bg-orange-600 transition-colors"
         >
           <Plus className="w-4 h-4" />
           新規アルバム
@@ -156,7 +148,7 @@ export default function PhotosAdminPage() {
       {showForm && (
         <form
           onSubmit={handleCreate}
-          className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-4"
+          className="bg-white border border-gray-200 p-6 space-y-4"
         >
           <h2 className="font-bold text-gray-900">新規アルバム作成</h2>
 
@@ -172,7 +164,7 @@ export default function PhotosAdminPage() {
                 setFormData({ ...formData, title: e.target.value })
               }
               placeholder="例: 第5回沖縄ポーカーフェスティバル"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="w-full border border-gray-200 bg-gray-50 text-gray-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
           </div>
 
@@ -187,7 +179,7 @@ export default function PhotosAdminPage() {
               }
               placeholder="イベントの説明（任意）"
               rows={3}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="w-full border border-gray-200 bg-gray-50 text-gray-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
           </div>
 
@@ -202,7 +194,7 @@ export default function PhotosAdminPage() {
               onChange={(e) =>
                 setFormData({ ...formData, event_date: e.target.value })
               }
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="w-full border border-gray-200 bg-gray-50 text-gray-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
           </div>
 
@@ -225,7 +217,7 @@ export default function PhotosAdminPage() {
             <button
               type="submit"
               disabled={saving}
-              className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors disabled:opacity-50 flex items-center gap-2"
+              className="px-4 py-2 bg-orange-500 text-white hover:bg-orange-600 transition-colors disabled:opacity-50 flex items-center gap-2"
             >
               {saving && <Loader2 className="w-4 h-4 animate-spin" />}
               作成
@@ -233,7 +225,7 @@ export default function PhotosAdminPage() {
             <button
               type="button"
               onClick={() => setShowForm(false)}
-              className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+              className="px-4 py-2 bg-gray-50 text-gray-700 hover:bg-gray-100 transition-colors"
             >
               キャンセル
             </button>
@@ -243,9 +235,9 @@ export default function PhotosAdminPage() {
 
       {/* アルバム一覧 */}
       {albums.length === 0 ? (
-        <div className="text-center py-20 bg-white rounded-xl shadow-sm border border-gray-200">
-          <Camera className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-          <p className="text-gray-400">まだアルバムがありません</p>
+        <div className="text-center py-20 bg-white border border-gray-200">
+          <Camera className="w-12 h-12 text-gray-700 mx-auto mb-3" />
+          <p className="text-gray-500">まだアルバムがありません</p>
           <button
             onClick={() => setShowForm(true)}
             className="mt-4 text-sm text-orange-500 hover:text-orange-600"
@@ -258,11 +250,11 @@ export default function PhotosAdminPage() {
           {albums.map((album) => (
             <div
               key={album.id}
-              className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
+              className="bg-white border border-gray-200 overflow-hidden"
             >
               <div className="flex items-center gap-4 p-4">
                 {/* サムネイル */}
-                <div className="relative w-20 h-20 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
+                <div className="relative w-20 h-20 overflow-hidden bg-gray-50 flex-shrink-0">
                   {album.cover_image_url ? (
                     <Image
                       src={album.cover_image_url}
@@ -273,7 +265,7 @@ export default function PhotosAdminPage() {
                     />
                   ) : (
                     <div className="flex items-center justify-center h-full">
-                      <Camera className="w-6 h-6 text-gray-300" />
+                      <Camera className="w-6 h-6 text-gray-500" />
                     </div>
                   )}
                 </div>
@@ -285,10 +277,10 @@ export default function PhotosAdminPage() {
                       {album.title}
                     </h3>
                     <span
-                      className={`text-xs px-2 py-0.5 rounded-full ${
+                      className={`text-xs px-2 py-0.5 ${
                         album.is_published
-                          ? "bg-green-100 text-green-700"
-                          : "bg-gray-100 text-gray-500"
+                          ? "bg-green-50 text-green-700"
+                          : "bg-gray-50 text-gray-500"
                       }`}
                     >
                       {album.is_published ? "公開中" : "非公開"}
@@ -312,17 +304,17 @@ export default function PhotosAdminPage() {
                 <div className="flex items-center gap-1">
                   <Link
                     href={`/dashboard/photos/${album.id}`}
-                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-500 hover:text-orange-500"
+                    className="p-2 hover:bg-gray-50 transition-colors text-gray-500 hover:text-orange-700"
                     title="写真管理"
                   >
                     <Camera className="w-5 h-5" />
                   </Link>
                   <button
                     onClick={() => handleTogglePublish(album)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
+                    className={`px-3 py-1.5 text-xs font-bold transition-colors ${
                       album.is_published
-                        ? "bg-green-100 text-green-700 hover:bg-green-200"
-                        : "bg-orange-100 text-orange-700 hover:bg-orange-200"
+                        ? "bg-green-50 text-green-700 hover:bg-green-500/20"
+                        : "bg-orange-50 text-orange-700 hover:bg-orange-100"
                     }`}
                   >
                     {album.is_published ? (
@@ -333,7 +325,7 @@ export default function PhotosAdminPage() {
                   </button>
                   <button
                     onClick={() => handleDelete(album.id, album.title)}
-                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-500 hover:text-red-500"
+                    className="p-2 hover:bg-gray-50 transition-colors text-gray-500 hover:text-red-600"
                     title="削除"
                   >
                     <Trash2 className="w-5 h-5" />

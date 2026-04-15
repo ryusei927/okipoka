@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
 import {
   X,
@@ -9,6 +9,7 @@ import {
   Download,
   Share2,
   ZoomIn,
+  Loader2,
 } from "lucide-react";
 
 type Photo = {
@@ -22,16 +23,46 @@ type PhotoGalleryProps = {
   albumTitle: string;
 };
 
+const BATCH_SIZE = 30;
+
 export function PhotoGallery({ photos, albumTitle }: PhotoGalleryProps) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [visibleCount, setVisibleCount] = useState(BATCH_SIZE);
+  const loadMoreRef = useRef<HTMLDivElement>(null);
+
+  const visiblePhotos = photos.slice(0, visibleCount);
+  const hasMore = visibleCount < photos.length;
+
+  // IntersectionObserver で自動読み込み
+  useEffect(() => {
+    const el = loadMoreRef.current;
+    if (!el || !hasMore) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setVisibleCount((prev) => Math.min(prev + BATCH_SIZE, photos.length));
+        }
+      },
+      { rootMargin: "400px" }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [hasMore, photos.length]);
 
   const openLightbox = (index: number) => setLightboxIndex(index);
   const closeLightbox = () => setLightboxIndex(null);
 
   const goNext = useCallback(() => {
     if (lightboxIndex === null) return;
-    setLightboxIndex((lightboxIndex + 1) % photos.length);
-  }, [lightboxIndex, photos.length]);
+    const nextIndex = (lightboxIndex + 1) % photos.length;
+    setLightboxIndex(nextIndex);
+    // 次の写真が未読み込み範囲なら拡張
+    if (nextIndex >= visibleCount) {
+      setVisibleCount((prev) => Math.min(prev + BATCH_SIZE, photos.length));
+    }
+  }, [lightboxIndex, photos.length, visibleCount]);
 
   const goPrev = useCallback(() => {
     if (lightboxIndex === null) return;
@@ -100,7 +131,6 @@ export function PhotoGallery({ photos, albumTitle }: PhotoGalleryProps) {
         // ユーザーがキャンセルした場合
       }
     } else {
-      // Web Share APIが使えない場合、URLをコピー
       try {
         await navigator.clipboard.writeText(photo.image_url);
         alert("画像URLをコピーしました");
@@ -114,11 +144,11 @@ export function PhotoGallery({ photos, albumTitle }: PhotoGalleryProps) {
     <>
       {/* グリッド表示 */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-        {photos.map((photo, index) => (
+        {visiblePhotos.map((photo, index) => (
           <button
             key={photo.id}
             onClick={() => openLightbox(index)}
-            className="group relative aspect-square bg-gray-100 rounded-lg overflow-hidden focus:outline-none focus:ring-2 focus:ring-orange-500"
+            className="group relative aspect-square bg-gray-100 overflow-hidden focus:outline-none focus:ring-2 focus:ring-orange-500"
           >
             <Image
               src={photo.image_url}
@@ -126,6 +156,7 @@ export function PhotoGallery({ photos, albumTitle }: PhotoGalleryProps) {
               fill
               className="object-cover group-hover:scale-105 transition-transform duration-300"
               sizes="(max-width: 768px) 50vw, 33vw"
+              loading="lazy"
             />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
               <ZoomIn className="w-6 h-6 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -133,6 +164,16 @@ export function PhotoGallery({ photos, albumTitle }: PhotoGalleryProps) {
           </button>
         ))}
       </div>
+
+      {/* 読み込みトリガー */}
+      {hasMore && (
+        <div ref={loadMoreRef} className="flex items-center justify-center py-8">
+          <Loader2 className="w-5 h-5 text-orange-500 animate-spin" />
+          <span className="ml-2 text-sm text-gray-400">
+            {visibleCount} / {photos.length} 枚を表示中
+          </span>
+        </div>
+      )}
 
       {/* ライトボックス */}
       {lightboxIndex !== null && (

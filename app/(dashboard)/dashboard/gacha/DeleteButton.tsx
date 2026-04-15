@@ -21,7 +21,7 @@ export function DeleteButton({ id }: { id: string }) {
           }
         });
       }}
-      className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors disabled:opacity-50"
+      className="p-2 text-gray-500 hover:text-red-600 hover:bg-gray-50 transition-colors disabled:opacity-50"
       aria-label="削除"
     >
       <Trash2 className="w-4 h-4" />

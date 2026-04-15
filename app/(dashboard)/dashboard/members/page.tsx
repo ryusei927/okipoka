@@ -38,20 +38,11 @@ export default async function MembersPage() {
   return (
     <div className="pb-20">
       <header className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-3">
-          <Link
-            href="/dashboard"
-            className="p-2 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-full transition-colors"
-            aria-label="戻る"
-          >
-            <ArrowLeft className="w-5 h-5" />
-          </Link>
-          <h1 className="text-xl font-bold text-gray-900">会員管理</h1>
-        </div>
+        <h1 className="text-xl font-bold text-gray-900">会員管理</h1>
       </header>
 
       {error && (
-        <div className="bg-white p-4 rounded-xl shadow-sm border border-red-200 text-sm text-red-700">
+        <div className="bg-red-50 p-4 border border-red-200 text-sm text-red-600">
           profiles の取得に失敗しました: {error.message}
         </div>
       )}
