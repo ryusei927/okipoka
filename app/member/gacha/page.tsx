@@ -5,6 +5,7 @@ import { AlertCircle, Info, X, ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import confetti from "canvas-confetti";
 import { createClient } from "@/lib/supabase/client";
+import { isGachaItemEligible } from "@/lib/gacha";
 
 type PublicGachaItem = {
   id: string;
@@ -36,8 +37,10 @@ export default function GachaPage() {
   const [timeLeft, setTimeLeft] = useState<string>("");
   const supabase = createClient();
 
-  const totalWeight = gachaItems.reduce((sum, item) => sum + (item.probability ?? 0), 0);
+  const eligibleItems = gachaItems.filter(isGachaItemEligible);
+  const totalWeight = eligibleItems.reduce((sum, item) => sum + (item.probability ?? 0), 0);
   const formatProbabilityPct = (item: PublicGachaItem) => {
+    if (!isGachaItemEligible(item)) return "—";
     const w = item.probability ?? 0;
     if (!totalWeight || !w) return "0%";
     const pct = Math.round((w / totalWeight) * 1000) / 10;

@@ -3,20 +3,19 @@ import Link from "next/link";
 import { Plus, Dice5 } from "lucide-react";
 import { GachaItemRow } from "./GachaItemRow";
 import { GachaRateControls } from "./GachaRateControls";
+import {
+  computeGachaRateStats,
+  gachaAppearancePct,
+} from "@/lib/gacha";
 
 export default async function GachaPage() {
   const supabase = await createClient();
 
   const { data: items, error } = await supabase.rpc("get_admin_gacha_items");
 
-  const activeItems = (items || []).filter((it: any) => {
-    if (!it.is_active) return false;
-    if (typeof it.stock_total === "number") {
-      // RPCで計算済みの current_stock_used を使用
-      return (it.current_stock_used || 0) < it.stock_total;
-    }
-    return true;
-  });
+  const stats = computeGachaRateStats(items || []);
+  const { totalWeight, expectedValueYen, eligibleItems } = stats;
+  const winItemCount = eligibleItems.filter((it) => it.type !== "none").length;
 
   const outOfStockActiveCount = (items || []).filter((it: any) => {
     if (!it.is_active) return false;
@@ -24,24 +23,6 @@ export default async function GachaPage() {
     if (typeof it.stock_total !== "number") return false;
     return (it.current_stock_used || 0) >= it.stock_total;
   }).length;
-  const totalWeight = activeItems.reduce(
-    (sum: number, it: any) => sum + (it.probability || 0),
-    0
-  );
-  const winWeight = activeItems
-    .filter((it: any) => it.type !== "none")
-    .reduce((sum: number, it: any) => sum + (it.probability || 0), 0);
-  const loseWeight = activeItems
-    .filter((it: any) => it.type === "none")
-    .reduce((sum: number, it: any) => sum + (it.probability || 0), 0);
-  const winRate = totalWeight > 0 ? (winWeight / totalWeight) * 100 : 0;
-
-  const winCostSum = activeItems
-    .filter((it: any) => it.type !== "none")
-    .reduce((sum: number, it: any) => sum + (it.probability || 0) * (it.cost_yen || 0), 0);
-
-  const expectedValueYen = totalWeight > 0 ? winCostSum / totalWeight : 0;
-  const maxExpectedValueYen = winWeight > 0 ? winCostSum / winWeight : 0;
 
   return (
     <div className="pb-20 space-y-6">
@@ -81,28 +62,31 @@ export default async function GachaPage() {
             </div>
           )}
           <GachaRateControls
-            winRate={winRate}
-            winWeight={winWeight}
-            loseWeight={loseWeight}
-            totalWeight={totalWeight}
             expectedValueYen={expectedValueYen}
-            maxExpectedValueYen={maxExpectedValueYen}
+            totalWeight={totalWeight}
+            winItemCount={winItemCount}
           />
         </>
       )}
 
       <div className="grid gap-4">
         {items?.map((item: any) => {
-          const pct =
-            item.is_active && totalWeight > 0
-              ? ((item.probability / totalWeight) * 100).toFixed(1)
-              : null;
+          const pct = gachaAppearancePct(item, totalWeight);
+          const outOfStock =
+            item.is_active &&
+            typeof item.stock_total === "number" &&
+            (item.current_stock_used || 0) >= item.stock_total;
           return (
             <div key={item.id}>
               <GachaItemRow item={item} />
               {pct && (
                 <div className="text-xs text-gray-500 mt-1 ml-1">
-                  出現割合（概算）: {pct}%
+                  出現割合（概算・抽選対象のみ）: {pct}%
+                </div>
+              )}
+              {outOfStock && (
+                <div className="text-xs text-red-600 mt-1 ml-1 font-bold">
+                  在庫切れのため抽選対象外
                 </div>
               )}
             </div>

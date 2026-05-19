@@ -1,49 +1,40 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { autoAdjustLoseWeightByExpectedValue } from "./actions";
+import { autoAdjustWinWeightsByExpectedValue } from "./actions";
 import { useRouter } from "next/navigation";
 
 export function GachaRateControls({
-  winRate,
-  winWeight,
-  loseWeight,
-  totalWeight,
   expectedValueYen,
-  maxExpectedValueYen,
+  totalWeight,
+  winItemCount,
 }: {
-  winRate: number;
-  winWeight: number;
-  loseWeight: number;
-  totalWeight: number;
   expectedValueYen: number;
-  maxExpectedValueYen: number;
+  totalWeight: number;
+  winItemCount: number;
 }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
-  const [targetEV, setTargetEV] = useState<number>(
-    Math.max(1, Math.round(expectedValueYen || 0))
-  );
+  const [targetEV, setTargetEV] = useState<number>(180);
 
   return (
     <div className="bg-white p-4 border border-gray-200">
       <div className="flex items-start justify-between gap-4 flex-wrap">
         <div className="min-w-0">
-          <div className="font-bold text-gray-900">当たり率サマリ</div>
-          <div className="text-sm text-gray-700 mt-1">
-            現在の当たり率: <span className="font-bold text-gray-900">{winRate.toFixed(1)}%</span>
+          <div className="font-bold text-gray-900">期待値サマリ</div>
+          <div className="text-sm text-gray-700 mt-1 flex items-center gap-2 flex-wrap">
+            <span className="text-[10px] px-2 py-0.5 font-bold bg-orange-50 text-orange-700">
+              ハズレなし（必ず当たり）
+            </span>
           </div>
           <div className="text-sm text-gray-700 mt-1">
             現在の期待値（原価）: <span className="font-bold text-gray-900">{expectedValueYen.toFixed(1)}円</span>
           </div>
           <div className="text-xs text-gray-500 mt-1">
-            当たり重み: {winWeight} / ハズレ重み: {loseWeight} / 合計: {totalWeight}
-          </div>
-          <div className="text-xs text-gray-500 mt-1">
-            期待値上限（ハズレ重み0相当）: {maxExpectedValueYen.toFixed(1)}円
+            重み合計: {totalWeight}（対象景品: {winItemCount}件）
           </div>
           <div className="text-xs text-gray-500 mt-2">
-            ※「ハズレ（type=none）」が1つだけ有効な場合、自動調整できます
+            ※期待値は各景品の「重み×原価」で決まります。目標に合わせて当たり景品の重みを自動調整します。
           </div>
         </div>
 
@@ -67,7 +58,7 @@ export function GachaRateControls({
             onClick={() => {
               startTransition(async () => {
                 try {
-                  await autoAdjustLoseWeightByExpectedValue(targetEV);
+                  await autoAdjustWinWeightsByExpectedValue(targetEV);
                   router.refresh();
                 } catch (e: any) {
                   alert(e?.message || "自動調整に失敗しました");

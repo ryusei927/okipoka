@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { ArrowLeft, Save, Upload, RefreshCw } from "lucide-react";
 import { upsertGachaItem, type GachaItemState } from "./actions";
@@ -32,6 +32,13 @@ export default function GachaItemForm({ item, shops = [] }: { item?: any; shops?
   const [previewUrl, setPreviewUrl] = useState<string | null>(item?.image_url || null);
   const [isResetting, setIsResetting] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    if (state.success) {
+      router.push("/dashboard/gacha");
+      router.refresh();
+    }
+  }, [state.success, router]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -234,7 +241,7 @@ export default function GachaItemForm({ item, shops = [] }: { item?: any; shops?
             <input
               type="checkbox"
               name="isMonthlyLimit"
-              defaultChecked={item?.is_monthly_limit ?? false}
+              defaultChecked={item?.is_monthly_limit ?? (item ? false : true)}
               className="w-5 h-5 text-orange-500 focus:ring-orange-500 border-gray-300"
             />
             <div>

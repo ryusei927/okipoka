@@ -6,11 +6,7 @@ import { SimulatorClient } from "./simulator-client";
 export default async function GachaSimPage() {
   const supabase = await createClient();
 
-  const { data: items, error } = await supabase
-    .from("gacha_items")
-    .select("*")
-    .is("deleted_at", null)
-    .order("created_at", { ascending: false });
+  const { data: items, error } = await supabase.rpc("get_admin_gacha_items");
 
   return (
     <div className="pb-20 space-y-6">

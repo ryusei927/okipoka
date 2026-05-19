@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import { useMemo, useState } from "react";
+import { isGachaItemEligible, type GachaItemLike } from "@/lib/gacha";
 
-type GachaItem = {
+type GachaItem = GachaItemLike & {
   id: string;
   name: string;
   description: string | null;
@@ -11,20 +12,8 @@ type GachaItem = {
   probability: number;
   type: string;
   value: number | null;
-  cost_yen?: number | null;
   expires_days?: number | null;
-  is_active?: boolean | null;
-  stock_total?: number | null;
-  stock_used?: number | null;
 };
-
-function isEligible(item: GachaItem): boolean {
-  if (!item.is_active) return false;
-  if (typeof item.stock_total === "number") {
-    return (item.stock_used || 0) < item.stock_total;
-  }
-  return true;
-}
 
 function pickWeighted(items: GachaItem[]): GachaItem | null {
   if (items.length === 0) return null;
@@ -40,7 +29,7 @@ function pickWeighted(items: GachaItem[]): GachaItem | null {
 }
 
 export function SimulatorClient({ items }: { items: GachaItem[] }) {
-  const eligibleItems = useMemo(() => items.filter(isEligible), [items]);
+  const eligibleItems = useMemo(() => items.filter(isGachaItemEligible), [items]);
   const totalWeight = useMemo(
     () => eligibleItems.reduce((s, it) => s + (it.probability || 0), 0),
     [eligibleItems]

@@ -2,11 +2,12 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { isGachaItemEligible } from "@/lib/gacha";
 
 export type GachaItemState = {
   message?: string;
   error?: string;
+  success?: boolean;
 };
 
 export async function upsertGachaItem(
@@ -116,7 +117,7 @@ export async function upsertGachaItem(
     if (normalized_stock_total !== null) {
       const { data: current, error: getError } = await supabase
         .from("gacha_items")
-        .select("stock_used")
+        .select("stock_used, is_monthly_limit")
         .eq("id", id)
         .single();
 
@@ -125,7 +126,22 @@ export async function upsertGachaItem(
         return { error: "保存に失敗しました" };
       }
 
-      const used = Number(current?.stock_used || 0);
+      let used = Number(current?.stock_used || 0);
+      const useMonthlyCount = isMonthlyLimit || current?.is_monthly_limit;
+      if (useMonthlyCount) {
+        const monthStart = getJstMonthStartIso();
+        const { count, error: countError } = await supabase
+          .from("gacha_logs")
+          .select("*", { count: "exact", head: true })
+          .eq("item_id", id)
+          .gte("created_at", monthStart);
+        if (countError) {
+          console.error(countError);
+          return { error: "保存に失敗しました" };
+        }
+        used = count ?? 0;
+      }
+
       if (used > (normalized_stock_total as number)) {
         return { error: `既に${used}個当選済みのため、当選上限は${used}以上にしてください` };
       }
@@ -161,7 +177,18 @@ export async function upsertGachaItem(
 
   revalidatePath("/dashboard/gacha");
   revalidatePath("/member/gacha");
-  redirect("/dashboard/gacha");
+  return { success: true };
+}
+
+function getJstMonthStartIso(): string {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Tokyo",
+    year: "numeric",
+    month: "2-digit",
+  }).formatToParts(new Date());
+  const year = parts.find((p) => p.type === "year")?.value ?? "1970";
+  const month = parts.find((p) => p.type === "month")?.value ?? "01";
+  return `${year}-${month}-01T00:00:00+09:00`;
 }
 
 export async function deleteGachaItem(id: string) {
@@ -176,6 +203,24 @@ export async function deleteGachaItem(id: string) {
   if (error) {
     console.error(error);
     throw new Error("削除に失敗しました");
+  }
+
+  revalidatePath("/dashboard/gacha");
+  revalidatePath("/member/gacha");
+}
+
+export async function enableMonthlyLimit(id: string) {
+  const supabase = await createClient();
+
+  const { error } = await supabase
+    .from("gacha_items")
+    .update({ is_monthly_limit: true })
+    .eq("id", id)
+    .is("deleted_at", null);
+
+  if (error) {
+    console.error(error);
+    throw new Error("月間リセットの有効化に失敗しました");
   }
 
   revalidatePath("/dashboard/gacha");
@@ -224,6 +269,15 @@ export async function toggleGachaItemStatus(id: string, isActive: boolean) {
   revalidatePath("/member/gacha");
 }
 
+async function fetchEligibleGachaItems(supabase: Awaited<ReturnType<typeof createClient>>) {
+  const { data: items, error } = await supabase.rpc("get_admin_gacha_items");
+  if (error) {
+    console.error(error);
+    throw new Error("景品の取得に失敗しました");
+  }
+  return (items || []).filter(isGachaItemEligible);
+}
+
 export async function autoAdjustLoseWeight(targetWinRate: number) {
   const supabase = await createClient();
 
@@ -234,25 +288,7 @@ export async function autoAdjustLoseWeight(targetWinRate: number) {
     throw new Error("当たり率は1〜99の範囲で指定してください");
   }
 
-  const { data: items, error } = await supabase
-    .from("gacha_items")
-    .select("id,type,probability,is_active,deleted_at,created_at,stock_total,stock_used")
-    .is("deleted_at", null)
-    .eq("is_active", true);
-
-  if (error) {
-    console.error(error);
-    throw new Error("景品の取得に失敗しました");
-  }
-
-  const activeItems = items || [];
-  const eligibleItems = activeItems.filter((it: any) => {
-    if (!it.is_active) return false;
-    if (typeof it.stock_total === "number") {
-      return (it.stock_used || 0) < it.stock_total;
-    }
-    return true;
-  });
+  const eligibleItems = await fetchEligibleGachaItems(supabase);
 
   if (eligibleItems.length === 0) {
     throw new Error("有効な景品がありません");
@@ -322,25 +358,7 @@ export async function autoAdjustLoseWeightByExpectedValue(targetExpectedYen: num
     throw new Error("期待値（円）は1以上の数値で指定してください");
   }
 
-  const { data: items, error } = await supabase
-    .from("gacha_items")
-    .select("id,type,probability,is_active,deleted_at,created_at,cost_yen,stock_total,stock_used")
-    .is("deleted_at", null)
-    .eq("is_active", true);
-
-  if (error) {
-    console.error(error);
-    throw new Error("景品の取得に失敗しました");
-  }
-
-  const activeItems = items || [];
-  const eligibleItems = activeItems.filter((it: any) => {
-    if (!it.is_active) return false;
-    if (typeof it.stock_total === "number") {
-      return (it.stock_used || 0) < it.stock_total;
-    }
-    return true;
-  });
+  const eligibleItems = await fetchEligibleGachaItems(supabase);
 
   if (eligibleItems.length === 0) {
     throw new Error("有効な景品がありません");
@@ -408,6 +426,88 @@ export async function autoAdjustLoseWeightByExpectedValue(targetExpectedYen: num
   if (updateError) {
     console.error(updateError);
     throw new Error("更新に失敗しました");
+  }
+
+  revalidatePath("/dashboard/gacha");
+  revalidatePath("/member/gacha");
+}
+
+/** ハズレなし（必ず当たり）: 当たり景品の重みで期待値を合わせる */
+export async function autoAdjustWinWeightsByExpectedValue(targetExpectedYen: number) {
+  const supabase = await createClient();
+  const target = Number(targetExpectedYen);
+  if (!Number.isFinite(target) || target <= 0) {
+    throw new Error("期待値（円）は1以上の数値で指定してください");
+  }
+
+  const eligibleItems = await fetchEligibleGachaItems(supabase);
+  const winItems = eligibleItems.filter((it: any) => it.type !== "none");
+
+  if (winItems.length === 0) throw new Error("有効な当たり景品がありません");
+  if (winItems.length === 1) {
+    const onlyCost = Number(winItems[0].cost_yen || 0);
+    if (Math.abs(onlyCost - target) > 0.5) {
+      throw new Error(
+        "景品が1種類のみのため、重みでは期待値を変えられません。原価または景品を追加してください。"
+      );
+    }
+    return;
+  }
+
+  const costs = winItems.map((it: any) => Number(it.cost_yen || 0));
+  if (costs.every((c: number) => c === 0)) {
+    throw new Error("当たり景品の原価（cost_yen）がすべて0です。期待値の調整には原価の入力が必要です。");
+  }
+  if (new Set(costs).size === 1) {
+    throw new Error(
+      "原価がすべて同じため、重みだけでは期待値を変えられません。原価の異なる景品を追加してください。"
+    );
+  }
+
+  const expectedValueAt = (lambda: number) => {
+    let costSum = 0;
+    let weightSum = 0;
+    for (const it of winItems) {
+      const c = Number(it.cost_yen || 0);
+      const w0 = Number(it.probability || 0);
+      if (w0 <= 0) continue;
+      const w = w0 * Math.exp(-lambda * (c - target));
+      costSum += w * c;
+      weightSum += w;
+    }
+    return weightSum > 0 ? costSum / weightSum : 0;
+  };
+
+  const rangeMin = Math.min(expectedValueAt(12), expectedValueAt(-12));
+  const rangeMax = Math.max(expectedValueAt(12), expectedValueAt(-12));
+  if (target < rangeMin - 0.5 || target > rangeMax + 0.5) {
+    throw new Error(
+      `指定した期待値は現在の景品構成では達成できません（おおよそ ${Math.ceil(rangeMin)}〜${Math.floor(rangeMax)}円）。原価または景品構成を見直してください。`
+    );
+  }
+
+  let lo = -12;
+  let hi = 12;
+  for (let i = 0; i < 64; i++) {
+    const mid = (lo + hi) / 2;
+    if (expectedValueAt(mid) > target) lo = mid;
+    else hi = mid;
+  }
+  const lambda = (lo + hi) / 2;
+
+  for (const it of winItems) {
+    const c = Number(it.cost_yen || 0);
+    const w0 = Number(it.probability || 0);
+    const next = Math.max(1, Math.round(w0 * Math.exp(-lambda * (c - target))));
+    const { error: updateError } = await supabase
+      .from("gacha_items")
+      .update({ probability: next })
+      .eq("id", it.id)
+      .is("deleted_at", null);
+    if (updateError) {
+      console.error(updateError);
+      throw new Error("更新に失敗しました");
+    }
   }
 
   revalidatePath("/dashboard/gacha");

@@ -6,6 +6,7 @@ import { useTransition } from "react";
 import { DeleteButton } from "./DeleteButton";
 import { toggleGachaItemStatus } from "./actions";
 import { useRouter } from "next/navigation";
+import { EnableMonthlyLimitButton } from "./EnableMonthlyLimitButton";
 
 function typeLabel(type?: string | null) {
   switch (type) {
@@ -27,6 +28,12 @@ function typeLabel(type?: string | null) {
 export function GachaItemRow({ item }: { item: any }) {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
+
+  const isOutOfStock =
+    typeof item.stock_total === "number" &&
+    (item.current_stock_used || 0) >= item.stock_total;
+  const needsMonthlyHint =
+    isOutOfStock && item.is_active && !item.is_monthly_limit;
 
   return (
     <div className="bg-white p-4 border border-gray-200">
@@ -52,6 +59,9 @@ export function GachaItemRow({ item }: { item: any }) {
 
           <div className="text-xs text-gray-500 mt-2 flex flex-wrap gap-x-4 gap-y-1">
             <span>重み: {item.probability}</span>
+            {item.type !== "none" && (
+              <span>原価: {typeof item.cost_yen === "number" ? `${item.cost_yen}円` : "0円"}</span>
+            )}
             <span>value: {typeof item.value === "number" ? item.value : "-"}</span>
             {typeof item.stock_total === "number" ? (
               <span className={(item.current_stock_used || 0) >= item.stock_total ? "text-red-600 font-bold" : ""}>
@@ -67,7 +77,18 @@ export function GachaItemRow({ item }: { item: any }) {
                 {item.is_monthly_limit && <span className="text-[10px] bg-blue-50 text-blue-700 px-1 py-0.5 ml-1">月間</span>}
               </span>
             )}
+            {typeof item.stock_total === "number" && !item.is_monthly_limit && (
+              <span className="text-amber-700 font-medium">累積在庫（手動リセットまで復活しません）</span>
+            )}
           </div>
+          {needsMonthlyHint && (
+            <div className="text-xs text-amber-800 mt-2 bg-amber-50 border border-amber-200 p-2 space-y-1">
+              <p>
+                「月間」がOFFのため、当選後は翌月も復活しません。毎月の排出枠として使う場合は「毎月リセットする」をONにしてください。
+              </p>
+              <EnableMonthlyLimitButton id={item.id} />
+            </div>
+          )}
         </div>
 
         <div className="flex items-center gap-2 shrink-0">
