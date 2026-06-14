@@ -13,6 +13,14 @@ export default async function GachaPage() {
 
   const { data: items, error } = await supabase.rpc("get_admin_gacha_items");
 
+  const { data: shops } = await supabase
+    .from("shops")
+    .select("id, name");
+
+  const shopNameById = new Map<string, string>(
+    (shops || []).map((s: any) => [s.id, s.name])
+  );
+
   const stats = computeGachaRateStats(items || []);
   const { totalWeight, expectedValueYen, eligibleItems } = stats;
   const winItemCount = eligibleItems.filter((it) => it.type !== "none").length;
@@ -78,7 +86,10 @@ export default async function GachaPage() {
             (item.current_stock_used || 0) >= item.stock_total;
           return (
             <div key={item.id}>
-              <GachaItemRow item={item} />
+              <GachaItemRow
+                item={item}
+                shopName={item.shop_id ? shopNameById.get(item.shop_id) ?? null : null}
+              />
               {pct && (
                 <div className="text-xs text-gray-500 mt-1 ml-1">
                   出現割合（概算・抽選対象のみ）: {pct}%

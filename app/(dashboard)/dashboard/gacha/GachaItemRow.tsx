@@ -25,7 +25,13 @@ function typeLabel(type?: string | null) {
   }
 }
 
-export function GachaItemRow({ item }: { item: any }) {
+export function GachaItemRow({
+  item,
+  shopName,
+}: {
+  item: any;
+  shopName?: string | null;
+}) {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
@@ -50,6 +56,9 @@ export function GachaItemRow({ item }: { item: any }) {
               }`}
             >
               {item.is_active ? "有効" : "無効"}
+            </span>
+            <span className="text-[10px] px-2 py-0.5 font-bold bg-blue-50 text-blue-700">
+              店舗: {shopName || "共通（指定なし）"}
             </span>
           </div>
 
@@ -117,7 +126,7 @@ export function GachaItemRow({ item }: { item: any }) {
             <Pencil className="w-4 h-4" />
           </Link>
 
-          <DeleteButton id={item.id} />
+          <DeleteButton id={item.id} name={item.name} shopName={shopName} />
         </div>
       </div>
     </div>

@@ -4,7 +4,15 @@ import { Trash2 } from "lucide-react";
 import { useTransition } from "react";
 import { deleteGachaItem } from "./actions";
 
-export function DeleteButton({ id }: { id: string }) {
+export function DeleteButton({
+  id,
+  name,
+  shopName,
+}: {
+  id: string;
+  name?: string;
+  shopName?: string | null;
+}) {
   const [isPending, startTransition] = useTransition();
 
   return (
@@ -12,7 +20,18 @@ export function DeleteButton({ id }: { id: string }) {
       type="button"
       disabled={isPending}
       onClick={() => {
-        if (!confirm("この景品を削除しますか？（ガチャから除外され、過去の当選履歴は保持されます）")) return;
+        const label = [
+          name ? `景品: ${name}` : null,
+          `店舗: ${shopName || "共通（指定なし）"}`,
+        ]
+          .filter(Boolean)
+          .join("\n");
+        if (
+          !confirm(
+            `${label ? `${label}\n\n` : ""}この景品を削除しますか？（ガチャから除外され、過去の当選履歴は保持されます）`
+          )
+        )
+          return;
         startTransition(async () => {
           try {
             await deleteGachaItem(id);
