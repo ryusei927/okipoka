@@ -136,6 +136,35 @@ export function MembersList({
     }
   };
 
+  const handleCancelCardSubscription = async (userId: string) => {
+    if (
+      !confirm(
+        "この会員のSquareサブスク（カード決済）を解約しますか？\n（次回更新日までは利用継続。以降は自動課金が停止します）"
+      )
+    )
+      return;
+    setIsLoading(true);
+    setMessage(null);
+    try {
+      const res = await fetch("/api/admin/subscription/cancel", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "解約に失敗しました");
+      const renewal = data.next_renewal_date
+        ? `（${data.next_renewal_date}以降は課金されません）`
+        : "";
+      setMessage({ type: "success", text: `Squareサブスクを解約しました${renewal}` });
+      setTimeout(() => window.location.reload(), 1200);
+    } catch (e: any) {
+      setMessage({ type: "error", text: e.message });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const itemsByUserId = useMemo(() => {
     return (userItems || []).reduce((acc, row) => {
       const key = row.user_id;
@@ -520,7 +549,7 @@ export function MembersList({
                 })()}
 
                 {/* アクションボタン */}
-                <div className="flex gap-2 pt-2 border-t border-gray-200">
+                <div className="flex flex-wrap gap-2 pt-2 border-t border-gray-200">
                   {isCash ? (
                     <button
                       type="button"
@@ -535,18 +564,34 @@ export function MembersList({
                       現金サブスク解除
                     </button>
                   ) : (
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setCashModalUserId(profile.id);
-                        setCashMonths(1);
-                      }}
-                      className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold bg-orange-50 text-orange-700 hover:bg-orange-100 transition-colors"
-                    >
-                      <Banknote className="w-3.5 h-3.5" />
-                      現金サブスク付与
-                    </button>
+                    <>
+                      {isActive && subscriptionStatus === "active" && (
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleCancelCardSubscription(profile.id);
+                          }}
+                          disabled={isLoading}
+                          className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold bg-red-50 text-red-600 hover:bg-red-100 transition-colors disabled:opacity-50"
+                        >
+                          <CreditCard className="w-3.5 h-3.5" />
+                          Squareサブスク解約
+                        </button>
+                      )}
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setCashModalUserId(profile.id);
+                          setCashMonths(1);
+                        }}
+                        className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold bg-orange-50 text-orange-700 hover:bg-orange-100 transition-colors"
+                      >
+                        <Banknote className="w-3.5 h-3.5" />
+                        現金サブスク付与
+                      </button>
+                    </>
                   )}
                 </div>
               </div>
