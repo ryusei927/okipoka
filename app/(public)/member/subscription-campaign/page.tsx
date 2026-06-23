@@ -62,7 +62,7 @@ export default async function SubscriptionCampaignPage({
 
           <section className="overflow-hidden rounded-2xl bg-white ring-1 ring-gray-200/80">
             <Image
-              src="/promo.png"
+              src="/promo.webp"
               alt="サブスク登録キャンペーン告知画像"
               width={1080}
               height={1920}
@@ -173,7 +173,7 @@ export default async function SubscriptionCampaignPage({
             <section className="space-y-5 rounded-2xl bg-white p-6 ring-1 ring-gray-200/80">
               <div
                 className="relative overflow-hidden rounded-[28px] bg-neutral-950 bg-cover bg-center p-5 text-white shadow-[0_18px_50px_rgba(0,0,0,0.22)] ring-4 ring-orange-100"
-                style={{ backgroundImage: "url('/campaign-share-bg.png')" }}
+                style={{ backgroundImage: "url('/campaign-share-bg.webp')" }}
               >
                 <div
                   aria-hidden

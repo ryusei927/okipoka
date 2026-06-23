@@ -64,7 +64,7 @@ export default function PublicSubscriptionCampaignPage() {
 
           <div className="overflow-hidden rounded-3xl bg-gray-950 ring-1 ring-gray-200">
             <Image
-              src="/promo.png"
+              src="/promo.webp"
               alt="サブスク登録キャンペーン告知画像"
               width={1080}
               height={1920}
