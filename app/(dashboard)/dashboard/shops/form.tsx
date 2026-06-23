@@ -308,7 +308,6 @@ export default function ShopForm({ shop }: { shop?: any }) {
             >
               <option value="free">Free (無料)</option>
               <option value="business">Business (月額3,800円)</option>
-              <option value="premium">Premium (月額8,800円)</option>
             </select>
           </div>
         </div>

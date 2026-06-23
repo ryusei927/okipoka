@@ -16,6 +16,7 @@ export const squareClient = new SquareClient({
 });
 
 const PREMIUM_PLAN_NAME = "OKIPOKA プレミアム会員";
+const AD_PLAN_NAME = "OKIPOKA 広告掲載プラン";
 
 export type CardOnFile = {
   brand: string;
@@ -211,5 +212,129 @@ export async function getSubscriptionPlanVariationId(): Promise<string> {
 
   throw new Error(
     "Failed to create SUBSCRIPTION_PLAN_VARIATION. Set SQUARE_SUBSCRIPTION_PLAN_VARIATION_ID manually if needed."
+  );
+}
+
+// MONTHLY のフェーズを持つ Variation かどうかを判定
+function hasMonthlyPhase(object: Square.CatalogObject | undefined): boolean {
+  if (!object || object.type !== "SUBSCRIPTION_PLAN_VARIATION") return false;
+  const phases = object.subscriptionPlanVariationData?.phases ?? [];
+  return phases.some((p) => p.cadence === "MONTHLY");
+}
+
+/**
+ * 広告掲載プラン（月額3,800円）の SUBSCRIPTION_PLAN_VARIATION ID を取得する。
+ * - SQUARE_AD_PLAN_VARIATION_ID があればそれを優先（確実・推奨）
+ * - 無ければ「OKIPOKA 広告掲載プラン」という名前の月額プランから自動検出
+ * - どうしても見つからなければ自動作成（STATIC 3,800円/月）
+ */
+export async function getAdPlanVariationId(): Promise<string> {
+  // 1. 環境変数で明示指定されていればそれを使う
+  const envVariationId = process.env.SQUARE_AD_PLAN_VARIATION_ID;
+  if (envVariationId) {
+    try {
+      const { object } = await squareClient.catalog.object.get({
+        objectId: envVariationId,
+        includeRelatedObjects: false,
+      });
+      if (object && object.type === "SUBSCRIPTION_PLAN_VARIATION") {
+        return envVariationId;
+      }
+    } catch {
+      // 無効/別マーチャントのIDの場合はフォールバック
+    }
+  }
+
+  // 2. 「OKIPOKA 広告掲載プラン」という名前のプランを検索
+  const { objects: plans } = await squareClient.catalog.search({
+    objectTypes: ["SUBSCRIPTION_PLAN"],
+    query: {
+      exactQuery: {
+        attributeName: "name",
+        attributeValue: AD_PLAN_NAME,
+      },
+    },
+  });
+
+  // 見つかった各プランから月額の Variation を探す
+  for (const plan of plans ?? []) {
+    if (!plan.id) continue;
+    const { objects: variations } = await squareClient.catalog.search({
+      objectTypes: ["SUBSCRIPTION_PLAN_VARIATION"],
+      query: {
+        exactQuery: {
+          attributeName: "subscription_plan_id",
+          attributeValue: plan.id,
+        },
+      },
+    });
+    const monthly = (variations ?? []).find((v) => hasMonthlyPhase(v));
+    if (monthly?.id) return monthly.id;
+  }
+
+  // 3. プランが無ければ作成
+  let adPlanId = (plans ?? [])[0]?.id;
+  if (!adPlanId) {
+    const { catalogObject } = await squareClient.catalog.object.upsert({
+      idempotencyKey: randomUUID(),
+      object: {
+        type: "SUBSCRIPTION_PLAN",
+        id: "#okipoka-ad-plan",
+        subscriptionPlanData: {
+          name: AD_PLAN_NAME,
+        },
+      },
+    });
+    adPlanId = catalogObject?.id;
+  }
+
+  if (!adPlanId) {
+    throw new Error(
+      "Ad subscription plan not found. Set SQUARE_AD_PLAN_VARIATION_ID manually."
+    );
+  }
+
+  // 4. 月額3,800円の Variation を作成
+  const tempVariationId = "#okipoka-ad-variation";
+  const { idMappings } = await squareClient.catalog.batchUpsert({
+    idempotencyKey: randomUUID(),
+    batches: [
+      {
+        objects: [
+          {
+            type: "SUBSCRIPTION_PLAN_VARIATION",
+            id: tempVariationId,
+            subscriptionPlanVariationData: {
+              name: "月額 3,800円",
+              subscriptionPlanId: adPlanId,
+              phases: [
+                {
+                  cadence: "MONTHLY",
+                  pricing: {
+                    type: "STATIC",
+                    priceMoney: {
+                      amount: BigInt(3800),
+                      currency: "JPY",
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    ],
+  });
+
+  const mapping = (idMappings ?? []).find(
+    (m) => m.clientObjectId === tempVariationId
+  );
+
+  if (mapping?.objectId) {
+    return mapping.objectId;
+  }
+
+  throw new Error(
+    "Failed to create ad SUBSCRIPTION_PLAN_VARIATION. Set SQUARE_AD_PLAN_VARIATION_ID manually if needed."
   );
 }
