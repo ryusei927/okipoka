@@ -12,6 +12,8 @@ create table if not exists public.subscription_campaign_entries (
   story_posted_at timestamptz,
   story_checked_at timestamptz,
   eligible_at timestamptz,
+  publicity_consent_at timestamptz,
+  prize_contact_consent_at timestamptz,
   admin_note text,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),

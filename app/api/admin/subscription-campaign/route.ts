@@ -1,34 +1,35 @@
-"use server";
-
 import { isAdminEmail } from "@/lib/admin";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { SUBSCRIPTION_CAMPAIGN } from "@/lib/subscription-campaign";
-import { revalidatePath } from "next/cache";
+import { NextResponse } from "next/server";
 
 const VALID_STATUSES = new Set(["entered", "story_confirmed", "eligible", "won", "invalid"]);
 
-export async function updateCampaignEntryStatus(formData: FormData) {
+export async function PATCH(request: Request) {
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
   if (!isAdminEmail(user?.email)) {
-    throw new Error("Unauthorized");
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const id = formData.get("id");
-  const status = formData.get("status");
-  const adminNote = formData.get("adminNote");
+  const body = await request.json().catch(() => ({}));
+  const { id, status, adminNote } = body as {
+    id?: string;
+    status?: string;
+    adminNote?: string;
+  };
 
-  if (typeof id !== "string" || typeof status !== "string" || !VALID_STATUSES.has(status)) {
-    throw new Error("Invalid request");
+  if (!id || !status || !VALID_STATUSES.has(status)) {
+    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
   const updateData: Record<string, string | null> = {
     status,
-    admin_note: typeof adminNote === "string" && adminNote.trim() ? adminNote.trim() : null,
+    admin_note: adminNote?.trim() ? adminNote.trim() : null,
   };
 
   const now = new Date();
@@ -50,8 +51,8 @@ export async function updateCampaignEntryStatus(formData: FormData) {
     .eq("campaign_key", SUBSCRIPTION_CAMPAIGN.key);
 
   if (error) {
-    throw new Error(error.message);
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  revalidatePath("/dashboard/subscription-campaign");
+  return NextResponse.json({ success: true });
 }

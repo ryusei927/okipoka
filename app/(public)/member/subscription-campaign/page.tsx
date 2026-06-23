@@ -9,18 +9,17 @@ import {
 import {
   AtSign,
   Camera,
-  Check,
   ChevronRight,
   Clock,
   Gift,
-  Instagram,
   Package,
   Sparkles,
   Ticket,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { createSubscriptionCampaignEntry } from "./actions";
+import { CampaignEntryForm } from "./CampaignEntryForm";
 
 export const dynamic = "force-dynamic";
 
@@ -64,42 +63,15 @@ export default async function SubscriptionCampaignPage({
       <div className="mx-auto max-w-md space-y-5">
         <BackLink />
 
-          {/* ヒーロー */}
-          <section className="relative overflow-hidden rounded-2xl bg-neutral-950 text-white">
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-0 opacity-[0.18]"
-              style={{
-                backgroundImage:
-                  "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.5) 1px, transparent 0)",
-                backgroundSize: "22px 22px",
-              }}
+          <section className="overflow-hidden rounded-2xl bg-white ring-1 ring-gray-200/80">
+            <Image
+              src="/promo.png"
+              alt="サブスク登録キャンペーン告知画像"
+              width={1080}
+              height={1920}
+              className="h-auto w-full"
+              priority
             />
-            <div
-              aria-hidden
-              className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-orange-500/30 blur-3xl"
-            />
-            <div className="relative px-6 pb-7 pt-6">
-              <div className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-[11px] font-bold tracking-[0.16em] text-white/90 ring-1 ring-white/15">
-                <Instagram className="h-3.5 w-3.5" />
-                OKIPOKA × INSTAGRAM
-              </div>
-
-              <h1 className="mt-5 text-[28px] font-black leading-[1.15] tracking-tight">
-                サブスク登録で、
-                <br />
-                <span className="text-orange-400">最新弾BOX</span>を当てよう。
-              </h1>
-
-              <p className="mt-3 text-sm leading-relaxed text-white/60">
-                期間中にプレミアム会員へ登録した方の中から、抽選で豪華賞品をプレゼント。応募はストーリーで投稿するだけ。
-              </p>
-
-              <div className="mt-5 inline-flex items-center gap-2 text-[13px] font-semibold text-white/80">
-                <Clock className="h-4 w-4 text-orange-400" />
-                応募は {endLabel} まで
-              </div>
-            </div>
           </section>
 
           {/* 賞品 */}
@@ -116,7 +88,7 @@ export default async function SubscriptionCampaignPage({
                 const isHero = i === 0;
                 return (
                   <div
-                    key={prize.rank}
+                    key={prize.name}
                     className={`relative overflow-hidden rounded-xl p-4 ${
                       isHero
                         ? "bg-neutral-950 text-white"
@@ -143,7 +115,7 @@ export default async function SubscriptionCampaignPage({
                               isHero ? "text-orange-400" : "text-orange-600"
                             }`}
                           >
-                            {prize.rank}
+                            抽選で{prize.winners}名様
                           </span>
                           {"tag" in prize && prize.tag && (
                             <span className="inline-flex items-center gap-1 rounded-full bg-orange-500 px-2 py-0.5 text-[10px] font-bold text-white">
@@ -200,7 +172,19 @@ export default async function SubscriptionCampaignPage({
             </section>
           ) : entry ? (
             <section className="space-y-5 rounded-2xl bg-white p-6 ring-1 ring-gray-200/80">
-              <div className="relative overflow-hidden rounded-xl bg-neutral-950 px-5 py-6 text-center text-white">
+              <div className="text-center">
+                <p className="text-xs font-black tracking-[0.16em] text-orange-500">
+                  SCREENSHOT AREA
+                </p>
+                <h2 className="mt-1 text-lg font-black text-gray-950">
+                  この画面をスクショして投稿
+                </h2>
+                <p className="mt-1 text-xs leading-relaxed text-gray-400">
+                  個人情報は表示されません。この枠が見えるようにスクショしてください。
+                </p>
+              </div>
+
+              <div className="relative overflow-hidden rounded-2xl bg-neutral-950 px-5 py-6 text-center text-white ring-4 ring-orange-100">
                 <div
                   aria-hidden
                   className="pointer-events-none absolute inset-0 opacity-[0.15]"
@@ -213,6 +197,9 @@ export default async function SubscriptionCampaignPage({
                 <p className="relative text-[11px] font-bold tracking-[0.22em] text-orange-400">
                   ENTRY COMPLETE
                 </p>
+                <p className="relative mt-1 text-sm font-black text-white">
+                  OKIPOKAサブスクキャンペーン応募完了
+                </p>
                 <div className="relative mt-3 flex items-center justify-center gap-2">
                   <Ticket className="h-5 w-5 text-orange-400" />
                   <span className="font-mono text-[26px] font-black tracking-tight">
@@ -222,6 +209,11 @@ export default async function SubscriptionCampaignPage({
                 <p className="relative mt-2 text-sm font-bold text-white/80">
                   @{entry.instagram_username}
                 </p>
+                <div className="relative mt-5 rounded-xl bg-white/10 px-4 py-3 text-xs font-bold leading-relaxed text-white/85 ring-1 ring-white/10">
+                  Instagramストーリーで @{SUBSCRIPTION_CAMPAIGN.instagramAccount} をメンション
+                  <br />
+                  投稿は {SUBSCRIPTION_CAMPAIGN.storyHoldHours} 時間以上公開してください
+                </div>
               </div>
 
               <div>
@@ -254,53 +246,7 @@ export default async function SubscriptionCampaignPage({
                 </p>
               </div>
 
-              {/* 応募の流れ */}
-              <ol className="space-y-3">
-                <Step n={1} icon={<AtSign className="h-4 w-4" />}>
-                  InstagramユーザーIDを入力して応募
-                </Step>
-                <Step n={2} icon={<Camera className="h-4 w-4" />}>
-                  表示された抽選番号をスクショ
-                </Step>
-                <Step n={3} icon={<Instagram className="h-4 w-4" />}>
-                  ストーリーに投稿して @{SUBSCRIPTION_CAMPAIGN.instagramAccount} をメンション
-                </Step>
-              </ol>
-
-              <form action={createSubscriptionCampaignEntry} className="space-y-4">
-                <div>
-                  <label
-                    htmlFor="instagramUsername"
-                    className="text-sm font-bold text-gray-900"
-                  >
-                    InstagramユーザーID
-                  </label>
-                  <div className="mt-2 flex items-center gap-2 rounded-xl border border-gray-200 bg-gray-50 px-3 py-3 focus-within:border-orange-400 focus-within:bg-white">
-                    <Instagram className="h-4 w-4 text-gray-400" />
-                    <span className="text-sm font-bold text-gray-400">@</span>
-                    <input
-                      id="instagramUsername"
-                      name="instagramUsername"
-                      type="text"
-                      required
-                      maxLength={30}
-                      placeholder="okipoka"
-                      className="min-w-0 flex-1 bg-transparent text-sm text-gray-900 outline-none placeholder:text-gray-400"
-                    />
-                  </div>
-                  <p className="mt-2 text-xs leading-relaxed text-gray-400">
-                    抽選番号と一緒に保存されます。入力ミスにご注意ください。
-                  </p>
-                </div>
-
-                <button
-                  type="submit"
-                  className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-orange-500 px-4 py-3.5 text-sm font-bold text-white transition-colors hover:bg-orange-600"
-                >
-                  抽選番号を発行して応募
-                  <ChevronRight className="h-4 w-4" />
-                </button>
-              </form>
+              <CampaignEntryForm />
             </section>
           ) : (
             <section className="rounded-2xl bg-white p-6 text-center ring-1 ring-gray-200/80">
@@ -323,12 +269,25 @@ export default async function SubscriptionCampaignPage({
                 <dt className="w-16 shrink-0 font-bold text-gray-700">期間</dt>
                 <dd>
                   {formatCampaignDateTime(SUBSCRIPTION_CAMPAIGN.startAt)} 〜 {endLabel}
+                  <span className="ml-1 font-bold text-orange-600">締切</span>
                 </dd>
               </div>
               <div className="flex gap-3">
                 <dt className="w-16 shrink-0 font-bold text-gray-700">当選</dt>
                 <dd>
                   各賞 抽選で1名様。当選者にはInstagramのDMにてご連絡します。
+                </dd>
+              </div>
+              <div className="flex gap-3">
+                <dt className="w-16 shrink-0 font-bold text-gray-700">お渡し</dt>
+                <dd>
+                  アビスアイBOXは発送、Amazonギフト券はギフトコード送付にてお渡しします。発送先情報や送付先確認は当選後にInstagram DMで行います。
+                </dd>
+              </div>
+              <div className="flex gap-3">
+                <dt className="w-16 shrink-0 font-bold text-gray-700">発表</dt>
+                <dd>
+                  当選者はOKIPOKA公式アカウントでInstagramユーザーIDまたは抽選番号をメンション・掲載する場合があります。
                 </dd>
               </div>
               <div className="flex gap-3">

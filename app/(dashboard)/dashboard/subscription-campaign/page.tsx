@@ -8,7 +8,7 @@ import {
 import { CheckCircle2, Clock, Gift, Instagram, Ticket, XCircle } from "lucide-react";
 import { redirect } from "next/navigation";
 import type React from "react";
-import { updateCampaignEntryStatus } from "./actions";
+import { EntryStatusForm } from "./EntryStatusForm";
 
 export const dynamic = "force-dynamic";
 
@@ -29,14 +29,6 @@ type CampaignEntry = {
   created_at: string;
   profiles?: EntryProfile | EntryProfile[] | null;
 };
-
-const STATUS_OPTIONS = [
-  { value: "entered", label: "応募済み" },
-  { value: "story_confirmed", label: "投稿確認済み / 12時間待ち" },
-  { value: "eligible", label: "抽選対象" },
-  { value: "won", label: "当選" },
-  { value: "invalid", label: "無効" },
-];
 
 export default async function SubscriptionCampaignAdminPage() {
   const supabase = await createClient();
@@ -154,33 +146,11 @@ function EntryCard({ entry }: { entry: CampaignEntry }) {
           )}
         </div>
 
-        <form action={updateCampaignEntryStatus} className="w-full space-y-2 lg:w-72">
-          <input type="hidden" name="id" value={entry.id} />
-          <select
-            name="status"
-            defaultValue={entry.status}
-            className="w-full rounded-sm border border-gray-200 bg-gray-50 px-3 py-2 text-sm font-bold text-gray-900 outline-none focus:ring-2 focus:ring-orange-500"
-          >
-            {STATUS_OPTIONS.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-          <textarea
-            name="adminNote"
-            defaultValue={entry.admin_note ?? ""}
-            rows={2}
-            placeholder="メモ（任意）"
-            className="w-full rounded-sm border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-900 outline-none focus:ring-2 focus:ring-orange-500"
-          />
-          <button
-            type="submit"
-            className="w-full rounded-sm bg-gray-900 px-3 py-2 text-sm font-bold text-white transition-colors hover:bg-gray-800"
-          >
-            更新する
-          </button>
-        </form>
+        <EntryStatusForm
+          entryId={entry.id}
+          defaultStatus={entry.status}
+          defaultAdminNote={entry.admin_note}
+        />
       </div>
     </div>
   );

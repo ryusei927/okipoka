@@ -152,14 +152,10 @@ export default async function MemberPage() {
                   <>
                     <DailyGachaButton lastGachaAt={profile?.last_gacha_at} isAdmin={isAdmin} />
                     {(campaignActive || campaignEntry) && (
-                      <MenuLink
+                      <CampaignMenuLink
                         href="/member/subscription-campaign"
-                        label="キャンペーン応募"
-                        sub={
-                          campaignEntry
-                            ? `抽選番号: ${campaignEntry.draw_number}`
-                            : "Instagram投稿で抽選に参加"
-                        }
+                        entered={Boolean(campaignEntry)}
+                        drawNumber={campaignEntry?.draw_number ?? null}
                       />
                     )}
                     <MenuLink href="/member/subscription" label="プレミアム管理" sub="登録状況の確認・解約" />
@@ -234,6 +230,44 @@ function MenuLink({
         <p className="text-xs text-gray-400 mt-0.5">{sub}</p>
       </div>
       <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-gray-400" />
+    </Link>
+  );
+}
+
+function CampaignMenuLink({
+  href,
+  entered,
+  drawNumber,
+}: {
+  href: string;
+  entered: boolean;
+  drawNumber: string | null;
+}) {
+  return (
+    <Link
+      href={href}
+      className="group flex items-center gap-4 bg-orange-50/70 px-5 py-4 ring-1 ring-inset ring-orange-100 transition-colors hover:bg-orange-50"
+    >
+      <div className="flex-1 min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <p className="text-[15px] font-bold text-gray-950">キャンペーン応募</p>
+          <span
+            className={`rounded-full px-2 py-0.5 text-[10px] font-black ${
+              entered
+                ? "bg-green-50 text-green-700 ring-1 ring-green-100"
+                : "bg-orange-500 text-white"
+            }`}
+          >
+            {entered ? "参加済み" : "未参加"}
+          </span>
+        </div>
+        <p className="mt-0.5 text-xs text-orange-700/80">
+          {entered && drawNumber
+            ? `抽選番号: ${drawNumber}`
+            : "Instagram投稿で抽選に参加"}
+        </p>
+      </div>
+      <ChevronRight className="w-4 h-4 text-orange-300 group-hover:text-orange-500" />
     </Link>
   );
 }

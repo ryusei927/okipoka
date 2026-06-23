@@ -2,19 +2,17 @@ export const SUBSCRIPTION_CAMPAIGN = {
   key: "instagram-subscription-2026-06",
   title: "サブスク登録キャンペーン",
   startAt: "2026-06-24T00:00:00+09:00",
-  endAt: "2026-07-08T23:59:59+09:00",
+  endAt: "2026-07-09T18:00:00+09:00",
   instagramAccount: "okipoka",
   storyHoldHours: 12,
   prizes: [
     {
-      rank: "A賞",
       name: "ポケカ最新弾「アビスアイ」",
       unit: "1 BOX",
       tag: "最新弾",
       winners: 1,
     },
     {
-      rank: "B賞",
       name: "Amazonギフト券",
       unit: "10,000円分",
       winners: 1,
