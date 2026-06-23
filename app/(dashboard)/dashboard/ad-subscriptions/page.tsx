@@ -1,8 +1,23 @@
 import { createClient } from "@/lib/supabase/server";
 import { getSubscriptionBilling } from "@/lib/square";
-import { AdSubscriptionRow, type AdSub, type LinkedAd } from "./AdSubscriptionRow";
+import {
+  AdSubscriptionRow,
+  type AdSub,
+  type LinkedAd,
+  type AdMetrics,
+} from "./AdSubscriptionRow";
 
 export const dynamic = "force-dynamic";
+
+// 日本時間での「今月1日」を YYYY-MM-DD で返す
+function jstMonthStart(): string {
+  const jst = new Date(
+    new Date().toLocaleString("en-US", { timeZone: "Asia/Tokyo" })
+  );
+  const y = jst.getFullYear();
+  const m = String(jst.getMonth() + 1).padStart(2, "0");
+  return `${y}-${m}-01`;
+}
 
 export default async function AdSubscriptionsPage() {
   const supabase = await createClient();
@@ -16,13 +31,50 @@ export default async function AdSubscriptionsPage() {
   // 紐づく広告クリエイティブを取得（申込から自動生成された下書き広告など）
   const subIds = subscriptions.map((s) => s.id);
   const adBySubId = new Map<string, LinkedAd>();
+  const metricsByAdId = new Map<string, AdMetrics>();
   if (subIds.length > 0) {
     const { data: ads } = await supabase
       .from("ads")
-      .select("id, title, image_url, link_url, type, is_active, ad_subscription_id")
+      .select(
+        "id, title, image_url, link_url, type, is_active, ad_subscription_id, impression_count, click_count"
+      )
       .in("ad_subscription_id", subIds);
-    for (const ad of (ads ?? []) as (LinkedAd & { ad_subscription_id: string })[]) {
+
+    const linkedAds = (ads ?? []) as (LinkedAd & {
+      ad_subscription_id: string;
+      impression_count: number | null;
+      click_count: number | null;
+    })[];
+
+    for (const ad of linkedAds) {
       if (ad.ad_subscription_id) adBySubId.set(ad.ad_subscription_id, ad);
+      metricsByAdId.set(ad.id, {
+        monthImpressions: 0,
+        monthClicks: 0,
+        totalImpressions: ad.impression_count ?? 0,
+        totalClicks: ad.click_count ?? 0,
+      });
+    }
+
+    // 今月分の表示回数・クリックを日別集計テーブルから合算
+    const adIds = linkedAds.map((a) => a.id);
+    if (adIds.length > 0) {
+      const { data: rows } = await supabase
+        .from("ad_metrics")
+        .select("ad_id, impressions, clicks")
+        .in("ad_id", adIds)
+        .gte("day", jstMonthStart());
+      for (const row of (rows ?? []) as {
+        ad_id: string;
+        impressions: number;
+        clicks: number;
+      }[]) {
+        const m = metricsByAdId.get(row.ad_id);
+        if (m) {
+          m.monthImpressions += row.impressions ?? 0;
+          m.monthClicks += row.clicks ?? 0;
+        }
+      }
     }
   }
 
@@ -63,6 +115,12 @@ export default async function AdSubscriptionsPage() {
             sub={sub}
             billing={billings[i]}
             ad={adBySubId.get(sub.id) ?? null}
+            metrics={
+              (() => {
+                const ad = adBySubId.get(sub.id);
+                return ad ? metricsByAdId.get(ad.id) ?? null : null;
+              })()
+            }
           />
         ))}
 

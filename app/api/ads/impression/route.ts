@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
     }
 
     const supabase = await createClient();
-    await supabase.rpc("track_ad_click", { p_ad_id: adId });
+    await supabase.rpc("track_ad_impression", { p_ad_id: adId });
 
     return NextResponse.json({ ok: true });
   } catch {

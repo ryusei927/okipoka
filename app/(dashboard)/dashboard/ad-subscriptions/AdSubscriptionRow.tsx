@@ -17,6 +17,7 @@ import {
   EyeOff,
   Link2,
   ImagePlus,
+  MousePointerClick,
 } from "lucide-react";
 
 export type LinkedAd = {
@@ -26,6 +27,13 @@ export type LinkedAd = {
   link_url: string | null;
   type: string;
   is_active: boolean;
+};
+
+export type AdMetrics = {
+  monthImpressions: number;
+  monthClicks: number;
+  totalImpressions: number;
+  totalClicks: number;
 };
 
 type Card = {
@@ -107,10 +115,12 @@ export function AdSubscriptionRow({
   sub,
   billing,
   ad,
+  metrics,
 }: {
   sub: AdSub;
   billing: Billing;
   ad: LinkedAd | null;
+  metrics: AdMetrics | null;
 }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -311,6 +321,48 @@ export function AdSubscriptionRow({
                   </button>
                 </div>
               </div>
+
+              {metrics && (
+                <div className="mt-3 grid grid-cols-3 gap-2">
+                  <div className="rounded-sm bg-orange-50 px-3 py-2">
+                    <div className="flex items-center gap-1 text-[11px] font-medium text-orange-700/80">
+                      <Eye className="h-3 w-3" />
+                      今月の表示回数
+                    </div>
+                    <div className="mt-0.5 text-lg font-black leading-none text-orange-600">
+                      {metrics.monthImpressions.toLocaleString()}
+                    </div>
+                    <div className="mt-1 text-[10px] text-gray-400">
+                      累計 {metrics.totalImpressions.toLocaleString()}
+                    </div>
+                  </div>
+                  <div className="rounded-sm bg-gray-50 px-3 py-2">
+                    <div className="flex items-center gap-1 text-[11px] font-medium text-gray-500">
+                      <MousePointerClick className="h-3 w-3" />
+                      今月のクリック
+                    </div>
+                    <div className="mt-0.5 text-lg font-black leading-none text-gray-800">
+                      {metrics.monthClicks.toLocaleString()}
+                    </div>
+                    <div className="mt-1 text-[10px] text-gray-400">
+                      累計 {metrics.totalClicks.toLocaleString()}
+                    </div>
+                  </div>
+                  <div className="rounded-sm bg-gray-50 px-3 py-2">
+                    <div className="text-[11px] font-medium text-gray-500">
+                      CTR（今月）
+                    </div>
+                    <div className="mt-0.5 text-lg font-black leading-none text-gray-800">
+                      {metrics.monthImpressions > 0
+                        ? `${((metrics.monthClicks / metrics.monthImpressions) * 100).toFixed(1)}%`
+                        : "—"}
+                    </div>
+                    <div className="mt-1 text-[10px] text-gray-400">
+                      表示に対するクリック率
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           ) : (
             <div className="mt-3 border-t border-gray-100 pt-3">

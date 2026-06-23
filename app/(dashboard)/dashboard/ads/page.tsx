@@ -1,8 +1,20 @@
 import { createClient } from "@/lib/supabase/server";
-import { PlusCircle, ArrowLeft, ExternalLink } from "lucide-react";
+import { PlusCircle, ExternalLink, Eye, MousePointerClick } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { DeleteAdButton } from "./DeleteAdButton";
+
+export const dynamic = "force-dynamic";
+
+// 日本時間での「今月1日」を YYYY-MM-DD で返す
+function jstMonthStart(): string {
+  const jst = new Date(
+    new Date().toLocaleString("en-US", { timeZone: "Asia/Tokyo" })
+  );
+  const y = jst.getFullYear();
+  const m = String(jst.getMonth() + 1).padStart(2, "0");
+  return `${y}-${m}-01`;
+}
 
 export default async function AdsPage() {
   const supabase = await createClient();
@@ -10,6 +22,27 @@ export default async function AdsPage() {
     .from("ads")
     .select("*")
     .order("priority", { ascending: false });
+
+  // 今月分の表示回数・クリックを日別集計テーブルから合算
+  const monthByAdId = new Map<string, { impressions: number; clicks: number }>();
+  const adIds = (ads ?? []).map((a) => a.id);
+  if (adIds.length > 0) {
+    const { data: rows } = await supabase
+      .from("ad_metrics")
+      .select("ad_id, impressions, clicks")
+      .in("ad_id", adIds)
+      .gte("day", jstMonthStart());
+    for (const row of (rows ?? []) as {
+      ad_id: string;
+      impressions: number;
+      clicks: number;
+    }[]) {
+      const cur = monthByAdId.get(row.ad_id) ?? { impressions: 0, clicks: 0 };
+      cur.impressions += row.impressions ?? 0;
+      cur.clicks += row.clicks ?? 0;
+      monthByAdId.set(row.ad_id, cur);
+    }
+  }
 
   return (
     <div className="space-y-6">
@@ -62,6 +95,57 @@ export default async function AdsPage() {
                   <span className="truncate flex-1">{ad.link_url}</span>
                 </a>
               )}
+
+              {(() => {
+                const month = monthByAdId.get(ad.id) ?? { impressions: 0, clicks: 0 };
+                const totalImpr = ad.impression_count ?? 0;
+                const totalClicks = ad.click_count ?? 0;
+                const ctr =
+                  month.impressions > 0
+                    ? `${((month.clicks / month.impressions) * 100).toFixed(1)}%`
+                    : "—";
+                return (
+                  <div className="mt-2 flex flex-wrap items-center gap-2">
+                    {/* 今月の実績 */}
+                    <div className="inline-flex items-stretch overflow-hidden rounded-md border border-orange-100 bg-orange-50/60">
+                      <span className="flex items-center bg-orange-100/70 px-2 text-[10px] font-bold text-orange-700">
+                        今月
+                      </span>
+                      <div className="flex items-center divide-x divide-orange-100">
+                        <div className="px-3 py-1 text-center">
+                          <div className="flex items-center justify-center gap-1 text-[10px] text-orange-700/70">
+                            <Eye className="h-3 w-3" />
+                            表示
+                          </div>
+                          <div className="text-sm font-black leading-tight text-orange-600">
+                            {month.impressions.toLocaleString()}
+                          </div>
+                        </div>
+                        <div className="px-3 py-1 text-center">
+                          <div className="flex items-center justify-center gap-1 text-[10px] text-gray-500">
+                            <MousePointerClick className="h-3 w-3" />
+                            クリック
+                          </div>
+                          <div className="text-sm font-black leading-tight text-gray-800">
+                            {month.clicks.toLocaleString()}
+                          </div>
+                        </div>
+                        <div className="px-3 py-1 text-center">
+                          <div className="text-[10px] text-gray-500">CTR</div>
+                          <div className="text-sm font-black leading-tight text-gray-800">
+                            {ctr}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {/* 累計 */}
+                    <span className="text-[11px] text-gray-400">
+                      累計 表示 {totalImpr.toLocaleString()}・クリック{" "}
+                      {totalClicks.toLocaleString()}
+                    </span>
+                  </div>
+                );
+              })()}
             </div>
 
             <div className="flex items-center gap-2">
