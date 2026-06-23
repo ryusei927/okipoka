@@ -1,12 +1,9 @@
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 import { Plus, Dice5 } from "lucide-react";
-import { GachaItemRow } from "./GachaItemRow";
+import { GachaManager } from "./GachaManager";
 import { GachaRateControls } from "./GachaRateControls";
-import {
-  computeGachaRateStats,
-  gachaAppearancePct,
-} from "@/lib/gacha";
+import { computeGachaRateStats } from "@/lib/gacha";
 
 export default async function GachaPage() {
   const supabase = await createClient();
@@ -17,9 +14,7 @@ export default async function GachaPage() {
     .from("shops")
     .select("id, name");
 
-  const shopNameById = new Map<string, string>(
-    (shops || []).map((s: any) => [s.id, s.name])
-  );
+  const shopList = (shops || []) as { id: string; name: string }[];
 
   const stats = computeGachaRateStats(items || []);
   const { totalWeight, expectedValueYen, eligibleItems } = stats;
@@ -77,39 +72,17 @@ export default async function GachaPage() {
         </>
       )}
 
-      <div className="grid gap-4">
-        {items?.map((item: any) => {
-          const pct = gachaAppearancePct(item, totalWeight);
-          const outOfStock =
-            item.is_active &&
-            typeof item.stock_total === "number" &&
-            (item.current_stock_used || 0) >= item.stock_total;
-          return (
-            <div key={item.id}>
-              <GachaItemRow
-                item={item}
-                shopName={item.shop_id ? shopNameById.get(item.shop_id) ?? null : null}
-              />
-              {pct && (
-                <div className="text-xs text-gray-500 mt-1 ml-1">
-                  出現割合（概算・抽選対象のみ）: {pct}%
-                </div>
-              )}
-              {outOfStock && (
-                <div className="text-xs text-red-600 mt-1 ml-1 font-bold">
-                  在庫切れのため抽選対象外
-                </div>
-              )}
-            </div>
-          );
-        })}
-
-        {items?.length === 0 && (
-          <div className="text-center py-10 text-gray-500">
-            景品がまだ登録されていません
-          </div>
-        )}
-      </div>
+      {items?.length === 0 ? (
+        <div className="text-center py-10 text-gray-500">
+          景品がまだ登録されていません
+        </div>
+      ) : (
+        <GachaManager
+          items={(items as any[]) || []}
+          shops={shopList}
+          totalWeight={totalWeight}
+        />
+      )}
     </div>
   );
 }

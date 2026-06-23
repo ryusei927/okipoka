@@ -209,6 +209,46 @@ export async function deleteGachaItem(id: string) {
   revalidatePath("/member/gacha");
 }
 
+export async function addGachaStock(id: string, amount: number) {
+  const supabase = await createClient();
+
+  const n = Math.floor(Number(amount));
+  if (!Number.isFinite(n) || n <= 0) {
+    throw new Error("補充数は1以上で指定してください");
+  }
+
+  const { data: cur, error: getErr } = await supabase
+    .from("gacha_items")
+    .select("stock_total")
+    .eq("id", id)
+    .is("deleted_at", null)
+    .single();
+
+  if (getErr) {
+    console.error(getErr);
+    throw new Error("景品の取得に失敗しました");
+  }
+
+  if (cur?.stock_total == null) {
+    throw new Error("在庫無制限の景品は補充の必要がありません");
+  }
+
+  const next = Number(cur.stock_total) + n;
+  const { error } = await supabase
+    .from("gacha_items")
+    .update({ stock_total: next })
+    .eq("id", id)
+    .is("deleted_at", null);
+
+  if (error) {
+    console.error(error);
+    throw new Error("在庫の補充に失敗しました");
+  }
+
+  revalidatePath("/dashboard/gacha");
+  revalidatePath("/member/gacha");
+}
+
 export async function enableMonthlyLimit(id: string) {
   const supabase = await createClient();
 

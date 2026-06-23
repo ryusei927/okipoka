@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { Pencil } from "lucide-react";
-import { useTransition } from "react";
+import { Pencil, PackagePlus, Loader2 } from "lucide-react";
+import { useState, useTransition } from "react";
 import { DeleteButton } from "./DeleteButton";
-import { toggleGachaItemStatus } from "./actions";
+import { toggleGachaItemStatus, addGachaStock } from "./actions";
 import { useRouter } from "next/navigation";
 import { EnableMonthlyLimitButton } from "./EnableMonthlyLimitButton";
 
@@ -33,13 +33,32 @@ export function GachaItemRow({
   shopName?: string | null;
 }) {
   const [isPending, startTransition] = useTransition();
+  const [restocking, setRestocking] = useState(false);
+  const [restockOpen, setRestockOpen] = useState(false);
+  const [restockError, setRestockError] = useState<string | null>(null);
   const router = useRouter();
 
+  const isLimitedStock = typeof item.stock_total === "number";
   const isOutOfStock =
-    typeof item.stock_total === "number" &&
-    (item.current_stock_used || 0) >= item.stock_total;
+    isLimitedStock && (item.current_stock_used || 0) >= item.stock_total;
   const needsMonthlyHint =
     isOutOfStock && item.is_active && !item.is_monthly_limit;
+
+  function handleRestock(amount: number) {
+    setRestockError(null);
+    setRestocking(true);
+    startTransition(async () => {
+      try {
+        await addGachaStock(item.id, amount);
+        setRestockOpen(false);
+        router.refresh();
+      } catch (e: any) {
+        setRestockError(e?.message || "補充に失敗しました");
+      } finally {
+        setRestocking(false);
+      }
+    });
+  }
 
   return (
     <div className="bg-white p-4 border border-gray-200">
@@ -96,6 +115,83 @@ export function GachaItemRow({
                 「月間」がOFFのため、当選後は翌月も復活しません。毎月の排出枠として使う場合は「毎月リセットする」をONにしてください。
               </p>
               <EnableMonthlyLimitButton id={item.id} />
+            </div>
+          )}
+
+          {isLimitedStock && (
+            <div className="mt-2">
+              {!restockOpen ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setRestockOpen(true);
+                    setRestockError(null);
+                  }}
+                  className="inline-flex items-center gap-1 text-xs font-bold text-orange-600 hover:text-orange-700"
+                >
+                  <PackagePlus className="w-3.5 h-3.5" />
+                  在庫を補充
+                </button>
+              ) : (
+                <div className="flex flex-wrap items-center gap-2 rounded-md border border-orange-200 bg-orange-50/60 p-2">
+                  <span className="text-xs font-bold text-orange-700">補充：</span>
+                  <button
+                    type="button"
+                    disabled={restocking}
+                    onClick={() => handleRestock(5)}
+                    className="px-2 py-1 text-xs font-bold bg-white border border-orange-200 text-orange-700 hover:bg-orange-100 disabled:opacity-50"
+                  >
+                    +5
+                  </button>
+                  <button
+                    type="button"
+                    disabled={restocking}
+                    onClick={() => handleRestock(10)}
+                    className="px-2 py-1 text-xs font-bold bg-white border border-orange-200 text-orange-700 hover:bg-orange-100 disabled:opacity-50"
+                  >
+                    +10
+                  </button>
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      const input = e.currentTarget.elements.namedItem(
+                        "amount"
+                      ) as HTMLInputElement | null;
+                      const v = Number(input?.value);
+                      if (Number.isFinite(v) && v > 0) handleRestock(v);
+                    }}
+                    className="flex items-center gap-1"
+                  >
+                    <input
+                      name="amount"
+                      type="number"
+                      min={1}
+                      placeholder="数量"
+                      disabled={restocking}
+                      className="w-16 px-2 py-1 text-xs border border-orange-200 rounded-sm focus:outline-none focus:ring-1 focus:ring-orange-400 disabled:opacity-50"
+                    />
+                    <button
+                      type="submit"
+                      disabled={restocking}
+                      className="inline-flex items-center gap-1 px-2 py-1 text-xs font-bold bg-orange-500 text-white hover:bg-orange-600 disabled:opacity-50"
+                    >
+                      {restocking && <Loader2 className="w-3 h-3 animate-spin" />}
+                      追加
+                    </button>
+                  </form>
+                  <button
+                    type="button"
+                    disabled={restocking}
+                    onClick={() => setRestockOpen(false)}
+                    className="text-xs text-gray-500 hover:text-gray-700 disabled:opacity-50"
+                  >
+                    閉じる
+                  </button>
+                  {restockError && (
+                    <span className="w-full text-xs text-red-600">{restockError}</span>
+                  )}
+                </div>
+              )}
             </div>
           )}
         </div>
