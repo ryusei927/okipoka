@@ -4,7 +4,7 @@ import { useState } from "react";
 import { updatePassword } from "../actions";
 import { useRouter } from "next/navigation";
 import { Loader2, Lock, CheckCircle } from "lucide-react";
-import Link from "next/link";
+import { BackLink } from "@/components/BackLink";
 
 export default function UpdatePasswordPage() {
   const router = useRouter();
@@ -46,10 +46,8 @@ export default function UpdatePasswordPage() {
             <br />
             まもなくマイページへ移動します...
           </p>
-          <div className="pt-4">
-            <Link href="/member" className="text-orange-600 hover:text-orange-700 font-medium">
-              マイページへ戻る
-            </Link>
+          <div className="flex justify-center pt-4">
+            <BackLink />
           </div>
         </div>
       </div>

@@ -25,3 +25,8 @@ pnpm-debug.log*
 
 # vercel
 .vercel
+
+# 一時的なデバッグ/検証スクリプト（トークン等の直書き混入を防ぐ）
+debug-*.js
+test-*.js
+*.local.js

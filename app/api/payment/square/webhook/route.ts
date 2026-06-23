@@ -1,70 +1,36 @@
-import { createHmac, timingSafeEqual } from "crypto";
 import { NextResponse } from "next/server";
+import { WebhooksHelper } from "square";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { deriveDbStatusFromSubscription } from "@/lib/subscription";
 
 export const runtime = "nodejs";
-
-function mapSquareStatusToDb(status?: string | null) {
-  switch (status) {
-    case "ACTIVE":
-      return "active";
-    case "CANCELING":
-      return "canceling";
-    case "CANCELED":
-      return "canceled";
-    case "PAST_DUE":
-      return "past_due";
-    default:
-      return null;
-  }
-}
-
-function deriveDbStatusFromSubscription(subscription: unknown) {
-  const sub = subscription as { status?: unknown; canceled_date?: unknown; cancel_at?: unknown };
-  const squareStatus = typeof sub.status === "string" ? sub.status : null;
-  const mapped = mapSquareStatusToDb(squareStatus);
-  if (mapped && mapped !== "active") return mapped;
-
-  const canceledDate = typeof sub.canceled_date === "string" ? sub.canceled_date : null;
-  const cancelAt = typeof sub.cancel_at === "string" ? sub.cancel_at : null;
-  if (cancelAt) return "canceling";
-
-  const today = new Date().toISOString().slice(0, 10);
-  if (canceledDate && canceledDate > today) return "canceling";
-
-  return mapped;
-}
-
-function verifySquareSignature(rawBody: string, signature: string) {
-  const signatureKey = process.env.SQUARE_WEBHOOK_SIGNATURE_KEY;
-  const notificationUrl = process.env.SQUARE_WEBHOOK_NOTIFICATION_URL;
-
-  if (!signatureKey || !notificationUrl) {
-    throw new Error("Square webhook is not configured (missing SQUARE_WEBHOOK_SIGNATURE_KEY or SQUARE_WEBHOOK_NOTIFICATION_URL)");
-  }
-
-  const expected = createHmac("sha256", signatureKey)
-    .update(notificationUrl + rawBody)
-    .digest("base64");
-
-  const a = Buffer.from(expected);
-  const b = Buffer.from(signature);
-  if (a.length !== b.length) return false;
-  return timingSafeEqual(a, b);
-}
 
 export async function POST(request: Request) {
   const rawBody = await request.text();
   const signatureHeader = request.headers.get("x-square-hmacsha256-signature") ?? "";
 
-  try {
-    const ok = verifySquareSignature(rawBody, signatureHeader);
-    if (!ok) {
-      return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
-    }
-  } catch (e: unknown) {
-    const message = e instanceof Error ? e.message : "Webhook not configured";
-    return NextResponse.json({ error: message }, { status: 500 });
+  const signatureKey = process.env.SQUARE_WEBHOOK_SIGNATURE_KEY;
+  const notificationUrl = process.env.SQUARE_WEBHOOK_NOTIFICATION_URL;
+
+  if (!signatureKey || !notificationUrl) {
+    return NextResponse.json(
+      {
+        error:
+          "Square webhook is not configured (missing SQUARE_WEBHOOK_SIGNATURE_KEY or SQUARE_WEBHOOK_NOTIFICATION_URL)",
+      },
+      { status: 500 }
+    );
+  }
+
+  const isValid = await WebhooksHelper.verifySignature({
+    requestBody: rawBody,
+    signatureHeader,
+    signatureKey,
+    notificationUrl,
+  });
+
+  if (!isValid) {
+    return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
   }
 
   let payload: unknown;
@@ -74,11 +40,17 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
+  // Webhook の本文は Square の生 JSON（snake_case）であることに注意。
   const event = payload as {
     type?: unknown;
     data?: {
       object?: {
-        subscription?: unknown;
+        subscription?: {
+          id?: unknown;
+          customer_id?: unknown;
+          status?: unknown;
+          canceled_date?: unknown;
+        };
       };
     };
   };
@@ -89,10 +61,14 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true, handled: false });
   }
 
-  const sub = subscription as { id?: unknown; customer_id?: unknown };
-  const subscriptionId = typeof sub.id === "string" ? sub.id : null;
-  const customerId = typeof sub.customer_id === "string" ? sub.customer_id : null;
-  const nextStatus = deriveDbStatusFromSubscription(subscription);
+  const subscriptionId = typeof subscription.id === "string" ? subscription.id : null;
+  const customerId = typeof subscription.customer_id === "string" ? subscription.customer_id : null;
+
+  // 共通ロジックは camelCase を前提とするため、必要なフィールドだけ変換して渡す
+  const nextStatus = deriveDbStatusFromSubscription({
+    status: typeof subscription.status === "string" ? subscription.status : undefined,
+    canceledDate: typeof subscription.canceled_date === "string" ? subscription.canceled_date : null,
+  });
 
   if (!customerId) {
     return NextResponse.json({ ok: true, handled: false });

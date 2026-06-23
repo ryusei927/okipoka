@@ -1,9 +1,9 @@
 'use server'
 
-import { headers } from 'next/headers'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { getSiteOrigin } from '@/lib/site-url'
 
 export async function login(formData: FormData) {
   const supabase = await createClient()
@@ -43,7 +43,7 @@ export async function login(formData: FormData) {
 
 export async function signup(formData: FormData) {
   const supabase = await createClient()
-  const origin = (await headers()).get('origin')
+  const origin = await getSiteOrigin()
 
   const email = formData.get('email') as string
   const password = formData.get('password') as string
@@ -97,10 +97,7 @@ export async function signout(): Promise<never> {
 
 export async function signInWithGoogle() {
   const supabase = await createClient()
-  const headersList = await headers()
-  const origin = headersList.get('origin') || headersList.get('x-forwarded-host') 
-    ? `https://${headersList.get('x-forwarded-host')}` 
-    : 'https://okipoka.com'
+  const origin = await getSiteOrigin()
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
@@ -124,7 +121,7 @@ export async function signInWithGoogle() {
 
 export async function resetPassword(formData: FormData) {
   const supabase = await createClient()
-  const origin = (await headers()).get('origin')
+  const origin = await getSiteOrigin()
   const email = formData.get('email') as string
 
   const { error } = await supabase.auth.resetPasswordForEmail(email, {

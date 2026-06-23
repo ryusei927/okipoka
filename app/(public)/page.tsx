@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { createClient } from "@/lib/supabase/server";
 import { TournamentFilterList } from "@/components/tournament/TournamentFilterList";
 import { AdBanner, Ad } from "@/components/ads/AdBanner";
@@ -5,7 +6,7 @@ import { AdSquareGrid } from "@/components/ads/AdSquareGrid";
 import { AdCardInfeed } from "@/components/ads/AdCardInfeed";
 import { AdClickWrapper } from "@/components/ads/AdClickWrapper";
 import { HeroSliderWrapper } from "@/components/HeroSliderWrapper";
-import { Store, MapPin } from "lucide-react";
+import { Store, ChevronRight, CalendarDays } from "lucide-react";
 import { format, addDays, subDays } from "date-fns";
 import Link from "next/link";
 import Image from "next/image";
@@ -188,6 +189,18 @@ export default async function HomePage({
   // 表示順序の定義
   const areaOrder = ["那覇", "中部", "南部", "北部", "宮古島", "その他"];
 
+  // 店舗ID -> 店舗 のルックアップ
+  const shopById = (shops || []).reduce((acc, shop) => {
+    acc[shop.id] = shop;
+    return acc;
+  }, {} as Record<string, any>);
+
+  // 右サイド "Upcoming Tournaments" 用: 直近の開催予定を数件
+  const upcomingList = (upcomingTournaments || []).slice(0, 6).map((t) => ({
+    ...t,
+    shop: shopById[t.shop_id],
+  }));
+
   return (
     <div className="min-h-screen">
       {/* ヒーロースライダー (トップ画像 + PR) */}
@@ -212,15 +225,55 @@ export default async function HomePage({
             </Link>
           </div>
 
+          {/* ページタイトル (PokerAtlas風) */}
+          <div className="max-w-md md:max-w-none mx-auto px-4 md:px-0 pb-3">
+            <div className="bg-white rounded-sm border border-gray-200 p-4 md:p-5">
+              <div className="flex items-center gap-1.5 text-[11px] text-gray-400 mb-2">
+                <span>沖縄</span>
+                <ChevronRight className="w-3 h-3" />
+                <span className="text-gray-600 font-medium">ポーカー店舗 &amp; トーナメント</span>
+              </div>
+              <h1 className="text-lg md:text-2xl font-black text-gray-900 leading-tight">
+                沖縄のポーカー店舗 &amp; トーナメント一覧
+              </h1>
+              <p className="mt-1.5 text-xs md:text-sm text-gray-500 leading-relaxed">
+                沖縄県内のアミューズメントポーカー店舗を完全網羅。毎日のトーナメント情報・店舗詳細をリアルタイムでお届けします。
+              </p>
+              <div className="flex items-center gap-2 mt-4">
+                <span className="px-4 py-1.5 rounded-sm text-sm font-bold bg-orange-500 text-white">
+                  トーナメント
+                </span>
+                <a
+                  href="#shops"
+                  className="px-4 py-1.5 rounded-sm text-sm font-bold bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors"
+                >
+                  店舗一覧
+                </a>
+                <Link
+                  href="/shops"
+                  className="px-4 py-1.5 rounded-sm text-sm font-bold bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors"
+                >
+                  マップ
+                </Link>
+              </div>
+            </div>
+          </div>
+
           {/* トーナメントリスト（フィルター付き） */}
-          <TournamentFilterList
-            tournaments={(tournaments || []) as any}
-            allShops={(shops || []).map((s: any) => ({ id: s.id, name: s.name, area: s.area || null, image_url: s.image_url || null }))}
-            dateStr={targetDateStr}
-            prevDateStr={prevDateStr}
-            nextDateStr={nextDateStr}
-            infeedAd={displayBottomBannerAd || displayMidBannerAd}
-          />
+          <div className="max-w-md md:max-w-none mx-auto px-4 md:px-0">
+            <div className="bg-white rounded-sm border border-gray-200 overflow-hidden">
+              <Suspense fallback={null}>
+                <TournamentFilterList
+                  tournaments={(tournaments || []) as any}
+                  allShops={(shops || []).map((s: any) => ({ id: s.id, name: s.name, area: s.area || null, image_url: s.image_url || null }))}
+                  dateStr={targetDateStr}
+                  prevDateStr={prevDateStr}
+                  nextDateStr={nextDateStr}
+                  infeedAd={displayBottomBannerAd || displayMidBannerAd}
+                />
+              </Suspense>
+            </div>
+          </div>
 
           {/* スマホのみ: スクエア広告 */}
           <div className="md:hidden">
@@ -231,10 +284,11 @@ export default async function HomePage({
           {displayMidBannerAd && <AdBanner ad={displayMidBannerAd} />}
 
           {/* 店舗一覧セクション（前半: 那覇・中部） */}
-          <div className="max-w-md md:max-w-none mx-auto px-4 md:px-0 mb-4">
+          <div id="shops" className="max-w-md md:max-w-none mx-auto px-4 md:px-0 mb-4 scroll-mt-28">
             <div className="flex items-center gap-2 mb-4">
               <Store className="w-5 h-5 text-orange-500" />
-              <h2 className="text-base font-black text-gray-900">店舗一覧</h2>
+              <h2 className="text-lg font-black text-gray-900">店舗一覧</h2>
+              <span className="text-xs font-bold text-gray-400">{(shops || []).length}店舗</span>
             </div>
             <div className="space-y-5">
               {areaOrder.slice(0, 2).map((area, idx) => {
@@ -244,9 +298,10 @@ export default async function HomePage({
                   <div key={area}>
                     {/* 那覇と中部の間にスクエア広告2つ */}
                     {idx === 1 && displaySquareAds1.length > 0 && <AdSquareGrid ads={displaySquareAds1} />}
-                    <div className="flex items-center gap-2 mb-2">
-                      <div className="w-1 h-4 bg-orange-500" />
-                      <h3 className="text-sm font-bold text-gray-600">{area}</h3>
+                    <div className="flex items-center gap-2 mb-2.5">
+                      <div className="w-1 h-4 rounded-sm bg-orange-500" />
+                      <h3 className="text-sm font-bold text-gray-700">{area}</h3>
+                      <span className="text-[11px] font-medium text-gray-400">{areaShops.length}店舗</span>
                     </div>
                     <ShopAccordion shops={areaShops.map((shop: any) => ({ ...shop, tournaments: tournamentsByShop[shop.id] || [] }))} />
                   </div>
@@ -268,9 +323,10 @@ export default async function HomePage({
                 if (!areaShops || areaShops.length === 0) return null;
                 return (
                   <div key={area}>
-                    <div className="flex items-center gap-2 mb-2">
-                      <div className="w-1 h-4 bg-orange-500" />
-                      <h3 className="text-sm font-bold text-gray-600">{area}</h3>
+                    <div className="flex items-center gap-2 mb-2.5">
+                      <div className="w-1 h-4 rounded-sm bg-orange-500" />
+                      <h3 className="text-sm font-bold text-gray-700">{area}</h3>
+                      <span className="text-[11px] font-medium text-gray-400">{areaShops.length}店舗</span>
                     </div>
                     <ShopAccordion shops={areaShops.map((shop: any) => ({ ...shop, tournaments: tournamentsByShop[shop.id] || [] }))} />
                   </div>
@@ -294,8 +350,53 @@ export default async function HomePage({
 
         </div>
 
-        {/* 右: 広告サイドバー（PCのみ・スクエア広告のみ） */}
+        {/* 右: サイドバー（PCのみ） */}
         <div className="hidden md:block md:w-72 md:shrink-0 mt-6 space-y-4">
+
+          {/* 直近のトーナメント (PokerAtlas風) */}
+          {upcomingList.length > 0 && (
+            <div className="bg-white rounded-sm border border-gray-200 overflow-hidden">
+              <div className="px-4 py-3 border-b border-gray-100">
+                <h3 className="text-sm font-black text-gray-900">直近のトーナメント</h3>
+              </div>
+              <div className="divide-y divide-gray-50">
+                {upcomingList.map((t) => (
+                  <Link
+                    key={t.id}
+                    href={`/tournaments/${t.id}`}
+                    className="flex items-center gap-2.5 px-3 py-2.5 hover:bg-gray-50 transition-colors group"
+                  >
+                    <div className="relative w-9 h-9 rounded-sm overflow-hidden shrink-0 bg-gray-50 border border-gray-100 flex items-center justify-center">
+                      {t.shop?.image_url ? (
+                        <Image src={t.shop.image_url} alt="" fill className="object-cover" unoptimized />
+                      ) : (
+                        <Store className="w-4 h-4 text-gray-300" />
+                      )}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-[10px] font-bold text-gray-400 leading-none">
+                        {format(new Date(t.start_at), "M/d HH:mm")}
+                      </div>
+                      <div className="text-xs font-bold text-gray-800 truncate mt-0.5 group-hover:text-orange-600 transition-colors">
+                        {t.title}
+                      </div>
+                      <div className="text-[11px] text-orange-500 truncate">{t.shop?.name ?? ""}</div>
+                    </div>
+                    {t.buy_in && t.buy_in !== "-" && (
+                      <span className="shrink-0 text-[11px] font-bold text-gray-600">¥{t.buy_in}</span>
+                    )}
+                  </Link>
+                ))}
+              </div>
+              <Link
+                href="/tournaments"
+                className="block px-4 py-2.5 text-center text-xs font-bold text-orange-500 border-t border-gray-100 hover:bg-orange-50 transition-colors"
+              >
+                すべてのトーナメントを見る
+              </Link>
+            </div>
+          )}
+
           <div className="text-[10px] text-gray-400">広告</div>
           {squareAds.slice(0, 6).map((ad: any) => (
             <AdClickWrapper key={ad.id} ad={ad} className="block group">
@@ -305,6 +406,7 @@ export default async function HomePage({
                   alt={ad.title}
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  unoptimized
                 />
                 <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/60 via-black/20 to-transparent pt-8 pb-2 px-2">
                   <p className="text-xs font-bold text-white leading-tight line-clamp-2">{ad.title}</p>

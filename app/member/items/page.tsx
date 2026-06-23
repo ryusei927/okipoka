@@ -2,8 +2,11 @@
 
 import { useEffect, useState, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { Ticket, Gift, History, Store, X, CheckCircle2, AlertCircle, Coins, ChevronLeft } from "lucide-react";
+import { Ticket, Gift, History, Store, X, CheckCircle2, AlertCircle, Coins } from "lucide-react";
 import Link from "next/link";
+import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
+import { BackLink } from "@/components/BackLink";
 
 type UserItem = {
   id: string;
@@ -183,29 +186,32 @@ export default function ItemsPage() {
       return;
     }
 
-    const { error } = await supabase
-      .from("user_items")
-      .update({ 
-        is_used: true,
-        used_at: new Date().toISOString()
-      })
-      .eq("id", itemId);
+    // 消し込みはサーバー側RPCで検証して実行する（本人・未使用・未期限切れのみ）
+    const { error } = await supabase.rpc("use_coupon", { p_item_id: itemId });
 
     if (error) {
-      alert("エラーが発生しました");
+      const msg = error.message || "";
+      if (msg.includes("Already used")) {
+        alert("このクーポンは既に使用済みです");
+      } else if (msg.includes("Expired")) {
+        alert("このクーポンは有効期限が切れています");
+      } else if (msg.includes("Item not found")) {
+        alert("クーポンが見つかりませんでした");
+      } else {
+        alert("エラーが発生しました");
+      }
+      fetchItems();
     } else {
       fetchItems();
     }
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 pb-24">
-      <div className="flex items-center gap-4 mb-6">
-        <Link href="/" className="p-2 -ml-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-full transition-colors">
-          <ChevronLeft className="w-6 h-6" />
-        </Link>
-        <h1 className="text-2xl font-bold">獲得アイテム一覧</h1>
-      </div>
+    <div className="flex min-h-screen flex-col bg-[#f6f6f7]">
+      <SiteHeader />
+      <main className="mx-auto w-full max-w-2xl flex-1 p-6 pb-24">
+        <BackLink className="mb-4" />
+        <h1 className="text-2xl font-bold mb-6">獲得アイテム一覧</h1>
 
       <div className="flex p-1 bg-gray-100 rounded-xl mb-6">
         <button
@@ -566,6 +572,8 @@ export default function ItemsPage() {
           </div>
         </div>
       )}
+      </main>
+      <SiteFooter />
     </div>
   );
 }

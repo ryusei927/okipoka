@@ -1,40 +1,11 @@
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { squareClient } from "@/lib/square";
+import { deriveDbStatusFromSubscription } from "@/lib/subscription";
+import type { Square } from "square";
 import { NextResponse } from "next/server";
 
 const ADMIN_EMAIL = (process.env.OKIPOKA_ADMIN_EMAIL ?? "okipoka.jp@gmail.com").toLowerCase();
-
-function mapSquareStatusToDb(status?: string | null) {
-  switch (status) {
-    case "ACTIVE":
-      return "active";
-    case "CANCELING":
-      return "canceling";
-    case "CANCELED":
-      return "canceled";
-    case "PAST_DUE":
-      return "past_due";
-    default:
-      return null;
-  }
-}
-
-function deriveDbStatusFromSubscription(subscription: unknown) {
-  const sub = subscription as { status?: unknown; canceled_date?: unknown; cancel_at?: unknown };
-  const squareStatus = typeof sub.status === "string" ? sub.status : null;
-  const mapped = mapSquareStatusToDb(squareStatus);
-  if (mapped && mapped !== "active") return mapped;
-
-  const canceledDate = typeof sub.canceled_date === "string" ? sub.canceled_date : null;
-  const cancelAt = typeof sub.cancel_at === "string" ? sub.cancel_at : null;
-  if (cancelAt) return "canceling";
-
-  const today = new Date().toISOString().slice(0, 10);
-  if (canceledDate && canceledDate > today) return "canceling";
-
-  return mapped;
-}
 
 export async function POST(request: Request) {
   const supabase = await createClient();
@@ -78,38 +49,40 @@ export async function POST(request: Request) {
   const customerId = (profile as { square_customer_id?: string | null }).square_customer_id ?? null;
 
   try {
-    let subscription: unknown = null;
+    let subscription: Square.Subscription | null = null;
 
     if (existingSubscriptionId) {
-      const { result } = await squareClient.subscriptions.retrieve(existingSubscriptionId);
-      subscription = (result as { subscription?: unknown }).subscription ?? null;
+      const { subscription: sub } = await squareClient.subscriptions.get({
+        subscriptionId: existingSubscriptionId,
+      });
+      subscription = sub ?? null;
     }
 
     if (!subscription && customerId) {
-      const filter: { customer_ids: string[]; location_ids?: string[] } = { customer_ids: [customerId] };
-      if (process.env.SQUARE_LOCATION_ID) filter.location_ids = [process.env.SQUARE_LOCATION_ID];
+      const filter: { customerIds: string[]; locationIds?: string[] } = {
+        customerIds: [customerId],
+      };
+      if (process.env.SQUARE_LOCATION_ID) filter.locationIds = [process.env.SQUARE_LOCATION_ID];
 
-      const { result } = await squareClient.subscriptions.search({
+      const { subscriptions } = await squareClient.subscriptions.search({
         query: { filter },
-        sort: { field: "CREATED_AT", order: "DESC" },
       });
 
-      const subs = (result as { subscriptions?: unknown[] }).subscriptions ?? [];
-      subscription = subs[0] ?? null;
+      subscription = subscriptions?.[0] ?? null;
     }
 
     if (!subscription) {
       return NextResponse.json({
         user_id: profile.id,
         subscription_id: existingSubscriptionId,
-        subscription_status: (profile as { subscription_status?: string | null }).subscription_status ?? null,
+        subscription_status:
+          (profile as { subscription_status?: string | null }).subscription_status ?? null,
         synced: false,
       });
     }
 
     const nextStatus = deriveDbStatusFromSubscription(subscription);
-    const nextId = (subscription as { id?: unknown }).id;
-    const nextSubscriptionId = typeof nextId === "string" ? nextId : existingSubscriptionId;
+    const nextSubscriptionId = subscription.id ?? existingSubscriptionId;
 
     await admin
       .from("profiles")

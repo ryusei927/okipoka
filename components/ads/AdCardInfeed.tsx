@@ -31,7 +31,7 @@ export function AdCardInfeed({ ad }: { ad: Ad }) {
 
         {/* 右: 小さなロゴ */}
         <div className="shrink-0 w-9 h-9 rounded-full overflow-hidden relative bg-gray-100 border border-gray-100">
-          <Image src={ad.image_url} alt={ad.title} fill className="object-cover" />
+          <Image src={ad.image_url} alt={ad.title} fill className="object-cover" unoptimized />
         </div>
       </div>
     </AdClickWrapper>

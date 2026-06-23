@@ -29,70 +29,82 @@ export default async function DashboardPage() {
   ];
 
   const menuItems = [
-    { href: "/dashboard/tournaments", label: "大会管理", desc: "開催予定の大会を編集・削除", icon: Calendar, color: "text-blue-600" },
-    { href: "/dashboard/shops", label: "店舗管理", desc: "店舗の一覧・追加・編集", icon: Store, color: "text-emerald-600" },
-    { href: "/dashboard/ads", label: "広告管理", desc: "バナー・スクエア広告の管理", icon: Megaphone, color: "text-pink-600" },
-    { href: "/dashboard/members", label: "会員管理", desc: "VIP会員の確認・管理", icon: Users, color: "text-purple-600" },
-    { href: "/dashboard/gacha", label: "ガチャ景品管理", desc: "クーポン/当選確率の編集", icon: Dice5, color: "text-red-600" },
-    { href: "/dashboard/photos", label: "プレイヤーズフォト", desc: "イベント写真のアルバム管理", icon: Camera, color: "text-cyan-600" },
+    { href: "/dashboard/tournaments", label: "大会管理", desc: "開催予定の大会を編集・削除", icon: Calendar, color: "text-blue-600", bg: "bg-blue-50" },
+    { href: "/dashboard/shops", label: "店舗管理", desc: "店舗の一覧・追加・編集", icon: Store, color: "text-emerald-600", bg: "bg-emerald-50" },
+    { href: "/dashboard/ads", label: "広告管理", desc: "バナー・スクエア広告の管理", icon: Megaphone, color: "text-pink-600", bg: "bg-pink-50" },
+    { href: "/dashboard/members", label: "会員管理", desc: "VIP会員の確認・管理", icon: Users, color: "text-purple-600", bg: "bg-purple-50" },
+    { href: "/dashboard/gacha", label: "ガチャ景品管理", desc: "クーポン/当選確率の編集", icon: Dice5, color: "text-red-600", bg: "bg-red-50" },
+    { href: "/dashboard/photos", label: "プレイヤーズフォト", desc: "イベント写真のアルバム管理", icon: Camera, color: "text-cyan-600", bg: "bg-cyan-50" },
   ];
+
+  const todayLabel = new Date().toLocaleDateString("ja-JP", {
+    timeZone: "Asia/Tokyo",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    weekday: "short",
+  });
 
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div>
-        <h1 className="text-2xl font-black text-gray-900">ダッシュボード</h1>
-        <p className="text-sm text-gray-500 mt-1">OKIPOKA管理画面</p>
+      <div className="flex items-end justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-gray-900">ダッシュボード</h1>
+          <p className="mt-1 text-sm text-gray-500">OKIPOKA 管理画面</p>
+        </div>
+        <p className="hidden shrink-0 text-xs font-medium text-gray-400 sm:block">{todayLabel}</p>
       </div>
 
       {/* Quick Action */}
       <Link
         href="/dashboard/tournaments/new"
-        className="block p-4 bg-orange-500 text-white font-bold hover:bg-orange-600 transition-colors"
+        className="group flex items-center gap-4 rounded-2xl bg-gradient-to-r from-orange-500 to-orange-600 p-5 text-white shadow-lg shadow-orange-500/20 transition-all hover:shadow-xl hover:shadow-orange-500/30"
       >
-        <div className="flex items-center gap-3">
-          <PlusCircle className="w-6 h-6" />
-          <div>
-            <div className="text-base">大会を作成</div>
-            <div className="text-xs font-normal text-orange-100">新しいトーナメントを追加</div>
-          </div>
-          <ChevronRight className="w-5 h-5 ml-auto opacity-60" />
+        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/20">
+          <PlusCircle className="h-6 w-6" />
         </div>
+        <div className="flex-1">
+          <div className="text-base font-bold">大会を作成</div>
+          <div className="text-xs text-orange-50/90">新しいトーナメントを追加</div>
+        </div>
+        <ChevronRight className="h-5 w-5 shrink-0 opacity-70 transition-transform group-hover:translate-x-0.5" />
       </Link>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         {stats.map(({ label, value, icon: Icon, color, bg }) => (
-          <div key={label} className="bg-white border border-gray-200 p-4">
-            <div className="flex items-center gap-3">
-              <div className={`p-2 ${bg}`}>
-                <Icon className={`w-4 h-4 ${color}`} />
-              </div>
-              <div>
-                <div className="text-2xl font-black text-gray-900">{value}</div>
-                <div className="text-[11px] text-gray-500">{label}</div>
-              </div>
+          <div
+            key={label}
+            className="rounded-2xl border border-gray-100 bg-white p-4 shadow-sm transition-shadow hover:shadow-md"
+          >
+            <div className={`flex h-9 w-9 items-center justify-center rounded-xl ${bg}`}>
+              <Icon className={`h-4 w-4 ${color}`} />
             </div>
+            <div className="mt-3 text-2xl font-bold tracking-tight text-gray-900">{value}</div>
+            <div className="text-xs text-gray-500">{label}</div>
           </div>
         ))}
       </div>
 
       {/* Menu Grid */}
       <div>
-        <h2 className="text-sm font-bold text-gray-500 mb-3">管理メニュー</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-gray-200 border border-gray-200">
-          {menuItems.map(({ href, label, desc, icon: Icon, color }) => (
+        <h2 className="mb-3 text-xs font-bold uppercase tracking-wider text-gray-400">管理メニュー</h2>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          {menuItems.map(({ href, label, desc, icon: Icon, color, bg }) => (
             <Link
               key={href}
               href={href}
-              className="bg-white p-4 flex items-center gap-3 hover:bg-gray-50 transition-colors"
+              className="group flex items-center gap-4 rounded-2xl border border-gray-100 bg-white p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:border-gray-200 hover:shadow-md"
             >
-              <Icon className={`w-5 h-5 ${color} shrink-0`} />
-              <div className="flex-1 min-w-0">
-                <div className="font-bold text-gray-900 text-sm">{label}</div>
-                <div className="text-[11px] text-gray-500 truncate">{desc}</div>
+              <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${bg}`}>
+                <Icon className={`h-5 w-5 ${color}`} />
               </div>
-              <ChevronRight className="w-4 h-4 text-gray-500 shrink-0" />
+              <div className="min-w-0 flex-1">
+                <div className="text-sm font-bold text-gray-900">{label}</div>
+                <div className="truncate text-xs text-gray-500">{desc}</div>
+              </div>
+              <ChevronRight className="h-4 w-4 shrink-0 text-gray-300 transition-all group-hover:translate-x-0.5 group-hover:text-gray-500" />
             </Link>
           ))}
         </div>

@@ -157,6 +157,7 @@ export function PhotoGallery({ photos, albumTitle }: PhotoGalleryProps) {
               className="object-cover group-hover:scale-105 transition-transform duration-300"
               sizes="(max-width: 768px) 50vw, 33vw"
               loading="lazy"
+              unoptimized
             />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
               <ZoomIn className="w-6 h-6 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -249,6 +250,7 @@ export function PhotoGallery({ photos, albumTitle }: PhotoGalleryProps) {
                 className="object-contain"
                 sizes="100vw"
                 priority
+                unoptimized
               />
             </div>
 

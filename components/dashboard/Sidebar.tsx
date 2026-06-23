@@ -43,10 +43,10 @@ export function Sidebar() {
             <Link
               key={href}
               href={href}
-              className={`flex items-center gap-3 px-3 py-2.5 text-sm font-medium transition-colors ${
+              className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
                 isActive
-                  ? "bg-orange-500 text-white"
-                  : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                  ? "bg-orange-500 text-white shadow-sm shadow-orange-500/30"
+                  : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
               }`}
             >
               <Icon className="w-4.5 h-4.5 shrink-0" />
@@ -60,7 +60,7 @@ export function Sidebar() {
       <div className="p-3 border-t border-gray-200">
         <Link
           href="/"
-          className="flex items-center gap-2 px-3 py-2.5 text-sm text-gray-400 hover:text-gray-900 transition-colors"
+          className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-900"
         >
           <ExternalLink className="w-4 h-4" />
           サイトへ戻る

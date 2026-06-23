@@ -1,7 +1,6 @@
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { InstallPrompt } from "@/components/InstallPrompt";
-import { MarqueeBanner } from "@/components/MarqueeBanner";
 
 export default function PublicLayout({
   children,
@@ -9,9 +8,8 @@ export default function PublicLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div>
+    <div className="bg-[#eef1f4] min-h-screen">
       <SiteHeader />
-      <MarqueeBanner />
       {children}
       <InstallPrompt />
       <SiteFooter />

@@ -374,6 +374,7 @@ export function MembersList({
                       alt={profile.display_name ?? "user"}
                       fill
                       className="object-cover"
+                      unoptimized
                     />
                   ) : (
                     <User className="w-6 h-6 text-gray-500" />

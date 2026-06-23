@@ -41,6 +41,32 @@ html, body {
   animation: open 0.4s ease-out forwards;
 }
 
+/* ガチャ画面: グラスカプセル演出 */
+@keyframes gacha-float {
+  0%, 100% { transform: translateY(0) rotate(var(--rot, 0deg)); }
+  50% { transform: translateY(-10px) rotate(var(--rot, 0deg)); }
+}
+.gacha-float {
+  animation: gacha-float 4s ease-in-out infinite;
+}
+@keyframes gacha-spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.gacha-spin-slow {
+  animation: gacha-spin-slow 14s linear infinite;
+}
+@keyframes gacha-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.gacha-bob {
+  animation: gacha-bob 5s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .gacha-float, .gacha-spin-slow, .gacha-bob { animation: none; }
+}
+
 @keyframes marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }

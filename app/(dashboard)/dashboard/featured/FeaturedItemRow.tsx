@@ -37,7 +37,7 @@ export function FeaturedItemRow({ item }: { item: FeaturedItem }) {
           <div className="flex gap-4">
             <div className="w-32 shrink-0 space-y-2">
               <div className="relative w-32 h-20 bg-gray-50 overflow-hidden">
-                <Image src={item.image_url} alt={item.alt_text || "PR Image"} fill className="object-cover opacity-50" />
+                <Image src={item.image_url} alt={item.alt_text || "PR Image"} fill className="object-cover opacity-50" unoptimized />
                 <div className="absolute inset-0 flex items-center justify-center">
                     <span className="text-xs font-bold text-gray-500 bg-white/80 px-2 py-1">変更なし</span>
                 </div>
@@ -90,7 +90,7 @@ export function FeaturedItemRow({ item }: { item: FeaturedItem }) {
   return (
     <div className={`bg-white p-4 border ${item.is_active ? 'border-orange-500/30' : 'border-gray-200'} flex items-center gap-4`}>
       <div className="w-32 h-20 relative bg-gray-50 overflow-hidden shrink-0">
-        <Image src={item.image_url} alt={item.alt_text || "PR Image"} fill className="object-cover" />
+        <Image src={item.image_url} alt={item.alt_text || "PR Image"} fill className="object-cover" unoptimized />
       </div>
       
       <div className="flex-1 min-w-0">

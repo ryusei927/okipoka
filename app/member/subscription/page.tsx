@@ -1,8 +1,18 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
+import {
+  Check,
+  ShieldCheck,
+  Loader2,
+  CalendarClock,
+  Lock,
+  Dices,
+} from "lucide-react";
+import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
+import { BackLink } from "@/components/BackLink";
 
 // Square Web Payments SDKの型定義（簡易）
 declare global {
@@ -20,7 +30,7 @@ export default function SubscriptionPage() {
   const [chargedThroughDate, setChargedThroughDate] = useState<string | null>(null);
   const [nextRenewalDate, setNextRenewalDate] = useState<string | null>(null);
   const [statusLoaded, setStatusLoaded] = useState(false);
-  const router = useRouter();
+  const [justSubscribed, setJustSubscribed] = useState(false);
   const initialized = useRef(false);
 
   useEffect(() => {
@@ -111,18 +121,18 @@ export default function SubscriptionPage() {
     }
   }
 
-  function statusLabel(status: string | null) {
+  function statusBadge(status: string | null) {
     switch (status) {
       case "active":
-        return "有効";
+        return { label: "有効", className: "bg-green-50 text-green-600 ring-green-100" };
       case "canceling":
-        return "解約予定";
+        return { label: "解約予定", className: "bg-amber-50 text-amber-700 ring-amber-100" };
       case "past_due":
-        return "支払いエラー";
+        return { label: "支払いエラー", className: "bg-red-50 text-red-600 ring-red-100" };
       case "canceled":
-        return "解約済み";
+        return { label: "解約済み", className: "bg-gray-100 text-gray-600 ring-gray-200" };
       default:
-        return "未登録";
+        return { label: "未登録", className: "bg-gray-100 text-gray-500 ring-gray-200" };
     }
   }
 
@@ -190,111 +200,240 @@ export default function SubscriptionPage() {
         throw new Error(data.error || "Payment failed");
       }
 
-      // 成功したらガチャページへ
-      router.push("/member/gacha");
+      // 登録完了 → 即リダイレクトせず「完了画面」を表示する
+      setSubscriptionStatus("active");
+      setJustSubscribed(true);
     } catch (e: any) {
       setError(e.message);
     }
   }
 
+  const badge = statusBadge(subscriptionStatus);
+  const isMember = subscriptionStatus === "active" || subscriptionStatus === "canceling";
+  const isSandbox = process.env.NEXT_PUBLIC_SQUARE_APPLICATION_ID?.startsWith("sandbox-");
+
+  const benefits = [
+    "毎日1回ガチャが引ける",
+    "ドリンクチケットや割引券が当たる",
+    "いつでも解約OK",
+  ];
+
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-xl shadow-sm my-10">
-      <h1 className="text-2xl font-bold text-center mb-6">プレミアム会員管理</h1>
+    <div className="flex min-h-screen flex-col bg-[#f6f6f7]">
+      <SiteHeader />
+      <main className="flex flex-1 flex-col items-center justify-center px-4 py-8">
+        <div className="w-full max-w-md">
+        <BackLink className="mb-4" />
 
-      <div className="text-sm text-center text-gray-700 mb-4">
-        現在のステータス：<span className="font-bold">{statusLabel(subscriptionStatus)}</span>
-      </div>
+        <div className="overflow-hidden rounded-sm bg-white ring-1 ring-gray-200/80 shadow-[0_18px_60px_rgba(15,23,42,0.06)]">
+          {justSubscribed ? (
+          /* 登録完了画面 */
+          <div className="px-6 py-10 text-center">
+            <div className="flex flex-col items-center">
+              <span className="font-serif text-[30px] italic leading-none tracking-tight text-gray-950">
+                Thank you
+              </span>
+            </div>
+            <p className="mt-4 text-[11px] font-semibold tracking-[0.2em] text-orange-600">
+              WELCOME TO OKIPOKA PREMIUM
+            </p>
+            <h1 className="mt-1.5 text-xl font-bold tracking-tight text-gray-950">
+              プレミアム登録が完了しました
+            </h1>
+            <p className="mt-2.5 text-sm leading-relaxed text-gray-500">
+              本日からプレミアム特典をご利用いただけます。
+              <br />
+              さっそく今日の1回を引いてみましょう。
+            </p>
 
-      {/* 次回更新日・利用期限の表示 */}
-      {(nextRenewalDate || chargedThroughDate) && (
-        <div className="text-xs text-center text-gray-600 mb-4 bg-gray-50 p-2 rounded">
-          {nextRenewalDate && (
-            <div>次回更新日：{nextRenewalDate}</div>
-          )}
-          {chargedThroughDate && (
-            <div>
-              {subscriptionStatus === "canceling" ? "解約後の利用期限" : "利用期限"}：{chargedThroughDate} まで
+            <ul className="mt-6 space-y-2.5 text-left">
+              {benefits.map((b) => (
+                <li key={b} className="flex items-center gap-3 text-[15px] text-gray-800">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-orange-50 ring-1 ring-orange-100">
+                    <Check className="h-3 w-3 text-orange-600" strokeWidth={3} />
+                  </span>
+                  {b}
+                </li>
+              ))}
+            </ul>
+
+            <div className="mt-7 space-y-3">
+              <Link
+                href="/member/gacha"
+                className="flex w-full items-center justify-center gap-2 rounded-sm bg-orange-500 px-4 py-3.5 text-sm font-bold text-white transition-colors hover:bg-orange-600"
+              >
+                <Dices className="h-4 w-4" />
+                ガチャを引きに行く
+              </Link>
+              <Link
+                href="/member"
+                className="flex w-full items-center justify-center rounded-sm bg-white px-4 py-3 text-sm font-semibold text-gray-700 ring-1 ring-gray-200 transition-colors hover:bg-gray-50"
+              >
+                マイページへ戻る
+              </Link>
+            </div>
+
+            <p className="mt-5 flex items-center justify-center gap-1.5 text-[11px] text-gray-400">
+              <Lock className="h-3 w-3" />
+              決済は Square のセキュア環境で処理されました
+            </p>
+          </div>
+          ) : (
+          <>
+          {/* ヘッダー */}
+          <div className="border-b border-gray-100 px-6 py-6">
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-[11px] font-semibold tracking-[0.2em] text-orange-600">
+                OKIPOKA PREMIUM
+              </p>
+              {statusLoaded && (
+                <span
+                  className={`inline-flex shrink-0 items-center rounded-sm px-2.5 py-1 text-[11px] font-bold ring-1 ${badge.className}`}
+                >
+                  {badge.label}
+                </span>
+              )}
+            </div>
+            <h1 className="mt-2 text-2xl font-bold tracking-tight text-gray-950">プレミアム会員</h1>
+            <div className="mt-3 flex items-baseline gap-1">
+              <span className="text-3xl font-bold tracking-tight text-gray-950">¥2,200</span>
+              <span className="text-sm text-gray-400">/ 月（税込）</span>
+            </div>
+          </div>
+
+          {/* 特典リスト */}
+          <div className="px-6 py-5">
+            <ul className="space-y-2.5">
+              {benefits.map((b) => (
+                <li key={b} className="flex items-center gap-3 text-[15px] text-gray-800">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-orange-50 ring-1 ring-orange-100">
+                    <Check className="h-3 w-3 text-orange-600" strokeWidth={3} />
+                  </span>
+                  {b}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* 更新日・利用期限 */}
+          {statusLoaded && (nextRenewalDate || chargedThroughDate) && (
+            <div className="mx-6 mb-5 rounded-sm bg-gray-50 px-4 py-3 ring-1 ring-gray-100">
+              <div className="flex items-start gap-2.5">
+                <CalendarClock className="mt-0.5 h-4 w-4 shrink-0 text-gray-400" />
+                <div className="space-y-0.5 text-[13px] text-gray-600">
+                  {nextRenewalDate && (
+                    <div>
+                      次回更新日：<span className="font-semibold text-gray-900">{nextRenewalDate}</span>
+                    </div>
+                  )}
+                  {chargedThroughDate && (
+                    <div>
+                      {subscriptionStatus === "canceling" ? "解約後の利用期限" : "利用期限"}：
+                      <span className="font-semibold text-gray-900">{chargedThroughDate}</span> まで
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
           )}
-        </div>
-      )}
-      
-      <div className="bg-orange-50 p-4 rounded-lg mb-6">
-        <h2 className="font-bold text-orange-800 mb-2">月額 2,200円（税込）</h2>
-        <ul className="list-disc list-inside text-sm text-orange-700 space-y-1">
-          <li>毎日1回ガチャが引ける！</li>
-          <li>ドリンクチケットや割引券が当たる！</li>
-          <li>いつでも解約可能</li>
-        </ul>
-      </div>
 
-      {(subscriptionStatus === "active" || subscriptionStatus === "canceling") && (
-        <div className="mb-6">
-          <button
-            onClick={handleCancel}
-            disabled={loading || subscriptionStatus === "canceling"}
-            className="w-full bg-gray-900 text-white font-bold py-3 px-4 rounded-lg hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {subscriptionStatus === "canceling" ? "解約手続き済み" : loading ? "処理中..." : "解約する"}
-          </button>
+          {/* アクション領域 */}
+          <div className="border-t border-gray-100 px-6 py-5">
+            {/* 加入済み：解約／取り消し */}
+            {isMember && (
+              <div className="space-y-3">
+                <button
+                  onClick={handleCancel}
+                  disabled={loading || subscriptionStatus === "canceling"}
+                  className="flex w-full items-center justify-center gap-2 rounded-sm bg-gray-900 px-4 py-3 text-sm font-bold text-white transition-colors hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {loading && <Loader2 className="h-4 w-4 animate-spin" />}
+                  {subscriptionStatus === "canceling"
+                    ? "解約手続き済み"
+                    : loading
+                      ? "処理中..."
+                      : "解約する"}
+                </button>
 
-          {subscriptionStatus === "canceling" && (
-            <button
-              onClick={handleResume}
-              disabled={loading}
-              className="w-full bg-orange-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-orange-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-3"
-            >
-              {loading ? "処理中..." : "解約を取り消す"}
-            </button>
+                {subscriptionStatus === "canceling" && (
+                  <button
+                    onClick={handleResume}
+                    disabled={loading}
+                    className="flex w-full items-center justify-center gap-2 rounded-sm bg-orange-500 px-4 py-3 text-sm font-bold text-white transition-colors hover:bg-orange-600 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    {loading && <Loader2 className="h-4 w-4 animate-spin" />}
+                    {loading ? "処理中..." : "解約を取り消す"}
+                  </button>
+                )}
+                <p className="text-center text-xs text-gray-400">
+                  解約後も、次回更新日まではプレミアム特典を利用できます。
+                </p>
+              </div>
+            )}
+
+            {/* 未加入：カード入力フォーム */}
+            {statusLoaded && !isMember && (
+              <div className="space-y-4">
+                <div
+                  className={`flex items-center gap-2 rounded-sm px-3 py-2 text-xs font-medium ring-1 ${
+                    isSandbox
+                      ? "bg-blue-50 text-blue-700 ring-blue-100"
+                      : "bg-gray-50 text-gray-600 ring-gray-100"
+                  }`}
+                >
+                  <ShieldCheck className="h-4 w-4 shrink-0" />
+                  {isSandbox
+                    ? "テスト決済モード：テスト用カード（4111…）が使えます"
+                    : "Square による安全な決済。カード情報は当サイトに保存されません。"}
+                </div>
+
+                {/* クレジットカードフォーム（Square がここに描画） */}
+                <div
+                  id="card-container"
+                  className="min-h-25 rounded-sm bg-white p-3 ring-1 ring-gray-200 focus-within:ring-gray-400 transition-shadow"
+                ></div>
+
+                <button
+                  id="card-button"
+                  onClick={handleSubscribe}
+                  disabled={loading || !card}
+                  className="flex w-full items-center justify-center gap-2 rounded-sm bg-orange-500 px-4 py-3.5 text-sm font-bold text-white transition-colors hover:bg-orange-600 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      処理中...
+                    </>
+                  ) : (
+                    "カードで登録する"
+                  )}
+                </button>
+
+                <p className="flex items-center justify-center gap-1.5 text-center text-[11px] text-gray-400">
+                  <Lock className="h-3 w-3" />
+                  決済は Square のセキュア環境で処理されます
+                </p>
+              </div>
+            )}
+
+            {/* メッセージ */}
+            {infoMessage && (
+              <div className="mt-4 rounded-sm bg-green-50 px-3 py-2.5 text-sm text-green-700 ring-1 ring-green-100">
+                {infoMessage}
+              </div>
+            )}
+            {error && (
+              <div className="mt-4 rounded-sm bg-red-50 px-3 py-2.5 text-sm text-red-600 ring-1 ring-red-100">
+                {error}
+              </div>
+            )}
+          </div>
+          </>
           )}
-          <div className="text-xs text-gray-500 mt-2">
-            解約後も、次回更新日まではプレミアム特典を利用できます。
-          </div>
         </div>
-      )}
-
-      {(subscriptionStatus !== "active" && subscriptionStatus !== "canceling") && (
-        <>
-          <div className="text-xs text-center text-gray-500 mb-4 bg-gray-100 p-2 rounded">
-            {process.env.NEXT_PUBLIC_SQUARE_APPLICATION_ID?.startsWith("sandbox-")
-              ? "🔧 テスト決済：テスト用カード番号（4111...）が使えます"
-              : "💳 この決済は課金されます"}
-          </div>
-
-          {/* クレジットカードフォーム */}
-          <div id="card-container" className="min-h-25"></div>
-        </>
-      )}
-      
-      {infoMessage && (
-        <div className="text-green-700 text-sm mt-2 mb-4 bg-green-50 p-2 rounded">
-          {infoMessage}
         </div>
-      )}
-
-      {error && (
-        <div className="text-red-500 text-sm mt-2 mb-4 bg-red-50 p-2 rounded">
-          {error}
-        </div>
-      )}
-
-      {(subscriptionStatus !== "active" && subscriptionStatus !== "canceling") && (
-        <button
-          id="card-button"
-          onClick={handleSubscribe}
-          disabled={loading || !card}
-          className="w-full bg-orange-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-orange-600 transition-colors disabled:opacity-50 mt-4 disabled:cursor-not-allowed"
-        >
-          {loading ? "処理中..." : "カードで登録してガチャを引く"}
-        </button>
-      )}
-
-      <Link
-        href="/member"
-        className="block w-full text-center text-sm text-gray-600 hover:text-gray-900 mt-6"
-      >
-        マイページに戻る
-      </Link>
+      </main>
+      <SiteFooter />
     </div>
   );
 }

@@ -1,11 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { AlertCircle, Info, X, ChevronLeft } from "lucide-react";
+import { AlertCircle, Info, X, ChevronLeft, Volume2, VolumeX, Crown } from "lucide-react";
 import Link from "next/link";
 import confetti from "canvas-confetti";
 import { createClient } from "@/lib/supabase/client";
 import { isGachaItemEligible } from "@/lib/gacha";
+
+// 演出動画（public/ に配置）。複数用意したらここに足すとランダム再生になる。
+const REVEAL_VIDEOS = ["/gacha-spin.mp4"];
 
 type PublicGachaItem = {
   id: string;
@@ -23,7 +26,6 @@ type PublicGachaItem = {
 
 export default function GachaPage() {
   const [spinning, setSpinning] = useState(false);
-  const [dropping, setDropping] = useState(false);
   const [revealed, setRevealed] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
@@ -36,6 +38,17 @@ export default function GachaPage() {
   const [nextPlayTime, setNextPlayTime] = useState<Date | null>(null);
   const [timeLeft, setTimeLeft] = useState<string>("");
   const supabase = createClient();
+
+  // 演出動画まわり
+  const [videoAvailable, setVideoAvailable] = useState(false);
+  const [showVideo, setShowVideo] = useState(false);
+  const [muted, setMuted] = useState(false);
+  const [videoSrc] = useState(
+    () => REVEAL_VIDEOS[Math.floor(Math.random() * REVEAL_VIDEOS.length)]
+  );
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const pendingResultRef = useRef<any>(null);
+  const videoEndedRef = useRef(false);
 
   const eligibleItems = gachaItems.filter(isGachaItemEligible);
   const totalWeight = eligibleItems.reduce((sum, item) => sum + (item.probability ?? 0), 0);
@@ -178,15 +191,73 @@ export default function GachaPage() {
     setRevealImageFailed(false);
   }, [result?.image_url]);
 
+  const fireConfetti = () => {
+    confetti({
+      particleCount: 55,
+      spread: 50,
+      startVelocity: 30,
+      gravity: 1.1,
+      scalar: 0.9,
+      ticks: 110,
+      origin: { y: 0.65 },
+      colors: ["#fbbf24", "#f59e0b", "#ffffff"],
+    });
+  };
+
+  // 動画の再生終了 と 抽選結果 の両方が揃ったら景品を表示する
+  const finishVideoReveal = () => {
+    if (!videoEndedRef.current || !pendingResultRef.current) return;
+    const item = pendingResultRef.current;
+    pendingResultRef.current = null;
+    setShowVideo(false);
+    setSpinning(false);
+    setResult(item);
+    setRevealed(true);
+    if (item && item.type !== "none") {
+      fireConfetti();
+    }
+  };
+
   const spinGacha = async () => {
     clearTimers();
     setError(null);
     setResult(null);
     setRevealed(false);
-    setDropping(false);
     setSpinning(true);
     setRevealImageLoaded(false);
     setRevealImageFailed(false);
+    pendingResultRef.current = null;
+    videoEndedRef.current = false;
+
+    const usingVideo = videoAvailable;
+
+    // 動画演出: PUSHのタップを起点に即再生（音あり、弾かれたらミュートで再試行）
+    if (usingVideo) {
+      setShowVideo(true);
+      const v = videoRef.current;
+      if (v) {
+        try {
+          v.currentTime = 0;
+          v.muted = muted;
+          const p = v.play();
+          if (p && typeof p.then === "function") {
+            p.catch(() => {
+              v.muted = true;
+              setMuted(true);
+              v.play().catch(() => {});
+            });
+          }
+        } catch {
+          // ignore
+        }
+      }
+      // endedイベントが来ない端末向けの安全タイマー
+      const tMax = window.setTimeout(() => {
+        videoEndedRef.current = true;
+        finishVideoReveal();
+      }, 12000);
+      timersRef.current.push(tMax);
+    }
 
     const startedAt = Date.now();
 
@@ -198,6 +269,9 @@ export default function GachaPage() {
 
       if (!res.ok) {
         const raw = String(data.error || "");
+        if (raw.includes("Subscription expired")) {
+          throw new Error("プレミアム会員の有効期限が切れています。更新してください。");
+        }
         if (raw.includes("Subscription")) {
           throw new Error("プレミアム会員のみガチャを回せます");
         }
@@ -232,40 +306,38 @@ export default function GachaPage() {
         setNextPlayTime(tomorrow);
       }
 
-      const minSpinMs = 2600;
+      // 動画演出モード: 動画のクライマックス（再生終了）で景品を表示
+      if (usingVideo) {
+        pendingResultRef.current = data.item;
+        finishVideoReveal();
+        return;
+      }
+
+      // シンプル＆上品な演出: PUSH→短いローディング→結果がフェードイン
+      const minSpinMs = 1500;
       const elapsed = Date.now() - startedAt;
       const waitMs = Math.max(0, minSpinMs - elapsed);
       if (waitMs > 0) {
         await new Promise((resolve) => setTimeout(resolve, waitMs));
       }
 
-      setDropping(true);
-
-      const t1 = window.setTimeout(() => {
-        setSpinning(false);
-      }, 450);
-      const t2 = window.setTimeout(() => {
-        setResult(data.item);
-      }, 650);
-      const t3 = window.setTimeout(() => {
-        setRevealed(true);
-        setDropping(false);
-        if (data.item && data.item.type !== "none") {
-          confetti({
-            particleCount: 100,
-            spread: 70,
-            origin: { y: 0.6 },
-            colors: ["#fbbf24", "#f87171", "#60a5fa", "#34d399", "#a78bfa"],
-          });
-        }
-      }, 1350);
-      timersRef.current.push(t1, t2, t3);
+      setSpinning(false);
+      setResult(data.item);
+      setRevealed(true);
+      if (data.item && data.item.type !== "none") {
+        fireConfetti();
+      }
 
     } catch (e: any) {
       setError(e.message);
       setSpinning(false);
-      setDropping(false);
       setRevealed(false);
+      setShowVideo(false);
+      pendingResultRef.current = null;
+      const v = videoRef.current;
+      if (v) {
+        try { v.pause(); } catch { /* ignore */ }
+      }
     }
   };
 
@@ -273,16 +345,27 @@ export default function GachaPage() {
     clearTimers();
     setResult(null);
     setRevealed(false);
-    setDropping(false);
     setError(null);
+    setShowVideo(false);
+    pendingResultRef.current = null;
+    videoEndedRef.current = false;
+    const v = videoRef.current;
+    if (v) {
+      try {
+        v.pause();
+        v.currentTime = 0;
+      } catch {
+        // ignore
+      }
+    }
   };
 
   return (
-    <div className="relative w-full h-dvh bg-[#facc15] overflow-hidden">
+    <div className="relative w-full h-dvh overflow-hidden bg-gradient-to-b from-white to-[#f3f3f5]">
       {/* 戻るボタン */}
       <Link 
-        href="/" 
-        className="absolute top-4 left-4 z-40 bg-white/90 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-white hover:scale-105 transition-all text-slate-600 pointer-events-auto"
+        href="/member" 
+        className="absolute top-4 left-4 z-40 rounded-full bg-white p-3 text-gray-600 shadow-sm ring-1 ring-gray-200 transition-all hover:bg-gray-50 hover:text-gray-900 pointer-events-auto"
       >
         <ChevronLeft className="w-6 h-6" />
       </Link>
@@ -290,82 +373,138 @@ export default function GachaPage() {
       {/* 景品一覧ボタン */}
       <button
         onClick={() => setShowItemsList(true)}
-        className="absolute top-4 right-4 z-40 bg-white/90 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-white hover:scale-105 transition-all text-slate-600 pointer-events-auto"
+        className="absolute top-4 right-4 z-40 rounded-full bg-white p-3 text-gray-600 shadow-sm ring-1 ring-gray-200 transition-all hover:bg-gray-50 hover:text-gray-900 pointer-events-auto"
         aria-label="景品一覧"
       >
         <Info className="w-6 h-6" />
       </button>
 
-      {/* 背景画像エリア（画面いっぱい） */}
-      <div className="absolute inset-0 w-full h-full">
-        <img
-          src="/gacha-pc.png"
-          alt="Gacha Machine"
-          className="hidden md:block w-full h-full object-cover object-center scale-105"
-        />
-        <img
-          src="/gacha-mobile.png"
-          alt="Gacha Machine"
-          className="block md:hidden w-full h-full object-cover object-center scale-105"
-        />
+      {/* 背景の柔らかいグロー（ガラスが拾う色味） */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute left-1/2 top-1/2 h-[420px] w-[420px] -translate-x-1/2 -translate-y-[65%] rounded-full bg-orange-300/30 blur-[120px]" />
+        <div className="absolute left-1/2 top-1/2 h-[300px] w-[300px] -translate-x-[75%] -translate-y-[15%] rounded-full bg-rose-200/35 blur-[110px]" />
+        <div className="absolute left-1/2 top-1/2 h-[300px] w-[300px] -translate-x-[15%] -translate-y-[5%] rounded-full bg-amber-200/35 blur-[110px]" />
       </div>
 
-      {/* コンテンツエリア */}
-      <div className="relative w-full h-full flex flex-col items-center justify-center pointer-events-none">
-        
-        {/* 排出されるカプセル */}
-        <div 
-          className={`absolute left-1/2 -translate-x-1/2 w-32 h-32 z-20 transition-all duration-500 ease-out
-            ${dropping ? "opacity-100 bottom-[25%] scale-110 rotate-12" : "opacity-0 bottom-[35%] scale-50 rotate-0"}
-          `}
-        >
-            <div
-              className={
-                "w-full h-full rounded-full border-4 border-white/40 shadow-2xl bg-orange-300 relative overflow-hidden " +
-                (revealed ? "capsule-open" : "")
-              }
-            >
-              <div className="absolute top-3 left-5 w-8 h-4 bg-white/40 rounded-full -rotate-12" />
-              
-              {revealed && (
-                <div className="absolute inset-0 flex items-center justify-center bg-white">
-                </div>
-              )}
-            </div>
-        </div>
+      {/* 演出動画（オリパ風）。読み込めない場合は videoAvailable=false でカプセル演出にフォールバック */}
+      <video
+        ref={videoRef}
+        src={videoSrc}
+        playsInline
+        muted={muted}
+        preload="auto"
+        onLoadedData={() => setVideoAvailable(true)}
+        onError={() => {
+          setVideoAvailable(false);
+          if (showVideo) {
+            videoEndedRef.current = true;
+            finishVideoReveal();
+          }
+        }}
+        onEnded={() => {
+          videoEndedRef.current = true;
+          finishVideoReveal();
+        }}
+        className={`absolute inset-0 z-30 w-full h-full object-cover bg-black transition-opacity duration-300 ${
+          showVideo ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+      />
 
-        {/* 操作ボタン */}
-        <div className="absolute bottom-[10%] left-1/2 -translate-x-1/2 w-64 z-30 pointer-events-auto flex flex-col items-center gap-4">
+      {/* ミュート切替（演出中のみ） */}
+      {showVideo && (
+        <button
+          onClick={() => {
+            const next = !muted;
+            setMuted(next);
+            const v = videoRef.current;
+            if (v) v.muted = next;
+          }}
+          className="absolute top-4 right-4 z-40 bg-white/90 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-white transition-all text-slate-600 pointer-events-auto"
+          aria-label={muted ? "音を出す" : "ミュート"}
+        >
+          {muted ? <VolumeX className="w-6 h-6" /> : <Volume2 className="w-6 h-6" />}
+        </button>
+      )}
+
+      {/* 抽選中ローディング（シンプル＆上品） */}
+      {spinning && !showVideo && (
+        <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/35 backdrop-blur-[2px] pointer-events-none animate-in fade-in duration-200">
+          <div className="flex flex-col items-center gap-4">
+            <div className="h-14 w-14 rounded-full border-[3px] border-white/25 border-t-white animate-spin" />
+            <p className="text-sm font-bold tracking-[0.3em] text-white drop-shadow-md">
+              抽選中
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* コンテンツエリア */}
+      <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 pointer-events-none">
+        <div className="flex w-full max-w-xs flex-col items-center text-center pointer-events-auto">
+          <p className="text-[11px] font-semibold tracking-[0.3em] text-orange-500">
+            DAILY GACHA
+          </p>
+
+          {/* グラスカプセル */}
+          <div className="relative my-8 h-48 w-48">
+            {/* 後光 */}
+            <div className="absolute -inset-5 rounded-full bg-gradient-to-tr from-orange-300/40 via-amber-200/30 to-rose-200/40 blur-2xl" />
+            {/* 回転する装飾リング */}
+            <div className="gacha-spin-slow absolute -inset-1 rounded-full border border-dashed border-orange-300/50" />
+            {/* ガラス本体 */}
+            <div className="absolute inset-0 overflow-hidden rounded-full bg-white/40 ring-1 ring-white/60 shadow-[0_24px_70px_rgba(15,23,42,0.14),inset_0_1px_3px_rgba(255,255,255,0.9)] backdrop-blur-xl">
+              {/* 光沢 */}
+              <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-white/10 to-transparent" />
+              <div className="absolute left-7 top-6 h-10 w-16 -rotate-12 rounded-full bg-white/60 blur-md" />
+              {/* トランプのキング（K）カード */}
+              <div className="gacha-bob absolute left-1/2 top-1/2 flex h-28 w-20 -translate-x-1/2 -translate-y-1/2 -rotate-6 flex-col justify-between rounded-xl bg-white p-2 shadow-[0_10px_24px_rgba(15,23,42,0.18)] ring-1 ring-black/5">
+                <div className="text-left text-[13px] font-bold leading-[0.9] text-gray-900">
+                  K<span className="block text-gray-900">♠</span>
+                </div>
+                <Crown className="mx-auto h-7 w-7 text-orange-500" strokeWidth={2} />
+                <div className="rotate-180 text-left text-[13px] font-bold leading-[0.9] text-gray-900">
+                  K<span className="block text-gray-900">♠</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <h1 className="text-2xl font-bold tracking-tight text-gray-950">今日のガチャ</h1>
+          <p className="mt-2 text-sm text-gray-500">1日1回、チャンスをGET</p>
+
+          {/* アクション */}
+          <div className="mt-8 w-full">
             {!result ? (
               canPlay ? (
                 <>
                   <button
                     onClick={spinGacha}
                     disabled={spinning}
-                    className="w-full bg-linear-to-b from-amber-400 to-amber-600 text-white font-black py-5 px-8 rounded-full shadow-[0_6px_0_rgb(180,83,9)] hover:shadow-[0_3px_0_rgb(180,83,9)] hover:translate-y-0.75 active:translate-y-1.5 active:shadow-none transition-all text-xl tracking-wider border-4 border-white/30"
+                    className="flex w-full items-center justify-center rounded-full bg-orange-500 px-8 py-4 text-base font-bold text-white shadow-[0_10px_30px_rgba(249,115,22,0.35)] transition-all hover:bg-orange-600 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
                   >
-                    {spinning ? "SPINNING..." : "PUSH !"}
+                    {spinning ? "抽選中..." : "ガチャを引く"}
                   </button>
-                  <p className="text-[10px] text-white/80 text-center font-medium bg-black/20 px-3 py-1 rounded-full backdrop-blur-sm">
-                    ※クーポンによって有効期限が異なります。<br/>有効期限をしっかりご確認ください。
+                  <p className="mt-3 text-[11px] leading-relaxed text-gray-400">
+                    ※クーポンによって有効期限が異なります。<br />有効期限をしっかりご確認ください。
                   </p>
                 </>
               ) : (
-                <div className="w-full bg-slate-100/90 backdrop-blur-sm text-slate-500 font-bold py-4 px-6 rounded-full border-4 border-slate-200 shadow-lg text-center animate-in fade-in slide-in-from-bottom-4 duration-500">
-                  <div className="text-xs mb-1 font-medium text-slate-400">次回のガチャまで</div>
-                  <div className="text-2xl text-slate-600 font-mono tracking-widest">
-                     {timeLeft}
+                <div className="rounded-2xl bg-white px-6 py-4 text-center shadow-sm ring-1 ring-gray-100 animate-in fade-in slide-in-from-bottom-2 duration-500">
+                  <div className="text-xs font-medium text-gray-400">次回のガチャまで</div>
+                  <div className="mt-1 font-mono text-2xl tracking-widest text-gray-800">
+                    {timeLeft}
                   </div>
                 </div>
               )
             ) : (
               <button
                 onClick={reset}
-                className="w-full bg-white text-slate-700 font-bold py-4 px-8 rounded-full border-4 border-slate-200 shadow-xl hover:bg-slate-50 transition-all text-lg"
+                className="w-full rounded-full bg-white px-8 py-4 text-base font-bold text-gray-700 shadow-sm ring-1 ring-gray-200 transition-colors hover:bg-gray-50"
               >
-                もう一度
+                もう一度見る
               </button>
             )}
+          </div>
         </div>
       </div>
 

@@ -104,6 +104,7 @@ export function SimulatorClient({ items }: { items: GachaItem[] }) {
                     fill
                     sizes="80px"
                     className="object-contain"
+                    unoptimized
                   />
                 </div>
               ) : (

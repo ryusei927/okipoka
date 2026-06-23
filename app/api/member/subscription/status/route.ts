@@ -1,48 +1,13 @@
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { squareClient } from "@/lib/square";
+import {
+  deriveDbStatusFromSubscription,
+  nextRenewalDateFrom,
+  type DbSubscriptionStatus,
+} from "@/lib/subscription";
+import type { Square } from "square";
 import { NextResponse } from "next/server";
-
-function mapSquareStatusToDb(status?: string | null) {
-  switch (status) {
-    case "ACTIVE":
-      return "active";
-    case "CANCELING":
-      return "canceling";
-    case "CANCELED":
-      return "canceled";
-    case "PAST_DUE":
-      return "past_due";
-    default:
-      return null;
-  }
-}
-
-function deriveDbStatusFromSubscription(subscription: unknown) {
-  const sub = subscription as { status?: unknown; canceled_date?: unknown; cancel_at?: unknown };
-  const squareStatus = typeof sub.status === "string" ? sub.status : null;
-  const mapped = mapSquareStatusToDb(squareStatus);
-  if (mapped && mapped !== "active") return mapped;
-
-  // Squareが ACTIVE を返していても、キャンセル予約が入っている場合があるため補完する
-  // - canceled_date が未来日で入っている
-  // - cancel_at が存在する
-  const canceledDate = typeof sub.canceled_date === "string" ? sub.canceled_date : null;
-  const cancelAt = typeof sub.cancel_at === "string" ? sub.cancel_at : null;
-  if (cancelAt) return "canceling";
-
-  const today = new Date().toISOString().slice(0, 10);
-  if (canceledDate && canceledDate > today) return "canceling";
-
-  return mapped; // active or null
-}
-
-function addDays(ymd: string, days: number) {
-  // ymd: YYYY-MM-DD
-  const [y, m, d] = ymd.split("-").map((v) => Number(v));
-  const date = new Date(Date.UTC(y, m - 1, d));
-  date.setUTCDate(date.getUTCDate() + days);
-  return date.toISOString().slice(0, 10);
-}
 
 export async function GET() {
   const supabase = await createClient();
@@ -66,34 +31,31 @@ export async function GET() {
     return NextResponse.json({ error: "Failed to load profile" }, { status: 500 });
   }
 
+  // 保護カラム(subscription_*)はservice role経由でのみ更新する
+  const admin = createAdminClient();
+
   let subscriptionId = profile?.subscription_id ?? null;
-  let status = profile?.subscription_status ?? null;
+  let status: DbSubscriptionStatus | string | null = profile?.subscription_status ?? null;
   let chargedThroughDate: string | null = null;
   let nextRenewalDate: string | null = null;
 
-  async function syncFromSquareSubscription(subscription: unknown) {
-    const sub = subscription as {
-      id?: string;
-      status?: string;
-      charged_through_date?: string;
-      canceled_date?: string;
-      cancel_at?: string;
-    };
+  async function syncFromSquareSubscription(subscription: Square.Subscription | null | undefined) {
+    if (!subscription) return;
 
-    chargedThroughDate = sub.charged_through_date ?? null;
-    nextRenewalDate = chargedThroughDate ? addDays(chargedThroughDate, 1) : null;
+    chargedThroughDate = subscription.chargedThroughDate ?? null;
+    nextRenewalDate = nextRenewalDateFrom(chargedThroughDate);
 
-    const mapped = deriveDbStatusFromSubscription(sub);
+    const mapped = deriveDbStatusFromSubscription(subscription);
     if (mapped && mapped !== status) {
       status = mapped;
     }
 
-    if (sub.id && sub.id !== subscriptionId) {
-      subscriptionId = sub.id;
+    if (subscription.id && subscription.id !== subscriptionId) {
+      subscriptionId = subscription.id;
     }
 
     if (subscriptionId) {
-      await supabase
+      await admin
         .from("profiles")
         .update({
           subscription_id: subscriptionId,
@@ -106,26 +68,24 @@ export async function GET() {
   // Squareの状態が取れるなら同期（DBが古い/手動変更/更新タイミングのズレ対策）
   try {
     if (subscriptionId) {
-      const { result } = await squareClient.subscriptions.retrieve(subscriptionId);
-      await syncFromSquareSubscription((result as { subscription?: unknown }).subscription);
+      const { subscription } = await squareClient.subscriptions.get({ subscriptionId });
+      await syncFromSquareSubscription(subscription);
     } else {
       // まれに「Square側では作成済みだが、DBにsubscription_idが保存されない」ケースがあるので再発見する
-      const customerId = (profile as { square_customer_id?: string | null } | null)?.square_customer_id ?? null;
+      const customerId = profile?.square_customer_id ?? null;
       if (customerId) {
-        const filter: { customer_ids: string[]; location_ids?: string[] } = {
-          customer_ids: [customerId],
+        const filter: { customerIds: string[]; locationIds?: string[] } = {
+          customerIds: [customerId],
         };
         if (process.env.SQUARE_LOCATION_ID) {
-          filter.location_ids = [process.env.SQUARE_LOCATION_ID];
+          filter.locationIds = [process.env.SQUARE_LOCATION_ID];
         }
 
-        const { result } = await squareClient.subscriptions.search({
+        const { subscriptions } = await squareClient.subscriptions.search({
           query: { filter },
-          sort: { field: "CREATED_AT", order: "DESC" },
         });
 
-        const subscriptions = (result as { subscriptions?: unknown[] }).subscriptions ?? [];
-        if (subscriptions.length > 0) {
+        if (subscriptions && subscriptions.length > 0) {
           await syncFromSquareSubscription(subscriptions[0]);
         }
       }

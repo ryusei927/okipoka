@@ -1,37 +1,9 @@
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { squareClient } from "@/lib/square";
+import { deriveDbStatusFromSubscription } from "@/lib/subscription";
+import type { Square } from "square";
 import { NextResponse } from "next/server";
-
-function mapSquareStatusToDb(status?: string | null) {
-  switch (status) {
-    case "ACTIVE":
-      return "active";
-    case "CANCELING":
-      return "canceling";
-    case "CANCELED":
-      return "canceled";
-    case "PAST_DUE":
-      return "past_due";
-    default:
-      return null;
-  }
-}
-
-function deriveDbStatusFromSubscription(subscription: unknown) {
-  const sub = subscription as { status?: unknown; canceled_date?: unknown; cancel_at?: unknown };
-  const squareStatus = typeof sub.status === "string" ? sub.status : null;
-  const mapped = mapSquareStatusToDb(squareStatus);
-  if (mapped && mapped !== "active") return mapped;
-
-  const canceledDate = typeof sub.canceled_date === "string" ? sub.canceled_date : null;
-  const cancelAt = typeof sub.cancel_at === "string" ? sub.cancel_at : null;
-  if (cancelAt) return "canceling";
-
-  const today = new Date().toISOString().slice(0, 10);
-  if (canceledDate && canceledDate > today) return "canceling";
-
-  return mapped;
-}
 
 export async function POST() {
   const supabase = await createClient();
@@ -54,10 +26,34 @@ export async function POST() {
     .eq("id", user.id)
     .single();
 
-  // 現金払いユーザーはSquareチェックをスキップしてRPCに任せる
+  // 現金払いユーザーはSquareチェックをスキップ
   const paymentMethod = (profileBase as { payment_method?: string | null } | null)?.payment_method ?? null;
   if (paymentMethod === "cash") {
-    // 現金払いはspin_gacha関数内で期限チェックするので、ここではスキップ
+    // 現金会員は subscription_expires_at を過ぎたらここでブロックする。
+    // （DB側の自動失効に依存せず、APIレベルでも期限を必ず評価する）
+    const expiresAt =
+      (profileBase as { subscription_expires_at?: string | null } | null)?.subscription_expires_at ?? null;
+    const todayJst = new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Tokyo" }); // YYYY-MM-DD
+    const expiresStr = typeof expiresAt === "string" ? expiresAt.slice(0, 10) : null;
+
+    if (expiresStr && expiresStr < todayJst) {
+      // 期限切れ → ステータスを自動で canceled に落として以後もブロック
+      try {
+        const admin = createAdminClient();
+        await admin
+          .from("profiles")
+          .update({
+            subscription_status: "canceled",
+            payment_method: null,
+            subscription_expires_at: null,
+          })
+          .eq("id", user.id);
+      } catch {
+        // 失効更新に失敗してもブロックは行う
+      }
+      return NextResponse.json({ error: "Subscription expired" }, { status: 403 });
+    }
+    // 期限内なら spin_gacha に進む
   } else {
     // 「支払い済みなのにsubscription_status/subscription_idがDBに反映されていない」ケースを救済する
     try {
@@ -67,28 +63,29 @@ export async function POST() {
 
     // できるなら毎回Squareの最新状態を取りに行く（1日1回のAPIなので許容）
     // 失敗した場合はDBの状態で続行（誤ブロックを避ける）
-    let subscription: unknown = null;
+    let subscription: Square.Subscription | null = null;
     if (subscriptionId) {
-      const { result } = await squareClient.subscriptions.retrieve(subscriptionId);
-      subscription = (result as { subscription?: unknown }).subscription ?? null;
+      const { subscription: sub } = await squareClient.subscriptions.get({ subscriptionId });
+      subscription = sub ?? null;
     } else if (customerId) {
-      const filter: { customer_ids: string[]; location_ids?: string[] } = { customer_ids: [customerId] };
-      if (process.env.SQUARE_LOCATION_ID) filter.location_ids = [process.env.SQUARE_LOCATION_ID];
-      const { result } = await squareClient.subscriptions.search({
+      const filter: { customerIds: string[]; locationIds?: string[] } = {
+        customerIds: [customerId],
+      };
+      if (process.env.SQUARE_LOCATION_ID) filter.locationIds = [process.env.SQUARE_LOCATION_ID];
+      const { subscriptions } = await squareClient.subscriptions.search({
         query: { filter },
-        sort: { field: "CREATED_AT", order: "DESC" },
       });
-      const subs = (result as { subscriptions?: unknown[] }).subscriptions ?? [];
-      subscription = subs[0] ?? null;
+      subscription = subscriptions?.[0] ?? null;
     }
 
     if (subscription) {
       const nextStatus = deriveDbStatusFromSubscription(subscription);
-      const nextId = (subscription as { id?: unknown }).id;
-      const nextSubscriptionId = typeof nextId === "string" ? nextId : null;
+      const nextSubscriptionId = subscription.id ?? null;
 
       if (nextSubscriptionId || nextStatus) {
-        await supabase
+        // 保護カラムはservice role経由で更新する
+        const admin = createAdminClient();
+        await admin
           .from("profiles")
           .update({
             subscription_id: nextSubscriptionId ?? subscriptionId,
@@ -115,6 +112,9 @@ export async function POST() {
     const msg = error.message || "Failed";
     if (msg.includes("Unauthorized")) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    if (msg.includes("Subscription expired")) {
+      return NextResponse.json({ error: "Subscription expired" }, { status: 403 });
     }
     if (msg.includes("Subscription required")) {
       return NextResponse.json({ error: "Subscription required" }, { status: 403 });
@@ -146,16 +146,15 @@ export async function POST() {
   }
 
   // 店舗画像を取得して付与
-  let itemData = { ...data };
+  const itemData: Record<string, unknown> = { ...data };
   if (data && data.shop_id) {
     const { data: shop } = await supabase
       .from("shops")
       .select("image_url")
       .eq("id", data.shop_id)
       .single();
-    
+
     if (shop) {
-      // @ts-ignore
       itemData.shop_image_url = shop.image_url;
     }
   }

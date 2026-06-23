@@ -3,17 +3,17 @@
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { ja } from "date-fns/locale";
-import { Crown, Sparkles } from "lucide-react";
+import { Crown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
-export function DigitalMemberCard({ 
-  isVip = false, 
+export function DigitalMemberCard({
+  isVip = false,
   isPremium = false,
   userName = "Guest",
-  avatarUrl 
-}: { 
-  isVip?: boolean; 
+  avatarUrl,
+}: {
+  isVip?: boolean;
   isPremium?: boolean;
   userName?: string;
   avatarUrl?: string | null;
@@ -24,72 +24,85 @@ export function DigitalMemberCard({
     setTime(new Date());
   }, []);
 
-  if (!time) return <div className="w-full max-w-sm mx-auto aspect-[1.586/1] bg-gray-200 animate-pulse rounded-2xl" />;
+  if (!time)
+    return <div className="w-full max-w-md mx-auto aspect-[1.586/1] bg-gray-100 animate-pulse rounded-3xl" />;
 
   const isGold = isVip || isPremium;
   const rankLabel = isVip ? "VIP PASS" : isPremium ? "PREMIUM" : "MEMBER";
 
   return (
-    <div className="relative w-full max-w-sm mx-auto aspect-[1.586/1] overflow-hidden shadow-2xl rounded-2xl transition-all duration-500 hover:scale-[1.02]">
-      {/* 背景アニメーション */}
+    <div
+      className={cn(
+        "relative w-full max-w-md mx-auto aspect-[1.586/1] overflow-hidden rounded-3xl bg-white shadow-sm transition-transform duration-300 hover:-translate-y-0.5",
+        isGold ? "ring-1 ring-amber-200" : "ring-1 ring-gray-200"
+      )}
+    >
+      {/* 背景: 上品な淡いグラデーション */}
       <div
         className={cn(
-          "absolute inset-0 bg-linear-to-br animate-gradient-xy",
+          "absolute inset-0",
           isGold
-            ? "from-yellow-400 via-orange-500 to-red-600"
-            : "from-blue-400 via-indigo-500 to-purple-600"
+            ? "bg-linear-to-br from-amber-50 via-white to-orange-50/60"
+            : "bg-linear-to-br from-gray-50 via-white to-gray-100"
         )}
       />
-      
-      {/* キラキラエフェクト (VIP/プレミアム) */}
-      {isGold && (
-        <div className="absolute inset-0 opacity-50 pointer-events-none">
-            <div className="absolute top-2 right-2 animate-pulse"><Sparkles className="text-yellow-100 w-6 h-6" /></div>
-            <div className="absolute bottom-10 left-4 animate-bounce"><Sparkles className="text-yellow-100 w-4 h-4" /></div>
-        </div>
-      )}
 
-      {/* カードコンテンツ */}
-      <div className="relative h-full flex flex-col justify-between p-6 text-white">
+      {/* 上部のアクセントライン */}
+      <div
+        className={cn(
+          "absolute inset-x-0 top-0 h-1",
+          isGold ? "bg-linear-to-r from-amber-300 to-orange-400" : "bg-linear-to-r from-gray-300 to-gray-400"
+        )}
+      />
+
+      {/* コンテンツ */}
+      <div className="relative h-full flex flex-col justify-between p-6">
         {/* ヘッダー */}
         <div className="flex justify-between items-start">
           <div>
-            <h2 className="text-xs font-bold tracking-widest opacity-80">OKIPOKA MEMBER</h2>
-            <div className="flex items-center gap-2 mt-1">
-              {isGold && <Crown className="w-5 h-5 text-yellow-200 fill-yellow-200" />}
-              <span className={cn("text-2xl font-bold tracking-tight", isGold ? "text-yellow-100" : "text-white")}>
+            <h2 className="text-[11px] font-semibold tracking-[0.18em] text-gray-400">OKIPOKA MEMBER</h2>
+            <div className="flex items-center gap-1.5 mt-1.5">
+              {isGold && <Crown className="w-5 h-5 text-amber-500 fill-amber-400" />}
+              <span
+                className={cn(
+                  "text-2xl font-bold tracking-tight",
+                  isGold ? "text-amber-600" : "text-gray-800"
+                )}
+              >
                 {rankLabel}
               </span>
             </div>
           </div>
-          {/* ロゴ的なもの */}
-          <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center font-bold text-lg shadow-inner overflow-hidden relative">
+
+          {/* アバター */}
+          <div
+            className={cn(
+              "w-11 h-11 rounded-full bg-gray-100 flex items-center justify-center font-bold text-sm overflow-hidden relative shrink-0",
+              isGold ? "ring-1 ring-amber-200" : "ring-1 ring-gray-200"
+            )}
+          >
             {avatarUrl ? (
-              <Image 
-                src={avatarUrl} 
-                alt={userName} 
-                fill 
-                className="object-cover"
-              />
+              <Image src={avatarUrl} alt={userName} fill className="object-cover" unoptimized />
             ) : (
-              "OK"
+              <span className="text-gray-400">{userName.charAt(0).toUpperCase()}</span>
             )}
           </div>
         </div>
 
-        {/* ユーザー情報 */}
-        <div className="space-y-1">
-            <p className="text-xs opacity-70">NAME</p>
-            <p className="text-lg font-medium truncate">{userName}</p>
+        {/* ユーザー名 */}
+        <div className="space-y-0.5">
+          <p className="text-[10px] tracking-widest text-gray-400">NAME</p>
+          <p className="text-lg font-semibold text-gray-900 truncate">{userName}</p>
         </div>
 
         {/* フッター */}
-        <div className="flex justify-end items-end border-t border-white/20 pt-4">
+        <div className="flex justify-between items-end border-t border-gray-100 pt-3">
+          <span className={cn("text-[10px] font-bold tracking-widest", isGold ? "text-amber-500" : "text-gray-400")}>
+            OKIPOKA.COM
+          </span>
           <div className="text-right">
-            <p className="text-[10px] opacity-70">DATE</p>
-            <p className="text-sm font-medium">
-              {format(time, "yyyy.MM.dd", { locale: ja })}
-            </p>
+            <p className="text-[10px] tracking-widest text-gray-400">SINCE</p>
+            <p className="text-sm font-semibold text-gray-700 tabular-nums">{format(time, "yyyy.MM.dd", { locale: ja })}</p>
           </div>
         </div>
       </div>

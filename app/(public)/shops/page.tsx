@@ -1,5 +1,4 @@
 import { createClient } from "@/lib/supabase/server";
-import { List } from "lucide-react";
 import ShopAccordion from "@/components/ShopAccordion";
 import Image from "next/image";
 import { AdClickWrapper } from "@/components/ads/AdClickWrapper";
@@ -86,8 +85,7 @@ export default async function ShopsPage() {
         {/* 目次 — スマホ: 上部 / PC: 左サイドバー固定 */}
         <div className="md:w-64 md:shrink-0 mb-6 md:mb-0">
           <div className="bg-gray-50 border border-gray-100 p-5">
-            <div className="flex items-center justify-center md:justify-start gap-2 mb-4">
-              <List className="w-4 h-4 text-gray-500" />
+            <div className="flex items-center justify-center md:justify-start mb-4">
               <span className="text-sm font-black text-gray-700">目次</span>
             </div>
             <div className="space-y-3">
@@ -130,6 +128,7 @@ export default async function ShopsPage() {
                       alt={ad.title}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      unoptimized
                     />
                     <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/60 via-black/20 to-transparent pt-8 pb-2 px-2">
                       <p className="text-xs font-bold text-white leading-tight line-clamp-2">{ad.title}</p>

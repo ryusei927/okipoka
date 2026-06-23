@@ -1,6 +1,6 @@
 "use client";
 
-import { Gift } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -47,42 +47,38 @@ export function DailyGachaButton({ lastGachaAt, isAdmin }: Props) {
   if (!mounted) {
     // SSR時はデフォルトの表示
     return (
-      <div className="w-full flex items-center gap-3 p-4 hover:bg-gray-50 transition-colors text-left">
-        <div className="p-2 bg-pink-100 text-pink-600">
-          <Gift className="w-5 h-5" />
-        </div>
+      <div className="w-full flex items-center gap-4 px-5 py-4 hover:bg-gray-50 transition-colors text-left">
         <div className="flex-1">
-          <div className="font-medium text-gray-900">デイリーガチャ</div>
-          <div className="text-xs text-gray-500">毎日1回運試し！</div>
+          <div className="text-[15px] font-medium text-gray-900">デイリーガチャ</div>
+          <div className="text-xs text-gray-400 mt-0.5">毎日1回運試し！</div>
         </div>
+        <ChevronRight className="w-4 h-4 text-gray-300" />
       </div>
     );
   }
 
   const content = (
     <>
-      <div className={`p-2 ${canPlay ? "bg-pink-100 text-pink-600" : "bg-gray-100 text-gray-400"}`}>
-        <Gift className="w-5 h-5" />
-      </div>
       <div className="flex-1">
-        <div className={`font-medium ${canPlay ? "text-gray-900" : "text-gray-500"}`}>デイリーガチャ</div>
-        <div className={`text-xs ${canPlay ? "text-gray-500" : "text-orange-500 font-bold"}`}>
+        <div className={`text-[15px] font-medium ${canPlay ? "text-gray-900" : "text-gray-500"}`}>デイリーガチャ</div>
+        <div className={`text-xs mt-0.5 ${canPlay ? "text-gray-400" : "text-orange-500 font-bold"}`}>
           {canPlay ? "毎日1回運試し！" : "本日はプレイ済みです"}
         </div>
       </div>
+      {canPlay && <ChevronRight className="w-4 h-4 text-gray-300" />}
     </>
   );
 
   if (canPlay) {
     return (
-      <Link href="/member/gacha" className="w-full flex items-center gap-3 p-4 hover:bg-gray-50 transition-colors text-left">
+      <Link href="/member/gacha" className="w-full flex items-center gap-4 px-5 py-4 hover:bg-gray-50 transition-colors text-left">
         {content}
       </Link>
     );
   }
 
   return (
-    <div className="w-full flex items-center gap-3 p-4 bg-gray-50/50 cursor-not-allowed text-left">
+    <div className="w-full flex items-center gap-4 px-5 py-4 bg-gray-50/50 cursor-not-allowed text-left">
       {content}
     </div>
   );

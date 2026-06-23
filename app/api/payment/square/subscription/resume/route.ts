@@ -1,28 +1,8 @@
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { squareClient } from "@/lib/square";
+import { isActiveLikeStatus, mapSquareStatusToDb, nextRenewalDateFrom } from "@/lib/subscription";
 import { NextResponse } from "next/server";
-
-function addDays(ymd: string, days: number) {
-  const [y, m, d] = ymd.split("-").map((v) => Number(v));
-  const date = new Date(Date.UTC(y, m - 1, d));
-  date.setUTCDate(date.getUTCDate() + days);
-  return date.toISOString().slice(0, 10);
-}
-
-function mapSquareStatusToDb(status?: string | null) {
-  switch (status) {
-    case "ACTIVE":
-      return "active";
-    case "CANCELING":
-      return "canceling";
-    case "CANCELED":
-      return "canceled";
-    case "PAST_DUE":
-      return "past_due";
-    default:
-      return null;
-  }
-}
 
 export async function POST() {
   const supabase = await createClient();
@@ -44,31 +24,29 @@ export async function POST() {
     return NextResponse.json({ error: "Failed to load profile" }, { status: 500 });
   }
 
+  // 保護カラム(subscription_*)はservice role経由でのみ更新する
+  const admin = createAdminClient();
+
   let subscriptionId = profile?.subscription_id ?? null;
   if (!subscriptionId) {
     // DBにsubscription_idが無いケースを救済（Square側から再発見）
     const customerId = profile?.square_customer_id ?? null;
     if (customerId) {
       try {
-        const filter: { customer_ids: string[]; location_ids?: string[] } = { customer_ids: [customerId] };
-        if (process.env.SQUARE_LOCATION_ID) filter.location_ids = [process.env.SQUARE_LOCATION_ID];
+        const filter: { customerIds: string[]; locationIds?: string[] } = {
+          customerIds: [customerId],
+        };
+        if (process.env.SQUARE_LOCATION_ID) filter.locationIds = [process.env.SQUARE_LOCATION_ID];
 
-        const { result } = await squareClient.subscriptions.search({
+        const { subscriptions } = await squareClient.subscriptions.search({
           query: { filter },
-          sort: { field: "CREATED_AT", order: "DESC" },
         });
 
-        const subs = (result as { subscriptions?: unknown[] }).subscriptions ?? [];
-        const candidate = subs.find((s) => {
-          const sub = s as { status?: unknown };
-          const status = typeof sub.status === "string" ? sub.status : null;
-          return status === "ACTIVE" || status === "CANCELING" || status === "PAST_DUE";
-        });
+        const candidate = (subscriptions ?? []).find((sub) => isActiveLikeStatus(sub.status));
 
-        const id = (candidate as { id?: unknown } | undefined)?.id;
-        subscriptionId = typeof id === "string" ? id : null;
+        subscriptionId = candidate?.id ?? null;
         if (subscriptionId) {
-          await supabase
+          await admin
             .from("profiles")
             .update({ subscription_id: subscriptionId })
             .eq("id", user.id);
@@ -84,22 +62,21 @@ export async function POST() {
   }
 
   try {
-    // 解約取り消し（キャンセル予約の解除）は Update subscription で canceled_date を null にする
-    const { result: retrieveResult } = await squareClient.subscriptions.retrieve(subscriptionId);
-    const current = retrieveResult.subscription;
+    // 解約取り消し（キャンセル予約の解除）は Update subscription で canceledDate を null にする
+    const { subscription: current } = await squareClient.subscriptions.get({ subscriptionId });
     const currentVersion = current?.version;
 
     if (!currentVersion) {
       return NextResponse.json({ error: "Failed to load subscription version" }, { status: 500 });
     }
 
-    // canceled_date が無ければ既に有効扱い
-    const canceledDate = (current?.canceled_date as string | undefined) ?? null;
+    // canceledDate が無ければ既に有効扱い
+    const canceledDate = current?.canceledDate ?? null;
     if (!canceledDate) {
-      const chargedThroughDate = (current?.charged_through_date as string | undefined) ?? null;
-      const nextRenewalDate = chargedThroughDate ? addDays(chargedThroughDate, 1) : null;
+      const chargedThroughDate = current?.chargedThroughDate ?? null;
+      const nextRenewalDate = nextRenewalDateFrom(chargedThroughDate);
 
-      await supabase
+      await admin
         .from("profiles")
         .update({ subscription_status: "active" })
         .eq("id", user.id);
@@ -112,20 +89,20 @@ export async function POST() {
       });
     }
 
-    const { result } = await squareClient.subscriptions.update(subscriptionId, {
+    const { subscription } = await squareClient.subscriptions.update({
+      subscriptionId,
       subscription: {
         version: currentVersion,
-        canceled_date: null,
+        canceledDate: null,
       },
     });
 
-    const statusFromSquare = result.subscription?.status as string | undefined;
-    const chargedThroughDate = (result.subscription?.charged_through_date as string | undefined) ?? null;
-    const nextRenewalDate = chargedThroughDate ? addDays(chargedThroughDate, 1) : null;
+    const chargedThroughDate = subscription?.chargedThroughDate ?? null;
+    const nextRenewalDate = nextRenewalDateFrom(chargedThroughDate);
 
-    const mapped = mapSquareStatusToDb(statusFromSquare) ?? "active";
+    const mapped = mapSquareStatusToDb(subscription?.status) ?? "active";
 
-    const { error: updateError } = await supabase
+    const { error: updateError } = await admin
       .from("profiles")
       .update({ subscription_status: mapped })
       .eq("id", user.id);
