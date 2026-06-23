@@ -17,6 +17,14 @@ function redirectWithError(message: string) {
   redirect(`/member/subscription-campaign?error=${encodeURIComponent(message)}`);
 }
 
+function isMissingCampaignTableError(error?: { message?: string; code?: string } | null) {
+  return (
+    error?.code === "PGRST205" ||
+    error?.message?.includes("schema cache") ||
+    error?.message?.includes("Could not find the table")
+  );
+}
+
 export async function createSubscriptionCampaignEntry(formData: FormData) {
   const supabase = await createClient();
   const {
@@ -47,12 +55,20 @@ export async function createSubscriptionCampaignEntry(formData: FormData) {
     redirectWithError("サブスク登録中のユーザーのみ応募できます。");
   }
 
-  const { data: existing } = await admin
+  const { data: existing, error: existingError } = await admin
     .from("subscription_campaign_entries")
     .select("id")
     .eq("campaign_key", SUBSCRIPTION_CAMPAIGN.key)
     .eq("user_id", user.id)
     .maybeSingle();
+
+  if (isMissingCampaignTableError(existingError)) {
+    redirectWithError("キャンペーン応募の準備中です。時間をおいて再度お試しください。");
+  }
+
+  if (existingError) {
+    redirectWithError("応募状況の確認に失敗しました。時間をおいて再度お試しください。");
+  }
 
   if (existing) {
     redirect("/member/subscription-campaign");
@@ -79,5 +95,9 @@ export async function createSubscriptionCampaignEntry(formData: FormData) {
     if (error.code !== "23505") break;
   }
 
-  redirectWithError(lastError?.message ?? "応募に失敗しました。時間をおいて再度お試しください。");
+  if (isMissingCampaignTableError(lastError)) {
+    redirectWithError("キャンペーン応募の準備中です。時間をおいて再度お試しください。");
+  }
+
+  redirectWithError("応募に失敗しました。時間をおいて再度お試しください。");
 }

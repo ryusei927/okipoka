@@ -5,7 +5,21 @@ export const SUBSCRIPTION_CAMPAIGN = {
   endAt: "2026-07-08T23:59:59+09:00",
   instagramAccount: "okipoka",
   storyHoldHours: 12,
-  prizes: ["ポケカBOX", "Amazonギフト券 10,000円分"],
+  prizes: [
+    {
+      rank: "A賞",
+      name: "ポケカ最新弾「アビスアイ」",
+      unit: "1 BOX",
+      tag: "最新弾",
+      winners: 1,
+    },
+    {
+      rank: "B賞",
+      name: "Amazonギフト券",
+      unit: "10,000円分",
+      winners: 1,
+    },
+  ],
 } as const;
 
 // TODO(Instagramサブスクキャンペーン終了後): この一時機能の導線・画面・DBテーブルを削除する。
@@ -30,9 +44,11 @@ export function normalizeInstagramUsername(value: FormDataEntryValue | string | 
 
   return value
     .trim()
+    .replace(/\s+/g, "")
     .replace(/^https?:\/\/(www\.)?instagram\.com\//i, "")
-    .replace(/^@/, "")
-    .replace(/\/$/, "")
+    .split("?")[0]
+    .split("/")[0]
+    .replace(/^[@＠]+/, "")
     .trim();
 }
 
