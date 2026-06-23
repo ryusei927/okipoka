@@ -64,8 +64,9 @@ export async function POST(request: Request) {
     .maybeSingle();
 
   if (isMissingCampaignSchemaError(existingError)) {
+    console.error("Subscription campaign schema is not ready:", existingError);
     return NextResponse.json(
-      { error: "キャンペーン応募の準備中です。DBマイグレーションを確認してください。" },
+      { error: "現在、応募受付の準備中です。時間をおいて再度お試しください。" },
       { status: 503 }
     );
   }
@@ -100,8 +101,9 @@ export async function POST(request: Request) {
   }
 
   if (isMissingCampaignSchemaError(lastError)) {
+    console.error("Subscription campaign schema is not ready:", lastError);
     return NextResponse.json(
-      { error: "キャンペーン応募の準備中です。同意項目のDBマイグレーションを確認してください。" },
+      { error: "現在、応募受付の準備中です。時間をおいて再度お試しください。" },
       { status: 503 }
     );
   }

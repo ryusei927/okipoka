@@ -12,6 +12,7 @@ const NAV_ITEMS = [
   { href: "/photos", label: "プレイヤーズフォト" },
   { href: "/about", label: "OKIPOKAとは" },
   { href: "/premium", label: "プレミアム" },
+  { href: "/subscription-campaign", label: "キャンペーン" },
   { href: "/advertise", label: "広告掲載" },
 ];
 

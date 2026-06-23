@@ -11,11 +11,13 @@ export const SUBSCRIPTION_CAMPAIGN = {
       unit: "1 BOX",
       tag: "最新弾",
       winners: 1,
+      image: "/campaign-prize-abyss-eye.png",
     },
     {
       name: "Amazonギフト券",
       unit: "10,000円分",
       winners: 1,
+      image: "/campaign-prize-amazon-gift.png",
     },
   ],
 } as const;

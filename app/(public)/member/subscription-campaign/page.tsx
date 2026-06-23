@@ -11,8 +11,6 @@ import {
   Camera,
   ChevronRight,
   Clock,
-  Gift,
-  Package,
   Sparkles,
   Ticket,
 } from "lucide-react";
@@ -97,15 +95,17 @@ export default async function SubscriptionCampaignPage({
                   >
                     <div className="flex items-center gap-4">
                       <div
-                        className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-lg ${
-                          isHero ? "bg-orange-500 text-white" : "bg-orange-50 text-orange-600"
+                        className={`relative h-16 w-16 shrink-0 overflow-hidden rounded-xl ${
+                          isHero ? "ring-2 ring-orange-500/50" : "ring-1 ring-gray-200"
                         }`}
                       >
-                        {isHero ? (
-                          <Package className="h-7 w-7" />
-                        ) : (
-                          <Gift className="h-7 w-7" />
-                        )}
+                        <Image
+                          src={prize.image}
+                          alt={prize.name}
+                          fill
+                          sizes="64px"
+                          className="object-cover"
+                        />
                       </div>
 
                       <div className="min-w-0 flex-1">
@@ -172,47 +172,61 @@ export default async function SubscriptionCampaignPage({
             </section>
           ) : entry ? (
             <section className="space-y-5 rounded-2xl bg-white p-6 ring-1 ring-gray-200/80">
-              <div className="text-center">
-                <p className="text-xs font-black tracking-[0.16em] text-orange-500">
-                  SCREENSHOT AREA
-                </p>
-                <h2 className="mt-1 text-lg font-black text-gray-950">
-                  この画面をスクショして投稿
-                </h2>
-                <p className="mt-1 text-xs leading-relaxed text-gray-400">
-                  個人情報は表示されません。この枠が見えるようにスクショしてください。
-                </p>
-              </div>
-
-              <div className="relative overflow-hidden rounded-2xl bg-neutral-950 px-5 py-6 text-center text-white ring-4 ring-orange-100">
+              <div
+                className="relative overflow-hidden rounded-[28px] bg-neutral-950 bg-cover bg-center p-5 text-white shadow-[0_18px_50px_rgba(0,0,0,0.22)] ring-4 ring-orange-100"
+                style={{ backgroundImage: "url('/campaign-share-bg.png')" }}
+              >
                 <div
                   aria-hidden
-                  className="pointer-events-none absolute inset-0 opacity-[0.15]"
-                  style={{
-                    backgroundImage:
-                      "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.6) 1px, transparent 0)",
-                    backgroundSize: "20px 20px",
-                  }}
+                  className="pointer-events-none absolute inset-0 bg-black/35"
                 />
-                <p className="relative text-[11px] font-bold tracking-[0.22em] text-orange-400">
-                  ENTRY COMPLETE
-                </p>
-                <p className="relative mt-1 text-sm font-black text-white">
-                  OKIPOKAサブスクキャンペーン応募完了
-                </p>
-                <div className="relative mt-3 flex items-center justify-center gap-2">
-                  <Ticket className="h-5 w-5 text-orange-400" />
-                  <span className="font-mono text-[26px] font-black tracking-tight">
-                    {entry.draw_number}
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 bg-linear-to-b from-black/20 via-transparent to-black/35"
+                />
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute -right-16 -top-16 h-44 w-44 rounded-full bg-orange-500/25 blur-3xl"
+                />
+
+                <div className="relative flex justify-end">
+                  <span className="rounded-full bg-white/10 px-3 py-1 text-[10px] font-black tracking-[0.14em] text-white/80 ring-1 ring-white/15">
+                    ENTRY
                   </span>
                 </div>
-                <p className="relative mt-2 text-sm font-bold text-white/80">
-                  @{entry.instagram_username}
-                </p>
-                <div className="relative mt-5 rounded-xl bg-white/10 px-4 py-3 text-xs font-bold leading-relaxed text-white/85 ring-1 ring-white/10">
-                  Instagramストーリーで @{SUBSCRIPTION_CAMPAIGN.instagramAccount} をメンション
+
+                <div className="relative mt-8">
+                  <h3 className="text-[26px] font-black leading-[1.15] tracking-tight">
+                    OKIPOKA
+                    <br />
+                    サブスクキャンペーン
+                    <br />
+                    <span className="text-orange-400">参加中</span>
+                  </h3>
+                  <p className="mt-3 text-sm font-bold leading-relaxed text-white/72">
+                    抽選でアビスアイBOX or
+                    <br />
+                    Amazonギフト券10,000円分が当たる！
+                  </p>
+                </div>
+
+                <div className="relative mt-6 grid grid-cols-2 gap-2 text-left">
+                  <div className="rounded-2xl bg-white px-3 py-3 text-neutral-950">
+                    <div className="text-[10px] font-black text-orange-600">抽選番号</div>
+                    <div className="mt-1 break-all font-mono text-sm font-black tracking-tight">
+                      {entry.draw_number}
+                    </div>
+                  </div>
+                  <div className="rounded-2xl bg-white/10 px-3 py-3 ring-1 ring-white/10">
+                    <div className="text-[10px] font-black text-orange-300">参加アカウント</div>
+                    <div className="mt-1 break-all text-sm font-black">@{entry.instagram_username}</div>
+                  </div>
+                </div>
+
+                <div className="relative mt-4 rounded-2xl bg-orange-500 px-4 py-3 text-center text-xs font-black leading-relaxed text-white">
+                  @{SUBSCRIPTION_CAMPAIGN.instagramAccount} をメンションして応募完了
                   <br />
-                  投稿は {SUBSCRIPTION_CAMPAIGN.storyHoldHours} 時間以上公開してください
+                  締切 {endLabel}
                 </div>
               </div>
 
