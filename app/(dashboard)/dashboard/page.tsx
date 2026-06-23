@@ -1,4 +1,4 @@
-import { Calendar, Store, Users, PlusCircle, Megaphone, Dice5, Camera, ChevronRight, CreditCard } from "lucide-react";
+import { Calendar, Store, Users, PlusCircle, Megaphone, Dice5, Camera, ChevronRight, CreditCard, Ticket } from "lucide-react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 
@@ -33,6 +33,7 @@ export default async function DashboardPage() {
     { href: "/dashboard/shops", label: "店舗管理", desc: "店舗の一覧・追加・編集", icon: Store, color: "text-emerald-600", bg: "bg-emerald-50" },
     { href: "/dashboard/ads", label: "広告管理", desc: "バナー・スクエア広告の管理", icon: Megaphone, color: "text-pink-600", bg: "bg-pink-50" },
     { href: "/dashboard/members", label: "会員管理", desc: "VIP会員の確認・管理", icon: Users, color: "text-purple-600", bg: "bg-purple-50" },
+    { href: "/dashboard/subscription-campaign", label: "応募管理", desc: "サブスクキャンペーンの抽選対象者を確認", icon: Ticket, color: "text-orange-600", bg: "bg-orange-50" },
     { href: "/dashboard/gacha", label: "ガチャ景品管理", desc: "クーポン/当選確率の編集", icon: Dice5, color: "text-red-600", bg: "bg-red-50" },
     { href: "/dashboard/photos", label: "プレイヤーズフォト", desc: "イベント写真のアルバム管理", icon: Camera, color: "text-cyan-600", bg: "bg-cyan-50" },
   ];

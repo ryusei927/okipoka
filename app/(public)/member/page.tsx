@@ -2,6 +2,10 @@ import { DailyGachaButton } from "@/components/member/DailyGachaButton";
 import { LogoutButton } from "@/components/member/LogoutButton";
 import { PaymentMethodRow } from "@/components/member/PaymentMethodRow";
 import { createClient } from "@/lib/supabase/server";
+import {
+  SUBSCRIPTION_CAMPAIGN,
+  isSubscriptionCampaignActive,
+} from "@/lib/subscription-campaign";
 import { redirect } from "next/navigation";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
@@ -58,6 +62,17 @@ export default async function MemberPage() {
   const subscriptionStatus = isCashExpired
     ? { label: "期限切れ", className: "bg-gray-100 text-gray-600 ring-gray-200" }
     : formatSubscriptionStatus(profile?.subscription_status);
+  const campaignActive = isSubscriptionCampaignActive();
+
+  const { data: campaignEntry } =
+    isSubscriber
+      ? await supabase
+          .from("subscription_campaign_entries")
+          .select("draw_number,status")
+          .eq("campaign_key", SUBSCRIPTION_CAMPAIGN.key)
+          .eq("user_id", user.id)
+          .maybeSingle()
+      : { data: null };
 
   return (
     <div className="min-h-screen bg-[#f6f6f7] pb-10">
@@ -136,6 +151,17 @@ export default async function MemberPage() {
                 ) : (
                   <>
                     <DailyGachaButton lastGachaAt={profile?.last_gacha_at} isAdmin={isAdmin} />
+                    {(campaignActive || campaignEntry) && (
+                      <MenuLink
+                        href="/member/subscription-campaign"
+                        label="キャンペーン応募"
+                        sub={
+                          campaignEntry
+                            ? `抽選番号: ${campaignEntry.draw_number}`
+                            : "Instagram投稿で抽選に参加"
+                        }
+                      />
+                    )}
                     <MenuLink href="/member/subscription" label="プレミアム管理" sub="登録状況の確認・解約" />
                   </>
                 )}

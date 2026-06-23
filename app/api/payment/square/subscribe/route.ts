@@ -153,7 +153,9 @@ export async function POST(request: Request) {
       // 一時的なネットワーク等で落ちても決済処理は継続する
     }
 
-    const today = new Date().toISOString().slice(0, 10);
+    // Square はロケーションのタイムゾーン（JST）で startDate を解釈するため、
+    // UTC基準で日付を作ると JST 0〜9時に「開始日が過去」エラーになる。必ず JST で算出する。
+    const today = new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Tokyo" });
 
     const { subscription } = await squareClient.subscriptions.create({
       // 同一ユーザーが連打しても同じサブスクが返るようにする（同日に複数作成しない）

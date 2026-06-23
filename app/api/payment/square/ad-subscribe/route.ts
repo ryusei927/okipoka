@@ -116,7 +116,8 @@ export async function POST(request: Request) {
         );
       }
 
-      const today = new Date().toISOString().slice(0, 10);
+      // Square はロケーションのTZ（JST）で startDate を解釈するため、JSTで算出する
+      const today = new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Tokyo" });
       const created = await squareClient.subscriptions.create({
         idempotencyKey: `ad:${customerId}:${planVariationId}:${today}`,
         locationId: process.env.SQUARE_LOCATION_ID,

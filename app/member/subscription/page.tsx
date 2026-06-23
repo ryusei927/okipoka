@@ -387,10 +387,10 @@ export default function SubscriptionPage() {
                     : "Square による安全な決済。カード情報は当サイトに保存されません。"}
                 </div>
 
-                {/* クレジットカードフォーム（Square がここに描画） */}
+                {/* クレジットカードフォーム（Square がここに描画。Square 自身が枠を持つため二重囲みにしない） */}
                 <div
                   id="card-container"
-                  className="min-h-25 rounded-sm bg-white p-3 ring-1 ring-gray-200 focus-within:ring-gray-400 transition-shadow"
+                  className={!card ? "min-h-[52px] rounded-sm bg-gray-50 ring-1 ring-gray-100 animate-pulse" : ""}
                 ></div>
 
                 <button
