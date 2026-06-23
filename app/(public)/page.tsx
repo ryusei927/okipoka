@@ -3,7 +3,6 @@ import { createClient } from "@/lib/supabase/server";
 import { TournamentFilterList } from "@/components/tournament/TournamentFilterList";
 import { AdBanner, Ad } from "@/components/ads/AdBanner";
 import { AdSquareGrid } from "@/components/ads/AdSquareGrid";
-import { AdCardInfeed } from "@/components/ads/AdCardInfeed";
 import { AdClickWrapper } from "@/components/ads/AdClickWrapper";
 import { HeroSliderWrapper } from "@/components/HeroSliderWrapper";
 import { Store, ChevronRight, CalendarDays } from "lucide-react";
@@ -127,7 +126,6 @@ export default async function HomePage({
   // 3. タイプ別に分類
   const bannerAds = activeAds.filter(ad => ad.type === 'banner');
   const squareAds = activeAds.filter(ad => ad.type === 'square');
-  const storyAds = activeAds.filter(ad => ad.type === 'story');
   const cardAds = activeAds.filter(ad => ad.type === 'card');
   const allShuffled = weightedShuffle(activeAds);
 

@@ -23,9 +23,6 @@ type SlideItem = {
 };
 
 export function HeroSlider({ featuredItems }: { featuredItems: FeaturedItem[] }) {
-  // スライドがなければ何も表示しない
-  if (!featuredItems || featuredItems.length === 0) return null;
-
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [selectedSlide, setSelectedSlide] = useState<SlideItem | null>(null);
@@ -86,6 +83,9 @@ export function HeroSlider({ featuredItems }: { featuredItems: FeaturedItem[] })
 
     return () => clearInterval(timer);
   }, [isPaused, nextSlide, slides.length]);
+
+  // スライドがなければ何も表示しない（hook はすべて上で呼び終えてから判定する）
+  if (slides.length === 0) return null;
 
   return (
     <div 

@@ -1,5 +1,6 @@
 import { DailyGachaButton } from "@/components/member/DailyGachaButton";
 import { LogoutButton } from "@/components/member/LogoutButton";
+import { PaymentMethodRow } from "@/components/member/PaymentMethodRow";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { ChevronRight } from "lucide-react";
@@ -112,6 +113,9 @@ export default async function MemberPage() {
                   {subscriptionStatus.label}
                 </span>
               </div>
+              {isPremiumMember && profile?.payment_method !== "cash" && (
+                <PaymentMethodRow />
+              )}
               <div className="flex items-center justify-between gap-4">
                 <span className="text-sm text-gray-500">メール</span>
                 <span className="text-sm font-medium text-gray-800 truncate text-right">{user.email}</span>

@@ -17,6 +17,65 @@ export const squareClient = new SquareClient({
 
 const PREMIUM_PLAN_NAME = "OKIPOKA プレミアム会員";
 
+export type CardOnFile = {
+  brand: string;
+  last4: string;
+  expMonth: number | null;
+  expYear: number | null;
+};
+
+/**
+ * 会員が登録しているカード（ブランド・下4桁・有効期限）を取得する。
+ * - まずサブスクに紐づくカードIDを使い、無ければ顧客のカード一覧から取得
+ * - Square 側で取得に失敗しても表示を壊さないよう、失敗時は null を返す
+ */
+export async function getCardOnFile(params: {
+  subscriptionId?: string | null;
+  customerId?: string | null;
+}): Promise<CardOnFile | null> {
+  try {
+    let cardId: string | undefined;
+
+    if (params.subscriptionId) {
+      try {
+        const { subscription } = await squareClient.subscriptions.get({
+          subscriptionId: params.subscriptionId,
+        });
+        cardId = subscription?.cardId ?? undefined;
+      } catch {
+        // サブスク取得に失敗しても顧客のカード一覧で再挑戦する
+      }
+    }
+
+    let card: Square.Card | undefined;
+
+    if (cardId) {
+      const res = await squareClient.cards.get({ cardId });
+      card = res.card;
+    } else if (params.customerId) {
+      // フォールバック: 顧客に紐づく有効なカードから1枚取得
+      const res = await squareClient.cards.list({ customerId: params.customerId });
+      for await (const c of res) {
+        if (c.enabled !== false) {
+          card = c;
+          break;
+        }
+      }
+    }
+
+    if (!card || !card.last4) return null;
+
+    return {
+      brand: card.cardBrand ?? "OTHER_BRAND",
+      last4: card.last4,
+      expMonth: card.expMonth != null ? Number(card.expMonth) : null,
+      expYear: card.expYear != null ? Number(card.expYear) : null,
+    };
+  } catch {
+    return null;
+  }
+}
+
 export async function getOrCreateSubscriptionPlan(): Promise<string | undefined> {
   // 環境変数にあればそれを使う
   const envPlanId = process.env.SQUARE_SUBSCRIPTION_PLAN_ID;
