@@ -1,0 +1,29 @@
+<svg width="1200" height="560" viewBox="0 0 1200 560" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="560" fill="#171717"/>
+  <rect x="46" y="46" width="1108" height="468" fill="#F7F2E8"/>
+  <rect x="46" y="46" width="1108" height="468" stroke="#2A2A2A" stroke-width="4"/>
+  <path d="M86 86H1114V132H86V86Z" fill="#242424"/>
+  <text x="110" y="116" fill="#F7F2E8" font-family="Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="3">OKIPOKA PREMIUM MEMBER PASS</text>
+  <rect x="110" y="180" width="378" height="218" rx="14" fill="#FF6B00"/>
+  <rect x="134" y="204" width="330" height="170" rx="10" fill="#111111"/>
+  <text x="165" y="258" fill="#F7F2E8" font-family="Arial, sans-serif" font-size="28" font-weight="900">OKIPOKA</text>
+  <text x="165" y="294" fill="#FF6B00" font-family="Arial, sans-serif" font-size="34" font-weight="900">PREMIUM</text>
+  <text x="165" y="340" fill="#F7F2E8" font-family="Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="2">DAILY GACHA / SHOP BENEFITS</text>
+  <circle cx="404" cy="252" r="34" fill="#F7F2E8"/>
+  <path d="M388 252C388 243.2 395.2 236 404 236C412.8 236 420 243.2 420 252C420 260.8 412.8 268 404 268C395.2 268 388 260.8 388 252Z" fill="#FF6B00"/>
+  <path d="M628 176H1058" stroke="#242424" stroke-width="3"/>
+  <text x="628" y="232" fill="#171717" font-family="Arial, sans-serif" font-size="54" font-weight="900">LOCAL POKER</text>
+  <text x="628" y="296" fill="#171717" font-family="Arial, sans-serif" font-size="54" font-weight="900">MEMBER PASS</text>
+  <text x="630" y="352" fill="#5A5147" font-family="Arial, sans-serif" font-size="25" font-weight="700">DAILY GACHA / SHOP TICKETS / OKINAWA</text>
+  <g transform="translate(630 392)">
+    <rect width="168" height="58" rx="6" fill="#171717"/>
+    <text x="20" y="37" fill="#F7F2E8" font-family="Arial, sans-serif" font-size="22" font-weight="900">YEN 2,200</text>
+  </g>
+  <g transform="translate(820 392)">
+    <rect width="164" height="58" rx="6" fill="#FFFFFF" stroke="#171717" stroke-width="2"/>
+    <text x="22" y="37" fill="#171717" font-family="Arial, sans-serif" font-size="21" font-weight="900">CANCEL OK</text>
+  </g>
+  <circle cx="1048" cy="428" r="38" fill="#FF6B00"/>
+  <text x="1025" y="438" fill="#171717" font-family="Arial, sans-serif" font-size="24" font-weight="900">DAILY</text>
+  <path d="M84 476H1116" stroke="#D8CBB7" stroke-width="2" stroke-dasharray="10 10"/>
+</svg>

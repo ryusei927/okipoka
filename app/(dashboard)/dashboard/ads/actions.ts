@@ -19,6 +19,7 @@ export async function upsertAd(prevState: AdState, formData: FormData): Promise<
   const priority = formData.get("priority") as string;
   const isActive = formData.get("isActive") === "on";
   const imageFile = formData.get("image") as File;
+  const adSubscriptionId = (formData.get("adSubscriptionId") as string) || "";
 
   let imageUrl = formData.get("currentImageUrl") as string;
 
@@ -61,7 +62,10 @@ export async function upsertAd(prevState: AdState, formData: FormData): Promise<
     if (!imageUrl) {
         return { error: "画像は必須です" };
     }
-    const result = await supabase.from("ads").insert(data);
+    const insertData = adSubscriptionId
+      ? { ...data, ad_subscription_id: adSubscriptionId }
+      : data;
+    const result = await supabase.from("ads").insert(insertData);
     error = result.error;
   }
 
@@ -71,8 +75,9 @@ export async function upsertAd(prevState: AdState, formData: FormData): Promise<
   }
 
   revalidatePath("/dashboard/ads");
+  revalidatePath("/dashboard/ad-subscriptions");
   revalidatePath("/");
-  redirect("/dashboard/ads");
+  redirect(adSubscriptionId ? "/dashboard/ad-subscriptions" : "/dashboard/ads");
 }
 
 export async function deleteAd(id: string) {

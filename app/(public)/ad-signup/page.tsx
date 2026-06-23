@@ -10,6 +10,8 @@ declare global {
   }
 }
 
+type AdType = "banner" | "square";
+
 export default function AdSignupPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -20,6 +22,9 @@ export default function AdSignupPage() {
   const [contactName, setContactName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [adType, setAdType] = useState<AdType>("banner");
+  const [linkUrl, setLinkUrl] = useState("");
+  const [note, setNote] = useState("");
 
   const initialized = useRef(false);
 
@@ -95,6 +100,9 @@ export default function AdSignupPage() {
           contactName: contactName.trim() || null,
           email: email.trim(),
           phone: phone.trim() || null,
+          adType,
+          linkUrl: linkUrl.trim() || null,
+          note: note.trim() || null,
         }),
       });
       const data = await res.json();
@@ -138,7 +146,7 @@ export default function AdSignupPage() {
               <p className="mt-2.5 text-sm leading-relaxed text-gray-500">
                 ご登録ありがとうございます。
                 <br />
-                掲載内容について担当者よりご連絡いたします。
+                広告画像について、担当者よりご連絡いたします。
               </p>
               <div className="mt-7">
                 <Link
@@ -195,7 +203,6 @@ export default function AdSignupPage() {
                       type="text"
                       value={businessName}
                       onChange={(e) => setBusinessName(e.target.value)}
-                      placeholder="例）おきぽか商店"
                       className={inputClass}
                     />
                   </div>
@@ -208,7 +215,6 @@ export default function AdSignupPage() {
                       type="text"
                       value={contactName}
                       onChange={(e) => setContactName(e.target.value)}
-                      placeholder="例）沖縄 太郎"
                       className={inputClass}
                     />
                   </div>
@@ -221,7 +227,6 @@ export default function AdSignupPage() {
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      placeholder="例）info@example.com"
                       className={inputClass}
                     />
                   </div>
@@ -234,9 +239,75 @@ export default function AdSignupPage() {
                       type="tel"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      placeholder="例）090-1234-5678"
                       className={inputClass}
                     />
+                  </div>
+
+                  {/* 広告タイプ（希望） */}
+                  <div>
+                    <label className="mb-1.5 block text-xs font-medium text-gray-500">
+                      広告タイプ（ご希望）
+                    </label>
+                    <div className="grid grid-cols-2 gap-2">
+                      {(
+                        [
+                          { value: "banner", label: "バナー", note: "横長 1200×300" },
+                          { value: "square", label: "スクエア", note: "正方形 600×600" },
+                        ] as const
+                      ).map((opt) => (
+                        <button
+                          key={opt.value}
+                          type="button"
+                          onClick={() => setAdType(opt.value)}
+                          className={`rounded-sm px-3 py-2.5 text-left ring-1 transition-colors ${
+                            adType === opt.value
+                              ? "bg-orange-50 ring-orange-300"
+                              : "bg-white ring-gray-200 hover:bg-gray-50"
+                          }`}
+                        >
+                          <span className="block text-sm font-bold text-gray-900">
+                            {opt.label}
+                          </span>
+                          <span className="block text-[11px] text-gray-400">{opt.note}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* リンクURL */}
+                  <div>
+                    <label className="mb-1 block text-xs font-medium text-gray-500">
+                      リンク先URL
+                    </label>
+                    <input
+                      type="url"
+                      value={linkUrl}
+                      onChange={(e) => setLinkUrl(e.target.value)}
+                      placeholder="https://..."
+                      className={inputClass}
+                    />
+                    <p className="mt-1 text-[11px] text-gray-400">
+                      広告をクリックしたときに開くページ（任意）
+                    </p>
+                  </div>
+
+                  {/* 要望メモ */}
+                  <div>
+                    <label className="mb-1 block text-xs font-medium text-gray-500">
+                      ご要望・備考
+                    </label>
+                    <textarea
+                      value={note}
+                      onChange={(e) => setNote(e.target.value)}
+                      rows={3}
+                      placeholder="掲載のご希望など"
+                      className={`${inputClass} resize-none`}
+                    />
+                  </div>
+
+                  {/* 広告画像の案内 */}
+                  <div className="rounded-sm bg-gray-50 px-3 py-2.5 text-xs leading-relaxed text-gray-600 ring-1 ring-gray-100">
+                    広告画像は、お申し込み後に担当者からご連絡し、ご用意・調整のうえ掲載いたします。
                   </div>
 
                   <div

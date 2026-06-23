@@ -1,0 +1,8 @@
+<svg width="160" height="120" viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="20" y="18" width="120" height="84" rx="8" fill="#F8F1E5" stroke="#222222" stroke-width="3"/>
+  <rect x="34" y="32" width="92" height="22" rx="3" fill="#FF6B00"/>
+  <circle cx="80" cy="76" r="18" fill="#222222"/>
+  <circle cx="80" cy="76" r="9" fill="#FF6B00"/>
+  <path d="M46 64H64M96 64H114" stroke="#222222" stroke-width="4" stroke-linecap="round"/>
+  <text x="52" y="50" fill="#171717" font-family="Arial, sans-serif" font-size="14" font-weight="900">DAILY</text>
+</svg>

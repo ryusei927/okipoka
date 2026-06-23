@@ -1,0 +1,12 @@
+<svg width="420" height="220" viewBox="0 0 420 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="14" y="22" width="392" height="176" rx="14" fill="#FFF9EF" stroke="#222222" stroke-width="4"/>
+  <path d="M124 24V196" stroke="#222222" stroke-width="3" stroke-dasharray="9 9"/>
+  <circle cx="14" cy="110" r="17" fill="#FFFFFF"/>
+  <circle cx="406" cy="110" r="17" fill="#FFFFFF"/>
+  <rect x="34" y="48" width="68" height="124" rx="8" fill="#FF6B00"/>
+  <text x="52" y="88" fill="#171717" font-family="Arial, sans-serif" font-size="17" font-weight="900" transform="rotate(90 52 88)">PASS</text>
+  <text x="154" y="78" fill="#686058" font-family="Arial, sans-serif" font-size="16" font-weight="900" letter-spacing="2">MONTHLY PASS</text>
+  <text x="150" y="137" fill="#171717" font-family="Arial, sans-serif" font-size="54" font-weight="900">2,200</text>
+  <text x="322" y="139" fill="#171717" font-family="Arial, sans-serif" font-size="22" font-weight="900">YEN</text>
+  <text x="154" y="170" fill="#686058" font-family="Arial, sans-serif" font-size="16" font-weight="700">TAX INCLUDED / CANCEL OK</text>
+</svg>

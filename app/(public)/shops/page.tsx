@@ -67,7 +67,8 @@ export default async function ShopsPage() {
   }
 
   return (
-    <div className="pb-24 pt-6 px-4 bg-white min-h-screen">
+    <div className="bg-[#eef1f4] min-h-screen">
+      <div className="max-w-6xl mx-auto min-h-screen bg-white border-x border-[#d5dbe1] shadow-[8px_0_18px_-18px_rgba(0,0,0,0.45),-8px_0_18px_-18px_rgba(0,0,0,0.45)] pb-24 pt-6 px-4">
       {/* モバイル: バナー広告 */}
       <div className="md:hidden mb-4">
         {bannerAds && bannerAds[0] && <AdBanner ad={bannerAds[0]} />}
@@ -181,6 +182,7 @@ export default async function ShopsPage() {
             );
           })}
         </div>
+      </div>
       </div>
     </div>
   );

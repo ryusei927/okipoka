@@ -76,6 +76,7 @@ export async function POST(request: Request) {
 
   const admin = createAdminClient();
 
+  // --- 会員（profiles）の更新 ---
   const { data: profile, error: profileError } = await admin
     .from("profiles")
     .select("id, subscription_id, subscription_status")
@@ -86,25 +87,60 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Failed to read profile" }, { status: 500 });
   }
 
-  if (!profile) {
-    // まだprofilesに紐づけてない顧客など
-    return NextResponse.json({ ok: true, handled: true, updated: false });
-  }
-
-  const updates: { subscription_id?: string | null; subscription_status?: string | null } = {};
-  if (subscriptionId && profile.subscription_id !== subscriptionId) {
-    updates.subscription_id = subscriptionId;
-  }
-  if (nextStatus && profile.subscription_status !== nextStatus) {
-    updates.subscription_status = nextStatus;
-  }
-
-  if (Object.keys(updates).length > 0) {
-    const { error: updateError } = await admin.from("profiles").update(updates).eq("id", profile.id);
-    if (updateError) {
-      return NextResponse.json({ error: "Failed to update profile" }, { status: 500 });
+  let profileUpdated = false;
+  if (profile) {
+    const updates: { subscription_id?: string | null; subscription_status?: string | null } = {};
+    if (subscriptionId && profile.subscription_id !== subscriptionId) {
+      updates.subscription_id = subscriptionId;
+    }
+    if (nextStatus && profile.subscription_status !== nextStatus) {
+      updates.subscription_status = nextStatus;
+    }
+    if (Object.keys(updates).length > 0) {
+      const { error: updateError } = await admin
+        .from("profiles")
+        .update(updates)
+        .eq("id", profile.id);
+      if (updateError) {
+        return NextResponse.json({ error: "Failed to update profile" }, { status: 500 });
+      }
+      profileUpdated = true;
     }
   }
 
-  return NextResponse.json({ ok: true, handled: true, updated: Object.keys(updates).length > 0 });
+  // --- 広告主（ad_subscriptions）の更新 ---
+  // 会員と広告主は別の Square 顧客なので、サブスクIDで広告契約も照合する。
+  let adUpdated = false;
+  if (subscriptionId) {
+    const { data: adSub } = await admin
+      .from("ad_subscriptions")
+      .select("id, subscription_status")
+      .eq("square_subscription_id", subscriptionId)
+      .maybeSingle();
+
+    if (adSub) {
+      if (nextStatus && adSub.subscription_status !== nextStatus) {
+        await admin
+          .from("ad_subscriptions")
+          .update({ subscription_status: nextStatus, updated_at: new Date().toISOString() })
+          .eq("id", adSub.id);
+        adUpdated = true;
+      }
+
+      // 未払い・解約確定なら、紐づく広告を自動的に非公開にする
+      if (nextStatus === "past_due" || nextStatus === "canceled") {
+        await admin
+          .from("ads")
+          .update({ is_active: false, updated_at: new Date().toISOString() })
+          .eq("ad_subscription_id", adSub.id);
+        adUpdated = true;
+      }
+    }
+  }
+
+  return NextResponse.json({
+    ok: true,
+    handled: true,
+    updated: profileUpdated || adUpdated,
+  });
 }

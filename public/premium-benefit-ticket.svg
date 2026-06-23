@@ -1,0 +1,8 @@
+<svg width="160" height="120" viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M28 34H132V86H28V70C35.7 70 42 63.7 42 56C42 48.3 35.7 42 28 42V34Z" fill="#FFF9EF" stroke="#222222" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M98 36V84" stroke="#222222" stroke-width="2" stroke-dasharray="6 6"/>
+  <rect x="48" y="48" width="34" height="24" rx="3" fill="#FF6B00"/>
+  <path d="M52 78H86" stroke="#222222" stroke-width="3" stroke-linecap="round"/>
+  <text x="108" y="61" fill="#171717" font-family="Arial, sans-serif" font-size="13" font-weight="900">SHOP</text>
+  <text x="108" y="76" fill="#171717" font-family="Arial, sans-serif" font-size="13" font-weight="900">PASS</text>
+</svg>

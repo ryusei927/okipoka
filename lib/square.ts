@@ -1,5 +1,10 @@
 import { randomUUID } from "crypto";
 import { SquareClient, SquareEnvironment, type Square } from "square";
+import {
+  deriveDbStatusFromSubscription,
+  nextRenewalDateFrom,
+  type DbSubscriptionStatus,
+} from "@/lib/subscription";
 
 const isProduction = process.env.SQUARE_ENVIRONMENT === "production";
 
@@ -72,6 +77,51 @@ export async function getCardOnFile(params: {
       expMonth: card.expMonth != null ? Number(card.expMonth) : null,
       expYear: card.expYear != null ? Number(card.expYear) : null,
     };
+  } catch {
+    return null;
+  }
+}
+
+export type SubscriptionBilling = {
+  status: DbSubscriptionStatus | null;
+  chargedThroughDate: string | null;
+  nextRenewalDate: string | null;
+  card: CardOnFile | null;
+};
+
+/**
+ * Square サブスクから請求情報（ステータス・次回更新日・登録カード）を取得する。
+ * 管理画面で広告サブスクの状況を表示するために使う。取得失敗時は null。
+ */
+export async function getSubscriptionBilling(
+  subscriptionId: string
+): Promise<SubscriptionBilling | null> {
+  try {
+    const { subscription } = await squareClient.subscriptions.get({ subscriptionId });
+    const status = deriveDbStatusFromSubscription(subscription);
+    const chargedThroughDate = subscription?.chargedThroughDate ?? null;
+    const nextRenewalDate = nextRenewalDateFrom(chargedThroughDate);
+
+    let card: CardOnFile | null = null;
+    const cardId = subscription?.cardId ?? null;
+    if (cardId) {
+      try {
+        const res = await squareClient.cards.get({ cardId });
+        const c = res.card;
+        if (c?.last4) {
+          card = {
+            brand: c.cardBrand ?? "OTHER_BRAND",
+            last4: c.last4,
+            expMonth: c.expMonth != null ? Number(c.expMonth) : null,
+            expYear: c.expYear != null ? Number(c.expYear) : null,
+          };
+        }
+      } catch {
+        // カード取得失敗は無視（カード無し表示）
+      }
+    }
+
+    return { status, chargedThroughDate, nextRenewalDate, card };
   } catch {
     return null;
   }

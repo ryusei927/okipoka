@@ -12,7 +12,7 @@ const NAV_ITEMS = [
   { href: "/photos", label: "プレイヤーズフォト" },
   { href: "/about", label: "OKIPOKAとは" },
   { href: "/premium", label: "プレミアム" },
-  { href: "/ads/contact", label: "広告掲載" },
+  { href: "/advertise", label: "広告掲載" },
 ];
 
 export function SiteHeader() {
@@ -112,7 +112,7 @@ export function SiteHeader() {
       {/* 下段: 横並びナビ帯 (PC) */}
       <nav className="hidden md:block bg-[#151515]">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="flex items-center overflow-hidden rounded-t-sm bg-[#2a2a2a] border border-black/40 border-b-0 shadow-[0_-1px_0_rgba(255,255,255,0.05)_inset]">
+          <div className="flex items-center overflow-hidden rounded-t-sm bg-[#2a2a2a] border border-black/40 border-b-0 shadow-[0_-1px_0_rgba(255,255,255,0.05)_inset,0_1px_0_rgba(255,255,255,0.08)]">
           {NAV_ITEMS.map((item) => (
             <Link
               key={item.href}

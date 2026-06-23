@@ -11,6 +11,7 @@ import {
   Dice5,
   Camera,
   ExternalLink,
+  Receipt,
 } from "lucide-react";
 
 const NAV_ITEMS = [
@@ -21,6 +22,7 @@ const NAV_ITEMS = [
   { href: "/dashboard/members", label: "会員管理", icon: Users },
   { href: "/dashboard/gacha", label: "ガチャ景品", icon: Dice5 },
   { href: "/dashboard/photos", label: "フォト", icon: Camera },
+  { href: "/dashboard/ad-subscriptions", label: "広告申込", icon: Receipt },
 ];
 
 export function Sidebar() {

@@ -26,7 +26,15 @@ const initialState: AdState = {
   error: "",
 };
 
-export default function AdForm({ ad }: { ad?: any }) {
+type Prefill = {
+  adSubscriptionId: string;
+  title?: string;
+  type?: string;
+  linkUrl?: string;
+  businessName?: string;
+};
+
+export default function AdForm({ ad, prefill }: { ad?: any; prefill?: Prefill }) {
   const [state, formAction] = useActionState(upsertAd, initialState);
   const [previewUrl, setPreviewUrl] = useState<string | null>(ad?.image_url || null);
 
@@ -42,6 +50,9 @@ export default function AdForm({ ad }: { ad?: any }) {
     <form action={formAction} className="space-y-8 pb-20">
       <input type="hidden" name="id" value={ad?.id || ""} />
       <input type="hidden" name="currentImageUrl" value={ad?.image_url || ""} />
+      {prefill?.adSubscriptionId && (
+        <input type="hidden" name="adSubscriptionId" value={prefill.adSubscriptionId} />
+      )}
 
       {/* ヘッダー */}
       <div className="flex items-center gap-4">
@@ -52,6 +63,12 @@ export default function AdForm({ ad }: { ad?: any }) {
           {ad ? "広告を編集" : "広告を作成"}
         </h1>
       </div>
+
+      {prefill?.businessName && (
+        <div className="bg-orange-50 text-orange-700 p-4 text-sm font-bold border border-orange-200">
+          「{prefill.businessName}」の広告申込に紐づけて作成します
+        </div>
+      )}
 
       {state.error && (
         <div className="bg-red-50 text-red-600 p-4 text-sm font-bold border border-red-200">
@@ -68,7 +85,7 @@ export default function AdForm({ ad }: { ad?: any }) {
           <input
             type="text"
             name="title"
-            defaultValue={ad?.title}
+            defaultValue={ad?.title ?? prefill?.title}
             required
             className="w-full px-4 py-3 border border-gray-200 bg-gray-50 text-gray-900 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all"
             placeholder="例: 夏のキャンペーン"
@@ -82,7 +99,7 @@ export default function AdForm({ ad }: { ad?: any }) {
           </label>
           <select
             name="type"
-            defaultValue={ad?.type || "banner"}
+            defaultValue={ad?.type || prefill?.type || "banner"}
             className="w-full px-4 py-3 border border-gray-200 bg-gray-50 text-gray-900 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all"
           >
             <option value="banner">バナー (横長)</option>
@@ -133,7 +150,7 @@ export default function AdForm({ ad }: { ad?: any }) {
           <input
             type="url"
             name="linkUrl"
-            defaultValue={ad?.link_url}
+            defaultValue={ad?.link_url ?? prefill?.linkUrl}
             className="w-full px-4 py-3 border border-gray-200 bg-gray-50 text-gray-900 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all"
             placeholder="https://..."
           />
