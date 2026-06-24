@@ -9,6 +9,7 @@ import {
   CalendarClock,
   Lock,
   Dices,
+  LogIn,
 } from "lucide-react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -31,12 +32,18 @@ export default function SubscriptionPage() {
   const [nextRenewalDate, setNextRenewalDate] = useState<string | null>(null);
   const [statusLoaded, setStatusLoaded] = useState(false);
   const [justSubscribed, setJustSubscribed] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
   const initialized = useRef(false);
 
   useEffect(() => {
     // 現在のサブスク状態を取得（未ログインなら401）
     fetch("/api/member/subscription/status")
       .then(async (res) => {
+        if (res.status === 401) {
+          setIsLoggedIn(false);
+          return;
+        }
+        setIsLoggedIn(true);
         if (!res.ok) return;
         const data = await res.json();
         setSubscriptionStatus(data.subscription_status ?? null);
@@ -50,6 +57,9 @@ export default function SubscriptionPage() {
 
   useEffect(() => {
     if (!statusLoaded) return;
+
+    // 未ログインなら決済フォームは読み込まない（ログイン誘導を表示する）
+    if (isLoggedIn === false) return;
 
     // 加入済みならSDK不要
     if (subscriptionStatus === "active" || subscriptionStatus === "canceling") {
@@ -78,7 +88,7 @@ export default function SubscriptionPage() {
 
     script.onload = initializePayments;
     document.body.appendChild(script);
-  }, [statusLoaded, subscriptionStatus]);
+  }, [statusLoaded, subscriptionStatus, isLoggedIn]);
 
   async function initializePayments() {
     if (!window.Square) return;
@@ -277,6 +287,37 @@ export default function SubscriptionPage() {
               <Lock className="h-3 w-3" />
               決済は Square のセキュア環境で処理されました
             </p>
+          </div>
+          ) : isLoggedIn === false ? (
+          /* 未ログイン: ログイン誘導 */
+          <div className="px-6 py-10 text-center">
+            <p className="text-[11px] font-semibold tracking-[0.2em] text-orange-600">
+              OKIPOKA PREMIUM
+            </p>
+            <h1 className="mt-1.5 text-xl font-bold tracking-tight text-gray-950">
+              登録にはログインが必要です
+            </h1>
+            <p className="mt-2.5 text-sm leading-relaxed text-gray-500">
+              プレミアム登録はアカウントごとに管理されます。
+              <br />
+              ログイン（または無料の会員登録）後にお進みください。
+            </p>
+
+            <div className="mt-7 space-y-3">
+              <Link
+                href="/login"
+                className="flex w-full items-center justify-center gap-2 rounded-sm bg-orange-500 px-4 py-3.5 text-sm font-bold text-white transition-colors hover:bg-orange-600"
+              >
+                <LogIn className="h-4 w-4" />
+                ログイン / 新規登録
+              </Link>
+              <Link
+                href="/"
+                className="flex w-full items-center justify-center rounded-sm bg-white px-4 py-3 text-sm font-semibold text-gray-700 ring-1 ring-gray-200 transition-colors hover:bg-gray-50"
+              >
+                トップへ戻る
+              </Link>
+            </div>
           </div>
           ) : (
           <>
