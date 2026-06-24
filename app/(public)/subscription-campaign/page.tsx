@@ -50,6 +50,17 @@ export default function PublicSubscriptionCampaignPage() {
                 プレミアムの内容を見る
               </Link>
             </div>
+
+            <a
+              href={`https://www.instagram.com/${SUBSCRIPTION_CAMPAIGN.instagramAccount}/`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 inline-flex w-fit items-center gap-2 rounded-xl bg-linear-to-r from-fuchsia-50 to-orange-50 px-4 py-2.5 text-sm font-black text-gray-900 ring-1 ring-fuchsia-100 transition-colors hover:from-fuchsia-100 hover:to-orange-100"
+            >
+              <Instagram className="h-4 w-4 text-fuchsia-600" />
+              公式Instagramはこちら
+              <span className="text-fuchsia-600">@{SUBSCRIPTION_CAMPAIGN.instagramAccount}</span>
+            </a>
           </div>
 
           <div className="overflow-hidden rounded-3xl bg-gray-950 ring-1 ring-gray-200">
