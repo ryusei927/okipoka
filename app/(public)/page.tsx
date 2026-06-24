@@ -10,6 +10,7 @@ import { format, addDays, subDays } from "date-fns";
 import Link from "next/link";
 import Image from "next/image";
 import ShopAccordion from "@/components/ShopAccordion";
+import { isSubscriptionCampaignActive } from "@/lib/subscription-campaign";
 
 export default async function HomePage({
   searchParams,
@@ -199,10 +200,25 @@ export default async function HomePage({
     shop: shopById[t.shop_id],
   }));
 
+  // TODO(Instagramサブスクキャンペーン終了後): この分岐と関連の差し替え・非表示を削除する
+  const campaignActive = isSubscriptionCampaignActive();
+
   return (
     <div className="min-h-screen">
       {/* ヒーロースライダー (トップ画像 + PR) */}
-      <HeroSliderWrapper featuredItems={featuredItems || []} />
+      {/* キャンペーン中はトップ画像をキャンペーン告知に差し替える */}
+      <HeroSliderWrapper
+        featuredItems={featuredItems || []}
+        campaignSlide={
+          campaignActive
+            ? {
+                image_url: "/promo.webp",
+                link_url: "/subscription-campaign",
+                alt_text: "サブスク登録キャンペーン",
+              }
+            : null
+        }
+      />
 
       {/* PC: 2カラム / スマホ: 1カラム */}
       <div className="max-w-6xl mx-auto md:flex md:gap-8 md:items-start md:px-4">
@@ -210,18 +226,20 @@ export default async function HomePage({
         {/* 左: メインコンテンツ */}
         <div className="md:flex-1 md:min-w-0">
 
-          {/* OKIPOKAプレミアム バナー */}
-          <div className="max-w-md md:max-w-none mx-auto px-4 md:px-0 py-4">
-            <Link href="/premium">
-              <Image
-                src="/premium-banner1.png"
-                alt="OKIPOKAプレミアム"
-                width={1500}
-                height={500}
-                className="w-full h-auto"
-              />
-            </Link>
-          </div>
+          {/* OKIPOKAプレミアム バナー（キャンペーン中はトップのキャンペーン告知と重複するため非表示） */}
+          {!campaignActive && (
+            <div className="max-w-md md:max-w-none mx-auto px-4 md:px-0 py-4">
+              <Link href="/premium">
+                <Image
+                  src="/premium-banner1.png"
+                  alt="OKIPOKAプレミアム"
+                  width={1500}
+                  height={500}
+                  className="w-full h-auto"
+                />
+              </Link>
+            </div>
+          )}
 
           {/* ページタイトル (PokerAtlas風) */}
           <div className="max-w-md md:max-w-none mx-auto px-4 md:px-0 pb-3">

@@ -16,24 +16,46 @@ type FeaturedItem = {
 
 type SlideItem = {
   id: string;
-  type: "static" | "pr";
+  type: "static" | "pr" | "campaign";
   image_url: string;
   link_url: string | null;
   alt_text: string | null;
 };
 
-export function HeroSlider({ featuredItems }: { featuredItems: FeaturedItem[] }) {
+type CampaignSlide = {
+  image_url: string;
+  link_url: string;
+  alt_text: string | null;
+};
+
+export function HeroSlider({
+  featuredItems,
+  campaignSlide,
+}: {
+  featuredItems: FeaturedItem[];
+  campaignSlide?: CampaignSlide | null;
+}) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [selectedSlide, setSelectedSlide] = useState<SlideItem | null>(null);
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
-  // スライドデータの構築（PR画像のみ）
-  const slides: SlideItem[] = featuredItems.map((item) => ({
-    ...item,
-    type: "pr" as const,
-  }));
+  // キャンペーン中はトップ画像をキャンペーン枠に差し替える。それ以外はPR画像を表示。
+  const slides: SlideItem[] = campaignSlide
+    ? [
+        {
+          id: "campaign",
+          type: "campaign" as const,
+          image_url: campaignSlide.image_url,
+          link_url: campaignSlide.link_url,
+          alt_text: campaignSlide.alt_text,
+        },
+      ]
+    : featuredItems.map((item) => ({
+        ...item,
+        type: "pr" as const,
+      }));
 
   const nextSlide = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % slides.length);
@@ -98,7 +120,15 @@ export function HeroSlider({ featuredItems }: { featuredItems: FeaturedItem[] })
     >
       {/* メインスライダーエリア */}
       {/* スマホ: 16:9〜4:5程度、PC: 21:9〜16:9程度。コンテンツに合わせて調整 */}
-      <div className="relative w-full aspect-video md:aspect-21/9 max-h-[85vh] overflow-hidden">
+      {/* キャンペーン中は画像(3:2)に合わせ、PCで大きくなりすぎないよう高さを抑える */}
+      <div
+        className={cn(
+          "relative w-full overflow-hidden",
+          campaignSlide
+            ? "aspect-3/2 sm:aspect-video md:aspect-auto md:h-[420px]"
+            : "aspect-video md:aspect-21/9 max-h-[85vh]"
+        )}
+      >
         {slides.map((slide, index) => (
           <div
             key={slide.id}
@@ -234,9 +264,9 @@ function SlideContent({
           className={cn(
             "object-cover transition-transform duration-10000 ease-linear",
             isActive ? "scale-110" : "scale-100",
-            slide.type === "pr" ? "blur-xl opacity-40" : "blur-sm opacity-30"
+            slide.type === "static" ? "blur-sm opacity-30" : "blur-xl opacity-40"
           )}
-          priority={slide.type === "static"} // トップ画像は優先読み込み
+          priority={slide.type !== "pr"} // トップ/キャンペーン画像は優先読み込み
         />
       </div>
 
@@ -248,9 +278,11 @@ function SlideContent({
           fill
           className={cn(
             "object-contain drop-shadow-2xl",
-            slide.type === "static" ? "object-cover" : "p-4 md:p-8" // トップ画像はカバー、PRは全体表示
+            slide.type === "static" && "object-cover", // トップ画像はカバー
+            slide.type === "pr" && "p-4 md:p-8" // PRは余白付きで全体表示
+            // campaign は余白なしで全体表示（コンテナ高さで制御）
           )}
-          priority={slide.type === "static"}
+          priority={slide.type !== "pr"}
         />
       </div>
 
@@ -264,6 +296,14 @@ function SlideContent({
       )}
     </div>
   );
+
+  if (slide.type === "campaign" && slide.link_url) {
+    return (
+      <Link href={slide.link_url} className="block w-full h-full cursor-pointer">
+        <Inner />
+      </Link>
+    );
+  }
 
   if (slide.type === "pr") {
     return (
