@@ -1,8 +1,18 @@
 import { OpenAI } from "openai";
 import { NextResponse } from "next/server";
+import { createClient } from "@/lib/supabase/server";
+import { isAdminEmail } from "@/lib/admin";
 
 export async function POST(request: Request) {
   try {
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user || !isAdminEmail(user.email)) {
+      return NextResponse.json({ error: "権限がありません" }, { status: 403 });
+    }
+
     const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) {
       return NextResponse.json(
@@ -87,10 +97,10 @@ export async function POST(request: Request) {
 
     const result = JSON.parse(content);
     return NextResponse.json(result);
-  } catch (error: any) {
+  } catch (error) {
     console.error("AI Analysis Error:", error);
     return NextResponse.json(
-      { error: error.message || "画像の解析に失敗しました" },
+      { error: "画像の解析に失敗しました" },
       { status: 500 }
     );
   }

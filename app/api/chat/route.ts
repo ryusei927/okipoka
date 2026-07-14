@@ -24,15 +24,16 @@ export async function POST(request: Request) {
     const { messages, sessionId } = body;
     const lastMessage = messages[messages.length - 1];
 
-    // ユーザーID取得（ログインしている場合） - エラーになってもチャットは続行させる
-    let userId = null;
-    try {
-      const supabase = await createClient();
-      const { data: { user } } = await supabase.auth.getUser();
-      userId = user?.id;
-    } catch (e) {
-      console.warn("Failed to get user session:", e);
+    // OpenAI課金の悪用防止のため、ログイン必須にする
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      return NextResponse.json(
+        { error: "ログインが必要です" },
+        { status: 401 }
+      );
     }
+    const userId = user.id;
 
     // ログ保存用の管理者クライアント（環境変数がない場合はスキップ）
     let adminSupabase = null;
@@ -165,7 +166,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("Chat API Error:", error);
     return NextResponse.json(
-      { error: "エラーが発生しました", details: error instanceof Error ? error.message : String(error) },
+      { error: "エラーが発生しました" },
       { status: 500 }
     );
   }

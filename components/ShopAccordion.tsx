@@ -5,6 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { format } from "date-fns";
 import { ja } from "date-fns/locale";
+import {
+  getRecruitmentByShopName,
+  getRecruitmentByShopSlug,
+} from "@/lib/recruitments";
 
 type Tournament = {
   id: string;
@@ -53,6 +57,9 @@ export default function ShopAccordion({ shops, alwaysOpen = false }: { shops: Sh
       {shops.map((shop) => {
         const isOpen = alwaysOpen || openId === shop.id;
         const hasLinks = shop.instagram_url || shop.twitter_url || shop.google_map_url || shop.website_url;
+        const recruitment =
+          getRecruitmentByShopSlug(shop.slug) ||
+          getRecruitmentByShopName(shop.name);
 
         // 日付ごとにトーナメントをグループ化
         const tournamentsByDate = shop.tournaments.reduce((acc, t) => {
@@ -96,6 +103,15 @@ export default function ShopAccordion({ shops, alwaysOpen = false }: { shops: Sh
                     <span className="inline-flex px-2 py-0.5 rounded-sm bg-gray-100 text-[11px] font-medium text-gray-600">
                       {shop.area}
                     </span>
+                  )}
+                  {recruitment && (
+                    <Link
+                      href={`/recruit/${recruitment.slug}`}
+                      onClick={(e) => e.stopPropagation()}
+                      className="inline-flex px-2 py-0.5 rounded-sm bg-orange-50 text-[11px] font-bold text-orange-600 hover:bg-orange-100 transition-colors"
+                    >
+                      求人募集中
+                    </Link>
                   )}
                   {shop.tournaments.length > 0 ? (
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-sm bg-green-50 text-[11px] font-bold text-green-600">
@@ -178,6 +194,18 @@ export default function ShopAccordion({ shops, alwaysOpen = false }: { shops: Sh
                 {/* 紹介文 */}
                 {shop.description && (
                   <p className="text-sm text-gray-800 leading-relaxed whitespace-pre-wrap">{shop.description}</p>
+                )}
+
+                {recruitment && (
+                  <Link
+                    href={`/recruit/${recruitment.slug}`}
+                    className="flex items-center justify-between gap-3 border border-orange-200 bg-orange-50/60 px-3.5 py-2.5 hover:bg-orange-50"
+                  >
+                    <span className="text-xs font-bold text-orange-700">
+                      求人募集中 — 詳細を見る
+                    </span>
+                    <span className="text-xs text-orange-600">→</span>
+                  </Link>
                 )}
 
                 {/* 店舗情報 */}
@@ -294,7 +322,6 @@ export default function ShopAccordion({ shops, alwaysOpen = false }: { shops: Sh
                   </div>
                 )}
 
-                {/* Google Map ボタン削除済み—SNSアイコンのナビゲーションボタンで対応 */}
               </div>
             </div>
           </div>

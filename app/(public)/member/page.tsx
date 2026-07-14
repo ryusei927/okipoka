@@ -1,6 +1,7 @@
 import { DailyGachaButton } from "@/components/member/DailyGachaButton";
 import { LogoutButton } from "@/components/member/LogoutButton";
 import { PaymentMethodRow } from "@/components/member/PaymentMethodRow";
+import { RedeemCodeForm } from "@/components/member/RedeemCodeForm";
 import { createClient } from "@/lib/supabase/server";
 import {
   SUBSCRIPTION_CAMPAIGN,
@@ -59,6 +60,8 @@ export default async function MemberPage() {
   const adminEmail = (process.env.OKIPOKA_ADMIN_EMAIL ?? "okipoka.jp@gmail.com").toLowerCase();
   const isAdmin = (user.email ?? "").toLowerCase() === adminEmail;
   const isSubscriber = isPremiumMember;
+  // カードサブスクが有効な人以外（未登録・期限切れ・現金会員）はコード入力できる
+  const canRedeemCode = !(isPremiumMember && profile?.payment_method !== "cash");
   const subscriptionStatus = isCashExpired
     ? { label: "期限切れ", className: "bg-gray-100 text-gray-600 ring-gray-200" }
     : formatSubscriptionStatus(profile?.subscription_status);
@@ -162,6 +165,7 @@ export default async function MemberPage() {
                   </>
                 )}
                 <MenuLink href="/member/items" label="獲得アイテム" sub="チケット・クーポン" />
+                {canRedeemCode && <RedeemCodeForm />}
               </div>
             </section>
 

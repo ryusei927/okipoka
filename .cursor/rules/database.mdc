@@ -1,0 +1,20 @@
+---
+description: Supabase / database の正本は database/CURRENT.md。推測でスキーマを決めない。
+alwaysApply: true
+---
+
+# Database / Supabase
+
+このリポジトリの DB は Supabase（手動 SQL 適用）。スキーマの正はコード推測ではなく次を読む:
+
+1. [`database/CURRENT.md`](database/CURRENT.md) — テーブル・RPC・未使用物・運用
+2. [`database/schema/`](database/schema/) — `01_tables.sql` / `02_policies.sql` / `03_storage.sql`
+3. [`database/functions/`](database/functions/) — 現行 RPC の本体
+
+## ルール
+
+- **`database/archive/` は実行も正ともみなさない**（履歴のみ）
+- アプリの TypeScript だけ見て列・テーブル・RPC を断定しない。不明なら `CURRENT.md` と SQL を開く
+- DB 変更時は差分を `database/migrations/` に追加し、適用後に `CURRENT.md`（必要なら `schema/` / `functions/`）も更新する
+- `premium_codes` 系は `migrations/create_premium_codes.sql`（スカッシュ後の未適用差分の可能性あり）
+- 本番から未使用テーブル/列を DROP しない（`CURRENT.md` の「アプリ未使用」参照）。削除は別判断

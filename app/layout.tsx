@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/seo";
 import "./globals.css";
 
 const gaId = process.env.NEXT_PUBLIC_GA_ID;
@@ -17,11 +18,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "OKIPOKA | 沖縄ポーカーポータル",
     template: "%s | OKIPOKA",
   },
-  description: "沖縄のポーカー情報を全てここに。毎日のトーナメント情報や店舗の詳細情報をリアルタイムでお届けします。",
+  description: SITE_DESCRIPTION,
   keywords: ["沖縄", "ポーカー", "アミューズメントカジノ", "トーナメント", "テキサスホールデム", "OKIPOKA", "オキポカ"],
   appleWebApp: {
     capable: true,
@@ -30,17 +32,48 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "OKIPOKA | 沖縄ポーカーポータル",
-    description: "沖縄のポーカー情報を全てここに。毎日のトーナメント情報や店舗の詳細情報をリアルタイムでお届けします。",
-    url: "https://www.okipoka.com",
-    siteName: "OKIPOKA",
+    description: SITE_DESCRIPTION,
+    url: SITE_URL,
+    siteName: SITE_NAME,
     locale: "ja_JP",
     type: "website",
+    images: [
+      {
+        url: "/top.png",
+        width: 1536,
+        height: 864,
+        alt: "OKIPOKA | 沖縄ポーカーポータル",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "OKIPOKA | 沖縄ポーカーポータル",
-    description: "沖縄のポーカー情報を全てここに。毎日のトーナメント情報や店舗の詳細情報をリアルタイムでお届けします。",
+    description: SITE_DESCRIPTION,
+    images: ["/top.png"],
   },
+};
+
+const siteJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${SITE_URL}/#website`,
+      url: SITE_URL,
+      name: SITE_NAME,
+      description: SITE_DESCRIPTION,
+      inLanguage: "ja",
+      publisher: { "@id": `${SITE_URL}/#organization` },
+    },
+    {
+      "@type": "Organization",
+      "@id": `${SITE_URL}/#organization`,
+      name: SITE_NAME,
+      url: SITE_URL,
+      logo: `${SITE_URL}/logo.png`,
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -55,6 +88,10 @@ export default function RootLayout({
         style={{ backgroundColor: 'white' }}
       >
         {children}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }}
+        />
         <Analytics />
       </body>
       {gaId ? <GoogleAnalytics gaId={gaId} /> : null}

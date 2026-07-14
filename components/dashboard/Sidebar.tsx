@@ -13,6 +13,7 @@ import {
   ExternalLink,
   Receipt,
   Ticket,
+  CreditCard,
 } from "lucide-react";
 
 const NAV_ITEMS = [
@@ -23,6 +24,7 @@ const NAV_ITEMS = [
   { href: "/dashboard/members", label: "会員管理", icon: Users },
   { href: "/dashboard/subscription-campaign", label: "応募管理", icon: Ticket },
   { href: "/dashboard/gacha", label: "ガチャ景品", icon: Dice5 },
+  { href: "/dashboard/premium-codes", label: "プレミアムカード", icon: CreditCard },
   { href: "/dashboard/photos", label: "フォト", icon: Camera },
   { href: "/dashboard/ad-subscriptions", label: "広告申込", icon: Receipt },
 ];

@@ -1,4 +1,4 @@
-export const ADMIN_EMAIL = (
+const ADMIN_EMAIL = (
   process.env.OKIPOKA_ADMIN_EMAIL ?? "okipoka.jp@gmail.com"
 ).toLowerCase();
 

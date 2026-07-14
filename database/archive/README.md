@@ -1,16 +1,15 @@
-# archive — 旧版・廃止済み（実行しないこと）
+# archive
 
-ここにあるファイルは過去のバージョンで、現在の定義と矛盾する内容を含みます。
-履歴として残しているだけなので、**Supabase で実行しないでください。**
+廃止・旧版・スカッシュ前の SQL。**実行しないこと。**
 
-## spin_gacha の旧版（→ 現役は `../functions/spin_gacha.sql`）
-- `update_spin_gacha_with_limit.sql`
-- `update_spin_gacha_return_shop_id.sql`
-- `update_spin_gacha_monthly.sql`
-- `update_spin_gacha_admin_no_stock.sql`
-- `update_spin_gacha_cash_expiry.sql`（`expires_in_days` 等、現行と非互換）
-- `fix_spin_gacha_limit_check.sql`
+## pre-squash-2026-07-13/
 
-## get_admin_gacha_items の旧版（→ 現役は `../functions/fix_get_admin_gacha_items_jst.sql`）
-- `create_get_admin_gacha_items.sql`
-- `fix_get_admin_gacha_items.sql`
+2026-07-13 にスキーマを `schema/01_tables.sql` 等へ畳む前のファイル一式。
+
+| サブフォルダ | 内容 |
+|--------------|------|
+| `schema/` | 旧 `database/schema/` 断片 |
+| `migrations/` | 旧 `database/migrations/`（`create_premium_codes.sql` 以外） |
+| `old-archive/` | それ以前に `archive/` にあった旧ガチャ関数など |
+
+現行の正はリポジトリ直下の `database/CURRENT.md` / `schema/` / `functions/` / `migrations/`。

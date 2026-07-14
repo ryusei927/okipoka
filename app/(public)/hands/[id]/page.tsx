@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ChevronLeft, Share2, Globe, Lock, Trophy, TrendingDown, Clock, MessageCircle, Copy, Twitter } from "lucide-react";
 import { Card, Action, SUIT_SYMBOLS, SUIT_COLORS, ACTION_LABELS, POSITION_LABELS, formatCard, formatBoard } from "@/types/hand";
 import { Metadata } from "next";
+import { getCanonicalSiteUrl } from "@/lib/site-url";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -69,7 +70,7 @@ export default async function HandDetailPage({ params }: Props) {
   const turnActions = (hand.turn_actions || []) as Action[];
   const riverActions = (hand.river_actions || []) as Action[];
 
-  const shareUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://okipoka.jp'}/hands/${hand.id}`;
+  const shareUrl = `${getCanonicalSiteUrl()}/hands/${hand.id}`;
 
   return (
     <div className="min-h-screen bg-slate-50 pb-24">

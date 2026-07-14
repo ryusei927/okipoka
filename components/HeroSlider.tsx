@@ -189,8 +189,6 @@ export function HeroSlider({
         </div>
       )}
 
-      {/* スクロール誘導 (トップ画像のときのみ表示) - 削除済み */}
-
       {/* PR拡大モーダル */}
       {selectedSlide && (
         <div 

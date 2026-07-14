@@ -1,5 +1,15 @@
 import { headers } from 'next/headers'
 
+/** Canonical production origin (no trailing slash). Used by SEO and share URLs. */
+export const CANONICAL_SITE_URL = 'https://okipoka.com'
+
+/**
+ * Env-aware canonical site URL for sitemap / OGP / share links.
+ */
+export function getCanonicalSiteUrl(): string {
+  return (process.env.NEXT_PUBLIC_SITE_URL ?? CANONICAL_SITE_URL).replace(/\/$/, '')
+}
+
 /**
  * リクエストの実際の origin を解決する。
  * ローカル開発では http://localhost:3000、本番ではデプロイ先ドメインを返す。
@@ -23,5 +33,5 @@ export async function getSiteOrigin(): Promise<string> {
     return `${isLocal ? 'http' : 'https'}://${host}`
   }
 
-  return process.env.NEXT_PUBLIC_SITE_URL ?? 'https://okipoka.com'
+  return getCanonicalSiteUrl()
 }

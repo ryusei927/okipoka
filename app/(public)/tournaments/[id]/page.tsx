@@ -1,5 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+import { SITE_URL } from "@/lib/seo";
 import {
   ArrowLeft,
   Clock,
@@ -24,6 +26,54 @@ import Image from "next/image";
 import { Ad } from "@/components/ads/AdBanner";
 import { AdClickWrapper } from "@/components/ads/AdClickWrapper";
 import { TournamentStatus } from "@/components/tournament/TournamentStatus";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const supabase = await createClient();
+  const { data: tournament } = await supabase
+    .from("tournaments")
+    .select("title, start_at, buy_in, shops(name, area)")
+    .eq("id", id)
+    .single();
+
+  if (!tournament) {
+    return { title: "トーナメントが見つかりません" };
+  }
+
+  const shop = tournament.shops as unknown as { name: string; area: string | null } | null;
+  const dateStr = new Intl.DateTimeFormat("ja-JP", {
+    timeZone: "Asia/Tokyo",
+    month: "numeric",
+    day: "numeric",
+    weekday: "short",
+  }).format(new Date(tournament.start_at));
+  const timeStr = new Intl.DateTimeFormat("ja-JP", {
+    timeZone: "Asia/Tokyo",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(new Date(tournament.start_at));
+
+  const title = `${tournament.title}（${dateStr}）${shop ? ` - ${shop.name}` : ""}`;
+  const description = [
+    `${dateStr} ${timeStr}開始`,
+    shop && `会場: ${shop.name}${shop.area ? `（${shop.area}）` : ""}`,
+    tournament.buy_in && `参加費: ${tournament.buy_in}`,
+    "沖縄のポーカートーナメント情報はOKIPOKAで。",
+  ]
+    .filter(Boolean)
+    .join(" / ");
+
+  return {
+    title,
+    description,
+    alternates: { canonical: `${SITE_URL}/tournaments/${id}` },
+    openGraph: { title, description, url: `${SITE_URL}/tournaments/${id}` },
+  };
+}
 
 export default async function TournamentDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const supabase = await createClient();
@@ -107,8 +157,40 @@ export default async function TournamentDetailPage({ params }: { params: Promise
 
   const shop = tournament.shops;
 
+  const eventJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    name: tournament.title,
+    startDate: tournament.start_at,
+    eventStatus: "https://schema.org/EventScheduled",
+    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+    url: `${SITE_URL}/tournaments/${id}`,
+    ...(shop && {
+      location: {
+        "@type": "Place",
+        name: shop.name,
+        ...(shop.address && {
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: shop.address,
+            addressRegion: "沖縄県",
+            addressCountry: "JP",
+          },
+        }),
+      },
+    }),
+    organizer: {
+      "@type": "Organization",
+      name: shop?.name ?? "OKIPOKA",
+    },
+  };
+
   return (
     <main className="min-h-screen bg-gray-50 pb-24">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(eventJsonLd) }}
+      />
       {/* ヒーローセクション */}
       <div className="relative bg-gray-900">
         {/* 店舗画像の背景 */}

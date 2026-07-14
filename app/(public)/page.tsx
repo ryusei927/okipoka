@@ -11,6 +11,7 @@ import Link from "next/link";
 import Image from "next/image";
 import ShopAccordion from "@/components/ShopAccordion";
 import { isSubscriptionCampaignActive } from "@/lib/subscription-campaign";
+import { recruitments } from "@/lib/recruitments";
 
 export default async function HomePage({
   searchParams,
@@ -236,6 +237,22 @@ export default async function HomePage({
                   width={1500}
                   height={500}
                   className="w-full h-auto"
+                />
+              </Link>
+            </div>
+          )}
+
+          {/* 求人バナー → 求人一覧 */}
+          {recruitments.length > 0 && (
+            <div className="max-w-md md:max-w-none mx-auto pb-4">
+              <Link href="/recruit" className="block">
+                <Image
+                  src="/recruit-banner-v2.png"
+                  alt="沖縄ポーカー求人"
+                  width={1536}
+                  height={480}
+                  className="w-full h-auto block"
+                  priority
                 />
               </Link>
             </div>

@@ -1,9 +1,16 @@
+import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import ShopAccordion from "@/components/ShopAccordion";
 import Image from "next/image";
 import { AdClickWrapper } from "@/components/ads/AdClickWrapper";
 import { AdBanner } from "@/components/ads/AdBanner";
 import { AdSquareGrid } from "@/components/ads/AdSquareGrid";
+
+export const metadata: Metadata = {
+  title: "沖縄のポーカー店舗一覧",
+  description:
+    "沖縄県内のアミューズメントポーカー店舗をエリア別（那覇・中部・南部・北部）に紹介。営業時間・住所・開催予定トーナメントをまとめて確認できます。",
+};
 
 export default async function ShopsPage() {
   const supabase = await createClient();

@@ -1,26 +1,40 @@
 # database
 
-Supabase（PostgreSQL）に手動で適用してきた SQL スクリプト集。
-アプリのコードからは参照されず、Supabase の SQL Editor で実行する運用。
+Supabase（PostgreSQL）向け SQL。アプリからは実行されず、**Supabase SQL Editor で手動適用**する。
+
+## まず読むもの
+
+1. **[CURRENT.md](./CURRENT.md)** — 現行テーブル / RPC / 未使用物の一覧（**正の説明**）
+2. **`schema/`** — 現行スキーマ定義
+3. **`functions/`** — 現行 RPC（**関数の正**）
+
+`archive/` は履歴。**実行しない・正とみなさない。**
 
 ## フォルダ構成
 
-| フォルダ | 役割 |
-|----------|------|
-| `schema/` | テーブル・ストレージ・seed など土台の定義 |
-| `functions/` | 現役の RPC / 関数定義（**これが最新・正**） |
-| `migrations/` | 列追加・ポリシー・インデックスなどの差分変更 |
-| `archive/` | 旧版・廃止済み。**実行しないこと**（履歴として保管） |
+| パス | 役割 |
+|------|------|
+| `CURRENT.md` | 現状の地図（AI・人間の入口） |
+| `schema/01_tables.sql` | 型・テーブル・インデックス・スキーマ内トリガ |
+| `schema/02_policies.sql` | RLS |
+| `schema/03_storage.sql` | Storage buckets / policies |
+| `schema/seed.sql` | 開発用ダミー（任意） |
+| `functions/` | 現行 RPC |
+| `migrations/` | **スカッシュ以降**の差分のみ |
+| `archive/pre-squash-2026-07-13/` | 2026-07-13 以前の断片 SQL |
 
-## 重要な関数（functions/）
+## 変更の入れ方
 
-- **`spin_gacha.sql`** … ガチャ抽選の**決定版**。本番で稼働中のロジック＋1日1回制限の競合対策（`FOR UPDATE`）入り。
-  - 過去の `update_spin_gacha_*.sql` / `fix_spin_gacha_limit_check.sql` は `archive/` に隔離済み。今後はこのファイルのみを基準とする。
-- `fix_get_admin_gacha_items_jst.sql` … 管理画面のガチャ在庫表示用関数（JST月初基準の最新版）。
-- `fix_cash_subscription_expiry.sql` … 現金会員の期限切れを自動失効させる関数 `expire_cash_subscriptions()`。
-- `create_get_public_gacha_items.sql` … 公開側のガチャ一覧取得。
-- `create_ad_tracking_functions.sql` … 広告のクリック/インプレッション集計。
+1. 差分 SQL を `migrations/YYYYMMDD_description.sql`（または意味の分かる名前）として追加する
+2. Supabase に適用する
+3. **`CURRENT.md` を更新**する（必要なら `schema/` にもマージする）
+4. RPC を変えたら `functions/` の該当ファイルを更新する（旧版は `archive/` へ）
 
-## 注意
-- これらは「自動マイグレーション」ではなく手動適用スクリプト。新規に環境を作る場合は schema → functions → migrations の順におおよそ適用する想定。
-- `archive/` のファイルは現状と矛盾する定義を含むため、絶対に実行しない。
+新規環境をゼロから作る場合: `schema` → `functions` → `migrations` の順。
+
+## 重要な関数
+
+- **`spin_gacha.sql`** — ガチャ抽選の決定版
+- **`create_ad_tracking_functions.sql`** — `track_ad_impression` / `track_ad_click`
+- **`fix_cash_subscription_expiry.sql`** — 現金会員の期限切れ処理
+- その他は `CURRENT.md` の RPC 表を参照
