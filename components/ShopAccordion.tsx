@@ -9,6 +9,7 @@ import {
   getRecruitmentByShopName,
   getRecruitmentByShopSlug,
 } from "@/lib/recruitments";
+import { getFeaturedSlugByShop } from "@/lib/shop-features";
 
 type Tournament = {
   id: string;
@@ -60,6 +61,7 @@ export default function ShopAccordion({ shops, alwaysOpen = false }: { shops: Sh
         const recruitment =
           getRecruitmentByShopSlug(shop.slug) ||
           getRecruitmentByShopName(shop.name);
+        const featuredSlug = getFeaturedSlugByShop(shop);
 
         // 日付ごとにトーナメントをグループ化
         const tournamentsByDate = shop.tournaments.reduce((acc, t) => {
@@ -103,6 +105,16 @@ export default function ShopAccordion({ shops, alwaysOpen = false }: { shops: Sh
                     <span className="inline-flex px-2 py-0.5 rounded-sm bg-gray-100 text-[11px] font-medium text-gray-600">
                       {shop.area}
                     </span>
+                  )}
+                  {featuredSlug && (
+                    <Link
+                      href={`/shops/${featuredSlug}`}
+                      onClick={(e) => e.stopPropagation()}
+                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-sm bg-orange-500 text-[11px] font-bold text-white hover:bg-orange-600 transition-colors"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-white/80 animate-pulse" />
+                      特設ページ
+                    </Link>
                   )}
                   {recruitment && (
                     <Link
@@ -194,6 +206,23 @@ export default function ShopAccordion({ shops, alwaysOpen = false }: { shops: Sh
                 {/* 紹介文 */}
                 {shop.description && (
                   <p className="text-sm text-gray-800 leading-relaxed whitespace-pre-wrap">{shop.description}</p>
+                )}
+
+                {featuredSlug && (
+                  <Link
+                    href={`/shops/${featuredSlug}`}
+                    className="flex items-center justify-between gap-3 bg-gradient-to-r from-orange-500 to-orange-600 px-4 py-3 hover:from-orange-600 hover:to-orange-700 transition-all group"
+                  >
+                    <div>
+                      <span className="text-xs font-black text-white">
+                        📸 写真・動画で雰囲気をチェック
+                      </span>
+                      <span className="block text-[10px] text-white/70 mt-0.5">
+                        特設ページで店内の様子や詳しい情報を見る
+                      </span>
+                    </div>
+                    <span className="text-sm text-white font-bold group-hover:translate-x-0.5 transition-transform">→</span>
+                  </Link>
                 )}
 
                 {recruitment && (
