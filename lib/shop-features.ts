@@ -120,7 +120,7 @@ export type ShopFeature = {
 
 export const featuredShops: ShopFeature[] = [
   {
-    slug: "riverta",
+    slug: "rebarta",
     dbSlugs: ["rebarta-plus", "rebarta_plus", "rebarta", "riverta", "rebarta-plus-naha"],
     dbNamePattern: "%リバータ%",
 
@@ -128,11 +128,11 @@ export const featuredShops: ShopFeature[] = [
       title: "リバータ・プラス｜ReBarta Plus - 久茂地のポーカー＆エンタメBAR",
       description:
         "那覇・久茂地のアミューズメントポーカー＆エンタメBAR「リバータ・プラス」特設ページ。初心者歓迎、ポーカー・ダーツ・カラオケが楽しめる。美栄橋駅徒歩5分。",
-      ogImage: "/shops/riverta/interior.webp",
+      ogImage: "/shops/rebarta/interior.webp",
     },
 
     hero: {
-      image: "/shops/riverta/interior.webp",
+      image: "/shops/rebarta/interior.webp",
       tagline: "OKIPOKA FEATURED",
       catchcopy: "人が集まる。会話が弾む。\n今夜がもっと楽しくなる。",
       shopName: "リバータ・プラス",
@@ -145,7 +145,7 @@ export const featuredShops: ShopFeature[] = [
     video: {
       heading: "まずは、店内の雰囲気をのぞいてみよう。",
       description: "写真だけでは伝わりきらない店内の空気を、動画でご紹介します。",
-      src: "/shops/riverta/intro.mp4",
+      src: "/shops/rebarta/intro.mp4",
       type: "file",
     },
 
@@ -154,21 +154,21 @@ export const featuredShops: ShopFeature[] = [
       items: [
         {
           icon: "users",
-          image: { src: "/shops/riverta/player.webp", alt: "プレイヤー同士の交流" },
+          image: { src: "/shops/rebarta/player.webp", alt: "プレイヤー同士の交流" },
           title: "一人で来ても、楽しみが広がる。",
           description:
             "同じテーブルを囲んでいるうちに、自然と会話が生まれる。\n初めて会う人との交流も、ここで過ごす楽しみのひとつです。",
         },
         {
           icon: "sparkles",
-          image: { src: "/shops/riverta/table.webp", alt: "ポーカーテーブル" },
+          image: { src: "/shops/rebarta/table.webp", alt: "ポーカーテーブル" },
           title: "初めてのポーカーも、気軽に。",
           description:
             "ルールを知らない方も歓迎。\nまずは遊び方を教わりながら、ポーカーの楽しさに触れてみませんか。",
         },
         {
           icon: "dices",
-          image: { src: "/shops/riverta/bar.webp", alt: "バーカウンター" },
+          image: { src: "/shops/rebarta/bar.webp", alt: "バーカウンター" },
           title: "ポーカーだけじゃない、遊びの選択肢。",
           description:
             "店内にはポーカーテーブルを5卓設置。\nダーツやカラオケも楽しめるので、友人とのお出かけにも、旅行中の夜の寄り道にもぴったりです。",
@@ -189,10 +189,10 @@ export const featuredShops: ShopFeature[] = [
     },
 
     gallery: [
-      { src: "/shops/riverta/interior.webp", alt: "店内の賑わい" },
-      { src: "/shops/riverta/bar.webp", alt: "バーカウンター" },
-      { src: "/shops/riverta/player.webp", alt: "プレイヤーの笑顔" },
-      { src: "/shops/riverta/table.webp", alt: "ポーカーテーブル" },
+      { src: "/shops/rebarta/interior.webp", alt: "店内の賑わい" },
+      { src: "/shops/rebarta/bar.webp", alt: "バーカウンター" },
+      { src: "/shops/rebarta/player.webp", alt: "プレイヤーの笑顔" },
+      { src: "/shops/rebarta/table.webp", alt: "ポーカーテーブル" },
     ],
 
     pricing: {
